@@ -230,6 +230,8 @@ export interface Verb {
   infinitive: string;
   translation: string;
   group: 'ar' | 'er' | 'ir' | 'irregular';
+  /** Признаки неправильности из метаданных («o to ue», «add g», …). Уроки подбирают по ним примеры. */
+  types: string[];
   conjugations: Record<Tense, ConjugationForm[]>; // index = PERSONS order
   gerundio: ConjugationForm;
   participio: ConjugationForm;

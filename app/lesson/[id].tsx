@@ -1,0 +1,172 @@
+import React from 'react';
+import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { router, useLocalSearchParams } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
+import { useColors } from '@/hooks/useColors';
+import ConjugationTable from '../../components/ConjugationTable';
+import { useQuiz } from '../../context/QuizContext';
+import { getLessonById, lessonPracticeVerbIds, LESSON_BLOCK_LABELS } from '../../data/lessons';
+import { PERSONS, TENSE_FULL_LABELS } from '../../data/types';
+import { getVerbById } from '../../data/verbs';
+
+export default function LessonDetail() {
+  const colors = useColors();
+  const insets = useSafeAreaInsets();
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const { config, buildAndStartSession } = useQuiz();
+
+  const lesson = id ? getLessonById(id) : undefined;
+
+  const topPad = Platform.OS === 'web' ? 67 : insets.top;
+  const bottomPad = Platform.OS === 'web' ? 34 : insets.bottom;
+
+  if (!lesson) {
+    return (
+      <View style={[styles.root, { backgroundColor: colors.background }]}>
+        <Text style={[styles.errText, { color: colors.mutedForeground }]}>Урок не найден</Text>
+      </View>
+    );
+  }
+
+  const practiceVerbIds = lessonPracticeVerbIds(lesson);
+
+  const startPractice = () => {
+    if (practiceVerbIds.length === 0) return;
+    void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    // Режим и длину берём из настроек пользователя, но сами настройки не трогаем:
+    // тренировка по уроку разовая и не должна затирать конфигурацию своего теста.
+    buildAndStartSession({
+      ...config,
+      tenses: lesson.practice.tenses,
+      persons: PERSONS,
+      verbIds: practiceVerbIds,
+    });
+    router.push('/quiz-session');
+  };
+
+  return (
+    <View style={[styles.root, { backgroundColor: colors.background }]}>
+      <View
+        style={[
+          styles.header,
+          { paddingTop: topPad + 8, backgroundColor: colors.card, borderBottomColor: colors.border },
+        ]}
+      >
+        <Pressable onPress={() => router.back()} style={styles.backBtn} hitSlop={8}>
+          <Ionicons name="chevron-back" size={24} color={colors.primary} />
+        </Pressable>
+        <View style={styles.headerCenter}>
+          <Text style={[styles.headerTitle, { color: colors.foreground }]} numberOfLines={1}>
+            {lesson.title}
+          </Text>
+          <Text style={[styles.headerBlock, { color: colors.mutedForeground }]}>
+            {LESSON_BLOCK_LABELS[lesson.block]}
+          </Text>
+        </View>
+        <View style={styles.backBtn} />
+      </View>
+
+      <ScrollView contentContainerStyle={[styles.content, { paddingBottom: bottomPad + 24 }]}>
+        <Text style={[styles.summary, { color: colors.mutedForeground }]}>{lesson.summary}</Text>
+
+        {lesson.sections.map((section, index) => (
+          <View key={index} style={styles.section}>
+            {section.heading ? (
+              <Text style={[styles.heading, { color: colors.foreground }]}>{section.heading}</Text>
+            ) : null}
+
+            {section.body ? (
+              <Text style={[styles.body, { color: colors.foreground }]}>{section.body}</Text>
+            ) : null}
+
+            {section.bullets?.map((bullet, bulletIndex) => (
+              <View key={bulletIndex} style={styles.bulletRow}>
+                <Text style={[styles.bulletDot, { color: colors.primary }]}>•</Text>
+                <Text style={[styles.bulletText, { color: colors.foreground }]}>{bullet}</Text>
+              </View>
+            ))}
+
+            {section.table ? <LessonTable table={section.table} /> : null}
+          </View>
+        ))}
+
+        <Pressable
+          onPress={startPractice}
+          style={({ pressed }) => [
+            styles.practiceBtn,
+            { backgroundColor: colors.primary },
+            pressed && { opacity: 0.8 },
+          ]}
+        >
+          <Ionicons name="create-outline" size={18} color={colors.primaryForeground} />
+          <Text style={[styles.practiceBtnText, { color: colors.primaryForeground }]}>
+            Тренировать тему
+          </Text>
+        </Pressable>
+        <Text style={[styles.practiceHint, { color: colors.mutedForeground }]}>
+          {practiceVerbIds.length} глаголов ·{' '}
+          {lesson.practice.tenses.map(tense => TENSE_FULL_LABELS[tense]).join(', ')}
+        </Text>
+      </ScrollView>
+    </View>
+  );
+}
+
+function LessonTable({
+  table,
+}: {
+  table: { verbId: string; tense: import('../../data/types').Tense; caption?: string };
+}) {
+  const colors = useColors();
+  const verb = getVerbById(table.verbId);
+  if (!verb) return null;
+
+  return (
+    <View style={styles.tableWrap}>
+      <Text style={[styles.tableCaption, { color: colors.mutedForeground }]}>
+        {table.caption ?? verb.infinitive} · {TENSE_FULL_LABELS[table.tense]}
+      </Text>
+      <ConjugationTable verb={verb} tense={table.tense} />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  root: { flex: 1 },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    gap: 8,
+  },
+  backBtn: { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },
+  headerCenter: { flex: 1, alignItems: 'center' },
+  headerTitle: { fontSize: 18, fontFamily: 'Inter_700Bold' },
+  headerBlock: { fontSize: 12, fontFamily: 'Inter_400Regular', marginTop: 1 },
+  content: { padding: 16, gap: 4 },
+  summary: { fontSize: 14, fontFamily: 'Inter_500Medium', marginBottom: 8 },
+  section: { marginBottom: 18, gap: 8 },
+  heading: { fontSize: 16, fontFamily: 'Inter_600SemiBold' },
+  body: { fontSize: 15, lineHeight: 23, fontFamily: 'Inter_400Regular' },
+  bulletRow: { flexDirection: 'row', gap: 8, paddingLeft: 2 },
+  bulletDot: { fontSize: 15, lineHeight: 22, fontFamily: 'Inter_700Bold' },
+  bulletText: { flex: 1, fontSize: 15, lineHeight: 22, fontFamily: 'Inter_400Regular' },
+  tableWrap: { gap: 6, marginTop: 4 },
+  tableCaption: { fontSize: 12, fontFamily: 'Inter_500Medium' },
+  practiceBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingVertical: 14,
+    borderRadius: 12,
+    marginTop: 4,
+  },
+  practiceBtnText: { fontSize: 15, fontFamily: 'Inter_600SemiBold' },
+  practiceHint: { fontSize: 12, fontFamily: 'Inter_400Regular', textAlign: 'center', marginTop: 8 },
+  errText: { fontSize: 16, textAlign: 'center', marginTop: 100, fontFamily: 'Inter_400Regular' },
+});

@@ -513,6 +513,7 @@ export function conjugateMetadata(metadata: VerbMetadata): Verb {
     infinitive: metadata.infinitive,
     translation: metadata.translation,
     group: metadata.group,
+    types: metadata.types,
   } as Verb;
 
   // 2129 глаголов × 20 времён — это четверть миллиона форм. Списку и поиску нужны

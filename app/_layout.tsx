@@ -25,6 +25,7 @@ function RootLayoutNav() {
     <Stack screenOptions={{ headerBackTitle: 'Назад' }}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="verb/[id]" options={{ headerShown: false }} />
+      <Stack.Screen name="lesson/[id]" options={{ headerShown: false }} />
       <Stack.Screen name="quiz-session" options={{ headerShown: false }} />
       <Stack.Screen name="quiz-results" options={{ headerShown: false }} />
     </Stack>

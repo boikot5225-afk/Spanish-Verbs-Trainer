@@ -7,6 +7,7 @@ import {
   type Tense,
 } from '../data/types';
 import { getVerbById, VERBS } from '../data/verbs';
+import { LESSONS, lessonPracticeVerbIds } from '../data/lessons';
 
 const EXPECTED_VERBS = 2129;
 // 20 времён × 6 лиц, минус отсутствующее «yo» в двух формах императива.
@@ -323,8 +324,48 @@ for (const [verbId, checks] of Object.entries(expected)) {
   }
 }
 
+// ── Уроки ────────────────────────────────────────────────────────────────────
+const lessonIds = new Set<string>();
+let tableCount = 0;
+
+for (const lesson of LESSONS) {
+  assert(!lessonIds.has(lesson.id), `Duplicate lesson id: ${lesson.id}`);
+  lessonIds.add(lesson.id);
+  assert(lesson.title.trim(), `${lesson.id}: empty title`);
+  assert(lesson.summary.trim(), `${lesson.id}: empty summary`);
+  assert(lesson.sections.length > 0, `${lesson.id}: no sections`);
+
+  for (const [index, section] of lesson.sections.entries()) {
+    assert(
+      section.body || section.bullets?.length || section.table,
+      `${lesson.id}/section ${index}: empty section`,
+    );
+    if (section.table) {
+      const verb = getVerbById(section.table.verbId);
+      assert(verb, `${lesson.id}/section ${index}: unknown verb ${section.table.verbId}`);
+      assert(
+        TENSES.includes(section.table.tense),
+        `${lesson.id}/section ${index}: unknown tense ${section.table.tense}`,
+      );
+      tableCount += 1;
+    }
+  }
+
+  assert(lesson.practice.tenses.length > 0, `${lesson.id}: practice without tenses`);
+  for (const tense of lesson.practice.tenses) {
+    assert(TENSES.includes(tense), `${lesson.id}: practice tense ${tense} is unknown`);
+  }
+  for (const verbId of lesson.practice.verbIds ?? []) {
+    assert(getVerbById(verbId), `${lesson.id}: practice verb ${verbId} is unknown`);
+  }
+
+  const practiceVerbs = lessonPracticeVerbIds(lesson);
+  assert(practiceVerbs.length > 0, `${lesson.id}: practice selection is empty`);
+}
+
 const checkCount = Object.values(expected).reduce((total, checks) => total + checks.length, 0);
 console.log(
   `Validated ${VERBS.length} verbs, ${formCount} forms across ${TENSES.length} tenses, ` +
     `${checkCount} spot checks.`,
 );
+console.log(`Validated ${LESSONS.length} lessons with ${tableCount} embedded tables.`);
