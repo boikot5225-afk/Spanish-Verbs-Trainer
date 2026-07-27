@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "scheme": "spanishverbstrainer",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.bulat.spanishverbstrainer"
