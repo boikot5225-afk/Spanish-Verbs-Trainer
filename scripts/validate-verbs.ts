@@ -8,8 +8,11 @@ import {
 } from '../data/types';
 import { getVerbById, VERBS } from '../data/verbs';
 import {
+  DRILL_QUESTIONS,
   EXAM_QUESTIONS,
   LESSONS,
+  drillSize,
+  lessonDrills,
   lessonExamSize,
   lessonPracticeVerbIds,
 } from '../data/lessons';
@@ -332,6 +335,7 @@ for (const [verbId, checks] of Object.entries(expected)) {
 // ── Уроки ────────────────────────────────────────────────────────────────────
 const lessonIds = new Set<string>();
 let tableCount = 0;
+let drillCount = 0;
 
 for (const lesson of LESSONS) {
   assert(!lessonIds.has(lesson.id), `Duplicate lesson id: ${lesson.id}`);
@@ -374,6 +378,35 @@ for (const lesson of LESSONS) {
     EXAM_QUESTIONS,
     `${lesson.id}: exam is only ${lessonExamSize(lesson)} questions, need ${EXAM_QUESTIONS}`,
   );
+
+  // Подуровни: ключевые глаголы обязаны входить в набор темы, иначе плитка
+  // молча исчезнет, а каждый подход должен быть полноразмерным.
+  for (const verbId of lesson.practice.featured ?? []) {
+    assert(getVerbById(verbId), `${lesson.id}: featured verb ${verbId} is not in the database`);
+    assert(
+      practiceVerbs.includes(verbId),
+      `${lesson.id}: featured verb ${verbId} is outside the practice selection`,
+    );
+  }
+
+  const drills = lessonDrills(lesson);
+  assert(drills.length >= 2, `${lesson.id}: expected at least one verb drill plus the full set`);
+  assert(drills[drills.length - 1]?.isAll, `${lesson.id}: last drill must be the full set`);
+  drillCount += drills.length;
+
+  for (const drill of drills) {
+    const size = drillSize(lesson, drill);
+    if (drill.isAll) {
+      assert.equal(size, EXAM_QUESTIONS, `${lesson.id}: full-set drill is only ${size} questions`);
+    } else {
+      // Подход по одному глаголу не может быть длиннее его форм: при одном
+      // времени это ровно парадигма из шести лиц.
+      assert(
+        size >= PERSONS.length && size <= DRILL_QUESTIONS,
+        `${lesson.id}/${drill.key}: drill of ${size} questions is out of range`,
+      );
+    }
+  }
 }
 
 // Курс обязан покрывать всё, что умеет приложение: у каждого времени должен быть
@@ -394,4 +427,7 @@ console.log(
   `Validated ${VERBS.length} verbs, ${formCount} forms across ${TENSES.length} tenses, ` +
     `${checkCount} spot checks.`,
 );
-console.log(`Validated ${LESSONS.length} lessons with ${tableCount} embedded tables.`);
+console.log(
+  `Validated ${LESSONS.length} lessons with ${tableCount} embedded tables ` +
+    `and ${drillCount} drills.`,
+);

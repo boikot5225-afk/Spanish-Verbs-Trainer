@@ -55,6 +55,8 @@ export function loadQuizHistory(): Promise<QuizHistoryItem[] | null> {
 export interface LessonProgress {
   passed: string[];
   unlocked: string[];
+  /** Лучший процент по каждой мини-тренировке: lessonId → drillKey → 0..100. */
+  drills?: Record<string, Record<string, number>>;
 }
 
 export function saveLessonProgress(progress: LessonProgress): Promise<void> {

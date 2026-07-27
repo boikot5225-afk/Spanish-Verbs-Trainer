@@ -246,6 +246,12 @@ export interface QuizExam {
   maxMistakes: number;
 }
 
+/** Пометка мини-тренировки внутри темы — по ней начисляется медаль. */
+export interface QuizDrill {
+  lessonId: string;
+  key: string;
+}
+
 export interface QuizConfig {
   tenses: Tense[];
   persons: Person[];
@@ -254,6 +260,7 @@ export interface QuizConfig {
   /** Обычно 10/20/30/50, но зачёт может быть короче, если у темы мало форм. */
   maxQuestions: number;
   exam?: QuizExam;
+  drill?: QuizDrill;
 }
 
 export interface QuizQuestion {
@@ -277,6 +284,7 @@ export interface QuizSession {
   mode: QuizMode;
   startedAt: string;
   exam?: QuizExam;
+  drill?: QuizDrill;
 }
 
 export interface QuizHistoryItem {

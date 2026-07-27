@@ -1,6 +1,6 @@
 import type { Tense } from './types';
 import { PERSONS } from './types';
-import { VERBS } from './verbs';
+import { getVerbById, VERBS } from './verbs';
 
 /** Зачёт по теме: столько вопросов и не больше стольких ошибок, чтобы открыть следующую. */
 export const EXAM_QUESTIONS = 30;
@@ -61,8 +61,40 @@ export interface Lesson {
     types?: string[];
     /** Ограничение выборки, чтобы тренировка не растекалась на сотни глаголов. */
     limit?: number;
+    /**
+     * Ключевые глаголы темы — каждый становится отдельной мини-тренировкой.
+     * Если не задано, берутся первые из verbIds.
+     */
+    featured?: string[];
   };
 }
+
+/** Отдельная мини-тренировка внутри темы: один глагол либо весь набор. */
+export interface LessonDrill {
+  /** Устойчивый ключ для хранения медали. */
+  key: string;
+  label: string;
+  verbIds: string[];
+  isAll: boolean;
+}
+
+export const DRILL_QUESTIONS = 10;
+
+/** Медаль за мини-тренировку: порог по доле верных ответов. */
+export type Medal = 'gold' | 'silver' | 'bronze' | null;
+
+export function medalFor(percent: number): Medal {
+  if (percent >= 100) return 'gold';
+  if (percent >= 90) return 'silver';
+  if (percent >= 70) return 'bronze';
+  return null;
+}
+
+export const MEDAL_LABELS: Record<Exclude<Medal, null>, string> = {
+  gold: 'Золото · 100%',
+  silver: 'Серебро · от 90%',
+  bronze: 'Бронза · от 70%',
+};
 
 const REGULAR_SAMPLE = [
   'hablar',
@@ -150,7 +182,7 @@ export const LESSONS: Lesson[] = [
           'jugamos, jugáis, juegan. Логика та же самая.',
       },
     ],
-    practice: { tenses: ['presente'], types: ['o to ue', 'u to ue'], limit: 60 },
+    practice: { tenses: ['presente'], types: ['o to ue', 'u to ue'], limit: 60, featured: ['dormir', 'poder', 'contar', 'volver', 'mostrar', 'jugar'] },
   },
   {
     id: 'presente-e-ie',
@@ -179,7 +211,7 @@ export const LESSONS: Lesson[] = [
           'e → i, в прошедшем: siento, но sintió. К этому вернёмся в уроке про индефинидо.',
       },
     ],
-    practice: { tenses: ['presente'], types: ['i before e'], limit: 60 },
+    practice: { tenses: ['presente'], types: ['i before e'], limit: 60, featured: ['pensar', 'querer', 'sentir', 'empezar', 'entender', 'cerrar'] },
   },
   {
     id: 'presente-e-i',
@@ -208,7 +240,7 @@ export const LESSONS: Lesson[] = [
           'глаголы на -edir, -egir, -eguir, -etir, -estir почти всегда идут по модели e → i.',
       },
     ],
-    practice: { tenses: ['presente'], types: ['e to i'], limit: 60 },
+    practice: { tenses: ['presente'], types: ['e to i'], limit: 60, featured: ['pedir', 'servir', 'repetir', 'seguir', 'vestir', 'medir'] },
   },
   {
     id: 'presente-yo-irregular',
@@ -247,6 +279,7 @@ export const LESSONS: Lesson[] = [
       tenses: ['presente'],
       types: ['add g', 'add ig', 'z before c'],
       limit: 60,
+      featured: ['hacer', 'poner', 'salir', 'tener', 'conocer', 'traer'],
     },
   },
   {
@@ -289,6 +322,7 @@ export const LESSONS: Lesson[] = [
       tenses: ['preteriteIndef', 'subjuntivo'],
       types: ['c to qu', 'g to gu', 'z to c', 'g to j'],
       limit: 60,
+      featured: ['buscar', 'llegar', 'cruzar', 'tocar', 'pagar', 'empezar'],
     },
   },
 
@@ -337,6 +371,7 @@ export const LESSONS: Lesson[] = [
     practice: {
       tenses: ['presente', 'preteriteIndef', 'preteriteImp'],
       verbIds: ['ser', 'estar'],
+      featured: ['ser', 'estar'],
     },
   },
   {
@@ -384,6 +419,7 @@ export const LESSONS: Lesson[] = [
     practice: {
       tenses: ['presente', 'preteriteIndef', 'preteriteImp', 'futuro'],
       verbIds: ['haber', 'estar'],
+      featured: ['haber', 'estar'],
     },
   },
   {
@@ -433,6 +469,7 @@ export const LESSONS: Lesson[] = [
     practice: {
       tenses: ['presente', 'preteriteIndef', 'subjuntivo'],
       verbIds: ['gustar', 'encantar', 'interesar', 'importar', 'doler', 'faltar', 'quedar', 'parecer'],
+      featured: ['gustar', 'encantar', 'doler', 'parecer', 'quedar', 'faltar'],
     },
   },
   {
@@ -482,6 +519,7 @@ export const LESSONS: Lesson[] = [
     practice: {
       tenses: ['presente', 'imperativoAfirmativo', 'imperativoNegativo'],
       verbIds: ['levantar', 'llamar', 'despertar', 'acostar', 'duchar', 'sentar', 'vestir', 'ir', 'dormir', 'poner'],
+      featured: ['levantar', 'llamar', 'despertar', 'acostar', 'vestir', 'ir'],
     },
   },
   {
@@ -524,6 +562,7 @@ export const LESSONS: Lesson[] = [
     practice: {
       tenses: ['presente', 'preteriteImp', 'preteriteIndef'],
       verbIds: ['ir', 'acabar', 'tener', 'deber', 'volver', 'seguir', 'empezar', 'terminar'],
+      featured: ['ir', 'tener', 'acabar', 'volver', 'seguir', 'empezar'],
     },
   },
   {
@@ -573,6 +612,7 @@ export const LESSONS: Lesson[] = [
     practice: {
       tenses: ['presente', 'preteriteImp', 'preteriteIndef', 'futuro'],
       verbIds: ['estar', 'seguir', 'andar', 'llevar', 'ir', 'venir'],
+      featured: ['estar', 'seguir', 'ir', 'venir', 'andar', 'llevar'],
     },
   },
 
@@ -655,6 +695,7 @@ export const LESSONS: Lesson[] = [
       tenses: ['preteriteIndef'],
       types: ['uv preterite', 'up preterite', 'add j', 'c to j'],
       limit: 40,
+      featured: ['tener', 'estar', 'saber', 'hacer', 'decir', 'poder'],
     },
   },
   {
@@ -809,6 +850,7 @@ export const LESSONS: Lesson[] = [
       tenses: ['futuro', 'condicional'],
       types: ['d future', 'drop vowel future'],
       limit: 40,
+      featured: ['tener', 'poder', 'saber', 'salir', 'venir', 'decir'],
     },
   },
 
@@ -941,6 +983,7 @@ export const LESSONS: Lesson[] = [
     practice: {
       tenses: ['preteriteIndef', 'presente', 'perfecto', 'preteriteImp'],
       verbIds: ['ser', 'estar', 'construir', 'escribir', 'abrir', 'hacer', 'vender', 'publicar'],
+      featured: ['ser', 'estar', 'escribir', 'abrir', 'hacer', 'construir'],
     },
   },
 
@@ -1291,6 +1334,7 @@ export const LESSONS: Lesson[] = [
     practice: {
       tenses: ['anterior', 'subjFuturo', 'subjFuturoPerfecto'],
       verbIds: [...REGULAR_SAMPLE, 'ser', 'ir', 'ver', 'hacer', 'tener'],
+      featured: ['ser', 'ir', 'ver', 'hacer', 'tener', 'hablar'],
     },
   },
 ];
@@ -1307,14 +1351,44 @@ export function lessonsByBlock(block: LessonBlock): Lesson[] {
 
 /** Глаголы для тренировки по уроку: явный список либо подбор по признакам неправильности. */
 export function lessonPracticeVerbIds(lesson: Lesson): string[] {
-  const { verbIds, types, limit } = lesson.practice;
+  const { verbIds, types, limit, featured } = lesson.practice;
   if (verbIds?.length) return verbIds;
   if (!types?.length) return [];
 
   const matched = VERBS.filter(verb => types.some(type => verb.types.includes(type))).map(
     verb => verb.id,
   );
-  return limit ? matched.slice(0, limit) : matched;
+  // Ключевые глаголы идут первыми и входят в набор всегда — даже если их
+  // неправильность размечена своим типом (poder — классический o → ue, но
+  // в метаданных у него отдельный признак) или их отсекает limit.
+  const keys = (featured ?? []).filter(id => getVerbById(id));
+  const ordered = [...keys, ...matched.filter(id => !keys.includes(id))];
+  return limit ? ordered.slice(0, Math.max(limit, keys.length)) : ordered;
+}
+
+/**
+ * Мини-тренировки темы: по одной на каждый ключевой глагол плюс общая по всем.
+ * Это подуровни внутри урока — их проходят до зачёта, чтобы набить руку.
+ */
+export function lessonDrills(lesson: Lesson): LessonDrill[] {
+  const all = lessonPracticeVerbIds(lesson);
+  const featured = lesson.practice.featured ?? all.slice(0, 6);
+  const drills: LessonDrill[] = featured
+    .filter(verbId => all.includes(verbId))
+    .map(verbId => ({
+      key: verbId,
+      label: getVerbById(verbId)?.infinitive ?? verbId,
+      verbIds: [verbId],
+      isAll: false,
+    }));
+
+  drills.push({ key: '__all__', label: 'Все глаголы', verbIds: all, isAll: true });
+  return drills;
+}
+
+export function drillSize(lesson: Lesson, drill: LessonDrill): number {
+  const combinations = drill.verbIds.length * lesson.practice.tenses.length * PERSONS.length;
+  return Math.min(drill.isAll ? EXAM_QUESTIONS : DRILL_QUESTIONS, combinations);
 }
 
 /** Сколько вопросов в зачёте: 30 или меньше, если у темы просто нет столько форм. */

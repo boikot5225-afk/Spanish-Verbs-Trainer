@@ -9,15 +9,25 @@ import ConjugationTable from '../../components/ConjugationTable';
 import { useQuiz } from '../../context/QuizContext';
 import { useLessons } from '../../context/LessonsContext';
 import {
+  drillSize,
   EXAM_MAX_MISTAKES,
   getLessonById,
+  lessonDrills,
   lessonExamSize,
   lessonPracticeVerbIds,
   LESSON_BLOCK_LABELS,
+  type LessonDrill,
+  type Medal,
 } from '../../data/lessons';
 import type { QuizMode } from '../../data/types';
 import { PERSONS, TENSE_FULL_LABELS } from '../../data/types';
 import { getVerbById } from '../../data/verbs';
+
+const MEDAL_COLORS: Record<Exclude<Medal, null>, string> = {
+  gold: '#D4A017',
+  silver: '#9AA0A6',
+  bronze: '#B87333',
+};
 
 // Тренировка по теме начинается с ручного ввода — списывать из вариантов
 // сразу после разбора правила смысла мало.
@@ -32,7 +42,7 @@ export default function LessonDetail() {
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
   const { config, buildAndStartSession } = useQuiz();
-  const { isAvailable, passed, unlock } = useLessons();
+  const { isAvailable, passed, unlock, drillScore, drillMedal } = useLessons();
   const [practiceMode, setPracticeMode] = useState<QuizMode>('input');
 
   const lesson = id ? getLessonById(id) : undefined;
@@ -52,6 +62,7 @@ export default function LessonDetail() {
   const available = isAvailable(lesson.id);
   const isPassed = passed.has(lesson.id);
   const examSize = lessonExamSize(lesson);
+  const drills = lessonDrills(lesson);
 
   const startExam = () => {
     if (practiceVerbIds.length === 0) return;
@@ -64,6 +75,22 @@ export default function LessonDetail() {
       verbIds: practiceVerbIds,
       maxQuestions: examSize,
       exam: { lessonId: lesson.id, maxMistakes: EXAM_MAX_MISTAKES },
+      drill: undefined,
+    });
+    router.push('/quiz-session');
+  };
+
+  const startDrill = (drill: LessonDrill) => {
+    void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    buildAndStartSession({
+      ...config,
+      mode: practiceMode,
+      tenses: lesson.practice.tenses,
+      persons: PERSONS,
+      verbIds: drill.verbIds,
+      maxQuestions: drillSize(lesson, drill),
+      exam: undefined,
+      drill: { lessonId: lesson.id, key: drill.key },
     });
     router.push('/quiz-session');
   };
@@ -81,6 +108,7 @@ export default function LessonDetail() {
       persons: PERSONS,
       verbIds: practiceVerbIds,
       exam: undefined, // свободная тренировка ничего не открывает
+      drill: undefined,
     });
     router.push('/quiz-session');
   };
@@ -159,6 +187,56 @@ export default function LessonDetail() {
           </View>
         ))}
 
+        <Text style={[styles.drillHeading, { color: colors.foreground }]}>Отработка по глаголам</Text>
+        <Text style={[styles.drillHint, { color: colors.mutedForeground }]}>
+          Короткие подходы по одному глаголу. Медаль — за лучший результат:
+          бронза от 70%, серебро от 90%, золото за без ошибок.
+        </Text>
+        <View style={styles.drillGrid}>
+          {drills.map(drill => {
+            const medal = drillMedal(lesson.id, drill.key);
+            const score = drillScore(lesson.id, drill.key);
+            return (
+              <Pressable
+                key={drill.key}
+                onPress={() => startDrill(drill)}
+                style={({ pressed }) => [
+                  styles.drillTile,
+                  {
+                    backgroundColor: colors.card,
+                    borderColor: medal ? MEDAL_COLORS[medal] : colors.border,
+                  },
+                  pressed && { opacity: 0.7 },
+                ]}
+              >
+                <View style={styles.drillTop}>
+                  <Ionicons
+                    name={drill.isAll ? 'layers-outline' : 'ellipse-outline'}
+                    size={16}
+                    color={drill.isAll ? colors.primary : colors.mutedForeground}
+                  />
+                  {medal ? (
+                    <Ionicons name="medal" size={15} color={MEDAL_COLORS[medal]} />
+                  ) : null}
+                </View>
+                <Text
+                  style={[
+                    styles.drillLabel,
+                    { color: drill.isAll ? colors.primary : colors.foreground },
+                  ]}
+                  numberOfLines={1}
+                >
+                  {drill.label}
+                </Text>
+                <Text style={[styles.drillMeta, { color: colors.mutedForeground }]}>
+                  {score > 0 ? `${score}%` : `${drillSize(lesson, drill)} вопр.`}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
+
+        <Text style={[styles.drillHeading, { color: colors.foreground }]}>Тренировка темы</Text>
         <View style={styles.modeRow}>
           {PRACTICE_MODES.map(mode => {
             const active = practiceMode === mode.id;
@@ -305,6 +383,20 @@ const styles = StyleSheet.create({
   },
   practiceBtnText: { fontSize: 15, fontFamily: 'Inter_600SemiBold' },
   practiceHint: { fontSize: 12, fontFamily: 'Inter_400Regular', textAlign: 'center', marginTop: 8 },
+  drillHeading: { fontSize: 16, fontFamily: 'Inter_600SemiBold', marginTop: 12 },
+  drillHint: { fontSize: 12, lineHeight: 18, fontFamily: 'Inter_400Regular', marginTop: 4, marginBottom: 10 },
+  drillGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 6 },
+  drillTile: {
+    width: '31.5%',
+    borderWidth: 1,
+    borderRadius: 12,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    gap: 3,
+  },
+  drillTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 17 },
+  drillLabel: { fontSize: 13, fontFamily: 'Inter_600SemiBold' },
+  drillMeta: { fontSize: 11, fontFamily: 'Inter_400Regular' },
   examCard: { borderWidth: 1, borderRadius: 12, padding: 14, marginTop: 20, gap: 8 },
   examHeader: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   examTitle: { fontSize: 15, fontFamily: 'Inter_600SemiBold' },
