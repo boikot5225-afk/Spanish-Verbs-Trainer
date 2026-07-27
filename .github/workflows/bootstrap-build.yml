@@ -1,0 +1,78 @@
+name: Bootstrap and Build APK
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
+
+      - name: Restore project source
+        shell: bash
+        run: |
+          cat .bootstrap/source.part* | base64 --decode > /tmp/spanish-source.tar.xz
+          tar -xJf /tmp/spanish-source.tar.xz
+
+      - name: Save normal source files to branch
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -r .bootstrap
+          git add . ':!.github/workflows'
+          git commit -m "feat: add full Spanish verb database" || true
+          git push origin HEAD:${{ github.head_ref || github.ref_name }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Validate verb database
+        run: npm run test:data
+
+      - name: Generate Android project
+        run: npx expo prebuild --platform android --clean
+
+      - name: Build release APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleRelease
+
+      - name: Collect APK
+        shell: bash
+        run: |
+          mkdir -p dist
+          cp android/app/build/outputs/apk/release/*.apk dist/Spanish-Verbs-Trainer-v1.1.0.apk
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Spanish-Verbs-Trainer-v1.1.0
+          path: dist/Spanish-Verbs-Trainer-v1.1.0.apk
+          if-no-files-found: error
