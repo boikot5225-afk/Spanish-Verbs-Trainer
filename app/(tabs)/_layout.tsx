@@ -20,6 +20,10 @@ function NativeTabLayout() {
         <Icon sf={{ default: 'book', selected: 'book.fill' }} />
         <Label>Глаголы</Label>
       </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="progress">
+        <Icon sf={{ default: 'chart.line.uptrend.xyaxis', selected: 'chart.line.uptrend.xyaxis' }} />
+        <Label>Прогресс</Label>
+      </NativeTabs.Trigger>
       <NativeTabs.Trigger name="quiz">
         <Icon sf={{ default: 'pencil', selected: 'pencil.circle.fill' }} />
         <Label>Свой тест</Label>
@@ -86,6 +90,18 @@ function ClassicTabLayout() {
               <SymbolView name="book" tintColor={color} size={24} />
             ) : (
               <Ionicons name="book-outline" size={22} color={color} />
+            ),
+        }}
+      />
+      <Tabs.Screen
+        name="progress"
+        options={{
+          title: 'Прогресс',
+          tabBarIcon: ({ color }: { color: string }) =>
+            isIOS ? (
+              <SymbolView name="chart.line.uptrend.xyaxis" tintColor={color} size={24} />
+            ) : (
+              <Ionicons name="trending-up-outline" size={22} color={color} />
             ),
         }}
       />

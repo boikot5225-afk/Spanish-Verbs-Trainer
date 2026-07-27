@@ -58,9 +58,18 @@ export default function QuizResults() {
     router.replace('/(tabs)/quiz');
   };
 
+  // Тест из урока возвращает в этот же урок, а не в общий список.
+  const lessonId = session.exam?.lessonId ?? session.drill?.lessonId;
+
   const handleHome = () => {
     clearSession();
-    router.replace('/(tabs)/lessons');
+    router.replace(lessonId ? `/lesson/${lessonId}` : '/(tabs)/lessons');
+  };
+
+  const handleBackToLesson = () => {
+    if (!lessonId) return;
+    clearSession();
+    router.replace(`/lesson/${lessonId}`);
   };
 
   // Score ring
@@ -77,7 +86,7 @@ export default function QuizResults() {
   );
 
   // Итог зачёта: тема открывает следующую только при укладывании в лимит ошибок.
-  const ExamVerdict = () => {
+  const examVerdict = (() => {
     const exam = session.exam;
     if (!exam) return null;
     const lesson = getLessonById(exam.lessonId);
@@ -110,7 +119,7 @@ export default function QuizResults() {
         </Text>
       </View>
     );
-  };
+  })();
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
@@ -126,10 +135,26 @@ export default function QuizResults() {
       <ScrollView contentContainerStyle={[styles.content, { paddingBottom: bottomPad + 20 }]}>
         <ScoreRing />
 
-        {session.exam ? <ExamVerdict /> : null}
+        {examVerdict}
 
         {/* Action buttons */}
         <View style={styles.actions}>
+          {lessonId && (
+            <Pressable
+              onPress={handleBackToLesson}
+              style={({ pressed }) => [
+                styles.actionBtn,
+                { backgroundColor: colors.primary, borderColor: colors.primary },
+                pressed && { opacity: 0.8 },
+              ]}
+            >
+              <Ionicons name="arrow-back" size={20} color={colors.primaryForeground} />
+              <Text style={[styles.actionBtnText, { color: colors.primaryForeground }]}>
+                Вернуться к теме
+              </Text>
+            </Pressable>
+          )}
+
           {wrong.length > 0 && (
             <Pressable
               onPress={handleRetry}

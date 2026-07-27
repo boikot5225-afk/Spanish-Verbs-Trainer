@@ -1,6 +1,13 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { LESSONS, lessonIndex, medalFor, type Medal } from '../data/lessons';
-import { loadLessonProgress, saveLessonProgress, type LessonProgress } from '../utils/storage';
+import {
+  loadLessonProgress,
+  loadTenseStats,
+  saveLessonProgress,
+  saveTenseStats,
+  type LessonProgress,
+  type TenseStats,
+} from '../utils/storage';
 import { useQuiz } from './QuizContext';
 
 const EMPTY: LessonProgress = { passed: [], unlocked: [], drills: {} };
@@ -19,6 +26,8 @@ interface LessonsContextValue {
   resetProgress: () => void;
   /** Первая несданная тема — на ней стоит продолжить курс. */
   currentLessonId: string | undefined;
+  /** Накопленная статистика по временам для экрана прогресса. */
+  tenseStats: TenseStats;
 }
 
 const LessonsContext = createContext<LessonsContextValue | null>(null);
@@ -26,11 +35,12 @@ const LessonsContext = createContext<LessonsContextValue | null>(null);
 export function LessonsProvider({ children }: { children: React.ReactNode }) {
   const { session } = useQuiz();
   const [progress, setProgress] = useState<LessonProgress>(EMPTY);
+  const [tenseStats, setTenseStats] = useState<TenseStats>({});
   const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
-    loadLessonProgress()
-      .then(saved => {
+    Promise.all([loadLessonProgress(), loadTenseStats()])
+      .then(([saved, stats]) => {
         if (saved) {
           setProgress({
             passed: saved.passed ?? [],
@@ -38,6 +48,7 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
             drills: saved.drills ?? {},
           });
         }
+        if (stats) setTenseStats(stats);
       })
       .finally(() => setIsHydrated(true));
   }, []);
@@ -90,7 +101,9 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
 
   const resetProgress = useCallback(() => {
     setProgress(EMPTY);
+    setTenseStats({});
     void saveLessonProgress(EMPTY);
+    void saveTenseStats({});
   }, []);
 
   // Итоги подводятся один раз, когда сессия дошла до конца: зачёт открывает
@@ -109,6 +122,23 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
     if (session.drill) {
       recordDrill(session.drill.lessonId, session.drill.key, percent);
     }
+
+    // Владение временем считаем по всем ответам — и в уроках, и в своём тесте.
+    setTenseStats(previous => {
+      const next: TenseStats = { ...previous };
+      const now = new Date().toISOString();
+      for (const answer of session.answers) {
+        const tense = answer.question.tense;
+        const stat = next[tense] ?? { asked: 0, correct: 0, lastAt: now };
+        next[tense] = {
+          asked: stat.asked + 1,
+          correct: stat.correct + (answer.correct ? 1 : 0),
+          lastAt: now,
+        };
+      }
+      void saveTenseStats(next);
+      return next;
+    });
   }, [isHydrated, session, markPassed, recordDrill]);
 
   const passed = useMemo(() => new Set(progress.passed), [progress.passed]);
@@ -155,6 +185,7 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
       unlock,
       resetProgress,
       currentLessonId,
+      tenseStats,
     }),
     [
       passed,
@@ -167,6 +198,7 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
       unlock,
       resetProgress,
       currentLessonId,
+      tenseStats,
     ],
   );
 

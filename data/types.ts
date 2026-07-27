@@ -218,6 +218,38 @@ export function personLabels(tense: Tense): Record<Person, string> {
   return IMPERATIVE_TENSES.has(tense) ? IMPERATIVE_PERSON_LABELS : PERSON_LABELS;
 }
 
+export type Level = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
+
+export const LEVELS: Level[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+
+/** Ориентировочный уровень, на котором время обычно вводится в курсе испанского. */
+export const TENSE_LEVELS: Record<Tense, Level> = {
+  presente: 'A1',
+  imperativoAfirmativo: 'A1',
+  preteriteIndef: 'A2',
+  preteriteImp: 'A2',
+  futuro: 'A2',
+  perfecto: 'A2',
+  imperativoNegativo: 'A2',
+  condicional: 'B1',
+  pluscuamperfecto: 'B1',
+  subjuntivo: 'B1',
+  futuroPerfecto: 'B1',
+  subjImperfectoRa: 'B2',
+  subjImperfectoSe: 'B2',
+  condicionalPerfecto: 'B2',
+  subjPerfecto: 'B2',
+  subjPluscuamRa: 'C1',
+  subjPluscuamSe: 'C1',
+  anterior: 'C1',
+  subjFuturo: 'C2',
+  subjFuturoPerfecto: 'C2',
+};
+
+export function tensesByLevel(level: Level): Tense[] {
+  return TENSES.filter(tense => TENSE_LEVELS[tense] === level);
+}
+
 export interface ConjugationForm {
   form: string;
   irregular: boolean;

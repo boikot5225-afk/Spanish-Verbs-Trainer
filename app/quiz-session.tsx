@@ -31,6 +31,7 @@ export default function QuizSession() {
   const [isFlipped, setIsFlipped] = useState(false);
 
   const flipAnim = useRef(new Animated.Value(0)).current;
+  const inputRef = useRef<TextInput>(null);
 
   const topPad = Platform.OS === 'web' ? 67 : insets.top;
   const bottomPad = Platform.OS === 'web' ? 34 : insets.bottom;
@@ -43,7 +44,14 @@ export default function QuizSession() {
     setSelectedOption(null);
     setIsFlipped(false);
     flipAnim.setValue(0);
-  }, [session?.currentIndex]);
+    // Клавиатура должна быть готова сразу: иначе на новый вопрос приходится
+    // отдельно тыкать в поле, а до него ещё нужно доскроллить.
+    if (session?.mode === 'input') {
+      const focus = setTimeout(() => inputRef.current?.focus(), 120);
+      return () => clearTimeout(focus);
+    }
+    return undefined;
+  }, [session?.currentIndex, session?.mode]);
 
   if (!session) {
     router.replace('/(tabs)/quiz');
@@ -84,6 +92,14 @@ export default function QuizSession() {
     handleCheck(opt);
   };
 
+  // Тест, запущенный из урока, и закрывать надо в урок, а не в конструктор теста.
+  const lessonId = session.exam?.lessonId ?? session.drill?.lessonId;
+
+  const handleClose = () => {
+    if (lessonId) router.replace(`/lesson/${lessonId}`);
+    else router.replace('/(tabs)/quiz');
+  };
+
   const handleNext = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     if (isLast) {
@@ -116,7 +132,7 @@ export default function QuizSession() {
 
   // ─── Shared UI elements ────────────────────────────────────────────────────
 
-  const QuestionHeader = () => (
+  const questionHeader = (
     <View style={[styles.questionHeader, { backgroundColor: colors.card, borderColor: colors.border }]}>
       <Text style={[styles.verbInfinitive, { color: colors.foreground }]}>
         {verb.infinitive}
@@ -139,7 +155,7 @@ export default function QuizSession() {
     </View>
   );
 
-  const ResultFeedback = () => (
+  const resultFeedback = (
     <View
       style={[
         styles.feedback,
@@ -165,7 +181,7 @@ export default function QuizSession() {
     </View>
   );
 
-  const NextButton = () => (
+  const nextButton = (
     <Pressable
       onPress={handleNext}
       style={({ pressed }) => [
@@ -192,7 +208,7 @@ export default function QuizSession() {
       contentContainerStyle={[styles.modeContent, { paddingBottom: bottomPad + 20 }]}
       keyboardShouldPersistTaps="handled"
     >
-      <QuestionHeader />
+      {questionHeader}
       <Text style={[styles.prompt, { color: colors.mutedForeground }]}>
         Выберите правильную форму:
       </Text>
@@ -245,8 +261,8 @@ export default function QuizSession() {
       </View>
       {isChecked && (
         <>
-          <ResultFeedback />
-          <NextButton />
+          {resultFeedback}
+          {nextButton}
         </>
       )}
     </ScrollView>
@@ -260,11 +276,13 @@ export default function QuizSession() {
       keyboardShouldPersistTaps="handled"
       bottomOffset={20}
     >
-      <QuestionHeader />
+      {questionHeader}
       <Text style={[styles.prompt, { color: colors.mutedForeground }]}>
         Напишите форму глагола:
       </Text>
       <TextInput
+        ref={inputRef}
+        autoFocus
         style={[
           styles.textInput,
           {
@@ -313,8 +331,8 @@ export default function QuizSession() {
       )}
       {isChecked && (
         <>
-          <ResultFeedback />
-          <NextButton />
+          {resultFeedback}
+          {nextButton}
         </>
       )}
     </KeyboardAwareScrollViewCompat>
@@ -414,7 +432,7 @@ export default function QuizSession() {
           { paddingTop: topPad + 8, backgroundColor: colors.card, borderBottomColor: colors.border },
         ]}
       >
-        <Pressable onPress={() => router.replace('/(tabs)/quiz')} hitSlop={8}>
+        <Pressable onPress={handleClose} hitSlop={8}>
           <Ionicons name="close" size={24} color={colors.mutedForeground} />
         </Pressable>
         <View style={styles.progressWrap}>
