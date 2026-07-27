@@ -53,6 +53,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           rm -rf .patch
-          git add -A ':!.github/workflows/apply-search-tenses.yml'
+          git add -A
           git commit -m "feat: add full tense catalog and conjugated-form search"
           git push origin HEAD:search-full-tenses
