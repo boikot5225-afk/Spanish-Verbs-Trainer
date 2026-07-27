@@ -13,7 +13,7 @@ import * as Haptics from 'expo-haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useColors } from '@/hooks/useColors';
 import { useQuiz } from '../context/QuizContext';
-import { PERSON_LABELS, TENSE_LABELS } from '../data/types';
+import { personLabels, tenseQualifiedLabel } from '../data/types';
 import { getVerbById } from '../data/verbs';
 
 export default function QuizResults() {
@@ -155,7 +155,7 @@ export default function QuizResults() {
                         {verb?.infinitive ?? '?'}
                       </Text>
                       <Text style={[styles.mistakeMeta, { color: colors.mutedForeground }]}>
-                        {TENSE_LABELS[a.question.tense]} · {PERSON_LABELS[a.question.person]}
+                        {tenseQualifiedLabel(a.question.tense)} · {personLabels(a.question.tense)[a.question.person]}
                       </Text>
                     </View>
                     <View style={styles.mistakeRight}>

@@ -13,8 +13,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { useColors } from '@/hooks/useColors';
 import ConjugationTable from '../../components/ConjugationTable';
 import { useVerbs } from '../../context/VerbsContext';
-import type { Tense } from '../../data/types';
-import { TENSES, TENSE_LABELS } from '../../data/types';
+import type { Mood, Tense } from '../../data/types';
+import {
+  MOODS,
+  MOOD_LABELS,
+  TENSE_FULL_LABELS,
+  TENSE_LABELS,
+  tensesByMood,
+} from '../../data/types';
 import { getVerbById } from '../../data/verbs';
 
 const GROUP_LABELS: Record<string, string> = {
@@ -29,7 +35,15 @@ export default function VerbDetail() {
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
   const { speak } = useVerbs();
+  const [selectedMood, setSelectedMood] = useState<Mood>('indicativo');
   const [selectedTense, setSelectedTense] = useState<Tense>('presente');
+
+  const moodTenses = tensesByMood(selectedMood);
+
+  const pickMood = (mood: Mood) => {
+    setSelectedMood(mood);
+    setSelectedTense(tensesByMood(mood)[0]!);
+  };
 
   const verb = id ? getVerbById(id) : undefined;
 
@@ -97,6 +111,36 @@ export default function VerbDetail() {
         )}
       </View>
 
+      {/* Mood selector */}
+      <View style={[styles.moodRow, { backgroundColor: colors.card, borderBottomColor: colors.border }]}>
+        {MOODS.map(mood => {
+          const active = selectedMood === mood;
+          return (
+            <Pressable
+              key={mood}
+              onPress={() => pickMood(mood)}
+              style={({ pressed }) => [
+                styles.moodChip,
+                {
+                  backgroundColor: active ? colors.primary : colors.secondary,
+                  borderColor: active ? colors.primary : colors.border,
+                },
+                pressed && { opacity: 0.7 },
+              ]}
+            >
+              <Text
+                style={[
+                  styles.moodChipText,
+                  { color: active ? colors.background : colors.mutedForeground },
+                ]}
+              >
+                {MOOD_LABELS[mood].split(' · ')[0]}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </View>
+
       {/* Tense Tabs */}
       <View style={[styles.tenseTabsOuter, { borderBottomColor: colors.border, backgroundColor: colors.card }]}>
         <ScrollView
@@ -104,7 +148,7 @@ export default function VerbDetail() {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.tenseTabs}
         >
-          {TENSES.map(tense => {
+          {moodTenses.map(tense => {
             const active = selectedTense === tense;
             return (
               <Pressable
@@ -135,7 +179,39 @@ export default function VerbDetail() {
       <ScrollView
         contentContainerStyle={[styles.content, { paddingBottom: bottomPad + 20 }]}
       >
+        <Text style={[styles.tenseCaption, { color: colors.mutedForeground }]}>
+          {TENSE_FULL_LABELS[selectedTense]}
+        </Text>
+
         <ConjugationTable verb={verb} tense={selectedTense} />
+
+        {/* Неличные формы */}
+        <View style={[styles.nonFinite, { backgroundColor: colors.card, borderColor: colors.border }]}>
+          {([
+            ['Gerundio', verb.gerundio],
+            ['Participio', verb.participio],
+          ] as const).map(([label, form], index) => (
+            <View
+              key={label}
+              style={[
+                styles.nonFiniteRow,
+                index === 0 && { borderBottomWidth: 1, borderBottomColor: colors.border },
+              ]}
+            >
+              <Text style={[styles.pronoun, { color: colors.mutedForeground }]}>{label}</Text>
+              <Text
+                style={[
+                  styles.nonFiniteForm,
+                  form.irregular
+                    ? { color: colors.irregular, fontFamily: 'Inter_600SemiBold' }
+                    : { color: colors.foreground, fontFamily: 'Inter_500Medium' },
+                ]}
+              >
+                {form.form}
+              </Text>
+            </View>
+          ))}
+        </View>
 
         {/* Irregular legend */}
         <View style={[styles.legend, { backgroundColor: colors.irregularBg, borderColor: colors.irregular }]}>
@@ -147,8 +223,10 @@ export default function VerbDetail() {
         {/* Pronounce button */}
         <Pressable
           onPress={() => {
-            const forms = verb.conjugations[selectedTense];
-            const allForms = forms.map(f => f.form).join(', ');
+            const allForms = verb.conjugations[selectedTense]
+              .filter(f => !f.absent)
+              .map(f => f.form)
+              .join(', ');
             speak(allForms);
           }}
           style={({ pressed }) => [
@@ -224,6 +302,48 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: 'Inter_400Regular',
     flex: 1,
+  },
+  moodRow: {
+    flexDirection: 'row',
+    gap: 8,
+    paddingHorizontal: 16,
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+  },
+  moodChip: {
+    borderWidth: 1,
+    borderRadius: 999,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  moodChipText: {
+    fontSize: 12,
+    fontFamily: 'Inter_600SemiBold',
+  },
+  tenseCaption: {
+    fontSize: 12,
+    fontFamily: 'Inter_400Regular',
+    marginBottom: -4,
+  },
+  nonFinite: {
+    borderWidth: 1,
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
+  nonFiniteRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingVertical: 11,
+  },
+  nonFiniteForm: {
+    fontSize: 16,
+    textAlign: 'right',
+  },
+  pronoun: {
+    fontSize: 14,
+    fontFamily: 'Inter_400Regular',
   },
   tenseTabsOuter: {
     borderBottomWidth: 1,

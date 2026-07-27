@@ -13,8 +13,15 @@ import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { useColors } from '@/hooks/useColors';
 import { useQuiz } from '../../context/QuizContext';
-import type { Person, QuizMode, Tense } from '../../data/types';
-import { PERSONS, PERSON_LABELS, TENSES, TENSE_LABELS } from '../../data/types';
+import type { Mood, Person, QuizMode, Tense } from '../../data/types';
+import {
+  MOODS,
+  MOOD_LABELS,
+  PERSONS,
+  PERSON_LABELS,
+  TENSE_LABELS,
+  tensesByMood,
+} from '../../data/types';
 import { VERBS } from '../../data/verbs';
 
 const MODES: { id: QuizMode; label: string; description: string }[] = [
@@ -90,6 +97,21 @@ export default function QuizTab() {
       setConfig({ tenses: config.tenses.filter(item => item !== tense) });
     } else {
       setConfig({ tenses: [...config.tenses, tense] });
+    }
+  };
+
+  const toggleMood = (mood: Mood) => {
+    void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    const moodTenses = tensesByMood(mood);
+    const allSelected = moodTenses.every(tense => config.tenses.includes(tense));
+    if (allSelected) {
+      const rest = config.tenses.filter(tense => !moodTenses.includes(tense));
+      if (rest.length === 0) return; // хотя бы одно время должно остаться
+      setConfig({ tenses: rest });
+    } else {
+      const merged = [...config.tenses];
+      for (const tense of moodTenses) if (!merged.includes(tense)) merged.push(tense);
+      setConfig({ tenses: merged });
     }
   };
 
@@ -177,24 +199,51 @@ export default function QuizTab() {
         ) : null}
 
         <Text style={[styles.sectionLabel, { color: colors.mutedForeground }]}>ВРЕМЕНА</Text>
-        <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}> 
-          {TENSES.map((tense, index) => {
-            const active = config.tenses.includes(tense);
+        <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
+          {MOODS.map(mood => {
+            const moodTenses = tensesByMood(mood);
+            const allSelected = moodTenses.every(tense => config.tenses.includes(tense));
             return (
-              <Pressable
-                key={tense}
-                onPress={() => toggleTense(tense)}
-                style={({ pressed }) => [
-                  styles.row,
-                  index < TENSES.length - 1 && { borderBottomWidth: 1, borderBottomColor: colors.border },
-                  pressed && styles.pressed,
-                ]}
-              >
-                <Text style={[styles.rowLabel, { color: active ? colors.primary : colors.foreground }]}> 
-                  {TENSE_LABELS[tense]}
-                </Text>
-                <SelectionMark active={active} color={colors.primary} borderColor={colors.border} />
-              </Pressable>
+              <View key={mood}>
+                <Pressable
+                  onPress={() => toggleMood(mood)}
+                  style={({ pressed }) => [
+                    styles.moodHeader,
+                    { backgroundColor: colors.secondary, borderBottomColor: colors.border },
+                    pressed && styles.pressed,
+                  ]}
+                >
+                  <Text style={[styles.moodHeaderText, { color: colors.mutedForeground }]}>
+                    {MOOD_LABELS[mood]}
+                  </Text>
+                  <Text style={[styles.moodHeaderAction, { color: colors.primary }]}>
+                    {allSelected ? 'снять' : 'все'}
+                  </Text>
+                </Pressable>
+
+                {moodTenses.map((tense, index) => {
+                  const active = config.tenses.includes(tense);
+                  return (
+                    <Pressable
+                      key={tense}
+                      onPress={() => toggleTense(tense)}
+                      style={({ pressed }) => [
+                        styles.row,
+                        index < moodTenses.length - 1 && {
+                          borderBottomWidth: 1,
+                          borderBottomColor: colors.border,
+                        },
+                        pressed && styles.pressed,
+                      ]}
+                    >
+                      <Text style={[styles.rowLabel, { color: active ? colors.primary : colors.foreground }]}>
+                        {TENSE_LABELS[tense]}
+                      </Text>
+                      <SelectionMark active={active} color={colors.primary} borderColor={colors.border} />
+                    </Pressable>
+                  );
+                })}
+              </View>
             );
           })}
         </View>
@@ -386,6 +435,9 @@ const styles = StyleSheet.create({
   sectionTitleRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 18, marginBottom: 7 },
   selectedCount: { fontSize: 12, fontFamily: 'Inter_600SemiBold' },
   card: { borderWidth: 1, borderRadius: 12, overflow: 'hidden' },
+  moodHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 8, borderBottomWidth: 1 },
+  moodHeaderText: { fontSize: 11, fontFamily: 'Inter_600SemiBold', letterSpacing: 0.6 },
+  moodHeaderAction: { fontSize: 12, fontFamily: 'Inter_500Medium' },
   row: { minHeight: 52, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 11, gap: 12 },
   rowLabel: { flex: 1, fontSize: 15, fontFamily: 'Inter_600SemiBold' },
   rowSub: { fontSize: 12, fontFamily: 'Inter_400Regular', marginTop: 2 },

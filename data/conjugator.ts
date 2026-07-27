@@ -1,4 +1,4 @@
-import type { ConjugationForm, Tense, Verb } from './types';
+import type { CompoundTense, ConjugationForm, Tense, Verb } from './types';
 import irregularData from './irregulars.json';
 
 export interface VerbMetadata {
@@ -16,7 +16,8 @@ type IrregularTense =
   | 'indicative imperfect'
   | 'indicative future'
   | 'indicative conditional'
-  | 'subjunctive present';
+  | 'subjunctive present'
+  | 'imperative affirmative';
 type IrregularTable = Partial<Record<IrregularTense | string, Partial<Record<PersonCode, string>>>>;
 type IrregularMap = Record<string, IrregularTable>;
 type VerbType = 'ar' | 'er' | 'ir';
@@ -47,6 +48,62 @@ const SUBJUNCTIVE: Record<VerbType, string[]> = {
   er: ['a', 'as', 'a', 'amos', 'áis', 'an'],
   ir: ['a', 'as', 'a', 'amos', 'áis', 'an'],
 };
+
+// Окончания прошедшего сослагательного и будущего сослагательного. Крепятся к основе
+// 3-го лица мн. ч. индефинидо без -ron; форма nosotros получает ударение отдельно.
+const SUBJ_IMPERFECT_RA = ['ra', 'ras', 'ra', 'ramos', 'rais', 'ran'];
+const SUBJ_IMPERFECT_SE = ['se', 'ses', 'se', 'semos', 'seis', 'sen'];
+const SUBJ_FUTURE = ['re', 'res', 're', 'remos', 'reis', 'ren'];
+
+/** Вспомогательный haber для всех девяти составных времён. */
+const HABER: Record<CompoundTense, string[]> = {
+  perfecto: ['he', 'has', 'ha', 'hemos', 'habéis', 'han'],
+  pluscuamperfecto: ['había', 'habías', 'había', 'habíamos', 'habíais', 'habían'],
+  anterior: ['hube', 'hubiste', 'hubo', 'hubimos', 'hubisteis', 'hubieron'],
+  futuroPerfecto: ['habré', 'habrás', 'habrá', 'habremos', 'habréis', 'habrán'],
+  condicionalPerfecto: ['habría', 'habrías', 'habría', 'habríamos', 'habríais', 'habrían'],
+  subjPerfecto: ['haya', 'hayas', 'haya', 'hayamos', 'hayáis', 'hayan'],
+  subjPluscuamRa: ['hubiera', 'hubieras', 'hubiera', 'hubiéramos', 'hubierais', 'hubieran'],
+  subjPluscuamSe: ['hubiese', 'hubieses', 'hubiese', 'hubiésemos', 'hubieseis', 'hubiesen'],
+  subjFuturoPerfecto: ['hubiere', 'hubieres', 'hubiere', 'hubiéremos', 'hubiereis', 'hubieren'],
+};
+
+// Неправильные причастия: тип из метаданных отпирает замену суффикса инфинитива.
+// Тип обязателен, поэтому короткие суффиксы вроде «ver» не задевают mover или beber.
+const PARTICIPLE_RULES: Array<{ type: string; from: string; to: string }> = [
+  { type: 'ito pp', from: 'scribir', to: 'scrito' }, // escribir → escrito
+  { type: 'ito pp', from: 'freír', to: 'frito' },
+  { type: 'ierto pp', from: 'brir', to: 'bierto' }, // abrir → abierto, cubrir → cubierto
+  { type: 'uelto pp', from: 'olver', to: 'uelto' }, // volver → vuelto, resolver → resuelto
+  { type: 'uerto pp', from: 'orir', to: 'uerto' }, // morir → muerto
+  { type: 'icho pp', from: 'ecir', to: 'icho' }, // decir → dicho, predecir → predicho
+  { type: 'isto pp', from: 'ver', to: 'visto' }, // ver → visto, prever → previsto
+  { type: 'poner', from: 'poner', to: 'puesto' }, // componer → compuesto
+  { type: 'acer', from: 'acer', to: 'echo' }, // hacer → hecho, satisfacer → satisfecho
+];
+
+/** Причастия, не описываемые ни одним правилом (тип «irregular pp»). */
+const IRREGULAR_PARTICIPLES: Array<[string, string]> = [
+  ['romper', 'roto'],
+  ['pudrir', 'podrido'],
+];
+
+/** Герундии, которые нельзя вывести из основы (супплетивные). */
+const GERUND_OVERRIDES: Array<[string, string]> = [['ir', 'yendo']];
+
+const ACUTE: Record<string, string> = { a: 'á', e: 'é', i: 'í', o: 'ó', u: 'ú' };
+const ACCENTED = 'áéíóú';
+
+/** Ставит острое ударение на последнюю гласную основы (habla → hablá, compon → compón). */
+function accentLastVowel(value: string): string {
+  for (let index = value.length - 1; index >= 0; index -= 1) {
+    const char = value[index]!;
+    if (ACCENTED.includes(char)) return value; // ударение уже есть
+    const accented = ACUTE[char];
+    if (accented) return value.slice(0, index) + accented + value.slice(index + 1);
+  }
+  return value;
+}
 
 interface ParsedInfinitive {
   base: string;
@@ -285,42 +342,192 @@ function subjunctiveForm(
   return index === 4 && types.has('drop accent 2p subjunctive') ? stripMarks(form) : form;
 }
 
-function regularBaseline(parsed: ParsedInfinitive): Record<Tense, string[]> {
-  return {
-    presente: PRESENT[parsed.type].map(ending => parsed.stem + ending),
-    preteriteIndef: PRETERITE[parsed.type].map(ending => parsed.stem + ending),
-    preteriteImp: IMPERFECT[parsed.type].map(ending => parsed.stem + ending),
-    futuro: FUTURE.map(ending => normalizedInfinitive(parsed.base) + ending),
-    condicional: CONDITIONAL.map(ending => normalizedInfinitive(parsed.base) + ending),
-    subjuntivo: SUBJUNCTIVE[parsed.type].map(ending => parsed.stem + ending),
-  };
+function participleForm(parsed: ParsedInfinitive, types: Set<string>): string {
+  const { base, stem, type } = parsed;
+
+  if (types.has('irregular pp')) {
+    for (const [key, form] of IRREGULAR_PARTICIPLES) {
+      if (base.endsWith(key)) return base.slice(0, -key.length) + form;
+    }
+  }
+  for (const rule of PARTICIPLE_RULES) {
+    if (types.has(rule.type) && base.endsWith(rule.from)) {
+      return base.slice(0, -rule.from.length) + rule.to;
+    }
+  }
+  if (type === 'ar') return stem + 'ado';
+  // Основа на сильную гласную требует ударения: leer → leído, traer → traído, oír → oído.
+  // На слабую «u» — нет, там дифтонг: construir → construido.
+  if (/[aeo]$/u.test(stem)) return stem + 'ído';
+  return stem + 'ido';
 }
 
-function markForms(forms: Record<Tense, string[]>, baseline: Record<Tense, string[]>): Record<Tense, ConjugationForm[]> {
+function gerundForm(parsed: ParsedInfinitive, types: Set<string>): string {
+  const { base, type } = parsed;
+  for (const [key, form] of GERUND_OVERRIDES) {
+    if (base === key) return form;
+  }
+
+  let stem = parsed.stem;
+  if (
+    type === 'ir' &&
+    ['e to i', 'e to i preterite', 'i before e', 'decir', 'ecir', 'venir', 'reír', 'eír'].some(
+      item => types.has(item),
+    )
+  ) {
+    stem = replaceLast(stem, 'e', 'i');
+  }
+  if (types.has('o to u preterite') || types.has('poder')) stem = replaceLast(stem, 'o', 'u');
+
+  if (type === 'ar') return stem + 'ando';
+  if (stem.endsWith('i') || stem.endsWith('í')) return stem + 'endo'; // reír → riendo
+  if (types.has('drop i')) return stem + 'endo'; // gruñir → gruñendo
+  if (/[aeiouáéíóú]$/u.test(stem) && !/[gq]u$/u.test(stem)) return stem + 'yendo';
+  return stem + 'iendo';
+}
+
+/** Основа прошедшего сослагательного — 3-е лицо мн. ч. индефинидо без -ron. */
+function subjPastStem(preterite3p: string): string {
+  return preterite3p.endsWith('ron') ? preterite3p.slice(0, -3) : preterite3p;
+}
+
+function subjPastForm(stem: string, endings: string[], index: number): string {
+  const root = index === 3 ? accentLastVowel(stem) : stem;
+  return root + endings[index]!;
+}
+
+function imperativeAffirmativeForms(
+  parsed: ParsedInfinitive,
+  types: Set<string>,
+  patterns: PatternEntry[],
+  present: string[],
+  subjunctive: string[],
+): string[] {
+  const override = (person: PersonCode): string | undefined =>
+    patternOverride(parsed.base, patterns, 'imperative affirmative', person);
+
+  const irregularTu = override('2s');
+  let tu: string;
+  if (irregularTu === undefined) {
+    tu = present[2]!; // регулярное tú = 3-е лицо ед. ч. настоящего
+  } else {
+    tu = types.has('accent 2s imperative affirmative') ? accentLastVowel(irregularTu) : irregularTu;
+  }
+
+  // Остальные лица берут форму сослагательного, если данные не задают своей (ir → vamos).
+  // 2-е лицо мн. ч. — всегда инфинитив с -r → -d (hablar → hablad, reír → reíd).
+  return [
+    '',
+    tu,
+    override('3s') ?? subjunctive[2]!,
+    override('1p') ?? subjunctive[3]!,
+    parsed.base.slice(0, -1) + 'd',
+    override('3p') ?? subjunctive[5]!,
+  ];
+}
+
+function imperativeNegativeForms(subjunctive: string[]): string[] {
+  return subjunctive.map((form, index) => (index === 0 ? '' : `no ${form}`));
+}
+
+interface BuiltForms {
+  forms: Record<Tense, string[]>;
+  gerundio: string;
+  participio: string;
+}
+
+function buildForms(
+  parsed: ParsedInfinitive,
+  types: Set<string>,
+  patterns: PatternEntry[],
+): BuiltForms {
+  const presente = PERSON_CODES.map((_, index) => presentForm(parsed, types, patterns, index));
+  const preteriteIndef = PERSON_CODES.map((_, index) => preteriteForm(parsed, types, patterns, index));
+  const subjuntivo = PERSON_CODES.map((_, index) => subjunctiveForm(parsed, types, patterns, index));
+  const pastStem = subjPastStem(preteriteIndef[5]!);
+  const participio = participleForm(parsed, types);
+  const compound = (tense: CompoundTense): string[] =>
+    HABER[tense].map(auxiliary => `${auxiliary} ${participio}`);
+
+  const forms: Record<Tense, string[]> = {
+    presente,
+    preteriteIndef,
+    preteriteImp: PERSON_CODES.map((_, index) => imperfectForm(parsed, patterns, index)),
+    futuro: PERSON_CODES.map((_, index) => futureForm(parsed, types, patterns, index, false)),
+    condicional: PERSON_CODES.map((_, index) => futureForm(parsed, types, patterns, index, true)),
+    perfecto: compound('perfecto'),
+    pluscuamperfecto: compound('pluscuamperfecto'),
+    anterior: compound('anterior'),
+    futuroPerfecto: compound('futuroPerfecto'),
+    condicionalPerfecto: compound('condicionalPerfecto'),
+    subjuntivo,
+    subjImperfectoRa: PERSON_CODES.map((_, index) => subjPastForm(pastStem, SUBJ_IMPERFECT_RA, index)),
+    subjImperfectoSe: PERSON_CODES.map((_, index) => subjPastForm(pastStem, SUBJ_IMPERFECT_SE, index)),
+    subjFuturo: PERSON_CODES.map((_, index) => subjPastForm(pastStem, SUBJ_FUTURE, index)),
+    subjPerfecto: compound('subjPerfecto'),
+    subjPluscuamRa: compound('subjPluscuamRa'),
+    subjPluscuamSe: compound('subjPluscuamSe'),
+    subjFuturoPerfecto: compound('subjFuturoPerfecto'),
+    imperativoAfirmativo: imperativeAffirmativeForms(parsed, types, patterns, presente, subjuntivo),
+    imperativoNegativo: imperativeNegativeForms(subjuntivo),
+  };
+
+  return { forms, gerundio: gerundForm(parsed, types), participio };
+}
+
+function markForms(built: BuiltForms, baseline: BuiltForms): Record<Tense, ConjugationForm[]> {
   const result = {} as Record<Tense, ConjugationForm[]>;
-  (Object.keys(forms) as Tense[]).forEach(tense => {
-    result[tense] = forms[tense].map((form, index) => ({ form, irregular: form !== baseline[tense][index] }));
+  (Object.keys(built.forms) as Tense[]).forEach(tense => {
+    result[tense] = built.forms[tense].map((form, index) => {
+      if (!form) return { form: '', irregular: false, absent: true };
+      return { form, irregular: form !== baseline.forms[tense][index] };
+    });
   });
   return result;
 }
 
-export function conjugateMetadata(metadata: VerbMetadata): Verb {
+interface ResolvedForms {
+  conjugations: Record<Tense, ConjugationForm[]>;
+  gerundio: ConjugationForm;
+  participio: ConjugationForm;
+}
+
+function resolveForms(metadata: VerbMetadata): ResolvedForms {
   const parsed = parseInfinitive(metadata.infinitive);
   const types = new Set(metadata.types);
   const patterns = applicablePatterns(parsed.base, types);
-  const forms: Record<Tense, string[]> = {
-    presente: PERSON_CODES.map((_, index) => presentForm(parsed, types, patterns, index)),
-    preteriteIndef: PERSON_CODES.map((_, index) => preteriteForm(parsed, types, patterns, index)),
-    preteriteImp: PERSON_CODES.map((_, index) => imperfectForm(parsed, patterns, index)),
-    futuro: PERSON_CODES.map((_, index) => futureForm(parsed, types, patterns, index, false)),
-    condicional: PERSON_CODES.map((_, index) => futureForm(parsed, types, patterns, index, true)),
-    subjuntivo: PERSON_CODES.map((_, index) => subjunctiveForm(parsed, types, patterns, index)),
-  };
+  const built = buildForms(parsed, types, patterns);
+  // Тот же генератор без признаков неправильности даёт эталон для подсветки ★.
+  const baseline = buildForms(parsed, new Set<string>(), []);
+
   return {
+    conjugations: markForms(built, baseline),
+    gerundio: { form: built.gerundio, irregular: built.gerundio !== baseline.gerundio },
+    participio: { form: built.participio, irregular: built.participio !== baseline.participio },
+  };
+}
+
+export function conjugateMetadata(metadata: VerbMetadata): Verb {
+  const verb = {
     id: metadata.id,
     infinitive: metadata.infinitive,
     translation: metadata.translation,
     group: metadata.group,
-    conjugations: markForms(forms, regularBaseline(parsed)),
-  };
+  } as Verb;
+
+  // 2129 глаголов × 20 времён — это четверть миллиона форм. Списку и поиску нужны
+  // только инфинитив с переводом, поэтому спряжения считаются при первом обращении
+  // к конкретному глаголу и дальше кешируются.
+  let cached: ResolvedForms | undefined;
+  const resolve = (): ResolvedForms => (cached ??= resolveForms(metadata));
+
+  for (const key of ['conjugations', 'gerundio', 'participio'] as const) {
+    Object.defineProperty(verb, key, {
+      configurable: true,
+      enumerable: true,
+      get: () => resolve()[key],
+    });
+  }
+
+  return verb;
 }

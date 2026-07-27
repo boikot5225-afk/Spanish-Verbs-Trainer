@@ -111,32 +111,44 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
         ? VERBS
         : VERBS.filter(verb => cfg.verbIds.includes(verb.id));
 
+    const combinations = targetVerbs.length * cfg.tenses.length * cfg.persons.length;
+    if (combinations === 0) return [];
+
+    // Комбинаций может быть больше четверти миллиона, поэтому берём случайную
+    // выборку нужного размера вместо построения и перемешивания всего списка.
+    const target = Math.min(cfg.maxQuestions, combinations);
+    const maxAttempts = target * 50 + 500;
+    const picked = new Set<number>();
     const questions: QuizQuestion[] = [];
 
-    for (const verb of targetVerbs) {
-      for (const tense of cfg.tenses) {
-        for (const person of cfg.persons) {
-          const personIndex = PERSONS.indexOf(person);
-          const form = verb.conjugations[tense]?.[personIndex];
-          if (!form) continue;
+    for (let attempt = 0; questions.length < target && attempt < maxAttempts; attempt += 1) {
+      const pick = Math.floor(Math.random() * combinations);
+      if (picked.has(pick)) continue;
+      picked.add(pick);
 
-          const options =
-            cfg.mode === 'multiple-choice'
-              ? generateOptions(verb.id, tense, personIndex, form.form)
-              : undefined;
+      const personSlot = pick % cfg.persons.length;
+      const remainder = Math.floor(pick / cfg.persons.length);
+      const tense = cfg.tenses[remainder % cfg.tenses.length]!;
+      const verb = targetVerbs[Math.floor(remainder / cfg.tenses.length)]!;
+      const person = cfg.persons[personSlot]!;
+      const personIndex = PERSONS.indexOf(person);
 
-          questions.push({
-            verbId: verb.id,
-            tense,
-            person,
-            correctAnswer: form.form,
-            options,
-          });
-        }
-      }
+      const form = verb.conjugations[tense]?.[personIndex];
+      if (!form || form.absent) continue; // «yo» в императиве формы не имеет
+
+      questions.push({
+        verbId: verb.id,
+        tense,
+        person,
+        correctAnswer: form.form,
+        options:
+          cfg.mode === 'multiple-choice'
+            ? generateOptions(verb.id, tense, personIndex, form.form)
+            : undefined,
+      });
     }
 
-    return shuffle(questions).slice(0, cfg.maxQuestions);
+    return shuffle(questions);
   }, []);
 
   const buildAndStartSession = useCallback(

@@ -42,8 +42,8 @@ export function generateOptions(
   const distractors = new Set<string>();
   PERSONS.forEach((_, index) => {
     if (index !== personIdx) {
-      const form = verb.conjugations[tense][index]?.form;
-      if (form && form !== correct) distractors.add(form);
+      const form = verb.conjugations[tense][index];
+      if (form && !form.absent && form.form !== correct) distractors.add(form.form);
     }
   });
 
@@ -53,8 +53,8 @@ export function generateOptions(
     attempts += 1;
     const candidate = VERBS[Math.floor(Math.random() * VERBS.length)];
     if (!candidate || candidate.id === verbId) continue;
-    const form = candidate.conjugations[tense]?.[personIdx]?.form;
-    if (form && form !== correct) distractors.add(form);
+    const form = candidate.conjugations[tense]?.[personIdx];
+    if (form && !form.absent && form.form !== correct) distractors.add(form.form);
   }
 
   return shuffle([...Array.from(distractors).slice(0, 3), correct]);
@@ -64,6 +64,7 @@ export function normalizeAnswer(value: string): string {
   return value
     .toLowerCase()
     .trim()
+    .replace(/\s+/gu, ' ')
     .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '');
+    .replace(/[̀-ͯ]/gu, '');
 }
