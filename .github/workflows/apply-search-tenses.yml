@@ -1,4 +1,4 @@
-name: Apply search and full tenses patch
+name: Apply conjugator hotfixes
 
 on:
   pull_request:
@@ -10,50 +10,40 @@ permissions:
   contents: write
 
 jobs:
-  apply:
+  hotfix:
     if: github.head_ref == 'search-full-tenses' || github.ref_name == 'search-full-tenses'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout patch branch
+      - name: Checkout branch
         uses: actions/checkout@v4
         with:
           ref: search-full-tenses
           fetch-depth: 0
 
-      - name: Verify and unpack patch
+      - name: Fix decir-family gerunds
         shell: bash
         run: |
           set -euo pipefail
-          if [ ! -f .patch/search-tenses.part00 ]; then
-            echo "Patch already applied"
-            exit 0
-          fi
-          echo "28a1e2200e27d5713bae1e59efdc7aff6809feeaa0acf46b6fb5d3ac0e6375e0  .patch/search-tenses.part00" | sha256sum --check
-          echo "6c877ba5f423ce11dde8694a83507124c7c9335776f92a98cc8b8e4e852d4695  .patch/search-tenses.part01" | sha256sum --check
-          echo "f5c7bbd36e5f40612bfddf55ef5e83062488bbfa32a5dc5a9d61424406e9a70c  .patch/search-tenses.part02" | sha256sum --check
-          echo "caa0e370581093fc71c0b25b7a2dabd69774e303a963eaa24d4281cfc3be8456  .patch/search-tenses.part03" | sha256sum --check
-          echo "4862500d22421423d4f82c4202e9df2b27210b9d6de70e5307356461c1ec4b89  .patch/search-tenses.part04" | sha256sum --check
-          echo "45f4a15bdc02bcac579158080687c319f38c01e72aacb62426863ff74439b3ee  .patch/search-tenses.part05" | sha256sum --check
-          cat .patch/search-tenses.part* > /tmp/search-tenses.b64
-          test "$(wc -c < /tmp/search-tenses.b64)" -eq 31032
-          echo "cee3f84d3c9d0b2e086e6a637d8012897a1e522235f7483f19c5e412a931f0db  /tmp/search-tenses.b64" | sha256sum --check
-          base64 --decode /tmp/search-tenses.b64 > /tmp/search-tenses-patch.tar.xz
-          echo "f7f8f2814e34948647f5b3255f86519ce1633f78c9b0a7d77b715849f233932e  /tmp/search-tenses-patch.tar.xz" | sha256sum --check
-          tar -xJf /tmp/search-tenses-patch.tar.xz
-          touch /tmp/search-tenses-ready
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('data/conjugator.ts')
+          text = path.read_text()
+          old = "function gerundForm(parsed: ParsedInfinitive, types: Set<string>): string {\n  if (parsed.base === 'ir') return 'yendo';"
+          new = "function gerundForm(parsed: ParsedInfinitive, types: Set<string>): string {\n  if (parsed.base === 'ir') return 'yendo';\n  if (parsed.base.endsWith('decir')) return parsed.base.slice(0, -5) + 'diciendo';"
+          if new in text:
+              print('Hotfix already applied')
+              raise SystemExit(0)
+          if old not in text:
+              raise SystemExit('Expected gerund function was not found')
+          path.write_text(text.replace(old, new, 1))
+          PY
 
-      - name: Save normal source files
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [ ! -f /tmp/search-tenses-ready ]; then
+          if git diff --quiet -- data/conjugator.ts; then
             echo "Nothing to commit"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -- .github/workflows/bootstrap-build.yml
-          rm -rf .patch
-          git add -A
-          git commit -m "feat: add full tense catalog and conjugated-form search"
+          git add data/conjugator.ts
+          git commit -m "fix: conjugate decir-family gerunds"
           git push origin HEAD:search-full-tenses
