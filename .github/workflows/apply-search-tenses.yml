@@ -24,6 +24,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          if [ ! -f .patch/search-tenses.part00 ]; then
+            echo "Patch already applied"
+            exit 0
+          fi
           echo "28a1e2200e27d5713bae1e59efdc7aff6809feeaa0acf46b6fb5d3ac0e6375e0  .patch/search-tenses.part00" | sha256sum --check
           echo "6c877ba5f423ce11dde8694a83507124c7c9335776f92a98cc8b8e4e852d4695  .patch/search-tenses.part01" | sha256sum --check
           echo "f5c7bbd36e5f40612bfddf55ef5e83062488bbfa32a5dc5a9d61424406e9a70c  .patch/search-tenses.part02" | sha256sum --check
@@ -36,15 +40,19 @@ jobs:
           base64 --decode /tmp/search-tenses.b64 > /tmp/search-tenses-patch.tar.xz
           echo "f7f8f2814e34948647f5b3255f86519ce1633f78c9b0a7d77b715849f233932e  /tmp/search-tenses-patch.tar.xz" | sha256sum --check
           tar -xJf /tmp/search-tenses-patch.tar.xz
+          touch /tmp/search-tenses-ready
 
       - name: Save normal source files
         shell: bash
         run: |
           set -euo pipefail
+          if [ ! -f /tmp/search-tenses-ready ]; then
+            echo "Nothing to commit"
+            exit 0
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           rm -rf .patch
-          rm -f .github/workflows/apply-search-tenses.yml
-          git add -A
+          git add -A ':!.github/workflows/apply-search-tenses.yml'
           git commit -m "feat: add full tense catalog and conjugated-form search"
           git push origin HEAD:search-full-tenses
