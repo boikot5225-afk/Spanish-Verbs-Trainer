@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "Spanish Verbs Trainer",
+    "slug": "spanish-verbs-trainer",
+    "version": "1.1.0",
+    "orientation": "portrait",
+    "scheme": "spanishverbstrainer",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": false,
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.bulat.spanishverbstrainer"
+    },
+    "android": {
+      "package": "com.bulat.spanishverbstrainer",
+      "versionCode": 2
+    },
+    "web": {},
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-web-browser"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

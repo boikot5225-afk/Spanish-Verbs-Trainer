@@ -1,0 +1,83 @@
+name: Build Spanish Verbs Trainer APK
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: spanish-verbs-apk-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Set up Gradle cache
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Validate verb database
+        run: npm run test:data
+
+      - name: Generate Android project
+        run: npx expo prebuild --platform android --clean
+
+      - name: Build release APK
+        shell: bash
+        run: |
+          cd android
+          chmod +x gradlew
+          set +e
+          ./gradlew assembleRelease --no-daemon --stacktrace --console=plain > ../gradle-build.log 2>&1
+          status=$?
+          if [ "$status" -ne 0 ]; then
+            echo "===== GRADLE FAILURE (last 240 lines) ====="
+            tail -n 240 ../gradle-build.log
+            exit "$status"
+          fi
+
+      - name: Upload Gradle diagnostic log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gradle-build-log
+          path: gradle-build.log
+          if-no-files-found: ignore
+
+      - name: Collect APK
+        shell: bash
+        run: |
+          mkdir -p dist
+          cp android/app/build/outputs/apk/release/*.apk dist/Spanish-Verbs-Trainer-v1.1.0.apk
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Spanish-Verbs-Trainer-v1.1.0
+          path: dist/Spanish-Verbs-Trainer-v1.1.0.apk
+          if-no-files-found: error
