@@ -52,6 +52,7 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -- .github/workflows/bootstrap-build.yml
           rm -rf .patch
           git add -A
           git commit -m "feat: add full tense catalog and conjugated-form search"
