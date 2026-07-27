@@ -24,9 +24,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test "$(wc -c < .patch/search-tenses.b64)" -eq 31032
-          echo "cee3f84d3c9d0b2e086e6a637d8012897a1e522235f7483f19c5e412a931f0db  .patch/search-tenses.b64" | sha256sum --check
-          base64 --decode .patch/search-tenses.b64 > /tmp/search-tenses-patch.tar.xz
+          tr -d '[:space:]' < .patch/search-tenses.b64 > /tmp/search-tenses.b64
+          echo "Normalized base64 bytes: $(wc -c < /tmp/search-tenses.b64)"
+          sha256sum /tmp/search-tenses.b64
+          test "$(wc -c < /tmp/search-tenses.b64)" -eq 31032
+          echo "cee3f84d3c9d0b2e086e6a637d8012897a1e522235f7483f19c5e412a931f0db  /tmp/search-tenses.b64" | sha256sum --check
+          base64 --decode /tmp/search-tenses.b64 > /tmp/search-tenses-patch.tar.xz
           echo "f7f8f2814e34948647f5b3255f86519ce1633f78c9b0a7d77b715849f233932e  /tmp/search-tenses-patch.tar.xz" | sha256sum --check
           tar -xJf /tmp/search-tenses-patch.tar.xz
 
