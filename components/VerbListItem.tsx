@@ -7,6 +7,8 @@ import type { Verb } from '../data/types';
 interface Props {
   verb: Verb;
   onPress: () => void;
+  matchedForm?: string;
+  fuzzy?: boolean;
 }
 
 const GROUP_LABELS: Record<string, string> = {
@@ -16,7 +18,7 @@ const GROUP_LABELS: Record<string, string> = {
   irregular: 'IRREG',
 };
 
-export default function VerbListItem({ verb, onPress }: Props) {
+export default function VerbListItem({ verb, onPress, matchedForm, fuzzy = false }: Props) {
   const colors = useColors();
   const isIrreg = verb.group === 'irregular';
 
@@ -36,6 +38,13 @@ export default function VerbListItem({ verb, onPress }: Props) {
         <Text style={[styles.translation, { color: colors.mutedForeground }]}>
           {verb.translation}
         </Text>
+        {matchedForm ? (
+          <Text style={[styles.match, { color: colors.primary }]} numberOfLines={1}>
+            Найденная форма: {matchedForm}
+          </Text>
+        ) : fuzzy ? (
+          <Text style={[styles.match, { color: colors.primary }]}>Возможно, вы искали это</Text>
+        ) : null}
       </View>
       <View style={styles.right}>
         <View
@@ -72,32 +81,11 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     gap: 12,
   },
-  left: {
-    flex: 1,
-    gap: 2,
-  },
-  infinitive: {
-    fontSize: 16,
-    fontFamily: 'Inter_600SemiBold',
-  },
-  translation: {
-    fontSize: 13,
-    fontFamily: 'Inter_400Regular',
-  },
-  right: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  badge: {
-    borderWidth: 1,
-    borderRadius: 6,
-    paddingHorizontal: 7,
-    paddingVertical: 2,
-  },
-  badgeText: {
-    fontSize: 11,
-    fontFamily: 'Inter_600SemiBold',
-    letterSpacing: 0.3,
-  },
+  left: { flex: 1, gap: 2 },
+  infinitive: { fontSize: 16, fontFamily: 'Inter_600SemiBold' },
+  translation: { fontSize: 13, fontFamily: 'Inter_400Regular' },
+  match: { fontSize: 12, fontFamily: 'Inter_500Medium', marginTop: 2 },
+  right: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  badge: { borderWidth: 1, borderRadius: 6, paddingHorizontal: 7, paddingVertical: 2 },
+  badgeText: { fontSize: 11, fontFamily: 'Inter_600SemiBold', letterSpacing: 0.3 },
 });

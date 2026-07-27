@@ -16,14 +16,19 @@ type IrregularTense =
   | 'indicative imperfect'
   | 'indicative future'
   | 'indicative conditional'
-  | 'subjunctive present';
+  | 'subjunctive present'
+  | 'imperative affirmative';
 type IrregularTable = Partial<Record<IrregularTense | string, Partial<Record<PersonCode, string>>>>;
 type IrregularMap = Record<string, IrregularTable>;
 type VerbType = 'ar' | 'er' | 'ir';
 
+type RawForms = Record<Tense, string[]>;
+type AliasForms = Partial<Record<Tense, string[][]>>;
+
 const PERSON_CODES: PersonCode[] = ['1s', '2s', '3s', '1p', '2p', '3p'];
 const SHOE = new Set([0, 1, 2, 5]);
 const IRREGULARS = irregularData as IrregularMap;
+const UNAVAILABLE = '—';
 
 const PRESENT: Record<VerbType, string[]> = {
   ar: ['o', 'as', 'a', 'amos', 'áis', 'an'],
@@ -47,6 +52,16 @@ const SUBJUNCTIVE: Record<VerbType, string[]> = {
   er: ['a', 'as', 'a', 'amos', 'áis', 'an'],
   ir: ['a', 'as', 'a', 'amos', 'áis', 'an'],
 };
+
+const ESTAR_PRESENT = ['estoy', 'estás', 'está', 'estamos', 'estáis', 'están'];
+const IR_PRESENT = ['voy', 'vas', 'va', 'vamos', 'vais', 'van'];
+const HABER_PRESENT = ['he', 'has', 'ha', 'hemos', 'habéis', 'han'];
+const HABER_IMPERFECT = ['había', 'habías', 'había', 'habíamos', 'habíais', 'habían'];
+const HABER_FUTURE = ['habré', 'habrás', 'habrá', 'habremos', 'habréis', 'habrán'];
+const HABER_CONDITIONAL = ['habría', 'habrías', 'habría', 'habríamos', 'habríais', 'habrían'];
+const HABER_SUBJUNCTIVE = ['haya', 'hayas', 'haya', 'hayamos', 'hayáis', 'hayan'];
+const HABER_SUBJUNCTIVE_IMPERFECT_RA = ['hubiera', 'hubieras', 'hubiera', 'hubiéramos', 'hubierais', 'hubieran'];
+const HABER_SUBJUNCTIVE_IMPERFECT_SE = ['hubiese', 'hubieses', 'hubiese', 'hubiésemos', 'hubieseis', 'hubiesen'];
 
 interface ParsedInfinitive {
   base: string;
@@ -76,6 +91,15 @@ function replaceLast(value: string, search: string, replacement: string): string
 
 function stripMarks(value: string): string {
   return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+function addAcuteToLastVowel(value: string): string {
+  const plain = stripMarks(value);
+  for (let index = plain.length - 1; index >= 0; index -= 1) {
+    const replacement = ({ a: 'á', e: 'é', i: 'í', o: 'ó', u: 'ú' } as Record<string, string>)[plain[index]!];
+    if (replacement) return plain.slice(0, index) + replacement + plain.slice(index + 1);
+  }
+  return value;
 }
 
 function applicablePatterns(base: string, types: Set<string>): PatternEntry[] {
@@ -285,21 +309,145 @@ function subjunctiveForm(
   return index === 4 && types.has('drop accent 2p subjunctive') ? stripMarks(form) : form;
 }
 
-function regularBaseline(parsed: ParsedInfinitive): Record<Tense, string[]> {
+function gerundForm(parsed: ParsedInfinitive, types: Set<string>): string {
+  if (parsed.base === 'ir') return 'yendo';
+
+  let stem = parsed.stem;
+  if (parsed.type === 'ir') {
+    if (types.has('e to i preterite') || types.has('e to i') || types.has('reír') || types.has('eír')) {
+      stem = replaceLast(stem, 'e', 'i').replace(/í/g, 'i');
+      return stem + (stem.endsWith('i') ? 'endo' : 'iendo');
+    }
+    if (types.has('o to u preterite')) {
+      stem = replaceLast(stem, 'o', 'u');
+      return stem + 'iendo';
+    }
+  }
+
+  if (parsed.type !== 'ar' && /[aeiouáéíóúü]$/u.test(parsed.stem)) {
+    return parsed.stem + 'yendo';
+  }
+  return parsed.stem + (parsed.type === 'ar' ? 'ando' : 'iendo');
+}
+
+function regularGerund(parsed: ParsedInfinitive): string {
+  if (parsed.type !== 'ar' && /[aeiouáéíóúü]$/u.test(parsed.stem)) return parsed.stem + 'yendo';
+  return parsed.stem + (parsed.type === 'ar' ? 'ando' : 'iendo');
+}
+
+function pastParticiple(parsed: ParsedInfinitive): string {
+  const base = normalizedInfinitive(parsed.base);
+  const suffixes: Array<[string, string]> = [
+    ['satisfacer', 'satisfecho'],
+    ['hacer', 'hecho'],
+    ['decir', 'dicho'],
+    ['abrir', 'abierto'],
+    ['cubrir', 'cubierto'],
+    ['escribir', 'escrito'],
+    ['scribir', 'scrito'],
+    ['poner', 'puesto'],
+    ['resolver', 'resuelto'],
+    ['solver', 'suelto'],
+    ['volver', 'vuelto'],
+    ['morir', 'muerto'],
+    ['romper', 'roto'],
+    ['prever', 'previsto'],
+    ['ver', 'visto'],
+    ['imprimir', 'impreso'],
+    ['freír', 'frito'],
+    ['proveer', 'provisto'],
+  ];
+  for (const [suffix, result] of suffixes) {
+    if (base.endsWith(suffix)) return base.slice(0, -suffix.length) + result;
+  }
+  const ending = parsed.type === 'ar' ? 'ado' : /[aeiouáéíóúü]$/u.test(parsed.stem) ? 'ído' : 'ido';
+  return parsed.stem + ending;
+}
+
+function regularParticiple(parsed: ParsedInfinitive): string {
+  const ending = parsed.type === 'ar' ? 'ado' : /[aeiouáéíóúü]$/u.test(parsed.stem) ? 'ído' : 'ido';
+  return parsed.stem + ending;
+}
+
+function imperfectSubjunctiveForms(preteriteThirdPlural: string, ending: 'ra' | 'se'): string[] {
+  const root = preteriteThirdPlural.endsWith('ron')
+    ? preteriteThirdPlural.slice(0, -3)
+    : preteriteThirdPlural;
+  const endings = ending === 'ra'
+    ? ['ra', 'ras', 'ra', 'ramos', 'rais', 'ran']
+    : ['se', 'ses', 'se', 'semos', 'seis', 'sen'];
+  return endings.map((item, index) => (index === 3 ? addAcuteToLastVowel(root) : root) + item);
+}
+
+function imperativeAffirmativeForms(
+  parsed: ParsedInfinitive,
+  patterns: PatternEntry[],
+  present: string[],
+  subjunctive: string[],
+): string[] {
+  const vosotrosRegular = normalizedInfinitive(parsed.base).slice(0, -1) + 'd';
+  return [
+    UNAVAILABLE,
+    patternOverride(parsed.base, patterns, 'imperative affirmative', '2s') ?? present[2]!,
+    patternOverride(parsed.base, patterns, 'imperative affirmative', '3s') ?? subjunctive[2]!,
+    patternOverride(parsed.base, patterns, 'imperative affirmative', '1p') ?? subjunctive[3]!,
+    patternOverride(parsed.base, patterns, 'imperative affirmative', '2p') ?? vosotrosRegular,
+    patternOverride(parsed.base, patterns, 'imperative affirmative', '3p') ?? subjunctive[5]!,
+  ];
+}
+
+function imperativeNegativeForms(subjunctive: string[]): string[] {
+  return [
+    UNAVAILABLE,
+    `no ${subjunctive[1]}`,
+    `no ${subjunctive[2]}`,
+    `no ${subjunctive[3]}`,
+    `no ${subjunctive[4]}`,
+    `no ${subjunctive[5]}`,
+  ];
+}
+
+function regularBaseline(parsed: ParsedInfinitive): RawForms {
+  const presente = PRESENT[parsed.type].map(ending => parsed.stem + ending);
+  const preteriteIndef = PRETERITE[parsed.type].map(ending => parsed.stem + ending);
+  const preteriteImp = IMPERFECT[parsed.type].map(ending => parsed.stem + ending);
+  const futuro = FUTURE.map(ending => normalizedInfinitive(parsed.base) + ending);
+  const condicional = CONDITIONAL.map(ending => normalizedInfinitive(parsed.base) + ending);
+  const subjuntivo = SUBJUNCTIVE[parsed.type].map(ending => parsed.stem + ending);
+  const gerundio = regularGerund(parsed);
+  const participio = regularParticiple(parsed);
+  const subjuntivoImperfecto = imperfectSubjunctiveForms(preteriteIndef[5]!, 'ra');
+
   return {
-    presente: PRESENT[parsed.type].map(ending => parsed.stem + ending),
-    preteriteIndef: PRETERITE[parsed.type].map(ending => parsed.stem + ending),
-    preteriteImp: IMPERFECT[parsed.type].map(ending => parsed.stem + ending),
-    futuro: FUTURE.map(ending => normalizedInfinitive(parsed.base) + ending),
-    condicional: CONDITIONAL.map(ending => normalizedInfinitive(parsed.base) + ending),
-    subjuntivo: SUBJUNCTIVE[parsed.type].map(ending => parsed.stem + ending),
+    presente,
+    presenteContinuo: ESTAR_PRESENT.map(aux => `${aux} ${gerundio}`),
+    preteritePerfecto: HABER_PRESENT.map(aux => `${aux} ${participio}`),
+    futuroProximo: IR_PRESENT.map(aux => `${aux} a ${normalizedInfinitive(parsed.base)}`),
+    preteriteIndef,
+    preteriteImp,
+    pluscuamperfecto: HABER_IMPERFECT.map(aux => `${aux} ${participio}`),
+    futuro,
+    futuroPerfecto: HABER_FUTURE.map(aux => `${aux} ${participio}`),
+    condicional,
+    condicionalPerfecto: HABER_CONDITIONAL.map(aux => `${aux} ${participio}`),
+    subjuntivo,
+    subjuntivoImperfecto,
+    subjuntivoPerfecto: HABER_SUBJUNCTIVE.map(aux => `${aux} ${participio}`),
+    subjuntivoPluscuamperfecto: HABER_SUBJUNCTIVE_IMPERFECT_RA.map(aux => `${aux} ${participio}`),
+    imperativoAfirmativo: [UNAVAILABLE, presente[2]!, subjuntivo[2]!, subjuntivo[3]!, normalizedInfinitive(parsed.base).slice(0, -1) + 'd', subjuntivo[5]!],
+    imperativoNegativo: [UNAVAILABLE, `no ${subjuntivo[1]}`, `no ${subjuntivo[2]}`, `no ${subjuntivo[3]}`, `no ${subjuntivo[4]}`, `no ${subjuntivo[5]}`],
   };
 }
 
-function markForms(forms: Record<Tense, string[]>, baseline: Record<Tense, string[]>): Record<Tense, ConjugationForm[]> {
+function markForms(forms: RawForms, baseline: RawForms, aliases: AliasForms): Record<Tense, ConjugationForm[]> {
   const result = {} as Record<Tense, ConjugationForm[]>;
   (Object.keys(forms) as Tense[]).forEach(tense => {
-    result[tense] = forms[tense].map((form, index) => ({ form, irregular: form !== baseline[tense][index] }));
+    result[tense] = forms[tense].map((form, index) => ({
+      form,
+      irregular: form !== baseline[tense][index],
+      available: form !== UNAVAILABLE,
+      aliases: aliases[tense]?.[index]?.filter(alias => alias !== form),
+    }));
   });
   return result;
 }
@@ -308,19 +456,48 @@ export function conjugateMetadata(metadata: VerbMetadata): Verb {
   const parsed = parseInfinitive(metadata.infinitive);
   const types = new Set(metadata.types);
   const patterns = applicablePatterns(parsed.base, types);
-  const forms: Record<Tense, string[]> = {
-    presente: PERSON_CODES.map((_, index) => presentForm(parsed, types, patterns, index)),
-    preteriteIndef: PERSON_CODES.map((_, index) => preteriteForm(parsed, types, patterns, index)),
-    preteriteImp: PERSON_CODES.map((_, index) => imperfectForm(parsed, patterns, index)),
-    futuro: PERSON_CODES.map((_, index) => futureForm(parsed, types, patterns, index, false)),
-    condicional: PERSON_CODES.map((_, index) => futureForm(parsed, types, patterns, index, true)),
-    subjuntivo: PERSON_CODES.map((_, index) => subjunctiveForm(parsed, types, patterns, index)),
+
+  const presente = PERSON_CODES.map((_, index) => presentForm(parsed, types, patterns, index));
+  const preteriteIndef = PERSON_CODES.map((_, index) => preteriteForm(parsed, types, patterns, index));
+  const preteriteImp = PERSON_CODES.map((_, index) => imperfectForm(parsed, patterns, index));
+  const futuro = PERSON_CODES.map((_, index) => futureForm(parsed, types, patterns, index, false));
+  const condicional = PERSON_CODES.map((_, index) => futureForm(parsed, types, patterns, index, true));
+  const subjuntivo = PERSON_CODES.map((_, index) => subjunctiveForm(parsed, types, patterns, index));
+  const gerundio = gerundForm(parsed, types);
+  const participio = pastParticiple(parsed);
+  const subjuntivoImperfecto = imperfectSubjunctiveForms(preteriteIndef[5]!, 'ra');
+  const subjuntivoImperfectoSe = imperfectSubjunctiveForms(preteriteIndef[5]!, 'se');
+
+  const forms: RawForms = {
+    presente,
+    presenteContinuo: ESTAR_PRESENT.map(aux => `${aux} ${gerundio}`),
+    preteritePerfecto: HABER_PRESENT.map(aux => `${aux} ${participio}`),
+    futuroProximo: IR_PRESENT.map(aux => `${aux} a ${normalizedInfinitive(parsed.base)}`),
+    preteriteIndef,
+    preteriteImp,
+    pluscuamperfecto: HABER_IMPERFECT.map(aux => `${aux} ${participio}`),
+    futuro,
+    futuroPerfecto: HABER_FUTURE.map(aux => `${aux} ${participio}`),
+    condicional,
+    condicionalPerfecto: HABER_CONDITIONAL.map(aux => `${aux} ${participio}`),
+    subjuntivo,
+    subjuntivoImperfecto,
+    subjuntivoPerfecto: HABER_SUBJUNCTIVE.map(aux => `${aux} ${participio}`),
+    subjuntivoPluscuamperfecto: HABER_SUBJUNCTIVE_IMPERFECT_RA.map(aux => `${aux} ${participio}`),
+    imperativoAfirmativo: imperativeAffirmativeForms(parsed, patterns, presente, subjuntivo),
+    imperativoNegativo: imperativeNegativeForms(subjuntivo),
   };
+
+  const aliases: AliasForms = {
+    subjuntivoImperfecto: subjuntivoImperfectoSe.map(form => [form]),
+    subjuntivoPluscuamperfecto: HABER_SUBJUNCTIVE_IMPERFECT_SE.map(aux => [`${aux} ${participio}`]),
+  };
+
   return {
     id: metadata.id,
     infinitive: metadata.infinitive,
     translation: metadata.translation,
     group: metadata.group,
-    conjugations: markForms(forms, regularBaseline(parsed)),
+    conjugations: markForms(forms, regularBaseline(parsed), aliases),
   };
 }

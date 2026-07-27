@@ -6,7 +6,7 @@ import type {
   QuizQuestion,
   QuizSession,
 } from '../data/types';
-import { PERSONS } from '../data/types';
+import { PERSONS, TENSES } from '../data/types';
 import { generateOptions, normalizeAnswer, shuffle, VERBS } from '../data/verbs';
 import {
   appendQuizHistory,
@@ -56,6 +56,9 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
             ...DEFAULT_CONFIG,
             ...savedConfig,
             maxQuestions: savedConfig.maxQuestions ?? 20,
+            tenses: savedConfig.tenses?.filter(tense => TENSES.includes(tense))?.length
+              ? savedConfig.tenses.filter(tense => TENSES.includes(tense))
+              : DEFAULT_CONFIG.tenses,
           });
         }
         if (
@@ -118,7 +121,7 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
         for (const person of cfg.persons) {
           const personIndex = PERSONS.indexOf(person);
           const form = verb.conjugations[tense]?.[personIndex];
-          if (!form) continue;
+          if (!form || form.available === false || form.form === '—') continue;
 
           const options =
             cfg.mode === 'multiple-choice'
@@ -130,6 +133,7 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
             tense,
             person,
             correctAnswer: form.form,
+            acceptedAnswers: form.aliases,
             options,
           });
         }
@@ -171,7 +175,8 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
       const answer: QuizAnswer = {
         question,
         userAnswer,
-        correct: normalizeAnswer(userAnswer) === normalizeAnswer(question.correctAnswer),
+        correct: [question.correctAnswer, ...(question.acceptedAnswers ?? [])]
+          .some(answer => normalizeAnswer(userAnswer) === normalizeAnswer(answer)),
       };
 
       return { ...previous, answers: [...previous.answers, answer] };
