@@ -11,14 +11,62 @@ export function getVerbById(id: string): Verb | undefined {
   return VERB_BY_ID.get(id);
 }
 
+/** Приводит строку к виду без регистра и диакритики: «gruñir» → «grunir», «Está» → «esta». */
+export function normalizeSearch(value: string): string {
+  return value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/gu, '')
+    .replace(/\s+/gu, ' ')
+    .trim();
+}
+
+interface SearchEntry {
+  verb: Verb;
+  infinitive: string;
+  translation: string;
+}
+
+// Индекс строится один раз при загрузке, чтобы на каждое нажатие клавиши
+// не нормализовать 2129 инфинитивов и переводов заново.
+const SEARCH_INDEX: SearchEntry[] = VERBS.map(verb => ({
+  verb,
+  infinitive: normalizeSearch(verb.infinitive),
+  translation: normalizeSearch(verb.translation),
+}));
+
+// Чем меньше ранг, тем выше результат в списке.
+const RANK_EXACT = 0;
+const RANK_INFINITIVE_PREFIX = 1;
+const RANK_INFINITIVE_PART = 2;
+const RANK_TRANSLATION_WORD = 3;
+const RANK_TRANSLATION_PART = 4;
+
+function rankEntry(entry: SearchEntry, query: string): number | null {
+  if (entry.infinitive === query) return RANK_EXACT;
+  if (entry.infinitive.startsWith(query)) return RANK_INFINITIVE_PREFIX;
+  if (entry.infinitive.includes(query)) return RANK_INFINITIVE_PART;
+  if (entry.translation.startsWith(query) || entry.translation.includes(` ${query}`)) {
+    return RANK_TRANSLATION_WORD;
+  }
+  if (entry.translation.includes(query)) return RANK_TRANSLATION_PART;
+  return null;
+}
+
 export function searchVerbs(query: string): Verb[] {
-  const q = query.toLocaleLowerCase('es').trim();
-  if (!q) return VERBS;
-  return VERBS.filter(
-    verb =>
-      verb.infinitive.toLocaleLowerCase('es').includes(q) ||
-      verb.translation.toLocaleLowerCase().includes(q),
+  const normalized = normalizeSearch(query);
+  if (!normalized) return VERBS;
+
+  const matches: Array<{ verb: Verb; rank: number; infinitive: string }> = [];
+  for (const entry of SEARCH_INDEX) {
+    const rank = rankEntry(entry, normalized);
+    if (rank !== null) matches.push({ verb: entry.verb, rank, infinitive: entry.infinitive });
+  }
+
+  matches.sort((left, right) =>
+    left.rank !== right.rank ? left.rank - right.rank : left.infinitive.localeCompare(right.infinitive, 'es'),
   );
+  return matches.map(match => match.verb);
 }
 
 export function shuffle<T>(arr: T[]): T[] {
@@ -66,5 +114,5 @@ export function normalizeAnswer(value: string): string {
     .trim()
     .replace(/\s+/gu, ' ')
     .normalize('NFD')
-    .replace(/[̀-ͯ]/gu, '');
+    .replace(/[\u0300-\u036f]/gu, '');
 }

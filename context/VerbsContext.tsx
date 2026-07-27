@@ -1,4 +1,11 @@
-import React, { createContext, useCallback, useContext, useState } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useDeferredValue,
+  useMemo,
+  useState,
+} from 'react';
 import { Platform } from 'react-native';
 import type { Verb } from '../data/types';
 import { searchVerbs, VERBS } from '../data/verbs';
@@ -15,8 +22,9 @@ const VerbsContext = createContext<VerbsContextValue | null>(null);
 
 export function VerbsProvider({ children }: { children: React.ReactNode }) {
   const [searchQuery, setSearchQuery] = useState('');
-
-  const filteredVerbs = searchVerbs(searchQuery);
+  // Поле ввода обновляется сразу, пересчёт списка идёт с низким приоритетом.
+  const deferredQuery = useDeferredValue(searchQuery);
+  const filteredVerbs = useMemo(() => searchVerbs(deferredQuery), [deferredQuery]);
 
   const speak = useCallback((text: string) => {
     if (Platform.OS === 'web') return;
@@ -26,19 +34,12 @@ export function VerbsProvider({ children }: { children: React.ReactNode }) {
     }).catch(() => {});
   }, []);
 
-  return (
-    <VerbsContext.Provider
-      value={{
-        verbs: VERBS,
-        filteredVerbs,
-        searchQuery,
-        setSearchQuery,
-        speak,
-      }}
-    >
-      {children}
-    </VerbsContext.Provider>
+  const value = useMemo<VerbsContextValue>(
+    () => ({ verbs: VERBS, filteredVerbs, searchQuery, setSearchQuery, speak }),
+    [filteredVerbs, searchQuery, speak],
   );
+
+  return <VerbsContext.Provider value={value}>{children}</VerbsContext.Provider>;
 }
 
 export function useVerbs(): VerbsContextValue {
