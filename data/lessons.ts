@@ -7,7 +7,8 @@ export type LessonBlock =
   | 'futuro'
   | 'compuestos'
   | 'subjuntivo'
-  | 'imperativo';
+  | 'imperativo'
+  | 'literario';
 
 export const LESSON_BLOCKS: LessonBlock[] = [
   'presente',
@@ -16,6 +17,7 @@ export const LESSON_BLOCKS: LessonBlock[] = [
   'compuestos',
   'subjuntivo',
   'imperativo',
+  'literario',
 ];
 
 export const LESSON_BLOCK_LABELS: Record<LessonBlock, string> = {
@@ -25,6 +27,7 @@ export const LESSON_BLOCK_LABELS: Record<LessonBlock, string> = {
   compuestos: 'Составные времена',
   subjuntivo: 'Сослагательное наклонение',
   imperativo: 'Повелительное наклонение',
+  literario: 'Книжные времена',
 };
 
 export interface LessonSection {
@@ -579,10 +582,18 @@ export const LESSONS: Lesson[] = [
         table: { verbId: 'hablar', tense: 'pluscuamperfecto', caption: 'había hablado' },
       },
       {
-        heading: 'Futuro perfecto и condicional perfecto',
+        heading: 'Futuro perfecto',
         body:
-          'Habré hablado — «к тому времени уже поговорю» или предположение о прошлом ' +
-          '(«наверное, поговорил»). Habría hablado — «поговорил бы».',
+          'Habré hablado — «к тому времени уже поговорю». Второе, более частое значение — ' +
+          'предположение о прошлом: Ya habrá llegado — «наверное, он уже приехал».',
+        table: { verbId: 'hablar', tense: 'futuroPerfecto', caption: 'habré hablado' },
+      },
+      {
+        heading: 'Condicional perfecto',
+        body:
+          'Habría hablado — «поговорил бы». Чаще всего встречается во второй части условных ' +
+          'предложений о несбывшемся прошлом, к которым мы придём в блоке о сослагательном.',
+        table: { verbId: 'hablar', tense: 'condicionalPerfecto', caption: 'habría hablado' },
       },
       {
         heading: 'Pretérito anterior',
@@ -729,6 +740,51 @@ export const LESSONS: Lesson[] = [
     },
   },
   {
+    id: 'subjuntivo-compuestos',
+    block: 'subjuntivo',
+    title: 'Составные сослагательного',
+    summary: 'haya hablado, hubiera hablado',
+    sections: [
+      {
+        body:
+          'Схема та же, что и в индикативе: haber плюс причастие. Разница только в том, ' +
+          'что сам haber ставится в сослагательное наклонение.',
+      },
+      {
+        heading: 'Pretérito perfecto de subjuntivo',
+        body:
+          'Presente de subjuntivo глагола haber (haya, hayas, haya, hayamos, hayáis, hayan) ' +
+          'плюс причастие. Нужен там же, где обычный perfecto, но в придаточном после выражений ' +
+          'эмоции или сомнения: Me alegro de que hayas venido — «рад, что ты пришёл».',
+        table: { verbId: 'hablar', tense: 'subjPerfecto', caption: 'haya hablado' },
+      },
+      {
+        heading: 'Pluscuamperfecto de subjuntivo',
+        body:
+          'Imperfecto de subjuntivo глагола haber плюс причастие. Как и у простого имперфекта, ' +
+          'здесь две равноправные формы — на -ra и на -se.',
+        table: { verbId: 'hablar', tense: 'subjPluscuamRa', caption: 'hubiera hablado' },
+      },
+      {
+        table: { verbId: 'hablar', tense: 'subjPluscuamSe', caption: 'hubiese hablado — вариант на -se' },
+        body:
+          'Это самая частая из составных форм сослагательного: именно она стоит в условных ' +
+          'предложениях о несбывшемся прошлом, к которым мы перейдём в следующем уроке.',
+      },
+      {
+        heading: 'Проверьте себя на неправильных',
+        body:
+          'Неправильность живёт только в причастии — haber уже неправильный сам по себе и всегда ' +
+          'одинаков. Hubiera hecho, hubiera dicho, hubiera visto: меняется вторая часть, не первая.',
+        table: { verbId: 'hacer', tense: 'subjPluscuamRa', caption: 'hubiera hecho' },
+      },
+    ],
+    practice: {
+      tenses: ['subjPerfecto', 'subjPluscuamRa', 'subjPluscuamSe'],
+      verbIds: [...REGULAR_SAMPLE, 'hacer', 'decir', 'ver', 'escribir', 'volver'],
+    },
+  },
+  {
     id: 'condicionales',
     block: 'subjuntivo',
     title: 'Условные предложения',
@@ -843,6 +899,63 @@ export const LESSONS: Lesson[] = [
     practice: {
       tenses: ['imperativoNegativo', 'imperativoAfirmativo'],
       verbIds: [...REGULAR_SAMPLE, 'tener', 'hacer', 'decir', 'ir', 'poner', 'salir', 'venir'],
+    },
+  },
+
+  // ── Книжные времена ──────────────────────────────────────────────────────
+  {
+    id: 'tiempos-literarios',
+    block: 'literario',
+    title: 'Три редких времени',
+    summary: 'hube hablado, hablare, hubiere hablado',
+    sections: [
+      {
+        body:
+          'В приложении есть все двадцать времён, и три из них вы почти не встретите в разговоре. ' +
+          'Их стоит уметь узнавать при чтении, но не нужно заставлять себя употреблять.',
+      },
+      {
+        heading: 'Pretérito anterior',
+        body:
+          'Indefinido глагола haber плюс причастие. Означает действие, случившееся ' +
+          'непосредственно перед другим прошедшим, и появляется только после apenas, en cuanto, ' +
+          'cuando, después de que в книжном повествовании: Apenas hubo terminado, se marchó. ' +
+          'В живой речи вместо него говорят обычное индефинидо: apenas terminó, se marchó.',
+        table: { verbId: 'hablar', tense: 'anterior', caption: 'hube hablado' },
+      },
+      {
+        heading: 'Futuro de subjuntivo',
+        body:
+          'Образуется от той же основы, что и imperfecto de subjuntivo — третье лицо ' +
+          'множественного числа индефинидо без -ron, — но с окончаниями -re, -res, -re, -remos, ' +
+          '-reis, -ren. Hablaron даёт hablare.',
+        table: { verbId: 'hablar', tense: 'subjFuturo', caption: 'hablare' },
+      },
+      {
+        body:
+          'Живёт оно в двух местах: в юридическом языке («el que infringiere esta norma…») ' +
+          'и в застывших поговорках. Их полезно знать целиком: sea lo que fuere — «будь что будет», ' +
+          'adonde fueres, haz lo que vieres — «в чужой монастырь со своим уставом не ходят». ' +
+          'В обычной речи вместо него давно используется presente de subjuntivo.',
+      },
+      {
+        heading: 'Futuro perfecto de subjuntivo',
+        body:
+          'Самое редкое время языка: hubiere плюс причастие. Встречается почти исключительно ' +
+          'в текстах законов и договоров. Достаточно узнавать его в лицо.',
+        table: { verbId: 'hablar', tense: 'subjFuturoPerfecto', caption: 'hubiere hablado' },
+      },
+      {
+        heading: 'Что с этим делать',
+        body:
+          'Прогоните тренировку пару раз, чтобы формы перестали выглядеть незнакомыми, ' +
+          'и возвращайтесь к ним, когда встретите в тексте. Тратить на них силы наравне ' +
+          'с индефинидо или сослагательным настоящим смысла нет.',
+      },
+    ],
+    practice: {
+      tenses: ['anterior', 'subjFuturo', 'subjFuturoPerfecto'],
+      verbIds: [...REGULAR_SAMPLE, 'ser', 'ir', 'ver', 'hacer', 'tener'],
     },
   },
 ];

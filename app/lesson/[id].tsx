@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -8,14 +8,24 @@ import { useColors } from '@/hooks/useColors';
 import ConjugationTable from '../../components/ConjugationTable';
 import { useQuiz } from '../../context/QuizContext';
 import { getLessonById, lessonPracticeVerbIds, LESSON_BLOCK_LABELS } from '../../data/lessons';
+import type { QuizMode } from '../../data/types';
 import { PERSONS, TENSE_FULL_LABELS } from '../../data/types';
 import { getVerbById } from '../../data/verbs';
+
+// Тренировка по теме начинается с ручного ввода — списывать из вариантов
+// сразу после разбора правила смысла мало.
+const PRACTICE_MODES: { id: QuizMode; label: string }[] = [
+  { id: 'input', label: 'Ввод' },
+  { id: 'multiple-choice', label: 'Варианты' },
+  { id: 'flashcard', label: 'Карточки' },
+];
 
 export default function LessonDetail() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
   const { config, buildAndStartSession } = useQuiz();
+  const [practiceMode, setPracticeMode] = useState<QuizMode>('input');
 
   const lesson = id ? getLessonById(id) : undefined;
 
@@ -35,10 +45,12 @@ export default function LessonDetail() {
   const startPractice = () => {
     if (practiceVerbIds.length === 0) return;
     void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    // Режим и длину берём из настроек пользователя, но сами настройки не трогаем:
-    // тренировка по уроку разовая и не должна затирать конфигурацию своего теста.
+    // Длину берём из настроек пользователя, режим — из выбора на этом экране.
+    // Сами настройки не трогаем: тренировка по уроку разовая и не должна
+    // затирать конфигурацию своего теста.
     buildAndStartSession({
       ...config,
+      mode: practiceMode,
       tenses: lesson.practice.tenses,
       persons: PERSONS,
       verbIds: practiceVerbIds,
@@ -91,6 +103,35 @@ export default function LessonDetail() {
             {section.table ? <LessonTable table={section.table} /> : null}
           </View>
         ))}
+
+        <View style={styles.modeRow}>
+          {PRACTICE_MODES.map(mode => {
+            const active = practiceMode === mode.id;
+            return (
+              <Pressable
+                key={mode.id}
+                onPress={() => setPracticeMode(mode.id)}
+                style={({ pressed }) => [
+                  styles.modeChip,
+                  {
+                    backgroundColor: active ? colors.secondary : colors.background,
+                    borderColor: active ? colors.primary : colors.border,
+                  },
+                  pressed && { opacity: 0.7 },
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.modeChipText,
+                    { color: active ? colors.primary : colors.mutedForeground },
+                  ]}
+                >
+                  {mode.label}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
 
         <Pressable
           onPress={startPractice}
@@ -157,6 +198,15 @@ const styles = StyleSheet.create({
   bulletText: { flex: 1, fontSize: 15, lineHeight: 22, fontFamily: 'Inter_400Regular' },
   tableWrap: { gap: 6, marginTop: 4 },
   tableCaption: { fontSize: 12, fontFamily: 'Inter_500Medium' },
+  modeRow: { flexDirection: 'row', gap: 8, marginTop: 4, marginBottom: 10 },
+  modeChip: {
+    flex: 1,
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingVertical: 8,
+    alignItems: 'center',
+  },
+  modeChipText: { fontSize: 13, fontFamily: 'Inter_500Medium' },
   practiceBtn: {
     flexDirection: 'row',
     alignItems: 'center',

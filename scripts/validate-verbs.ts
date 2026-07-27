@@ -363,6 +363,19 @@ for (const lesson of LESSONS) {
   assert(practiceVerbs.length > 0, `${lesson.id}: practice selection is empty`);
 }
 
+// Курс обязан покрывать всё, что умеет приложение: у каждого времени должен быть
+// и урок с тренировкой, и хотя бы одна таблица в тексте.
+const practicedTenses = new Set(LESSONS.flatMap(lesson => lesson.practice.tenses));
+const tabledTenses = new Set(
+  LESSONS.flatMap(lesson =>
+    lesson.sections.flatMap(section => (section.table ? [section.table.tense] : [])),
+  ),
+);
+for (const tense of TENSES) {
+  assert(practicedTenses.has(tense), `Tense ${tense} has no lesson practice`);
+  assert(tabledTenses.has(tense), `Tense ${tense} is never shown in a lesson table`);
+}
+
 const checkCount = Object.values(expected).reduce((total, checks) => total + checks.length, 0);
 console.log(
   `Validated ${VERBS.length} verbs, ${formCount} forms across ${TENSES.length} tenses, ` +
