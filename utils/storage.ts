@@ -1,8 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import type { QuizConfig, QuizHistoryItem, QuizSession } from '../data/types';
+import type { QuizConfig, QuizHistoryItem, QuizSession, TenseStats } from '../data/types';
 
 const LESSON_PROGRESS_KEY = '@svt/lesson_progress';
 const TENSE_STATS_KEY = '@svt/tense_stats';
+const SPEECH_KEY = '@svt/speech_enabled';
 const QUIZ_CONFIG_KEY = '@svt/quiz_config';
 const ACTIVE_SESSION_KEY = '@svt/active_session';
 const QUIZ_HISTORY_KEY = '@svt/quiz_history';
@@ -68,15 +69,13 @@ export function loadLessonProgress(): Promise<LessonProgress | null> {
   return loadJson<LessonProgress>(LESSON_PROGRESS_KEY);
 }
 
-/** Накопленная статистика по одному времени. */
-export interface TenseStat {
-  asked: number;
-  correct: number;
-  /** ISO-дата последней тренировки этого времени. */
-  lastAt: string;
+export function saveSpeechEnabled(enabled: boolean): Promise<void> {
+  return saveJson(SPEECH_KEY, enabled);
 }
 
-export type TenseStats = Record<string, TenseStat>;
+export function loadSpeechEnabled(): Promise<boolean | null> {
+  return loadJson<boolean>(SPEECH_KEY);
+}
 
 export function saveTenseStats(stats: TenseStats): Promise<void> {
   return saveJson(TENSE_STATS_KEY, stats);

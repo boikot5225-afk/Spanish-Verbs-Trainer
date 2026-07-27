@@ -9,6 +9,13 @@ import { useLessons } from '../../context/LessonsContext';
 import { useQuiz } from '../../context/QuizContext';
 import type { Tense } from '../../data/types';
 import {
+  COVERAGE_TARGET,
+  MASTERY_THRESHOLD,
+  MIN_ANSWERS,
+  fluencyOf,
+  isMastered as isTenseMastered,
+} from '../../data/fluency';
+import {
   LEVELS,
   PERSONS,
   TENSES,
@@ -17,10 +24,6 @@ import {
   tensesByLevel,
 } from '../../data/types';
 import { VERBS } from '../../data/verbs';
-
-/** Считаем время освоенным при такой доле верных ответов и не меньше стольких попыток. */
-const MASTERY_PERCENT = 70;
-const MASTERY_ATTEMPTS = 6;
 
 const FREQUENT = [
   'ser', 'estar', 'tener', 'hacer', 'ir', 'poder', 'decir', 'ver', 'dar', 'saber',
@@ -45,22 +48,13 @@ export default function ProgressTab() {
   const topPadding = Platform.OS === 'web' ? 67 : insets.top;
   const bottomPadding = Platform.OS === 'web' ? 84 : insets.bottom + 64;
 
-  const percentOf = (tense: Tense): number | null => {
-    const stat = tenseStats[tense];
-    if (!stat || stat.asked === 0) return null;
-    return Math.round((stat.correct / stat.asked) * 100);
-  };
+  const fluencyFor = (tense: Tense) => fluencyOf(tenseStats[tense]);
+  const isMastered = (tense: Tense) => isTenseMastered(tenseStats[tense]);
 
-  const isMastered = (tense: Tense): boolean => {
-    const stat = tenseStats[tense];
-    if (!stat || stat.asked < MASTERY_ATTEMPTS) return false;
-    return (stat.correct / stat.asked) * 100 >= MASTERY_PERCENT;
-  };
-
-  const started = TENSES.filter(tense => percentOf(tense) !== null);
-  const untouched = TENSES.filter(tense => percentOf(tense) === null);
+  const started = TENSES.filter(tense => fluencyFor(tense) !== null);
+  const untouched = TENSES.filter(tense => fluencyFor(tense) === null);
   // Сначала то, что уже трогали, — по убыванию владения.
-  started.sort((left, right) => (percentOf(right) ?? 0) - (percentOf(left) ?? 0));
+  started.sort((left, right) => (fluencyFor(right)?.score ?? 0) - (fluencyFor(left)?.score ?? 0));
 
   const masteredCount = TENSES.filter(isMastered).length;
 
@@ -79,11 +73,11 @@ export default function ProgressTab() {
   };
 
   const barColor = (percent: number) =>
-    percent >= MASTERY_PERCENT ? colors.success : percent >= 40 ? colors.primary : colors.destructive;
+    percent >= MASTERY_THRESHOLD ? colors.success : percent >= 40 ? colors.primary : colors.destructive;
 
   const renderTense = (tense: Tense) => {
-    const percent = percentOf(tense);
-    const stat = tenseStats[tense];
+    const fluency = fluencyFor(tense);
+    const percent = fluency?.score ?? null;
 
     return (
       <Pressable
@@ -101,11 +95,21 @@ export default function ProgressTab() {
               {TENSE_FULL_LABELS[tense]}
             </Text>
             <Text style={[styles.tenseMeta, { color: colors.mutedForeground }]}>
-              {stat
-                ? `${TENSE_LEVELS[tense]} · ${percent}% · ${daysAgo(stat.lastAt)}`
+              {fluency
+                ? `${TENSE_LEVELS[tense]} · точность ${fluency.accuracy}% · ` +
+                  `${fluency.distinctVerbs} из ${COVERAGE_TARGET} глаголов · ` +
+                  daysAgo(tenseStats[tense]!.lastAt)
                 : `${TENSE_LEVELS[tense]} · ещё не тренировали`}
             </Text>
+            {fluency?.isTentative && (
+              <Text style={[styles.tenseNote, { color: colors.mutedForeground }]}>
+                Мало ответов — нужно хотя бы {MIN_ANSWERS}
+              </Text>
+            )}
           </View>
+          {fluency?.isStale && (
+            <Ionicons name="trending-down" size={16} color={colors.destructive} />
+          )}
           <Ionicons name="chevron-forward" size={18} color={colors.mutedForeground} />
         </View>
 
@@ -169,8 +173,9 @@ export default function ProgressTab() {
             })}
           </View>
           <Text style={[styles.levelHint, { color: colors.mutedForeground }]}>
-            Время считается освоенным при {MASTERY_PERCENT}% верных ответов
-            и минимум {MASTERY_ATTEMPTS} попытках.
+            Владение = точность на последних ответах × охват разных глаголов
+            (нужно {COVERAGE_TARGET}) × свежесть тренировки. Освоено — от{' '}
+            {MASTERY_THRESHOLD}% при {MIN_ANSWERS}+ ответах.
           </Text>
         </View>
 
@@ -218,6 +223,7 @@ const styles = StyleSheet.create({
   tenseTitleWrap: { flex: 1, gap: 2 },
   tenseTitle: { fontSize: 14, fontFamily: 'Inter_500Medium' },
   tenseMeta: { fontSize: 12, fontFamily: 'Inter_400Regular' },
+  tenseNote: { fontSize: 11, fontFamily: 'Inter_400Regular', fontStyle: 'italic' },
   track: { height: 7, borderRadius: 4, overflow: 'hidden' },
   fill: { height: 7, borderRadius: 4 },
 });

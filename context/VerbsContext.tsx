@@ -3,12 +3,14 @@ import React, {
   useCallback,
   useContext,
   useDeferredValue,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
 import { Platform } from 'react-native';
 import type { Verb } from '../data/types';
 import { searchVerbs, VERBS } from '../data/verbs';
+import { loadSpeechEnabled, saveSpeechEnabled } from '../utils/storage';
 
 interface VerbsContextValue {
   verbs: Verb[];
@@ -16,12 +18,29 @@ interface VerbsContextValue {
   searchQuery: string;
   setSearchQuery: (q: string) => void;
   speak: (text: string) => void;
+  /** Озвучивать формы в уроках и при проверке ответа. */
+  speechEnabled: boolean;
+  toggleSpeech: () => void;
 }
 
 const VerbsContext = createContext<VerbsContextValue | null>(null);
 
 export function VerbsProvider({ children }: { children: React.ReactNode }) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [speechEnabled, setSpeechEnabled] = useState(true);
+
+  useEffect(() => {
+    loadSpeechEnabled().then(saved => {
+      if (saved !== null) setSpeechEnabled(saved);
+    });
+  }, []);
+
+  const toggleSpeech = useCallback(() => {
+    setSpeechEnabled(previous => {
+      void saveSpeechEnabled(!previous);
+      return !previous;
+    });
+  }, []);
   // Поле ввода обновляется сразу, пересчёт списка идёт с низким приоритетом.
   const deferredQuery = useDeferredValue(searchQuery);
   const filteredVerbs = useMemo(() => searchVerbs(deferredQuery), [deferredQuery]);
@@ -35,8 +54,16 @@ export function VerbsProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const value = useMemo<VerbsContextValue>(
-    () => ({ verbs: VERBS, filteredVerbs, searchQuery, setSearchQuery, speak }),
-    [filteredVerbs, searchQuery, speak],
+    () => ({
+      verbs: VERBS,
+      filteredVerbs,
+      searchQuery,
+      setSearchQuery,
+      speak,
+      speechEnabled,
+      toggleSpeech,
+    }),
+    [filteredVerbs, searchQuery, speak, speechEnabled, toggleSpeech],
   );
 
   return <VerbsContext.Provider value={value}>{children}</VerbsContext.Provider>;

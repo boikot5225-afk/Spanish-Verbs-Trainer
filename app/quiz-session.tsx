@@ -15,6 +15,7 @@ import * as Haptics from 'expo-haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useColors } from '@/hooks/useColors';
 import { useQuiz } from '../context/QuizContext';
+import { useVerbs } from '../context/VerbsContext';
 import { personLabels, TENSE_FULL_LABELS } from '../data/types';
 import { getVerbById, normalizeAnswer } from '../data/verbs';
 import { KeyboardAwareScrollViewCompat } from '@/components/KeyboardAwareScrollViewCompat';
@@ -23,6 +24,7 @@ export default function QuizSession() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const { session, submitAnswer, advanceQuestion } = useQuiz();
+  const { speak, speechEnabled, toggleSpeech } = useVerbs();
 
   const [inputValue, setInputValue] = useState('');
   const [isChecked, setIsChecked] = useState(false);
@@ -79,6 +81,9 @@ export default function QuizSession() {
     setIsChecked(true);
     setIsCorrect(correct);
     submitAnswer(answer);
+    // Правильную форму проговариваем всегда: услышать её важнее всего именно
+    // в момент, когда ответ уже дан.
+    if (speechEnabled) speak(question.correctAnswer);
     if (correct) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     } else {
@@ -112,6 +117,7 @@ export default function QuizSession() {
   const handleFlip = () => {
     if (isFlipped) return;
     setIsFlipped(true);
+    if (speechEnabled) speak(question.correctAnswer);
     Animated.timing(flipAnim, {
       toValue: 1,
       duration: 300,
@@ -443,6 +449,13 @@ export default function QuizSession() {
             {currentIndex + 1} / {questions.length}
           </Text>
         </View>
+        <Pressable onPress={toggleSpeech} hitSlop={8}>
+          <Ionicons
+            name={speechEnabled ? 'volume-medium' : 'volume-mute-outline'}
+            size={22}
+            color={speechEnabled ? colors.primary : colors.mutedForeground}
+          />
+        </Pressable>
       </View>
 
       {mode === 'input' && renderInput()}

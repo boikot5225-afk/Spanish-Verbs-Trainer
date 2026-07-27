@@ -8,6 +8,7 @@ import { useColors } from '@/hooks/useColors';
 import ConjugationTable from '../../components/ConjugationTable';
 import { useQuiz } from '../../context/QuizContext';
 import { useLessons } from '../../context/LessonsContext';
+import { useVerbs } from '../../context/VerbsContext';
 import {
   drillSize,
   EXAM_MAX_MISTAKES,
@@ -326,14 +327,30 @@ function LessonTable({
   table: { verbId: string; tense: import('../../data/types').Tense; caption?: string };
 }) {
   const colors = useColors();
+  const { speak } = useVerbs();
   const verb = getVerbById(table.verbId);
   if (!verb) return null;
 
+  const pronounce = () => {
+    void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    speak(
+      verb.conjugations[table.tense]
+        .filter(form => !form.absent)
+        .map(form => form.form)
+        .join(', '),
+    );
+  };
+
   return (
     <View style={styles.tableWrap}>
-      <Text style={[styles.tableCaption, { color: colors.mutedForeground }]}>
-        {table.caption ?? verb.infinitive} · {TENSE_FULL_LABELS[table.tense]}
-      </Text>
+      <View style={styles.tableCaptionRow}>
+        <Text style={[styles.tableCaption, { color: colors.mutedForeground }]}>
+          {table.caption ?? verb.infinitive} · {TENSE_FULL_LABELS[table.tense]}
+        </Text>
+        <Pressable onPress={pronounce} hitSlop={10} style={styles.tableSpeaker}>
+          <Ionicons name="volume-medium" size={18} color={colors.primary} />
+        </Pressable>
+      </View>
       <ConjugationTable verb={verb} tense={table.tense} />
     </View>
   );
@@ -362,7 +379,9 @@ const styles = StyleSheet.create({
   bulletDot: { fontSize: 15, lineHeight: 22, fontFamily: 'Inter_700Bold' },
   bulletText: { flex: 1, fontSize: 15, lineHeight: 22, fontFamily: 'Inter_400Regular' },
   tableWrap: { gap: 6, marginTop: 4 },
-  tableCaption: { fontSize: 12, fontFamily: 'Inter_500Medium' },
+  tableCaptionRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  tableCaption: { flex: 1, fontSize: 12, fontFamily: 'Inter_500Medium' },
+  tableSpeaker: { padding: 2 },
   modeRow: { flexDirection: 'row', gap: 8, marginTop: 4, marginBottom: 10 },
   modeChip: {
     flex: 1,

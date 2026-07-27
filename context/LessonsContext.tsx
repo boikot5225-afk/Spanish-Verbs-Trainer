@@ -1,12 +1,13 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { LESSONS, lessonIndex, medalFor, type Medal } from '../data/lessons';
+import { recordAnswer } from '../data/fluency';
+import type { TenseStats } from '../data/types';
 import {
   loadLessonProgress,
   loadTenseStats,
   saveLessonProgress,
   saveTenseStats,
   type LessonProgress,
-  type TenseStats,
 } from '../utils/storage';
 import { useQuiz } from './QuizContext';
 
@@ -128,13 +129,8 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
       const next: TenseStats = { ...previous };
       const now = new Date().toISOString();
       for (const answer of session.answers) {
-        const tense = answer.question.tense;
-        const stat = next[tense] ?? { asked: 0, correct: 0, lastAt: now };
-        next[tense] = {
-          asked: stat.asked + 1,
-          correct: stat.correct + (answer.correct ? 1 : 0),
-          lastAt: now,
-        };
+        const { tense, verbId } = answer.question;
+        next[tense] = recordAnswer(next[tense], verbId, answer.correct, now);
       }
       void saveTenseStats(next);
       return next;

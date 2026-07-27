@@ -250,6 +250,20 @@ export function tensesByLevel(level: Level): Tense[] {
   return TENSES.filter(tense => TENSE_LEVELS[tense] === level);
 }
 
+/** Накопленная статистика по одному времени. */
+export interface TenseStat {
+  asked: number;
+  correct: number;
+  /** ISO-дата последней тренировки этого времени. */
+  lastAt: string;
+  /** Последние ответы (1 — верно, 0 — нет). Ограничены RECENT_WINDOW. */
+  recent: number[];
+  /** Разные глаголы, встреченные в этом времени. Ограничены COVERAGE_MEMORY. */
+  verbs: string[];
+}
+
+export type TenseStats = Partial<Record<Tense, TenseStat>>;
+
 export interface ConjugationForm {
   form: string;
   irregular: boolean;
