@@ -311,6 +311,7 @@ function subjunctiveForm(
 
 function gerundForm(parsed: ParsedInfinitive, types: Set<string>): string {
   if (parsed.base === 'ir') return 'yendo';
+  if (parsed.base.endsWith('decir')) return parsed.base.slice(0, -5) + 'diciendo';
 
   let stem = parsed.stem;
   if (parsed.type === 'ir') {
