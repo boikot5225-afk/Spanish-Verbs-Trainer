@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { QuizConfig, QuizHistoryItem, QuizSession } from '../data/types';
 
+const LESSON_PROGRESS_KEY = '@svt/lesson_progress';
 const QUIZ_CONFIG_KEY = '@svt/quiz_config';
 const ACTIVE_SESSION_KEY = '@svt/active_session';
 const QUIZ_HISTORY_KEY = '@svt/quiz_history';
@@ -48,6 +49,20 @@ export async function clearActiveSession(): Promise<void> {
 
 export function loadQuizHistory(): Promise<QuizHistoryItem[] | null> {
   return loadJson<QuizHistoryItem[]>(QUIZ_HISTORY_KEY);
+}
+
+/** Сданные темы и темы, открытые вручную без зачёта. */
+export interface LessonProgress {
+  passed: string[];
+  unlocked: string[];
+}
+
+export function saveLessonProgress(progress: LessonProgress): Promise<void> {
+  return saveJson(LESSON_PROGRESS_KEY, progress);
+}
+
+export function loadLessonProgress(): Promise<LessonProgress | null> {
+  return loadJson<LessonProgress>(LESSON_PROGRESS_KEY);
 }
 
 export async function appendQuizHistory(item: QuizHistoryItem): Promise<void> {

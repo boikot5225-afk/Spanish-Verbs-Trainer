@@ -240,12 +240,20 @@ export interface Verb {
 
 export type QuizMode = 'input' | 'multiple-choice' | 'flashcard';
 
+/** Отметка, что сессия — зачёт по теме, а не свободная тренировка. */
+export interface QuizExam {
+  lessonId: string;
+  maxMistakes: number;
+}
+
 export interface QuizConfig {
   tenses: Tense[];
   persons: Person[];
   verbIds: string[] | 'all';
   mode: QuizMode;
-  maxQuestions: 10 | 20 | 30 | 50;
+  /** Обычно 10/20/30/50, но зачёт может быть короче, если у темы мало форм. */
+  maxQuestions: number;
+  exam?: QuizExam;
 }
 
 export interface QuizQuestion {
@@ -268,6 +276,7 @@ export interface QuizSession {
   answers: QuizAnswer[];
   mode: QuizMode;
   startedAt: string;
+  exam?: QuizExam;
 }
 
 export interface QuizHistoryItem {

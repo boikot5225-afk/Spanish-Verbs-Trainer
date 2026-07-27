@@ -14,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useColors } from '@/hooks/useColors';
 import { useQuiz } from '../context/QuizContext';
 import { personLabels, tenseQualifiedLabel } from '../data/types';
+import { getLessonById, nextLesson } from '../data/lessons';
 import { getVerbById } from '../data/verbs';
 
 export default function QuizResults() {
@@ -59,7 +60,7 @@ export default function QuizResults() {
 
   const handleHome = () => {
     clearSession();
-    router.replace('/(tabs)/verbs');
+    router.replace('/(tabs)/lessons');
   };
 
   // Score ring
@@ -75,6 +76,42 @@ export default function QuizResults() {
     </View>
   );
 
+  // Итог зачёта: тема открывает следующую только при укладывании в лимит ошибок.
+  const ExamVerdict = () => {
+    const exam = session.exam;
+    if (!exam) return null;
+    const lesson = getLessonById(exam.lessonId);
+    const mistakes = wrong.length;
+    const isPassed = mistakes <= exam.maxMistakes;
+    const following = nextLesson(exam.lessonId);
+
+    return (
+      <View
+        style={[
+          styles.examBanner,
+          {
+            backgroundColor: colors.card,
+            borderColor: isPassed ? colors.success : colors.destructive,
+          },
+        ]}
+      >
+        <Text style={[styles.examBannerTitle, { color: isPassed ? colors.success : colors.destructive }]}>
+          {isPassed ? 'Зачёт сдан' : 'Зачёт не сдан'}
+        </Text>
+        <Text style={[styles.examBannerBody, { color: colors.mutedForeground }]}>
+          {lesson ? `«${lesson.title}» · ` : ''}
+          {mistakes} {mistakes === 1 ? 'ошибка' : mistakes >= 2 && mistakes <= 4 ? 'ошибки' : 'ошибок'}
+          {' '}из {exam.maxMistakes} допустимых.
+          {isPassed
+            ? following
+              ? ` Открыта следующая тема: «${following.title}».`
+              : ' Это была последняя тема курса.'
+            : ' Разберите ошибки ниже и попробуйте ещё раз.'}
+        </Text>
+      </View>
+    );
+  };
+
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
       <View
@@ -88,6 +125,8 @@ export default function QuizResults() {
 
       <ScrollView contentContainerStyle={[styles.content, { paddingBottom: bottomPad + 20 }]}>
         <ScoreRing />
+
+        {session.exam ? <ExamVerdict /> : null}
 
         {/* Action buttons */}
         <View style={styles.actions}>
@@ -210,6 +249,9 @@ const styles = StyleSheet.create({
     padding: 20,
     gap: 20,
   },
+  examBanner: { borderWidth: 1, borderRadius: 12, padding: 14, gap: 6, marginBottom: 4 },
+  examBannerTitle: { fontSize: 16, fontFamily: 'Inter_600SemiBold' },
+  examBannerBody: { fontSize: 13, lineHeight: 19, fontFamily: 'Inter_400Regular' },
   scoreContainer: {
     alignItems: 'center',
     gap: 12,

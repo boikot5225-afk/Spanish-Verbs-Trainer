@@ -1,8 +1,14 @@
 import type { Tense } from './types';
+import { PERSONS } from './types';
 import { VERBS } from './verbs';
+
+/** Зачёт по теме: столько вопросов и не больше стольких ошибок, чтобы открыть следующую. */
+export const EXAM_QUESTIONS = 30;
+export const EXAM_MAX_MISTAKES = 2;
 
 export type LessonBlock =
   | 'presente'
+  | 'construcciones'
   | 'pasado'
   | 'futuro'
   | 'compuestos'
@@ -12,6 +18,7 @@ export type LessonBlock =
 
 export const LESSON_BLOCKS: LessonBlock[] = [
   'presente',
+  'construcciones',
   'pasado',
   'futuro',
   'compuestos',
@@ -22,6 +29,7 @@ export const LESSON_BLOCKS: LessonBlock[] = [
 
 export const LESSON_BLOCK_LABELS: Record<LessonBlock, string> = {
   presente: 'Настоящее время',
+  construcciones: 'Глагольные конструкции',
   pasado: 'Прошедшее время',
   futuro: 'Будущее и условное',
   compuestos: 'Составные времена',
@@ -281,6 +289,290 @@ export const LESSONS: Lesson[] = [
       tenses: ['preteriteIndef', 'subjuntivo'],
       types: ['c to qu', 'g to gu', 'z to c', 'g to j'],
       limit: 60,
+    },
+  },
+
+  // ── Глагольные конструкции ───────────────────────────────────────────────
+  {
+    id: 'ser-estar',
+    block: 'construcciones',
+    title: 'Ser или estar',
+    summary: 'Два глагола «быть» и как их не путать',
+    sections: [
+      {
+        body:
+          'В испанском два глагола со значением «быть», и выбор между ними меняет смысл. ' +
+          'Грубое правило «ser — постоянное, estar — временное» работает часто, но подводит: ' +
+          'человек смертен постоянно, а «está muerto» говорят через estar.',
+      },
+      {
+        heading: 'Ser — что это такое',
+        body:
+          'Определение, профессия, происхождение, национальность, материал, принадлежность, ' +
+          'время и дата. Soy médico. Es de Perú. La mesa es de madera. Son las tres.',
+        table: { verbId: 'ser', tense: 'presente', caption: 'ser — быть (сущность)' },
+      },
+      {
+        heading: 'Estar — в каком состоянии и где',
+        body:
+          'Местоположение, самочувствие, настроение, результат изменения. ' +
+          'Estoy en casa. Está cansado. La puerta está abierta.',
+        table: { verbId: 'estar', tense: 'presente', caption: 'estar — быть (состояние)' },
+      },
+      {
+        heading: 'Одно прилагательное — два смысла',
+        bullets: [
+          'es aburrido — он скучный человек · está aburrido — ему скучно',
+          'es listo — он сообразительный · está listo — он готов',
+          'es rico — он богатый · está rico — это вкусно',
+          'es verde — он зелёного цвета · está verde — он незрелый',
+        ],
+      },
+      {
+        body:
+          'Отсюда практический приём: если фраза описывает, каков предмет по сути, берите ser; ' +
+          'если в каком он сейчас виде или где находится — estar.',
+      },
+    ],
+    practice: {
+      tenses: ['presente', 'preteriteIndef', 'preteriteImp'],
+      verbIds: ['ser', 'estar'],
+    },
+  },
+  {
+    id: 'hay-haber',
+    block: 'construcciones',
+    title: 'Hay и haber',
+    summary: 'Безличное «есть, имеется»',
+    sections: [
+      {
+        body:
+          'Hay — особая безличная форма глагола haber. Она сообщает, что нечто существует ' +
+          'или имеется в наличии: Hay un problema. Hay tres libros en la mesa.',
+      },
+      {
+        heading: 'Всегда единственное число',
+        body:
+          'Это главная ошибка изучающих. Hay не согласуется с тем, что за ним стоит: ' +
+          'hay un libro и hay veinte libros — форма одна и та же. Никаких «hayn» не бывает.',
+      },
+      {
+        heading: 'В других временах',
+        bullets: [
+          'Прошедшее длительное: había — Había mucha gente (не «habían»)',
+          'Прошедшее законченное: hubo — Hubo un accidente',
+          'Будущее: habrá · Условное: habría',
+          'Сослагательное: haya — No creo que haya problemas',
+        ],
+        table: { verbId: 'haber', tense: 'preteriteImp', caption: 'había — безличное «было»' },
+      },
+      {
+        heading: 'Hay или estar',
+        body:
+          'Hay вводит нечто новое и неопределённое, estar сообщает, где находится уже известное. ' +
+          'Hay un banco en la plaza — «на площади есть банк». El banco está en la plaza — ' +
+          '«тот самый банк находится на площади». После hay не бывает артикля el или la.',
+      },
+      {
+        heading: 'Не путайте с вспомогательным haber',
+        body:
+          'Тот же глагол в формах he, has, ha строит составные времена: he comido. ' +
+          'Это разные употребления одного слова, и безличное hay стоит особняком от всей таблицы.',
+        table: { verbId: 'haber', tense: 'presente', caption: 'haber как вспомогательный' },
+      },
+    ],
+    practice: {
+      tenses: ['presente', 'preteriteIndef', 'preteriteImp', 'futuro'],
+      verbIds: ['haber', 'estar'],
+    },
+  },
+  {
+    id: 'gustar',
+    block: 'construcciones',
+    title: 'Gustar и обратные глаголы',
+    summary: 'Me gusta — нравится не «я», а «оно»',
+    sections: [
+      {
+        body:
+          'Gustar устроен наоборот по сравнению с русским «я люблю». Подлежащее здесь — ' +
+          'то, что нравится, а человек стоит в дательном: Me gusta el café — дословно ' +
+          '«кофе мне нравится».',
+      },
+      {
+        heading: 'Глагол согласуется с предметом',
+        bullets: [
+          'Me gusta el libro — единственное число',
+          'Me gustan los libros — множественное',
+          'Me gusta leer — с инфинитивом всегда единственное',
+        ],
+      },
+      {
+        body:
+          'Меняется не глагол, а местоимение перед ним: me, te, le, nos, os, les. ' +
+          'Te gusta — тебе нравится, les gusta — им нравится. Для ясности или усиления ' +
+          'добавляют a mí, a ti, a Juan: A mí me gusta, pero a él no le gusta.',
+        table: { verbId: 'gustar', tense: 'presente', caption: 'gustar — в речи живут 3-и лица' },
+      },
+      {
+        heading: 'Такие же глаголы',
+        bullets: [
+          'encantar — очень нравиться: Me encanta este libro',
+          'interesar, importar — интересовать, быть важным',
+          'doler — болеть: Me duele la cabeza',
+          'faltar, quedar — не хватать, оставаться',
+          'parecer — казаться: Me parece bien',
+        ],
+      },
+      {
+        body:
+          'Обратите внимание на doler: болит голова, поэтому me duele la cabeza, ' +
+          'а не «yo duelo». Это та же схема, что и у gustar.',
+        table: { verbId: 'doler', tense: 'presente', caption: 'doler — болеть' },
+      },
+    ],
+    practice: {
+      tenses: ['presente', 'preteriteIndef', 'subjuntivo'],
+      verbIds: ['gustar', 'encantar', 'interesar', 'importar', 'doler', 'faltar', 'quedar', 'parecer'],
+    },
+  },
+  {
+    id: 'reflexivos',
+    block: 'construcciones',
+    title: 'Возвратные глаголы',
+    summary: 'levantarse, llamarse, ducharse',
+    sections: [
+      {
+        body:
+          'Возвратные глаголы в словаре кончаются на -se: levantarse, llamarse, ducharse. ' +
+          'Это тот же глагол плюс местоимение, которое меняется по лицам.',
+      },
+      {
+        heading: 'Местоимения',
+        bullets: [
+          'me levanto — я встаю · te levantas — ты встаёшь',
+          'se levanta — он встаёт · nos levantamos — мы встаём',
+          'os levantáis — вы встаёте · se levantan — они встают',
+        ],
+        table: { verbId: 'levantar', tense: 'presente', caption: 'основа спрягается как обычно' },
+      },
+      {
+        body:
+          'Сам глагол спрягается совершенно обычно — вся возвратность в местоимении. ' +
+          'В приложении таблицы даны без него: подставляйте me, te, se сами.',
+      },
+      {
+        heading: 'Где стоит местоимение',
+        bullets: [
+          'Перед спрягаемой формой: me levanto',
+          'С инфинитивом и герундием — на выбор: voy a levantarme или me voy a levantar',
+          'В утвердительном императиве приклеивается: ¡levántate!, ¡siéntese!',
+          'В отрицательном — снова впереди: no te levantes',
+        ],
+      },
+      {
+        heading: 'Возвратность меняет смысл',
+        bullets: [
+          'ir — идти · irse — уходить',
+          'dormir — спать · dormirse — засыпать',
+          'llamar — звать, звонить · llamarse — называться',
+          'poner — класть · ponerse — надевать, становиться',
+        ],
+      },
+    ],
+    practice: {
+      tenses: ['presente', 'imperativoAfirmativo', 'imperativoNegativo'],
+      verbIds: ['levantar', 'llamar', 'despertar', 'acostar', 'duchar', 'sentar', 'vestir', 'ir', 'dormir', 'poner'],
+    },
+  },
+  {
+    id: 'ir-a-infinitivo',
+    block: 'construcciones',
+    title: 'Ir a + инфинитив и перифразы',
+    summary: 'Voy a comer — ближайшее будущее',
+    sections: [
+      {
+        body:
+          'Конструкция ir a плюс инфинитив выражает намерение и ближайшее будущее. ' +
+          'В разговоре она вытеснила простое будущее: чаще скажут voy a llamarte, чем llamaré.',
+        table: { verbId: 'ir', tense: 'presente', caption: 'ir — спрягается только он' },
+      },
+      {
+        body:
+          'Меняется только ir, инфинитив остаётся неизменным: vas a comer, vamos a salir, ' +
+          'van a llegar. В прошедшем длительном получается «собирался»: iba a llamarte.',
+      },
+      {
+        heading: 'Другие полезные перифразы',
+        bullets: [
+          'acabar de + инфинитив — только что: Acabo de llegar',
+          'tener que + инфинитив — быть должным: Tengo que trabajar',
+          'hay que + инфинитив — нужно (безлично): Hay que estudiar',
+          'volver a + инфинитив — сделать снова: Vuelvo a intentarlo',
+          'empezar a / terminar de — начать и закончить делать',
+          'seguir + герундий — продолжать: Sigo estudiando',
+        ],
+      },
+      {
+        heading: 'Что здесь спрягается',
+        body:
+          'Во всех этих оборотах изменяется только первый глагол. Второй стоит в инфинитиве ' +
+          'или герундии и не меняется никогда — поэтому выучив спряжение ir, tener, acabar ' +
+          'и volver, вы получаете все конструкции разом.',
+        table: { verbId: 'tener', tense: 'presente', caption: 'tener que — «должен»' },
+      },
+    ],
+    practice: {
+      tenses: ['presente', 'preteriteImp', 'preteriteIndef'],
+      verbIds: ['ir', 'acabar', 'tener', 'deber', 'volver', 'seguir', 'empezar', 'terminar'],
+    },
+  },
+  {
+    id: 'estar-gerundio',
+    block: 'construcciones',
+    title: 'Estar + герундий',
+    summary: 'Estoy comiendo — действие прямо сейчас',
+    sections: [
+      {
+        body:
+          'Продолженное время строится из estar в нужном времени и герундия: estoy comiendo — ' +
+          '«я (сейчас) ем». Герундий не меняется, спрягается только estar.',
+        table: { verbId: 'estar', tense: 'presente', caption: 'estar + герундий' },
+      },
+      {
+        heading: 'Работает в любом времени',
+        bullets: [
+          'estaba comiendo — ел (в тот момент)',
+          'estuve comiendo — поел (некоторое время)',
+          'estaré comiendo — буду есть',
+          'he estado comiendo — ел всё это время',
+        ],
+      },
+      {
+        heading: 'Важное отличие от английского',
+        body:
+          'В испанском эта конструкция не годится для будущего. «Завтра я еду в Мадрид» — ' +
+          'mañana voy a Madrid или voy a ir, но не «estoy yendo». Estar + герундий говорит ' +
+          'только о том, что разворачивается в описываемый момент.',
+      },
+      {
+        heading: 'Не только с estar',
+        bullets: [
+          'seguir + герундий — продолжать: Sigue lloviendo',
+          'llevar + герундий — делать уже сколько-то времени: Llevo dos horas esperando',
+          'ir + герундий — постепенно: Va mejorando',
+          'andar + герундий — делать то и дело',
+        ],
+      },
+      {
+        body:
+          'Герундий каждого глагола показан на его странице рядом с причастием — ' +
+          'там же видно, если он неправильный: leyendo, durmiendo, diciendo.',
+        table: { verbId: 'estar', tense: 'preteriteImp', caption: 'estaba — «делал в тот момент»' },
+      },
+    ],
+    practice: {
+      tenses: ['presente', 'preteriteImp', 'preteriteIndef', 'futuro'],
+      verbIds: ['estar', 'seguir', 'andar', 'llevar', 'ir', 'venir'],
     },
   },
 
@@ -606,6 +898,49 @@ export const LESSONS: Lesson[] = [
     practice: {
       tenses: ['pluscuamperfecto', 'futuroPerfecto', 'condicionalPerfecto'],
       verbIds: [...REGULAR_SAMPLE, 'hacer', 'ver'],
+    },
+  },
+
+  {
+    id: 'pasiva',
+    block: 'compuestos',
+    title: 'Пассив',
+    summary: 'ser + причастие и оборот с se',
+    sections: [
+      {
+        body:
+          'Причастие нужно не только для составных времён. Вместе с ser оно образует ' +
+          'страдательный залог: La casa fue construida en 1920 — «дом был построен в 1920».',
+        table: { verbId: 'ser', tense: 'preteriteIndef', caption: 'ser — спрягается он' },
+      },
+      {
+        heading: 'Причастие здесь согласуется',
+        body:
+          'И это главное отличие от составных времён. После haber причастие неизменно ' +
+          '(ha construido), а в пассиве оно меняется по роду и числу вместе с подлежащим: ' +
+          'el libro fue escrito, la carta fue escrita, los libros fueron escritos.',
+      },
+      {
+        body: 'Исполнитель действия вводится предлогом por: La novela fue escrita por Cervantes.',
+      },
+      {
+        heading: 'В речи чаще другое',
+        body:
+          'Полный пассив с ser в испанском звучит книжно. В разговоре его заменяет оборот ' +
+          'с se: Se venden casas — «продаются дома», Aquí se habla español — «здесь говорят ' +
+          'по-испански». Глагол согласуется с предметом: se vende casa, se venden casas.',
+      },
+      {
+        heading: 'Estar + причастие — это не пассив',
+        body:
+          'Сравните: La puerta fue cerrada — «дверь закрыли» (действие). La puerta está cerrada — ' +
+          '«дверь закрыта» (результат, состояние). Первое сообщает о событии, второе описывает вид.',
+        table: { verbId: 'estar', tense: 'presente', caption: 'estar + причастие — результат' },
+      },
+    ],
+    practice: {
+      tenses: ['preteriteIndef', 'presente', 'perfecto', 'preteriteImp'],
+      verbIds: ['ser', 'estar', 'construir', 'escribir', 'abrir', 'hacer', 'vender', 'publicar'],
     },
   },
 
@@ -980,4 +1315,21 @@ export function lessonPracticeVerbIds(lesson: Lesson): string[] {
     verb => verb.id,
   );
   return limit ? matched.slice(0, limit) : matched;
+}
+
+/** Сколько вопросов в зачёте: 30 или меньше, если у темы просто нет столько форм. */
+export function lessonExamSize(lesson: Lesson): number {
+  const combinations =
+    lessonPracticeVerbIds(lesson).length * lesson.practice.tenses.length * PERSONS.length;
+  return Math.min(EXAM_QUESTIONS, combinations);
+}
+
+/** Порядок прохождения курса — тот же, в котором уроки объявлены. */
+export function lessonIndex(lessonId: string): number {
+  return LESSONS.findIndex(lesson => lesson.id === lessonId);
+}
+
+export function nextLesson(lessonId: string): Lesson | undefined {
+  const index = lessonIndex(lessonId);
+  return index < 0 ? undefined : LESSONS[index + 1];
 }

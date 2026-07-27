@@ -7,7 +7,14 @@ import * as Haptics from 'expo-haptics';
 import { useColors } from '@/hooks/useColors';
 import ConjugationTable from '../../components/ConjugationTable';
 import { useQuiz } from '../../context/QuizContext';
-import { getLessonById, lessonPracticeVerbIds, LESSON_BLOCK_LABELS } from '../../data/lessons';
+import { useLessons } from '../../context/LessonsContext';
+import {
+  EXAM_MAX_MISTAKES,
+  getLessonById,
+  lessonExamSize,
+  lessonPracticeVerbIds,
+  LESSON_BLOCK_LABELS,
+} from '../../data/lessons';
 import type { QuizMode } from '../../data/types';
 import { PERSONS, TENSE_FULL_LABELS } from '../../data/types';
 import { getVerbById } from '../../data/verbs';
@@ -25,6 +32,7 @@ export default function LessonDetail() {
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
   const { config, buildAndStartSession } = useQuiz();
+  const { isAvailable, passed, unlock } = useLessons();
   const [practiceMode, setPracticeMode] = useState<QuizMode>('input');
 
   const lesson = id ? getLessonById(id) : undefined;
@@ -41,6 +49,24 @@ export default function LessonDetail() {
   }
 
   const practiceVerbIds = lessonPracticeVerbIds(lesson);
+  const available = isAvailable(lesson.id);
+  const isPassed = passed.has(lesson.id);
+  const examSize = lessonExamSize(lesson);
+
+  const startExam = () => {
+    if (practiceVerbIds.length === 0) return;
+    void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    buildAndStartSession({
+      ...config,
+      mode: practiceMode,
+      tenses: lesson.practice.tenses,
+      persons: PERSONS,
+      verbIds: practiceVerbIds,
+      maxQuestions: examSize,
+      exam: { lessonId: lesson.id, maxMistakes: EXAM_MAX_MISTAKES },
+    });
+    router.push('/quiz-session');
+  };
 
   const startPractice = () => {
     if (practiceVerbIds.length === 0) return;
@@ -54,6 +80,7 @@ export default function LessonDetail() {
       tenses: lesson.practice.tenses,
       persons: PERSONS,
       verbIds: practiceVerbIds,
+      exam: undefined, // свободная тренировка ничего не открывает
     });
     router.push('/quiz-session');
   };
@@ -80,6 +107,34 @@ export default function LessonDetail() {
         <View style={styles.backBtn} />
       </View>
 
+      {!available ? (
+        <ScrollView contentContainerStyle={[styles.content, { paddingBottom: bottomPad + 24 }]}>
+          <View style={[styles.lockCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
+            <Ionicons name="lock-closed-outline" size={28} color={colors.mutedForeground} />
+            <Text style={[styles.lockTitle, { color: colors.foreground }]}>Тема ещё закрыта</Text>
+            <Text style={[styles.lockBody, { color: colors.mutedForeground }]}>
+              Курс идёт по порядку: чтобы открыть эту тему, сдайте зачёт по предыдущей —
+              не больше {EXAM_MAX_MISTAKES} ошибок. Если материал уже знаком, можно открыть
+              её сразу.
+            </Text>
+            <Pressable
+              onPress={() => {
+                void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                unlock(lesson.id);
+              }}
+              style={({ pressed }) => [
+                styles.unlockBtn,
+                { borderColor: colors.primary },
+                pressed && { opacity: 0.7 },
+              ]}
+            >
+              <Text style={[styles.unlockBtnText, { color: colors.primary }]}>
+                Открыть без зачёта
+              </Text>
+            </Pressable>
+          </View>
+        </ScrollView>
+      ) : (
       <ScrollView contentContainerStyle={[styles.content, { paddingBottom: bottomPad + 24 }]}>
         <Text style={[styles.summary, { color: colors.mutedForeground }]}>{lesson.summary}</Text>
 
@@ -150,7 +205,39 @@ export default function LessonDetail() {
           {practiceVerbIds.length} глаголов ·{' '}
           {lesson.practice.tenses.map(tense => TENSE_FULL_LABELS[tense]).join(', ')}
         </Text>
+
+        <View style={[styles.examCard, { backgroundColor: colors.card, borderColor: isPassed ? colors.success : colors.border }]}>
+          <View style={styles.examHeader}>
+            <Ionicons
+              name={isPassed ? 'checkmark-circle' : 'flag-outline'}
+              size={20}
+              color={isPassed ? colors.success : colors.primary}
+            />
+            <Text style={[styles.examTitle, { color: colors.foreground }]}>
+              {isPassed ? 'Тема сдана' : 'Зачёт по теме'}
+            </Text>
+          </View>
+          <Text style={[styles.examBody, { color: colors.mutedForeground }]}>
+            {examSize} вопросов, допустимо не больше {EXAM_MAX_MISTAKES} ошибок.
+            {isPassed
+              ? ' Следующая тема открыта — зачёт можно пересдать для проверки.'
+              : ' Сдача открывает следующую тему курса.'}
+          </Text>
+          <Pressable
+            onPress={startExam}
+            style={({ pressed }) => [
+              styles.examBtn,
+              { borderColor: isPassed ? colors.success : colors.primary },
+              pressed && { opacity: 0.7 },
+            ]}
+          >
+            <Text style={[styles.examBtnText, { color: isPassed ? colors.success : colors.primary }]}>
+              {isPassed ? 'Пересдать' : 'Сдать зачёт'}
+            </Text>
+          </Pressable>
+        </View>
       </ScrollView>
+      )}
     </View>
   );
 }
@@ -218,5 +305,28 @@ const styles = StyleSheet.create({
   },
   practiceBtnText: { fontSize: 15, fontFamily: 'Inter_600SemiBold' },
   practiceHint: { fontSize: 12, fontFamily: 'Inter_400Regular', textAlign: 'center', marginTop: 8 },
+  examCard: { borderWidth: 1, borderRadius: 12, padding: 14, marginTop: 20, gap: 8 },
+  examHeader: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  examTitle: { fontSize: 15, fontFamily: 'Inter_600SemiBold' },
+  examBody: { fontSize: 13, lineHeight: 19, fontFamily: 'Inter_400Regular' },
+  examBtn: {
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingVertical: 11,
+    alignItems: 'center',
+    marginTop: 2,
+  },
+  examBtnText: { fontSize: 14, fontFamily: 'Inter_600SemiBold' },
+  lockCard: { borderWidth: 1, borderRadius: 12, padding: 20, alignItems: 'center', gap: 10, marginTop: 40 },
+  lockTitle: { fontSize: 17, fontFamily: 'Inter_600SemiBold' },
+  lockBody: { fontSize: 14, lineHeight: 21, fontFamily: 'Inter_400Regular', textAlign: 'center' },
+  unlockBtn: {
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingVertical: 11,
+    paddingHorizontal: 20,
+    marginTop: 6,
+  },
+  unlockBtnText: { fontSize: 14, fontFamily: 'Inter_600SemiBold' },
   errText: { fontSize: 16, textAlign: 'center', marginTop: 100, fontFamily: 'Inter_400Regular' },
 });

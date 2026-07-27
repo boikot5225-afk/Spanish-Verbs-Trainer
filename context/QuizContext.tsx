@@ -160,6 +160,7 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
         answers: [],
         mode: cfg.mode,
         startedAt: new Date().toISOString(),
+        exam: cfg.exam,
       };
       setSessionState(newSession);
       return questions;

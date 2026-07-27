@@ -7,7 +7,12 @@ import {
   type Tense,
 } from '../data/types';
 import { getVerbById, VERBS } from '../data/verbs';
-import { LESSONS, lessonPracticeVerbIds } from '../data/lessons';
+import {
+  EXAM_QUESTIONS,
+  LESSONS,
+  lessonExamSize,
+  lessonPracticeVerbIds,
+} from '../data/lessons';
 
 const EXPECTED_VERBS = 2129;
 // 20 времён × 6 лиц, минус отсутствующее «yo» в двух формах императива.
@@ -361,6 +366,14 @@ for (const lesson of LESSONS) {
 
   const practiceVerbs = lessonPracticeVerbIds(lesson);
   assert(practiceVerbs.length > 0, `${lesson.id}: practice selection is empty`);
+
+  // Зачёт должен быть полноразмерным: тема без 30 доступных форм не даёт
+  // осмысленного порога «не более двух ошибок».
+  assert.equal(
+    lessonExamSize(lesson),
+    EXAM_QUESTIONS,
+    `${lesson.id}: exam is only ${lessonExamSize(lesson)} questions, need ${EXAM_QUESTIONS}`,
+  );
 }
 
 // Курс обязан покрывать всё, что умеет приложение: у каждого времени должен быть

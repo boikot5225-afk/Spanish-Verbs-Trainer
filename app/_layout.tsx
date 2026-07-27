@@ -14,6 +14,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { VerbsProvider } from '../context/VerbsContext';
 import { QuizProvider } from '../context/QuizContext';
+import { LessonsProvider } from '../context/LessonsContext';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -55,7 +56,9 @@ export default function RootLayout() {
           <GestureHandlerRootView style={{ flex: 1 }}>
             <VerbsProvider>
               <QuizProvider>
-                <RootLayoutNav />
+                <LessonsProvider>
+                  <RootLayoutNav />
+                </LessonsProvider>
               </QuizProvider>
             </VerbsProvider>
           </GestureHandlerRootView>

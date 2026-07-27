@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useColors } from '@/hooks/useColors';
+import { useLessons } from '../../context/LessonsContext';
 import {
   LESSONS,
   LESSON_BLOCKS,
@@ -14,6 +15,7 @@ import {
 export default function LessonsTab() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
+  const { passed, isAvailable, currentLessonId } = useLessons();
 
   const topPadding = Platform.OS === 'web' ? 67 : insets.top;
   const bottomPadding = Platform.OS === 'web' ? 84 : insets.bottom + 64;
@@ -34,7 +36,7 @@ export default function LessonsTab() {
       >
         <Text style={[styles.title, { color: colors.foreground }]}>Уроки</Text>
         <Text style={[styles.subtitle, { color: colors.mutedForeground }]}>
-          {LESSONS.length} уроков от настоящего времени до сослагательного
+          Сдано {passed.size} из {LESSONS.length}
         </Text>
       </View>
 
@@ -52,6 +54,9 @@ export default function LessonsTab() {
               <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
                 {blockLessons.map((lesson, index) => {
                   counter += 1;
+                  const isPassed = passed.has(lesson.id);
+                  const isLocked = !isAvailable(lesson.id);
+                  const isCurrent = lesson.id === currentLessonId && !isLocked;
                   return (
                     <Pressable
                       key={lesson.id}
@@ -65,18 +70,44 @@ export default function LessonsTab() {
                         pressed && { opacity: 0.6 },
                       ]}
                     >
-                      <View style={[styles.number, { backgroundColor: colors.secondary }]}>
-                        <Text style={[styles.numberText, { color: colors.primary }]}>{counter}</Text>
+                      <View
+                        style={[
+                          styles.number,
+                          {
+                            backgroundColor: isPassed ? colors.success : colors.secondary,
+                            opacity: isLocked ? 0.5 : 1,
+                          },
+                        ]}
+                      >
+                        {isPassed ? (
+                          <Ionicons name="checkmark" size={16} color={colors.background} />
+                        ) : isLocked ? (
+                          <Ionicons name="lock-closed" size={13} color={colors.mutedForeground} />
+                        ) : (
+                          <Text style={[styles.numberText, { color: colors.primary }]}>{counter}</Text>
+                        )}
                       </View>
                       <View style={styles.rowCenter}>
-                        <Text style={[styles.lessonTitle, { color: colors.foreground }]}>
+                        <Text
+                          style={[
+                            styles.lessonTitle,
+                            {
+                              color: isLocked ? colors.mutedForeground : colors.foreground,
+                              fontFamily: isCurrent ? 'Inter_600SemiBold' : 'Inter_500Medium',
+                            },
+                          ]}
+                        >
                           {lesson.title}
                         </Text>
                         <Text style={[styles.lessonSummary, { color: colors.mutedForeground }]}>
-                          {lesson.summary}
+                          {isCurrent ? 'Текущая тема · ' : ''}{lesson.summary}
                         </Text>
                       </View>
-                      <Ionicons name="chevron-forward" size={18} color={colors.mutedForeground} />
+                      <Ionicons
+                        name="chevron-forward"
+                        size={18}
+                        color={isCurrent ? colors.primary : colors.mutedForeground}
+                      />
                     </Pressable>
                   );
                 })}
@@ -114,6 +145,6 @@ const styles = StyleSheet.create({
   number: { width: 28, height: 28, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
   numberText: { fontSize: 13, fontFamily: 'Inter_600SemiBold' },
   rowCenter: { flex: 1, gap: 2 },
-  lessonTitle: { fontSize: 15, fontFamily: 'Inter_500Medium' },
+  lessonTitle: { fontSize: 15 },
   lessonSummary: { fontSize: 12, fontFamily: 'Inter_400Regular' },
 });
