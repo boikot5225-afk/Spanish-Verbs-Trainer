@@ -148,6 +148,70 @@ export const LESSONS: Lesson[] = [
     practice: { tenses: ['presente'], verbIds: REGULAR_SAMPLE },
   },
   {
+    id: 'pronombres',
+    block: 'presente',
+    title: 'Местоимения и обращение',
+    summary: 'tú, usted, vosotros, ustedes — и где какое',
+    sections: [
+      {
+        body:
+          'В таблицах приложения шесть строк, и две из них устроены сложнее, чем кажется. ' +
+          'Испанский различает не только число, но и вежливость, а распределение форм ' +
+          'зависит от страны.',
+      },
+      {
+        heading: 'Единственное число',
+        bullets: [
+          'yo — я',
+          'tú — ты, обращение на равных',
+          'usted — вы вежливое, к одному человеку',
+          'él, ella — он, она',
+        ],
+      },
+      {
+        body:
+          'Главная ловушка: usted грамматически стоит в третьем лице. Usted habla, а не ' +
+          '«usted hablas». Поэтому в таблице строка «él/ella» обслуживает и вежливое обращение — ' +
+          'форма у них одна.',
+        table: { verbId: 'hablar', tense: 'presente', caption: 'usted habla — как él' },
+      },
+      {
+        heading: 'Множественное число',
+        bullets: [
+          'nosotros, nosotras — мы',
+          'vosotros, vosotras — вы, к нескольким на равных',
+          'ustedes — вы, к нескольким',
+          'ellos, ellas — они',
+        ],
+      },
+      {
+        heading: 'Где что употребляют',
+        body:
+          'В Испании работают обе формы: vosotros для своих, ustedes для вежливости. ' +
+          'В Латинской Америке vosotros не используют вообще — там ustedes покрывает и ' +
+          'дружеское, и вежливое обращение. Формы ustedes при этом всегда совпадают с ellos.',
+      },
+      {
+        body:
+          'Отсюда практический вывод: если учите испанский Испании, строку vosotros нужно ' +
+          'знать. Если Латинской Америки — её можно почти не трогать, но узнавать в книгах ' +
+          'и фильмах всё равно полезно.',
+      },
+      {
+        heading: 'Местоимение обычно опускают',
+        body:
+          'Окончание уже указывает на лицо, поэтому hablo español звучит естественнее, ' +
+          'чем yo hablo español. Местоимение добавляют для контраста (yo trabajo, él no) ' +
+          'или чтобы различить él, ella и usted — у них одна форма глагола.',
+      },
+    ],
+    practice: {
+      tenses: ['presente'],
+      verbIds: REGULAR_SAMPLE,
+      featured: ['hablar', 'comer', 'vivir', 'trabajar', 'beber', 'recibir'],
+    },
+  },
+  {
     id: 'presente-o-ue',
     block: 'presente',
     title: 'Чередование o → ue',
@@ -605,6 +669,20 @@ export const LESSONS: Lesson[] = [
           'llamar — звать, звонить · llamarse — называться',
           'poner — класть · ponerse — надевать, становиться',
         ],
+      },
+      {
+        heading: 'Неправильные возвратные',
+        body:
+          'Отдельно их учить не нужно: местоимение на спряжение не влияет вообще. ' +
+          'Если глагол чередуется, он чередуется и в возвратной форме — despertarse даёт ' +
+          'me despierto, dormirse даёт me duermo, vestirse даёт me visto.',
+        table: { verbId: 'despertar', tense: 'presente', caption: 'despertarse — me despierto' },
+      },
+      {
+        body:
+          'Так же ведут себя acordarse (me acuerdo), encontrarse (me encuentro), sentarse ' +
+          '(me siento), probarse (me pruebo), despedirse (me despido) и sentirse (me siento — ' +
+          'да, совпадает с sentarse в первом лице).',
       },
     ],
     practice: {
@@ -1519,6 +1597,21 @@ export const LESSONS: Lesson[] = [
         body:
           'Приставочные наследуют их с ударением: componer → compón, detener → detén, prevenir → prevén. ' +
           'Форма vosotros при этом всегда правильная, без исключений вообще.',
+      },
+      {
+        heading: 'Про vosotros и ustedes',
+        body:
+          'В Испании командуют через vosotros: abrid las ventanas. В Латинской Америке эта форма ' +
+          'не используется — там во множественном числе всегда ustedes: abran las ventanas. ' +
+          'Строка ustedes в таблице совпадает с ellos.',
+      },
+      {
+        heading: '«Давайте» проще сказать иначе',
+        body:
+          'Форма nosotros (hablemos, cantemos) звучит книжно. В живой речи вместо неё говорят ' +
+          'vamos a + инфинитив: vamos a cantar — «давайте споём», vamos a comer — «пойдём поедим». ' +
+          'Отрицание тоже через неё: no vamos a discutir. Единственное исключение — сам глагол ir, ' +
+          'где утвердительное «пойдём» так и будет vamos.',
       },
     ],
     practice: {
