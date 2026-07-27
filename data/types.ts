@@ -307,6 +307,8 @@ export interface QuizConfig {
   maxQuestions: number;
   exam?: QuizExam;
   drill?: QuizDrill;
+  /** Из какого урока запущено — нужно, чтобы вернуться туда после теста. */
+  lessonId?: string;
 }
 
 export interface QuizQuestion {
@@ -331,6 +333,7 @@ export interface QuizSession {
   startedAt: string;
   exam?: QuizExam;
   drill?: QuizDrill;
+  lessonId?: string;
 }
 
 export interface QuizHistoryItem {

@@ -12,6 +12,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 function NativeTabLayout() {
   return (
     <NativeTabs>
+      <NativeTabs.Trigger name="index" hidden />
       <NativeTabs.Trigger name="lessons">
         <Icon sf={{ default: 'graduationcap', selected: 'graduationcap.fill' }} />
         <Label>Уроки</Label>
@@ -69,6 +70,8 @@ function ClassicTabLayout() {
           ) : null,
       }}
     >
+      {/* Служебный редирект, во вкладках ему не место. */}
+      <Tabs.Screen name="index" options={{ href: null }} />
       <Tabs.Screen
         name="lessons"
         options={{

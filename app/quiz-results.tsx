@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Platform,
   Pressable,
@@ -20,15 +20,19 @@ import { getVerbById } from '../data/verbs';
 export default function QuizResults() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
-  const { session, retryErrors, clearSession } = useQuiz();
+  const { session, retryErrors } = useQuiz();
 
   const topPad = Platform.OS === 'web' ? 67 : insets.top;
   const bottomPad = Platform.OS === 'web' ? 34 : insets.bottom;
 
-  if (!session) {
-    router.replace('/(tabs)/quiz');
-    return null;
-  }
+  // Раньше этот переход стоял прямо в теле рендера. Обработчики звали
+  // clearSession() перед router.replace, экран тут же перерисовывался с пустой
+  // сессией и уводил на вкладку теста, перебивая уже начатый переход в урок.
+  useEffect(() => {
+    if (!session) router.replace('/(tabs)/quiz');
+  }, [session]);
+
+  if (!session) return null;
 
   const total = session.answers.length;
   const correct = session.answers.filter(a => a.correct).length;
@@ -54,21 +58,20 @@ export default function QuizResults() {
 
   const handleNewTest = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    clearSession();
     router.replace('/(tabs)/quiz');
   };
 
   // Тест из урока возвращает в этот же урок, а не в общий список.
-  const lessonId = session.exam?.lessonId ?? session.drill?.lessonId;
+  const lessonId = session.lessonId ?? session.exam?.lessonId ?? session.drill?.lessonId;
 
-  const handleHome = () => {
-    clearSession();
-    router.replace(lessonId ? `/lesson/${lessonId}` : '/(tabs)/lessons');
+  const handleReference = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    router.replace('/(tabs)/verbs');
   };
 
   const handleBackToLesson = () => {
     if (!lessonId) return;
-    clearSession();
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     router.replace(`/lesson/${lessonId}`);
   };
 
@@ -184,7 +187,7 @@ export default function QuizResults() {
           </Pressable>
 
           <Pressable
-            onPress={handleHome}
+            onPress={handleReference}
             style={({ pressed }) => [
               styles.actionBtn,
               { backgroundColor: colors.muted, borderColor: colors.border },

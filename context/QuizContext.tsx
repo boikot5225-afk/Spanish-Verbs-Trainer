@@ -162,6 +162,7 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
         startedAt: new Date().toISOString(),
         exam: cfg.exam,
         drill: cfg.drill,
+        lessonId: cfg.lessonId,
       };
       setSessionState(newSession);
       return questions;
@@ -220,6 +221,9 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
       answers: [],
       mode: session.mode,
       startedAt: new Date().toISOString(),
+      // Повтор ошибок не зачёт и не подход — медаль и открытие темы он не даёт,
+      // но вернуться должен туда же, откуда пришли.
+      lessonId: session.lessonId,
     };
     setSessionState(retrySession);
     return retrySession.questions;

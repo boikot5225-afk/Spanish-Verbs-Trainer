@@ -77,6 +77,7 @@ export default function LessonDetail() {
       maxQuestions: examSize,
       exam: { lessonId: lesson.id, maxMistakes: EXAM_MAX_MISTAKES },
       drill: undefined,
+      lessonId: lesson.id,
     });
     router.push('/quiz-session');
   };
@@ -92,6 +93,7 @@ export default function LessonDetail() {
       maxQuestions: drillSize(lesson, drill),
       exam: undefined,
       drill: { lessonId: lesson.id, key: drill.key },
+      lessonId: lesson.id,
     });
     router.push('/quiz-session');
   };
@@ -110,6 +112,7 @@ export default function LessonDetail() {
       verbIds: practiceVerbIds,
       exam: undefined, // свободная тренировка ничего не открывает
       drill: undefined,
+      lessonId: lesson.id,
     });
     router.push('/quiz-session');
   };

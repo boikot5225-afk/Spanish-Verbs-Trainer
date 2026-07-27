@@ -38,35 +38,53 @@ export default function QuizSession() {
   const topPad = Platform.OS === 'web' ? 67 : insets.top;
   const bottomPad = Platform.OS === 'web' ? 34 : insets.bottom;
 
-  // Reset state for each question
+  // Сброс состояния строго при смене вопроса.
+  //
+  // Раньше здесь стоял ещё и отложенный inputRef.focus(). Любой лишний прогон
+  // эффекта пересоздавал таймер, focus() прилетал по уже сфокусированному полю
+  // и сбрасывал набираемую композицию — текст исчезал, а клавиатура оставалась
+  // с подсказками. Сторож по индексу гарантирует, что сброс случается только
+  // на новом вопросе и не может стереть то, что печатают прямо сейчас.
+  const lastIndexRef = useRef<number | null>(null);
   useEffect(() => {
+    const index = session?.currentIndex ?? null;
+    if (index === null || lastIndexRef.current === index) return;
+    lastIndexRef.current = index;
+
     setInputValue('');
     setIsChecked(false);
     setIsCorrect(false);
     setSelectedOption(null);
     setIsFlipped(false);
     flipAnim.setValue(0);
-    // Клавиатура должна быть готова сразу: иначе на новый вопрос приходится
-    // отдельно тыкать в поле, а до него ещё нужно доскроллить.
+
+    // После проверки поле становится нередактируемым и теряет фокус, поэтому на
+    // новом вопросе его возвращаем. focus() зовём только если поле не в фокусе —
+    // иначе он рвёт набираемую композицию.
     if (session?.mode === 'input') {
-      const focus = setTimeout(() => inputRef.current?.focus(), 120);
-      return () => clearTimeout(focus);
+      const timer = setTimeout(() => {
+        if (!inputRef.current?.isFocused()) inputRef.current?.focus();
+      }, 50);
+      return () => clearTimeout(timer);
     }
     return undefined;
-  }, [session?.currentIndex, session?.mode]);
+  }, [session?.currentIndex, session?.mode, flipAnim]);
 
-  if (!session) {
-    router.replace('/(tabs)/quiz');
-    return null;
-  }
+  // Навигация только из эффектов: переход в теле рендера конфликтует с теми,
+  // что запускают обработчики.
+  const outOfQuestions =
+    !!session && session.currentIndex >= session.questions.length;
+
+  useEffect(() => {
+    if (!session) router.replace('/(tabs)/quiz');
+    else if (outOfQuestions) router.replace('/quiz-results');
+  }, [session, outOfQuestions]);
+
+  if (!session || outOfQuestions) return null;
 
   const { questions, currentIndex, mode } = session;
   const question = questions[currentIndex];
-
-  if (!question) {
-    router.replace('/quiz-results');
-    return null;
-  }
+  if (!question) return null;
 
   const verb = getVerbById(question.verbId);
   if (!verb) return null;
@@ -98,7 +116,7 @@ export default function QuizSession() {
   };
 
   // Тест, запущенный из урока, и закрывать надо в урок, а не в конструктор теста.
-  const lessonId = session.exam?.lessonId ?? session.drill?.lessonId;
+  const lessonId = session.lessonId ?? session.exam?.lessonId ?? session.drill?.lessonId;
 
   const handleClose = () => {
     if (lessonId) router.replace(`/lesson/${lessonId}`);

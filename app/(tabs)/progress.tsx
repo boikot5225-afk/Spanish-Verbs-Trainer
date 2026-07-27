@@ -68,6 +68,7 @@ export default function ProgressTab() {
       maxQuestions: 20,
       exam: undefined,
       drill: undefined,
+      lessonId: undefined,
     });
     router.push('/quiz-session');
   };
