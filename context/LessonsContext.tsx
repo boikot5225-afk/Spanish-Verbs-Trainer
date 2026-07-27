@@ -140,15 +140,22 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
   const passed = useMemo(() => new Set(progress.passed), [progress.passed]);
   const unlockedSet = useMemo(() => new Set(progress.unlocked), [progress.unlocked]);
 
+  // Самая дальняя сданная тема. По ней и открывается следующая — так вставка
+  // новых уроков в середину курса не закрывает то, что уже пройдено дальше.
+  const furthestPassed = useMemo(() => {
+    let furthest = -1;
+    for (const lessonId of passed) furthest = Math.max(furthest, lessonIndex(lessonId));
+    return furthest;
+  }, [passed]);
+
   const isAvailable = useCallback(
     (lessonId: string) => {
       const index = lessonIndex(lessonId);
       if (index <= 0) return true; // первая тема всегда открыта
       if (passed.has(lessonId) || unlockedSet.has(lessonId)) return true;
-      const previous = LESSONS[index - 1];
-      return previous ? passed.has(previous.id) : true;
+      return index <= furthestPassed + 1;
     },
-    [passed, unlockedSet],
+    [passed, unlockedSet, furthestPassed],
   );
 
   const drillScore = useCallback(

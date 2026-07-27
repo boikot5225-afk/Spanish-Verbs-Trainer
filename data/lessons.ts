@@ -473,6 +473,97 @@ export const LESSONS: Lesson[] = [
     },
   },
   {
+    id: 'saber-conocer',
+    block: 'construcciones',
+    title: 'Saber или conocer',
+    summary: 'Два глагола «знать»',
+    sections: [
+      {
+        body:
+          'Русское «знать» в испанском распадается надвое, и выбор здесь такой же ' +
+          'обязательный, как между ser и estar.',
+      },
+      {
+        heading: 'Saber — знать факт или уметь',
+        body:
+          'Информация, факты, а с инфинитивом — умение. Sé la respuesta. No sé dónde está. ' +
+          'Sé nadar — «умею плавать».',
+        table: { verbId: 'saber', tense: 'presente', caption: 'saber — знать, уметь' },
+      },
+      {
+        heading: 'Conocer — быть знакомым',
+        body:
+          'Люди, города, книги, вкус вина — всё, с чем можно свести знакомство. ' +
+          'Conozco a María. Conozco Madrid. Перед человеком обязателен предлог a.',
+        table: { verbId: 'conocer', tense: 'presente', caption: 'conocer — знать, быть знакомым' },
+      },
+      {
+        heading: 'В прошедшем смысл меняется',
+        bullets: [
+          'Supe la verdad — «узнал правду» (в тот момент), а не «знал»',
+          'Conocí a Juan — «познакомился с Хуаном», а не «был знаком»',
+          'Для длящегося состояния берут imperfecto: sabía, conocía',
+        ],
+      },
+      {
+        body:
+          'Отсюда практическое правило: индефинидо у этих глаголов означает начало знания, ' +
+          'а имперфект — само знание. Ya sabía la respuesta — «уже знал ответ».',
+      },
+    ],
+    practice: {
+      tenses: ['presente', 'preteriteIndef', 'preteriteImp'],
+      verbIds: ['saber', 'conocer'],
+      featured: ['saber', 'conocer'],
+    },
+  },
+  {
+    id: 'verbos-de-cambio',
+    block: 'construcciones',
+    title: 'Глаголы становления',
+    summary: 'ponerse, hacerse, volverse, quedarse',
+    sections: [
+      {
+        body:
+          'В русском одно «становиться», в испанском — целый набор, и выбор зависит от того, ' +
+          'какая это перемена: мгновенная или постепенная, добровольная или случившаяся с вами.',
+      },
+      {
+        heading: 'ponerse — внезапно и ненадолго',
+        body:
+          'С прилагательными о настроении, цвете, самочувствии. Se puso rojo — «покраснел». ' +
+          'Me pongo nervioso. Перемена быстрая и обратимая.',
+        table: { verbId: 'poner', tense: 'presente', caption: 'ponerse + прилагательное' },
+      },
+      {
+        heading: 'volverse — глубоко и необратимо',
+        body:
+          'Se volvió loco — «сошёл с ума». Se ha vuelto muy desconfiado. Часто о переменах ' +
+          'к худшему и о свойствах характера.',
+        table: { verbId: 'volver', tense: 'preteriteIndef', caption: 'volverse + прилагательное' },
+      },
+      {
+        heading: 'Остальные',
+        bullets: [
+          'hacerse — постепенно и по своей воле: se hizo médico, se hizo rico',
+          'llegar a ser — достижение через усилия: llegó a ser director',
+          'quedarse — состояние как итог события: se quedó solo, se quedó sordo',
+          'convertirse en — превращение во что-то другое: se convirtió en un símbolo',
+        ],
+      },
+      {
+        body:
+          'Проверить себя просто: если перемена случилась сама и вдруг — ponerse или quedarse; ' +
+          'если человек шёл к ней — hacerse или llegar a ser.',
+      },
+    ],
+    practice: {
+      tenses: ['presente', 'preteriteIndef', 'subjuntivo'],
+      verbIds: ['poner', 'volver', 'hacer', 'quedar', 'llegar', 'convertir'],
+      featured: ['poner', 'volver', 'hacer', 'quedar', 'llegar', 'convertir'],
+    },
+  },
+  {
     id: 'reflexivos',
     block: 'construcciones',
     title: 'Возвратные глаголы',
@@ -854,6 +945,52 @@ export const LESSONS: Lesson[] = [
     },
   },
 
+  {
+    id: 'probabilidad',
+    block: 'futuro',
+    title: 'Догадка и предположение',
+    summary: 'Serán las tres — «наверное, три часа»',
+    sections: [
+      {
+        body:
+          'У будущего и условного есть второе, очень разговорное употребление, никак ' +
+          'не связанное со временем: ими выражают предположение. По-русски это «наверное», ' +
+          '«должно быть», «пожалуй».',
+      },
+      {
+        heading: 'Futuro — догадка о настоящем',
+        body:
+          '¿Qué hora es? — Serán las tres. «Часа три, наверное». ¿Dónde está Juan? — ' +
+          'Estará en casa. Речь не о будущем: говорящий предполагает про сейчас.',
+        table: { verbId: 'ser', tense: 'futuro', caption: 'serán — «наверное, столько»' },
+      },
+      {
+        heading: 'Condicional — догадка о прошлом',
+        body:
+          'Estaría cansado — «он, наверное, устал» (тогда). Serían las tres cuando llegó — ' +
+          '«было часа три, когда он пришёл».',
+        table: { verbId: 'estar', tense: 'condicional', caption: 'estaría — «наверное, был»' },
+      },
+      {
+        heading: 'Составные — то же самое, но о завершённом',
+        bullets: [
+          'Habrá salido ya — «наверное, уже вышел»',
+          'Habría salido antes — «наверное, вышел раньше»',
+        ],
+      },
+      {
+        body:
+          'Понять, о чём речь, помогает контекст: если рядом нет указания на будущее, ' +
+          'а вопрос про «сейчас» — перед вами предположение, а не прогноз.',
+      },
+    ],
+    practice: {
+      tenses: ['futuro', 'condicional', 'futuroPerfecto', 'condicionalPerfecto'],
+      verbIds: ['ser', 'estar', 'tener', 'ir', 'hacer', 'salir', 'venir', 'saber'],
+      featured: ['ser', 'estar', 'tener', 'ir', 'hacer', 'salir'],
+    },
+  },
+
   // ── Составные времена ────────────────────────────────────────────────────
   {
     id: 'participio-perfecto',
@@ -943,6 +1080,98 @@ export const LESSONS: Lesson[] = [
     },
   },
 
+  {
+    id: 'perfecto-vs-indefinido',
+    block: 'compuestos',
+    title: 'Perfecto или indefinido',
+    summary: 'he comido или comí',
+    sections: [
+      {
+        body:
+          'Оба времени переводятся русским прошедшим и оба означают законченное действие. ' +
+          'Разница — в том, закончился ли период, о котором вы говорите.',
+      },
+      {
+        heading: 'Perfecto — период ещё длится',
+        body:
+          'Сегодня, на этой неделе, в этом году, за всю жизнь. Hoy he trabajado mucho. ' +
+          'Este año hemos viajado dos veces. Момент говорения входит в этот отрезок.',
+        table: { verbId: 'hablar', tense: 'perfecto', caption: 'he hablado' },
+      },
+      {
+        heading: 'Indefinido — период закрыт',
+        body:
+          'Вчера, на прошлой неделе, в 2020 году. Ayer trabajé mucho. En 2020 viajamos a Perú. ' +
+          'Отрезок остался в прошлом целиком.',
+        table: { verbId: 'hablar', tense: 'preteriteIndef', caption: 'hablé' },
+      },
+      {
+        heading: 'Слова-подсказки',
+        bullets: [
+          'Perfecto: hoy, esta mañana, esta semana, este mes, ya, todavía no, alguna vez, nunca',
+          'Indefinido: ayer, anoche, la semana pasada, hace un año, en 2020, aquel día',
+        ],
+      },
+      {
+        heading: 'Важная оговорка про регионы',
+        body:
+          'Это норма Испании. В большей части Латинской Америки perfecto употребляют заметно ' +
+          'реже и говорят hoy trabajé там, где испанец скажет hoy he trabajado. Ошибкой это ' +
+          'не считается — просто другая региональная норма.',
+      },
+    ],
+    practice: {
+      tenses: ['perfecto', 'preteriteIndef'],
+      verbIds: [...REGULAR_SAMPLE, 'hacer', 'decir', 'ver', 'ir', 'tener', 'estar'],
+      featured: ['hablar', 'comer', 'hacer', 'decir', 'ver', 'tener'],
+    },
+  },
+  {
+    id: 'estilo-indirecto',
+    block: 'compuestos',
+    title: 'Косвенная речь',
+    summary: 'Dijo que venía — согласование времён',
+    sections: [
+      {
+        body:
+          'Когда чужие слова пересказывают в прошедшем, времена внутри придаточного сдвигаются ' +
+          'на шаг назад. Это и есть то, ради чего нужны имперфект, плюсквамперфект и кондисионал ' +
+          'одновременно.',
+      },
+      {
+        heading: 'Как сдвигаются времена',
+        bullets: [
+          '«Vengo» → Dijo que venía (настоящее → имперфект)',
+          '«Vine» / «He venido» → Dijo que había venido (прошедшее → плюсквамперфект)',
+          '«Vendré» → Dijo que vendría (будущее → кондисионал)',
+          '«Ven» → Me dijo que viniera (императив → сослагательное прошедшее)',
+        ],
+      },
+      {
+        table: { verbId: 'venir', tense: 'preteriteImp', caption: 'настоящее уходит в имперфект' },
+      },
+      {
+        table: { verbId: 'venir', tense: 'condicional', caption: 'будущее уходит в кондисионал' },
+      },
+      {
+        heading: 'Когда сдвигать не нужно',
+        body:
+          'Если сказанное верно и сейчас, презенс можно оставить: Dijo que vive en Madrid — ' +
+          'он и правда там живёт. Сдвиг обязателен, когда вводящий глагол в прошедшем ' +
+          'и сказанное к моменту пересказа уже неактуально.',
+      },
+      {
+        body:
+          'Обратите внимание: imperfecto и condicional при таком сдвиге не означают ни ' +
+          'привычки, ни условия. Они просто занимают место настоящего и будущего.',
+      },
+    ],
+    practice: {
+      tenses: ['preteriteImp', 'pluscuamperfecto', 'condicional', 'subjImperfectoRa'],
+      verbIds: ['venir', 'ir', 'ser', 'estar', 'tener', 'hacer', 'decir', 'hablar', 'comer', 'vivir'],
+      featured: ['venir', 'decir', 'ir', 'ser', 'tener', 'hacer'],
+    },
+  },
   {
     id: 'pasiva',
     block: 'compuestos',
