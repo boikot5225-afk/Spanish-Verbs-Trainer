@@ -73,11 +73,11 @@ jobs:
         shell: bash
         run: |
           mkdir -p dist
-          cp android/app/build/outputs/apk/release/*.apk dist/Spanish-Verbs-Trainer-v1.1.0.apk
+          cp android/app/build/outputs/apk/release/*.apk dist/Spanish-Verbs-Trainer-v1.2.0.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Spanish-Verbs-Trainer-v1.1.0
-          path: dist/Spanish-Verbs-Trainer-v1.1.0.apk
+          name: Spanish-Verbs-Trainer-v1.2.0
+          path: dist/Spanish-Verbs-Trainer-v1.2.0.apk
           if-no-files-found: error
