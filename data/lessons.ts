@@ -1260,6 +1260,57 @@ export const LESSONS: Lesson[] = [
     },
   },
   {
+    id: 'subjuntivo-cambios',
+    block: 'subjuntivo',
+    title: 'Чередования в сослагательном',
+    summary: 'sintamos, durmamos, pidamos',
+    sections: [
+      {
+        body:
+          'Правило «взять форму yo» переносит в сослагательное и чередование корня. ' +
+          'Но у глаголов на -ir есть добавочное изменение, которого в настоящем времени нет.',
+      },
+      {
+        heading: 'Глаголы на -ar и -er: обычный ботинок',
+        body:
+          'Чередование идёт там же, где в настоящем, а nosotros и vosotros остаются с исходной ' +
+          'гласной: pienso → piense, pienses… но pensemos, penséis.',
+        table: { verbId: 'pensar', tense: 'subjuntivo', caption: 'pensar — ботинок сохраняется' },
+      },
+      {
+        body:
+          'Так же ведут себя poder и querer: podamos, queramos — без ue и ie. ' +
+          'Это частая ошибка: «puedamos» не существует.',
+        table: { verbId: 'poder', tense: 'subjuntivo', caption: 'podamos, а не «puedamos»' },
+      },
+      {
+        heading: 'Глаголы на -ir: меняются и nosotros с vosotros',
+        body:
+          'Здесь ботинок ломается. Там, где -ar и -er возвращают исходную гласную, -ir подставляет ' +
+          'ту же, что в третьем лице индефинидо: e → i, o → u.',
+        table: { verbId: 'sentir', tense: 'subjuntivo', caption: 'sentir → sintamos, sintáis' },
+      },
+      {
+        table: { verbId: 'dormir', tense: 'subjuntivo', caption: 'dormir → durmamos, durmáis' },
+        body:
+          'У глаголов с чередованием e → i изменение идёт во всех шести формах сразу: ' +
+          'pedir даёт pida, pidas, pida, pidamos, pidáis, pidan — ломаться там уже нечему.',
+      },
+      {
+        heading: 'Как это запомнить',
+        body:
+          'Сравните два ряда: podamos и queramos против sintamos и durmamos. Разница только ' +
+          'в спряжении инфинитива — -er против -ir. Если глагол на -ir и в настоящем у него ' +
+          'чередование, оно достанет и nosotros с vosotros.',
+      },
+    ],
+    practice: {
+      tenses: ['subjuntivo'],
+      verbIds: ['sentir', 'dormir', 'pedir', 'morir', 'seguir', 'poder', 'querer', 'pensar', 'volver', 'servir', 'preferir', 'repetir'],
+      featured: ['sentir', 'dormir', 'pedir', 'poder', 'querer', 'morir'],
+    },
+  },
+  {
     id: 'subjuntivo-uso',
     block: 'subjuntivo',
     title: 'Когда нужен subjuntivo',
@@ -1506,6 +1557,66 @@ export const LESSONS: Lesson[] = [
     practice: {
       tenses: ['imperativoNegativo', 'imperativoAfirmativo'],
       verbIds: [...REGULAR_SAMPLE, 'tener', 'hacer', 'decir', 'ir', 'poner', 'salir', 'venir'],
+    },
+  },
+  {
+    id: 'voseo',
+    block: 'imperativo',
+    title: 'Voseo: формы vos',
+    summary: 'vos hablás, hablá — Аргентина и Центральная Америка',
+    sections: [
+      {
+        body:
+          'В Аргентине, Уругвае, Парагвае и большей части Центральной Америки вместо tú говорят ' +
+          'vos. Это не просторечие, а норма для десятков миллионов носителей, и глагол при vos ' +
+          'меняется — но только в двух местах.',
+      },
+      {
+        heading: 'Настоящее время',
+        bullets: [
+          '-ar: vos hablás (вместо hablas) — ударение уходит на окончание',
+          '-er: vos comés (вместо comes)',
+          '-ir: vos vivís (совпадает с формой vosotros)',
+          'ser: vos sos — единственное по-настоящему особое',
+        ],
+      },
+      {
+        body:
+          'Главное следствие ударения: чередования корня исчезают. Tú puedes, но vos podés. ' +
+          'Tú quieres, но vos querés. Tú duermes, но vos dormís. Ударение на окончании — ' +
+          'корень его не получает и не меняется.',
+        table: { verbId: 'poder', tense: 'presente', caption: 'tú puedes · vos podés' },
+      },
+      {
+        heading: 'Утвердительный императив',
+        bullets: [
+          'Инфинитив без -r, ударение на последнем слоге: hablá, comé, viví',
+          'Никаких исключений: decir → decí, poner → poné, tener → tené, venir → vení',
+          'Сравните с tú: di, pon, ten, ven — там коротко, здесь наоборот',
+          'Единственное особое: ir → andá (от andar)',
+        ],
+        table: { verbId: 'decir', tense: 'imperativoAfirmativo', caption: 'tú: di · vos: decí' },
+      },
+      {
+        heading: 'Всё остальное — как у tú',
+        body:
+          'Прошедшее, будущее, условное, отрицательный императив и сослагательное при vos ' +
+          'берут обычные формы второго лица: vos hablabas, vos hablarás, no hables. ' +
+          'В Río de la Plata встречается и hablés в отрицательном императиве, но это ' +
+          'разговорный вариант.',
+      },
+      {
+        heading: 'Чего нет в приложении',
+        body:
+          'Таблицы и тесты построены на шести лицах без vos, поэтому его формы здесь только ' +
+          'в тексте урока. Тренировка ниже прогоняет формы tú и императив тех же глаголов — ' +
+          'именно с ними vos и стоит сравнивать.',
+      },
+    ],
+    practice: {
+      tenses: ['presente', 'imperativoAfirmativo'],
+      verbIds: ['hablar', 'comer', 'vivir', 'poder', 'querer', 'dormir', 'decir', 'poner', 'tener', 'venir', 'ser', 'ir'],
+      featured: ['hablar', 'comer', 'vivir', 'decir', 'tener', 'venir'],
     },
   },
 
