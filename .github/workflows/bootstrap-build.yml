@@ -1,6 +1,7 @@
 name: Build Spanish Verbs Trainer APK
 
 on:
+  push:
   pull_request:
   workflow_dispatch:
 
@@ -34,6 +35,11 @@ jobs:
 
       - name: Set up Gradle cache
         uses: gradle/actions/setup-gradle@v4
+
+      - name: Read app version
+        id: app
+        shell: bash
+        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
 
       - name: Install dependencies
         run: npm install --no-audit --no-fund
@@ -73,11 +79,12 @@ jobs:
         shell: bash
         run: |
           mkdir -p dist
-          cp android/app/build/outputs/apk/release/*.apk dist/Spanish-Verbs-Trainer-v1.1.0.apk
+          cp android/app/build/outputs/apk/release/*.apk \
+            "dist/Spanish-Verbs-Trainer-v${{ steps.app.outputs.version }}.apk"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Spanish-Verbs-Trainer-v1.1.0
-          path: dist/Spanish-Verbs-Trainer-v1.1.0.apk
+          name: Spanish-Verbs-Trainer-v${{ steps.app.outputs.version }}
+          path: dist/Spanish-Verbs-Trainer-v${{ steps.app.outputs.version }}.apk
           if-no-files-found: error
