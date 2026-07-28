@@ -1,5 +1,13 @@
 [
  {
+  "id": "abaisser",
+  "infinitive": "abaisser",
+  "translation": "опускать, понижать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "abandonner",
   "infinitive": "abandonner",
   "translation": "бросать",
@@ -8,10 +16,122 @@
   "types": []
  },
  {
+  "id": "abasourdir",
+  "infinitive": "abasourdir",
+  "translation": "ошеломлять",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "abattre",
   "infinitive": "abattre",
   "translation": "сваливать",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "abdiquer",
+  "infinitive": "abdiquer",
+  "translation": "отрекаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "abhorrer",
+  "infinitive": "abhorrer",
+  "translation": "питать отвращение",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "abjurer",
+  "infinitive": "abjurer",
+  "translation": "отрекаться от веры",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "abolir",
+  "infinitive": "abolir",
+  "translation": "отменять",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "abominer",
+  "infinitive": "abominer",
+  "translation": "гнушаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "abonder",
+  "infinitive": "abonder",
+  "translation": "изобиловать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "abonner",
+  "infinitive": "abonner",
+  "translation": "подписывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "abonnir",
+  "infinitive": "abonnir",
+  "translation": "улучшать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aborder",
+  "infinitive": "aborder",
+  "translation": "подходить, приступать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aboucher",
+  "infinitive": "aboucher",
+  "translation": "соединять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "abouler",
+  "infinitive": "abouler",
+  "translation": "выкладывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "abouter",
+  "infinitive": "abouter",
+  "translation": "стыковать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aboutir",
+  "infinitive": "aboutir",
+  "translation": "приводить к результату",
+  "group": "2",
   "aux": "avoir",
   "types": []
  },
@@ -26,6 +146,104 @@
   ]
  },
  {
+  "id": "abraser",
+  "infinitive": "abraser",
+  "translation": "шлифовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "abreuver",
+  "infinitive": "abreuver",
+  "translation": "поить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "abriter",
+  "infinitive": "abriter",
+  "translation": "укрывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "abroger",
+  "infinitive": "abroger",
+  "translation": "отменять закон",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-ger"
+  ]
+ },
+ {
+  "id": "abrutir",
+  "infinitive": "abrutir",
+  "translation": "отуплять",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "absorber",
+  "infinitive": "absorber",
+  "translation": "поглощать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "absoudre",
+  "infinitive": "absoudre",
+  "translation": "отпускать грехи",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "abstraire",
+  "infinitive": "abstraire",
+  "translation": "отвлекать, абстрагировать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "abuser",
+  "infinitive": "abuser",
+  "translation": "злоупотреблять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "accabler",
+  "infinitive": "accabler",
+  "translation": "подавлять, удручать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "accaparer",
+  "infinitive": "accaparer",
+  "translation": "монополизировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "accastiller",
+  "infinitive": "accastiller",
+  "translation": "оснащать судно",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "accélérer",
   "infinitive": "accélérer",
   "translation": "ускорять",
@@ -36,9 +254,65 @@
   ]
  },
  {
+  "id": "accentuer",
+  "infinitive": "accentuer",
+  "translation": "подчёркивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "accepter",
   "infinitive": "accepter",
   "translation": "принимать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "accessoiriser",
+  "infinitive": "accessoiriser",
+  "translation": "дополнять аксессуарами",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "accidenter",
+  "infinitive": "accidenter",
+  "translation": "повреждать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "acclamer",
+  "infinitive": "acclamer",
+  "translation": "приветствовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "acclimater",
+  "infinitive": "acclimater",
+  "translation": "акклиматизировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "accoler",
+  "infinitive": "accoler",
+  "translation": "сближать, соединять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "accommoder",
+  "infinitive": "accommoder",
+  "translation": "приспосабливать",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -52,10 +326,122 @@
   "types": []
  },
  {
+  "id": "accomplir",
+  "infinitive": "accomplir",
+  "translation": "совершать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "accorder",
+  "infinitive": "accorder",
+  "translation": "предоставлять, настраивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "accoster",
+  "infinitive": "accoster",
+  "translation": "причаливать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "accoter",
+  "infinitive": "accoter",
+  "translation": "подпирать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "accoucher",
+  "infinitive": "accoucher",
+  "translation": "рожать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "accoupler",
+  "infinitive": "accoupler",
+  "translation": "спаривать, соединять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "accoutrer",
+  "infinitive": "accoutrer",
+  "translation": "наряжать нелепо",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "accrocher",
+  "infinitive": "accrocher",
+  "translation": "цеплять, вешать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "accueillir",
   "infinitive": "accueillir",
   "translation": "принимать, встречать",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "acculer",
+  "infinitive": "acculer",
+  "translation": "прижимать к стене",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "acculturer",
+  "infinitive": "acculturer",
+  "translation": "приобщать к культуре",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "accumuler",
+  "infinitive": "accumuler",
+  "translation": "накапливать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "accuser",
+  "infinitive": "accuser",
+  "translation": "обвинять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "acharner",
+  "infinitive": "acharner",
+  "translation": "ожесточать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "acheminer",
+  "infinitive": "acheminer",
+  "translation": "направлять, доставлять",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -80,10 +466,126 @@
   ]
  },
  {
+  "id": "achopper",
+  "infinitive": "achopper",
+  "translation": "спотыкаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "acidifier",
+  "infinitive": "acidifier",
+  "translation": "подкислять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aciduler",
+  "infinitive": "aciduler",
+  "translation": "слегка подкислять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "acquérir",
   "infinitive": "acquérir",
   "translation": "приобретать",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "acquiescer",
+  "infinitive": "acquiescer",
+  "translation": "соглашаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-cer"
+  ]
+ },
+ {
+  "id": "acquitter",
+  "infinitive": "acquitter",
+  "translation": "оправдывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "actionner",
+  "infinitive": "actionner",
+  "translation": "приводить в действие",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "activer",
+  "infinitive": "activer",
+  "translation": "ускорять, включать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "actualiser",
+  "infinitive": "actualiser",
+  "translation": "обновлять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "adapter",
+  "infinitive": "adapter",
+  "translation": "приспосабливать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "additionner",
+  "infinitive": "additionner",
+  "translation": "складывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "adjectiver",
+  "infinitive": "adjectiver",
+  "translation": "употреблять как прилагательное",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "adjoindre",
+  "infinitive": "adjoindre",
+  "translation": "придавать, присоединять",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "adjuger",
+  "infinitive": "adjuger",
+  "translation": "присуждать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-ger"
+  ]
+ },
+ {
+  "id": "adjurer",
+  "infinitive": "adjurer",
+  "translation": "заклинать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -96,9 +598,377 @@
   "types": []
  },
  {
+  "id": "administrer",
+  "infinitive": "administrer",
+  "translation": "управлять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "admirer",
+  "infinitive": "admirer",
+  "translation": "восхищаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "admonester",
+  "infinitive": "admonester",
+  "translation": "увещевать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "adopter",
+  "infinitive": "adopter",
+  "translation": "усыновлять, принимать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "adorer",
+  "infinitive": "adorer",
+  "translation": "обожать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "adosser",
+  "infinitive": "adosser",
+  "translation": "прислонять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "adouber",
+  "infinitive": "adouber",
+  "translation": "посвящать в рыцари",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "adoucir",
+  "infinitive": "adoucir",
+  "translation": "смягчать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "adresser",
+  "infinitive": "adresser",
+  "translation": "адресовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "adsorber",
+  "infinitive": "adsorber",
+  "translation": "адсорбировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aduler",
+  "infinitive": "aduler",
+  "translation": "льстить, боготворить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affabuler",
+  "infinitive": "affabuler",
+  "translation": "выдумывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affadir",
+  "infinitive": "affadir",
+  "translation": "делать пресным",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affaiblir",
+  "infinitive": "affaiblir",
+  "translation": "ослаблять",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affaisser",
+  "infinitive": "affaisser",
+  "translation": "оседать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affaler",
+  "infinitive": "affaler",
+  "translation": "спускать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affamer",
+  "infinitive": "affamer",
+  "translation": "морить голодом",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affecter",
+  "infinitive": "affecter",
+  "translation": "притворяться, назначать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affectionner",
+  "infinitive": "affectionner",
+  "translation": "питать слабость",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affermer",
+  "infinitive": "affermer",
+  "translation": "сдавать в аренду",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affermir",
+  "infinitive": "affermir",
+  "translation": "укреплять",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "afficher",
+  "infinitive": "afficher",
+  "translation": "вывешивать, отображать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affiler",
+  "infinitive": "affiler",
+  "translation": "точить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affilier",
+  "infinitive": "affilier",
+  "translation": "принимать в члены",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affiner",
+  "infinitive": "affiner",
+  "translation": "улучшать, доводить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "affirmer",
   "infinitive": "affirmer",
   "translation": "утверждать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affleurer",
+  "infinitive": "affleurer",
+  "translation": "выравнивать заподлицо",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affliger",
+  "infinitive": "affliger",
+  "translation": "огорчать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-ger"
+  ]
+ },
+ {
+  "id": "afflouer",
+  "infinitive": "afflouer",
+  "translation": "поднимать судно",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affluer",
+  "infinitive": "affluer",
+  "translation": "стекаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affoler",
+  "infinitive": "affoler",
+  "translation": "приводить в панику",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affouiller",
+  "infinitive": "affouiller",
+  "translation": "подмывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affourager",
+  "infinitive": "affourager",
+  "translation": "задавать корм",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-ger"
+  ]
+ },
+ {
+  "id": "affourcher",
+  "infinitive": "affourcher",
+  "translation": "садиться верхом",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affranchir",
+  "infinitive": "affranchir",
+  "translation": "освобождать, франкировать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affriander",
+  "infinitive": "affriander",
+  "translation": "приманивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affrioler",
+  "infinitive": "affrioler",
+  "translation": "соблазнять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affronter",
+  "infinitive": "affronter",
+  "translation": "противостоять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affubler",
+  "infinitive": "affubler",
+  "translation": "нелепо наряжать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "affurer",
+  "infinitive": "affurer",
+  "translation": "наживаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "africaniser",
+  "infinitive": "africaniser",
+  "translation": "африканизировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "agacer",
+  "infinitive": "agacer",
+  "translation": "раздражать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-cer"
+  ]
+ },
+ {
+  "id": "agencer",
+  "infinitive": "agencer",
+  "translation": "компоновать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-cer"
+  ]
+ },
+ {
+  "id": "agenouiller",
+  "infinitive": "agenouiller",
+  "translation": "ставить на колени",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "agglutiner",
+  "infinitive": "agglutiner",
+  "translation": "склеивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aggraver",
+  "infinitive": "aggraver",
+  "translation": "усугублять",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -112,9 +982,299 @@
   "types": []
  },
  {
+  "id": "agiter",
+  "infinitive": "agiter",
+  "translation": "трясти, волновать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "agneler",
+  "infinitive": "agneler",
+  "translation": "ягниться",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "e→è"
+  ]
+ },
+ {
+  "id": "agonir",
+  "infinitive": "agonir",
+  "translation": "осыпать бранью",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "agoniser",
+  "infinitive": "agoniser",
+  "translation": "агонизировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "agrafer",
+  "infinitive": "agrafer",
+  "translation": "скреплять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "agrandir",
+  "infinitive": "agrandir",
+  "translation": "увеличивать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "agresser",
+  "infinitive": "agresser",
+  "translation": "нападать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "agripper",
+  "infinitive": "agripper",
+  "translation": "хватать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aguerrir",
+  "infinitive": "aguerrir",
+  "translation": "закалять",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aguicher",
+  "infinitive": "aguicher",
+  "translation": "завлекать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ahaner",
+  "infinitive": "ahaner",
+  "translation": "пыхтеть от натуги",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ahurir",
+  "infinitive": "ahurir",
+  "translation": "ошарашивать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aider",
+  "infinitive": "aider",
+  "translation": "помогать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aigrir",
+  "infinitive": "aigrir",
+  "translation": "озлоблять",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aiguiller",
+  "infinitive": "aiguiller",
+  "translation": "направлять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aiguillonner",
+  "infinitive": "aiguillonner",
+  "translation": "подстёгивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aiguiser",
+  "infinitive": "aiguiser",
+  "translation": "точить, обострять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ailler",
+  "infinitive": "ailler",
+  "translation": "приправлять чесноком",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aimanter",
+  "infinitive": "aimanter",
+  "translation": "намагничивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "aimer",
   "infinitive": "aimer",
   "translation": "любить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "airer",
+  "infinitive": "airer",
+  "translation": "проветривать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ajointer",
+  "infinitive": "ajointer",
+  "translation": "стыковать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ajourer",
+  "infinitive": "ajourer",
+  "translation": "делать сквозным",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ajourner",
+  "infinitive": "ajourner",
+  "translation": "откладывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ajouter",
+  "infinitive": "ajouter",
+  "translation": "добавлять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ajuster",
+  "infinitive": "ajuster",
+  "translation": "подгонять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "alanguir",
+  "infinitive": "alanguir",
+  "translation": "расслаблять",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "alarmer",
+  "infinitive": "alarmer",
+  "translation": "тревожить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "alcaliniser",
+  "infinitive": "alcaliniser",
+  "translation": "подщелачивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "alcaliser",
+  "infinitive": "alcaliser",
+  "translation": "ощелачивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "alcooliser",
+  "infinitive": "alcooliser",
+  "translation": "спиртовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "alerter",
+  "infinitive": "alerter",
+  "translation": "предупреждать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aleviner",
+  "infinitive": "aleviner",
+  "translation": "зарыблять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aligner",
+  "infinitive": "aligner",
+  "translation": "выравнивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "alimenter",
+  "infinitive": "alimenter",
+  "translation": "питать, снабжать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aliter",
+  "infinitive": "aliter",
+  "translation": "укладывать в постель",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "allaiter",
+  "infinitive": "allaiter",
+  "translation": "кормить грудью",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -128,6 +1288,14 @@
   "types": []
  },
  {
+  "id": "allier",
+  "infinitive": "allier",
+  "translation": "соединять, сочетать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "allonger",
   "infinitive": "allonger",
   "translation": "удлинять",
@@ -138,9 +1306,153 @@
   ]
  },
  {
+  "id": "allouer",
+  "infinitive": "allouer",
+  "translation": "выделять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "allumer",
   "infinitive": "allumer",
   "translation": "включать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "alluvionner",
+  "infinitive": "alluvionner",
+  "translation": "наносить ил",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "alourdir",
+  "infinitive": "alourdir",
+  "translation": "утяжелять",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "alpaguer",
+  "infinitive": "alpaguer",
+  "translation": "хватать, задерживать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "alterner",
+  "infinitive": "alterner",
+  "translation": "чередовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aluminer",
+  "infinitive": "aluminer",
+  "translation": "алюминировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aluner",
+  "infinitive": "aluner",
+  "translation": "обрабатывать квасцами",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "alunir",
+  "infinitive": "alunir",
+  "translation": "прилуняться",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "amadouer",
+  "infinitive": "amadouer",
+  "translation": "задабривать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "amaigrir",
+  "infinitive": "amaigrir",
+  "translation": "истощать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "amalgamer",
+  "infinitive": "amalgamer",
+  "translation": "соединять, смешивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "amariner",
+  "infinitive": "amariner",
+  "translation": "приучать к морю",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "amarrer",
+  "infinitive": "amarrer",
+  "translation": "швартовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "amasser",
+  "infinitive": "amasser",
+  "translation": "копить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ambitionner",
+  "infinitive": "ambitionner",
+  "translation": "стремиться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ambler",
+  "infinitive": "ambler",
+  "translation": "идти иноходью",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ambrer",
+  "infinitive": "ambrer",
+  "translation": "подкрашивать янтарём",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "amender",
+  "infinitive": "amender",
+  "translation": "улучшать, вносить поправки",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -156,6 +1468,246 @@
   ]
  },
  {
+  "id": "amenuiser",
+  "infinitive": "amenuiser",
+  "translation": "уменьшать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "amerrir",
+  "infinitive": "amerrir",
+  "translation": "садиться на воду",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ameublir",
+  "infinitive": "ameublir",
+  "translation": "разрыхлять",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ameuter",
+  "infinitive": "ameuter",
+  "translation": "поднимать толпу",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "amidonner",
+  "infinitive": "amidonner",
+  "translation": "крахмалить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "amincir",
+  "infinitive": "amincir",
+  "translation": "делать тоньше",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "amnistier",
+  "infinitive": "amnistier",
+  "translation": "амнистировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "amocher",
+  "infinitive": "amocher",
+  "translation": "уродовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "amodier",
+  "infinitive": "amodier",
+  "translation": "сдавать в аренду",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "amollir",
+  "infinitive": "amollir",
+  "translation": "размягчать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "amonceler",
+  "infinitive": "amonceler",
+  "translation": "нагромождать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "ll/tt"
+  ]
+ },
+ {
+  "id": "amorcer",
+  "infinitive": "amorcer",
+  "translation": "начинать, наживлять",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-cer"
+  ]
+ },
+ {
+  "id": "amortir",
+  "infinitive": "amortir",
+  "translation": "смягчать, амортизировать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "amplifier",
+  "infinitive": "amplifier",
+  "translation": "усиливать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "amputer",
+  "infinitive": "amputer",
+  "translation": "ампутировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "amurer",
+  "infinitive": "amurer",
+  "translation": "растягивать парус",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "amuser",
+  "infinitive": "amuser",
+  "translation": "забавлять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "analyser",
+  "infinitive": "analyser",
+  "translation": "анализировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "anastomoser",
+  "infinitive": "anastomoser",
+  "translation": "соединять анастомозом",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ancrer",
+  "infinitive": "ancrer",
+  "translation": "закреплять, ставить на якорь",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "anglaiser",
+  "infinitive": "anglaiser",
+  "translation": "англизировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "angliciser",
+  "infinitive": "angliciser",
+  "translation": "англицизировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "angoisser",
+  "infinitive": "angoisser",
+  "translation": "вызывать тревогу",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "animaliser",
+  "infinitive": "animaliser",
+  "translation": "уподоблять животному",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "animer",
+  "infinitive": "animer",
+  "translation": "оживлять, вести",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ankyloser",
+  "infinitive": "ankyloser",
+  "translation": "вызывать неподвижность",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "anneler",
+  "infinitive": "anneler",
+  "translation": "окольцовывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "e→è"
+  ]
+ },
+ {
+  "id": "annexer",
+  "infinitive": "annexer",
+  "translation": "присоединять",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "e→è"
+  ]
+ },
+ {
+  "id": "annihiler",
+  "infinitive": "annihiler",
+  "translation": "уничтожать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "annoncer",
   "infinitive": "annoncer",
   "translation": "объявлять",
@@ -166,10 +1718,146 @@
   ]
  },
  {
+  "id": "annoter",
+  "infinitive": "annoter",
+  "translation": "аннотировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "annualiser",
+  "infinitive": "annualiser",
+  "translation": "переводить на годовую основу",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "annuler",
+  "infinitive": "annuler",
+  "translation": "отменять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "anoblir",
+  "infinitive": "anoblir",
+  "translation": "возводить в дворянство",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "anodiser",
+  "infinitive": "anodiser",
+  "translation": "анодировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "anonymiser",
+  "infinitive": "anonymiser",
+  "translation": "обезличивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "anordir",
+  "infinitive": "anordir",
+  "translation": "поворачивать к северу",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "anticiper",
+  "infinitive": "anticiper",
+  "translation": "предвосхищать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "antidater",
+  "infinitive": "antidater",
+  "translation": "датировать задним числом",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "apaiser",
+  "infinitive": "apaiser",
+  "translation": "успокаивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "apercevoir",
   "infinitive": "apercevoir",
   "translation": "замечать",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "apeurer",
+  "infinitive": "apeurer",
+  "translation": "пугать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "apiquer",
+  "infinitive": "apiquer",
+  "translation": "поднимать рей",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aplanir",
+  "infinitive": "aplanir",
+  "translation": "выравнивать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aplatir",
+  "infinitive": "aplatir",
+  "translation": "расплющивать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "apostasier",
+  "infinitive": "apostasier",
+  "translation": "отступать от веры",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "apostiller",
+  "infinitive": "apostiller",
+  "translation": "делать пометку",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "apostropher",
+  "infinitive": "apostropher",
+  "translation": "окликать, обращаться резко",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -182,10 +1870,34 @@
   "types": []
  },
  {
+  "id": "appareiller",
+  "infinitive": "appareiller",
+  "translation": "готовить к отплытию",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "apparier",
+  "infinitive": "apparier",
+  "translation": "подбирать пару",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "appartenir",
   "infinitive": "appartenir",
   "translation": "принадлежать",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "appauvrir",
+  "infinitive": "appauvrir",
+  "translation": "обеднять",
+  "group": "2",
   "aux": "avoir",
   "types": []
  },
@@ -200,10 +1912,50 @@
   ]
  },
  {
+  "id": "appendre",
+  "infinitive": "appendre",
+  "translation": "подвешивать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "appesantir",
+  "infinitive": "appesantir",
+  "translation": "отягощать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "applaudir",
   "infinitive": "applaudir",
   "translation": "аплодировать",
   "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "appliquer",
+  "infinitive": "appliquer",
+  "translation": "применять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "appointer",
+  "infinitive": "appointer",
+  "translation": "платить жалованье",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "apponter",
+  "infinitive": "apponter",
+  "translation": "садиться на палубу",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -216,10 +1968,58 @@
   "types": []
  },
  {
+  "id": "apposer",
+  "infinitive": "apposer",
+  "translation": "прикладывать, ставить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "apprendre",
   "infinitive": "apprendre",
   "translation": "учить, узнавать",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "apprivoiser",
+  "infinitive": "apprivoiser",
+  "translation": "приручать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "approcher",
+  "infinitive": "approcher",
+  "translation": "приближать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "approfondir",
+  "infinitive": "approfondir",
+  "translation": "углублять",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "approuver",
+  "infinitive": "approuver",
+  "translation": "одобрять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "approvisionner",
+  "infinitive": "approvisionner",
+  "translation": "снабжать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -234,9 +2034,179 @@
   ]
  },
  {
+  "id": "apurer",
+  "infinitive": "apurer",
+  "translation": "выверять счета",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "araser",
+  "infinitive": "araser",
+  "translation": "срезать заподлицо",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "arbitrer",
+  "infinitive": "arbitrer",
+  "translation": "судить, арбитрировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "arcbouter",
+  "infinitive": "arcbouter",
+  "translation": "подпирать контрфорсом",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "architecturer",
+  "infinitive": "architecturer",
+  "translation": "выстраивать структуру",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "archiver",
+  "infinitive": "archiver",
+  "translation": "архивировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "argenter",
+  "infinitive": "argenter",
+  "translation": "серебрить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "arguer",
+  "infinitive": "arguer",
+  "translation": "доказывать, выводить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "argumenter",
+  "infinitive": "argumenter",
+  "translation": "аргументировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ariser",
+  "infinitive": "ariser",
+  "translation": "брать рифы",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "armer",
+  "infinitive": "armer",
+  "translation": "вооружать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "arnaquer",
+  "infinitive": "arnaquer",
+  "translation": "надувать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aromatiser",
+  "infinitive": "aromatiser",
+  "translation": "ароматизировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "arpenter",
+  "infinitive": "arpenter",
+  "translation": "мерить шагами",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "arquer",
+  "infinitive": "arquer",
+  "translation": "выгибать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "arracher",
+  "infinitive": "arracher",
+  "translation": "вырывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "arraisonner",
+  "infinitive": "arraisonner",
+  "translation": "досматривать судно",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "arranger",
+  "infinitive": "arranger",
+  "translation": "устраивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-ger"
+  ]
+ },
+ {
+  "id": "arrenter",
+  "infinitive": "arrenter",
+  "translation": "сдавать за ренту",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "arrêter",
   "infinitive": "arrêter",
   "translation": "останавливать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "arrimer",
+  "infinitive": "arrimer",
+  "translation": "укреплять груз",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "arriser",
+  "infinitive": "arriser",
+  "translation": "уменьшать парусность",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -247,6 +2217,356 @@
   "translation": "прибывать, случаться",
   "group": "1",
   "aux": "etre",
+  "types": []
+ },
+ {
+  "id": "arrondir",
+  "infinitive": "arrondir",
+  "translation": "округлять",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "arroser",
+  "infinitive": "arroser",
+  "translation": "поливать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "articuler",
+  "infinitive": "articuler",
+  "translation": "произносить чётко",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ascensionner",
+  "infinitive": "ascensionner",
+  "translation": "восходить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aseptiser",
+  "infinitive": "aseptiser",
+  "translation": "обеззараживать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "asperger",
+  "infinitive": "asperger",
+  "translation": "обрызгивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-ger"
+  ]
+ },
+ {
+  "id": "asphalter",
+  "infinitive": "asphalter",
+  "translation": "асфальтировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "asphyxier",
+  "infinitive": "asphyxier",
+  "translation": "удушать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aspirer",
+  "infinitive": "aspirer",
+  "translation": "вдыхать, стремиться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assagir",
+  "infinitive": "assagir",
+  "translation": "остепенять",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assaillir",
+  "infinitive": "assaillir",
+  "translation": "нападать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assainir",
+  "infinitive": "assainir",
+  "translation": "оздоровлять",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assaisonner",
+  "infinitive": "assaisonner",
+  "translation": "приправлять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assassiner",
+  "infinitive": "assassiner",
+  "translation": "убивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assembler",
+  "infinitive": "assembler",
+  "translation": "собирать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assener",
+  "infinitive": "assener",
+  "translation": "наносить удар",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "e→è"
+  ]
+ },
+ {
+  "id": "asseoir",
+  "infinitive": "asseoir",
+  "translation": "усаживать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assermenter",
+  "infinitive": "assermenter",
+  "translation": "приводить к присяге",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "asservir",
+  "infinitive": "asservir",
+  "translation": "порабощать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assigner",
+  "infinitive": "assigner",
+  "translation": "назначать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assimiler",
+  "infinitive": "assimiler",
+  "translation": "усваивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assister",
+  "infinitive": "assister",
+  "translation": "присутствовать, помогать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "associer",
+  "infinitive": "associer",
+  "translation": "связывать, объединять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assoiffer",
+  "infinitive": "assoiffer",
+  "translation": "вызывать жажду",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assoler",
+  "infinitive": "assoler",
+  "translation": "чередовать посевы",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assombrir",
+  "infinitive": "assombrir",
+  "translation": "омрачать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assommer",
+  "infinitive": "assommer",
+  "translation": "оглушать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assortir",
+  "infinitive": "assortir",
+  "translation": "подбирать в тон",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assoupir",
+  "infinitive": "assoupir",
+  "translation": "усыплять",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assouplir",
+  "infinitive": "assouplir",
+  "translation": "делать гибким",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assourdir",
+  "infinitive": "assourdir",
+  "translation": "оглушать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assouvir",
+  "infinitive": "assouvir",
+  "translation": "утолять",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assujettir",
+  "infinitive": "assujettir",
+  "translation": "подчинять, закреплять",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assumer",
+  "infinitive": "assumer",
+  "translation": "брать на себя",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "assurer",
+  "infinitive": "assurer",
+  "translation": "обеспечивать, страховать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "asticoter",
+  "infinitive": "asticoter",
+  "translation": "донимать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "astiquer",
+  "infinitive": "astiquer",
+  "translation": "надраивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "astreindre",
+  "infinitive": "astreindre",
+  "translation": "принуждать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "atermoyer",
+  "infinitive": "atermoyer",
+  "translation": "тянуть время",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-yer"
+  ]
+ },
+ {
+  "id": "atomiser",
+  "infinitive": "atomiser",
+  "translation": "распылять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "atrophier",
+  "infinitive": "atrophier",
+  "translation": "вызывать атрофию",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "attacher",
+  "infinitive": "attacher",
+  "translation": "привязывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "attaquer",
+  "infinitive": "attaquer",
+  "translation": "атаковать",
+  "group": "1",
+  "aux": "avoir",
   "types": []
  },
  {
@@ -276,6 +2596,240 @@
   "types": []
  },
  {
+  "id": "attendrir",
+  "infinitive": "attendrir",
+  "translation": "разжалобить, размягчать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "attenter",
+  "infinitive": "attenter",
+  "translation": "посягать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "atterrer",
+  "infinitive": "atterrer",
+  "translation": "сражать, повергать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "atterrir",
+  "infinitive": "atterrir",
+  "translation": "приземляться",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "attester",
+  "infinitive": "attester",
+  "translation": "свидетельствовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "attifer",
+  "infinitive": "attifer",
+  "translation": "наряжать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "attiger",
+  "infinitive": "attiger",
+  "translation": "преувеличивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-ger"
+  ]
+ },
+ {
+  "id": "attirer",
+  "infinitive": "attirer",
+  "translation": "привлекать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "attiser",
+  "infinitive": "attiser",
+  "translation": "раздувать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "attraper",
+  "infinitive": "attraper",
+  "translation": "ловить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "attribuer",
+  "infinitive": "attribuer",
+  "translation": "приписывать, присваивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "attrister",
+  "infinitive": "attrister",
+  "translation": "печалить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "attrouper",
+  "infinitive": "attrouper",
+  "translation": "собирать толпой",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "auditer",
+  "infinitive": "auditer",
+  "translation": "проводить аудит",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "auditionner",
+  "infinitive": "auditionner",
+  "translation": "прослушивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "augmenter",
+  "infinitive": "augmenter",
+  "translation": "увеличивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "augurer",
+  "infinitive": "augurer",
+  "translation": "предвещать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "auner",
+  "infinitive": "auner",
+  "translation": "мерить локтями",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aurifier",
+  "infinitive": "aurifier",
+  "translation": "пломбировать золотом",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ausculter",
+  "infinitive": "ausculter",
+  "translation": "выслушивать больного",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "authentifier",
+  "infinitive": "authentifier",
+  "translation": "удостоверять подлинность",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "authentiquer",
+  "infinitive": "authentiquer",
+  "translation": "придавать законную силу",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "autographier",
+  "infinitive": "autographier",
+  "translation": "надписывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "automatiser",
+  "infinitive": "automatiser",
+  "translation": "автоматизировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "autopsier",
+  "infinitive": "autopsier",
+  "translation": "вскрывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "autoriser",
+  "infinitive": "autoriser",
+  "translation": "разрешать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "avachir",
+  "infinitive": "avachir",
+  "translation": "растягивать, обвисать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "avaler",
+  "infinitive": "avaler",
+  "translation": "глотать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "avaliser",
+  "infinitive": "avaliser",
+  "translation": "поручаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "avancer",
   "infinitive": "avancer",
   "translation": "продвигаться",
@@ -286,10 +2840,92 @@
   ]
  },
  {
+  "id": "avantager",
+  "infinitive": "avantager",
+  "translation": "давать преимущество",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-ger"
+  ]
+ },
+ {
+  "id": "avarier",
+  "infinitive": "avarier",
+  "translation": "портить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aventurer",
+  "infinitive": "aventurer",
+  "translation": "рисковать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "avertir",
   "infinitive": "avertir",
   "translation": "предупреждать",
   "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aveugler",
+  "infinitive": "aveugler",
+  "translation": "ослеплять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aveulir",
+  "infinitive": "aveulir",
+  "translation": "расслаблять волю",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "avilir",
+  "infinitive": "avilir",
+  "translation": "обесценивать, унижать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aviner",
+  "infinitive": "aviner",
+  "translation": "пропитывать вином",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aviser",
+  "infinitive": "aviser",
+  "translation": "извещать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "avitailler",
+  "infinitive": "avitailler",
+  "translation": "снабжать провиантом",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "aviver",
+  "infinitive": "aviver",
+  "translation": "оживлять, усиливать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -302,9 +2938,165 @@
   "types": []
  },
  {
+  "id": "avoisiner",
+  "infinitive": "avoisiner",
+  "translation": "граничить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "avorter",
+  "infinitive": "avorter",
+  "translation": "прерывать беременность",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "avouer",
   "infinitive": "avouer",
   "translation": "признаваться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "avoyer",
+  "infinitive": "avoyer",
+  "translation": "разводить зубья пилы",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-yer"
+  ]
+ },
+ {
+  "id": "babiller",
+  "infinitive": "babiller",
+  "translation": "лепетать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bachoter",
+  "infinitive": "bachoter",
+  "translation": "зубрить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "badauder",
+  "infinitive": "badauder",
+  "translation": "глазеть",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bader",
+  "infinitive": "bader",
+  "translation": "болтать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "badger",
+  "infinitive": "badger",
+  "translation": "отмечаться пропуском",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-ger"
+  ]
+ },
+ {
+  "id": "badigeonner",
+  "infinitive": "badigeonner",
+  "translation": "мазать, белить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "badiner",
+  "infinitive": "badiner",
+  "translation": "шутить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bafouer",
+  "infinitive": "bafouer",
+  "translation": "высмеивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bafouiller",
+  "infinitive": "bafouiller",
+  "translation": "бормотать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bagarrer",
+  "infinitive": "bagarrer",
+  "translation": "драться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "baguenauder",
+  "infinitive": "baguenauder",
+  "translation": "слоняться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "baguer",
+  "infinitive": "baguer",
+  "translation": "окольцовывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "baigner",
+  "infinitive": "baigner",
+  "translation": "купать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bailler",
+  "infinitive": "bailler",
+  "translation": "вычерпывать воду",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "baiser",
+  "infinitive": "baiser",
+  "translation": "целовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "baisoter",
+  "infinitive": "baisoter",
+  "translation": "чмокать",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -318,6 +3110,32 @@
   "types": []
  },
  {
+  "id": "balader",
+  "infinitive": "balader",
+  "translation": "прогуливать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "balafrer",
+  "infinitive": "balafrer",
+  "translation": "рассекать шрамом",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "balancer",
+  "infinitive": "balancer",
+  "translation": "качать, уравновешивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-cer"
+  ]
+ },
+ {
   "id": "balayer",
   "infinitive": "balayer",
   "translation": "подметать",
@@ -326,6 +3144,346 @@
   "types": [
    "-ayer"
   ]
+ },
+ {
+  "id": "balbutier",
+  "infinitive": "balbutier",
+  "translation": "лепетать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "baliser",
+  "infinitive": "baliser",
+  "translation": "размечать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "balkaniser",
+  "infinitive": "balkaniser",
+  "translation": "балканизировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ballaster",
+  "infinitive": "ballaster",
+  "translation": "балластировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ballonner",
+  "infinitive": "ballonner",
+  "translation": "вздувать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ballotter",
+  "infinitive": "ballotter",
+  "translation": "болтать, трясти",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bambocher",
+  "infinitive": "bambocher",
+  "translation": "кутить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "banaliser",
+  "infinitive": "banaliser",
+  "translation": "опошлять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bananer",
+  "infinitive": "bananer",
+  "translation": "надувать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bancher",
+  "infinitive": "bancher",
+  "translation": "заливать бетон в опалубку",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bander",
+  "infinitive": "bander",
+  "translation": "бинтовать, натягивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "banner",
+  "infinitive": "banner",
+  "translation": "закрывать навесом",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bannir",
+  "infinitive": "bannir",
+  "translation": "изгонять",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "banquer",
+  "infinitive": "banquer",
+  "translation": "платить по счёту",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "banqueter",
+  "infinitive": "banqueter",
+  "translation": "пировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "ll/tt"
+  ]
+ },
+ {
+  "id": "baptiser",
+  "infinitive": "baptiser",
+  "translation": "крестить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "baragouiner",
+  "infinitive": "baragouiner",
+  "translation": "говорить коряво",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "baraquer",
+  "infinitive": "baraquer",
+  "translation": "размещать в бараках",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "baratiner",
+  "infinitive": "baratiner",
+  "translation": "заговаривать зубы",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "baratter",
+  "infinitive": "baratter",
+  "translation": "сбивать масло",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "barber",
+  "infinitive": "barber",
+  "translation": "надоедать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "barbifier",
+  "infinitive": "barbifier",
+  "translation": "брить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "barboter",
+  "infinitive": "barboter",
+  "translation": "плескаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "barbouiller",
+  "infinitive": "barbouiller",
+  "translation": "пачкать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "barder",
+  "infinitive": "barder",
+  "translation": "покрывать бронёй",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "barguigner",
+  "infinitive": "barguigner",
+  "translation": "мяться, колебаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "barioler",
+  "infinitive": "barioler",
+  "translation": "пестро раскрашивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "baronner",
+  "infinitive": "baronner",
+  "translation": "возводить в бароны",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "barouder",
+  "infinitive": "barouder",
+  "translation": "сражаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "barrer",
+  "infinitive": "barrer",
+  "translation": "перегораживать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "barricader",
+  "infinitive": "barricader",
+  "translation": "баррикадировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "barrir",
+  "infinitive": "barrir",
+  "translation": "трубить о слоне",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "basaner",
+  "infinitive": "basaner",
+  "translation": "дубить, загорать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "basculer",
+  "infinitive": "basculer",
+  "translation": "опрокидывать, переключать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "baser",
+  "infinitive": "baser",
+  "translation": "основывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bassiner",
+  "infinitive": "bassiner",
+  "translation": "обмывать, надоедать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "baster",
+  "infinitive": "baster",
+  "translation": "уступать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bastillonner",
+  "infinitive": "bastillonner",
+  "translation": "обкладывать салом",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bastonner",
+  "infinitive": "bastonner",
+  "translation": "лупить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "batailler",
+  "infinitive": "batailler",
+  "translation": "сражаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bateler",
+  "infinitive": "bateler",
+  "translation": "потешать публику",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "e→è"
+  ]
+ },
+ {
+  "id": "batifoler",
+  "infinitive": "batifoler",
+  "translation": "резвиться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
  },
  {
   "id": "bâtir",
@@ -352,10 +3510,744 @@
   "types": []
  },
  {
+  "id": "bavasser",
+  "infinitive": "bavasser",
+  "translation": "трепаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "baver",
+  "infinitive": "baver",
+  "translation": "пускать слюни",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bavocher",
+  "infinitive": "bavocher",
+  "translation": "мазать при печати",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bayer",
+  "infinitive": "bayer",
+  "translation": "глазеть разинув рот",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-ayer"
+  ]
+ },
+ {
+  "id": "bazarder",
+  "infinitive": "bazarder",
+  "translation": "сбывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "becqueter",
+  "infinitive": "becqueter",
+  "translation": "клевать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "e→è"
+  ]
+ },
+ {
+  "id": "becter",
+  "infinitive": "becter",
+  "translation": "есть",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bedonner",
+  "infinitive": "bedonner",
+  "translation": "отращивать живот",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bercer",
+  "infinitive": "bercer",
+  "translation": "баюкать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-cer"
+  ]
+ },
+ {
+  "id": "berner",
+  "infinitive": "berner",
+  "translation": "дурачить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "besogner",
+  "infinitive": "besogner",
+  "translation": "трудиться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "beugler",
+  "infinitive": "beugler",
+  "translation": "мычать, реветь",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "beurrer",
+  "infinitive": "beurrer",
+  "translation": "намазывать маслом",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "biaiser",
+  "infinitive": "biaiser",
+  "translation": "кривить, идти окольно",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "biberonner",
+  "infinitive": "biberonner",
+  "translation": "выпивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bicher",
+  "infinitive": "bicher",
+  "translation": "ладить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bichonner",
+  "infinitive": "bichonner",
+  "translation": "холить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bidouiller",
+  "infinitive": "bidouiller",
+  "translation": "мастерить наспех",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "biffer",
+  "infinitive": "biffer",
+  "translation": "вычёркивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bifurquer",
+  "infinitive": "bifurquer",
+  "translation": "разветвляться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bigarrer",
+  "infinitive": "bigarrer",
+  "translation": "пестрить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bigler",
+  "infinitive": "bigler",
+  "translation": "косить глазами",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bigophoner",
+  "infinitive": "bigophoner",
+  "translation": "названивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bigorner",
+  "infinitive": "bigorner",
+  "translation": "помять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "billebauder",
+  "infinitive": "billebauder",
+  "translation": "охотиться без плана",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "billonner",
+  "infinitive": "billonner",
+  "translation": "подделывать монету",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "biloquer",
+  "infinitive": "biloquer",
+  "translation": "перепахивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "biner",
+  "infinitive": "biner",
+  "translation": "рыхлить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "biologiser",
+  "infinitive": "biologiser",
+  "translation": "биологизировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "biper",
+  "infinitive": "biper",
+  "translation": "подавать сигнал",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "biscuiter",
+  "infinitive": "biscuiter",
+  "translation": "обжигать керамику",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "biseauter",
+  "infinitive": "biseauter",
+  "translation": "скашивать кромку",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "biser",
+  "infinitive": "biser",
+  "translation": "целовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bisquer",
+  "infinitive": "bisquer",
+  "translation": "досадовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bisser",
+  "infinitive": "bisser",
+  "translation": "просить на бис",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bistourner",
+  "infinitive": "bistourner",
+  "translation": "скручивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bistrer",
+  "infinitive": "bistrer",
+  "translation": "подкрашивать в бистр",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "biter",
+  "infinitive": "biter",
+  "translation": "понимать, ловить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bitumer",
+  "infinitive": "bitumer",
+  "translation": "асфальтировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bivouaquer",
+  "infinitive": "bivouaquer",
+  "translation": "располагаться биваком",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bizuter",
+  "infinitive": "bizuter",
+  "translation": "устраивать посвящение",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "blackbouler",
+  "infinitive": "blackbouler",
+  "translation": "проваливать на выборах",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "blaguer",
+  "infinitive": "blaguer",
+  "translation": "шутить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "blairer",
+  "infinitive": "blairer",
+  "translation": "выносить кого-то",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "blanchir",
+  "infinitive": "blanchir",
+  "translation": "белить, отбеливать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "blasonner",
+  "infinitive": "blasonner",
+  "translation": "украшать гербом",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "blesser",
+  "infinitive": "blesser",
+  "translation": "ранить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "blettir",
+  "infinitive": "blettir",
+  "translation": "перезревать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bleuir",
+  "infinitive": "bleuir",
+  "translation": "синеть",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "blinder",
+  "infinitive": "blinder",
+  "translation": "бронировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "blondir",
+  "infinitive": "blondir",
+  "translation": "светлеть, золотиться",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "blondoyer",
+  "infinitive": "blondoyer",
+  "translation": "отливать золотом",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-yer"
+  ]
+ },
+ {
+  "id": "bloquer",
+  "infinitive": "bloquer",
+  "translation": "блокировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "blouser",
+  "infinitive": "blouser",
+  "translation": "вводить в заблуждение",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bluffer",
+  "infinitive": "bluffer",
+  "translation": "блефовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bluter",
+  "infinitive": "bluter",
+  "translation": "просеивать муку",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bobiner",
+  "infinitive": "bobiner",
+  "translation": "наматывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bocarder",
+  "infinitive": "bocarder",
+  "translation": "дробить руду",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "boire",
   "infinitive": "boire",
   "translation": "пить",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "boiser",
+  "infinitive": "boiser",
+  "translation": "засаживать лесом",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "boiter",
+  "infinitive": "boiter",
+  "translation": "хромать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "boitiller",
+  "infinitive": "boitiller",
+  "translation": "прихрамывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bombarder",
+  "infinitive": "bombarder",
+  "translation": "бомбардировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bomber",
+  "infinitive": "bomber",
+  "translation": "выгибать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bondir",
+  "infinitive": "bondir",
+  "translation": "подпрыгивать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bondonner",
+  "infinitive": "bondonner",
+  "translation": "затыкать бочку",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bonifier",
+  "infinitive": "bonifier",
+  "translation": "улучшать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bonimenter",
+  "infinitive": "bonimenter",
+  "translation": "зазывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bonir",
+  "infinitive": "bonir",
+  "translation": "болтать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "border",
+  "infinitive": "border",
+  "translation": "подшивать, окаймлять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bordurer",
+  "infinitive": "bordurer",
+  "translation": "обрамлять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "borner",
+  "infinitive": "borner",
+  "translation": "ограничивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bornoyer",
+  "infinitive": "bornoyer",
+  "translation": "визировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-yer"
+  ]
+ },
+ {
+  "id": "bosseler",
+  "infinitive": "bosseler",
+  "translation": "вминать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "e→è"
+  ]
+ },
+ {
+  "id": "bosser",
+  "infinitive": "bosser",
+  "translation": "вкалывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bossuer",
+  "infinitive": "bossuer",
+  "translation": "вминать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bostonner",
+  "infinitive": "bostonner",
+  "translation": "танцевать бостон",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "botaniser",
+  "infinitive": "botaniser",
+  "translation": "собирать гербарий",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "botteler",
+  "infinitive": "botteler",
+  "translation": "вязать в снопы",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "e→è"
+  ]
+ },
+ {
+  "id": "botter",
+  "infinitive": "botter",
+  "translation": "обувать, пинать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "boubouler",
+  "infinitive": "boubouler",
+  "translation": "ухать по-совиному",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "boucaner",
+  "infinitive": "boucaner",
+  "translation": "коптить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "boucharder",
+  "infinitive": "boucharder",
+  "translation": "обрабатывать бучардой",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "boucher",
+  "infinitive": "boucher",
+  "translation": "затыкать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bouchonner",
+  "infinitive": "bouchonner",
+  "translation": "растирать, образовывать пробку",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "boucler",
+  "infinitive": "boucler",
+  "translation": "застёгивать, завершать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bouder",
+  "infinitive": "bouder",
+  "translation": "дуться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "boudiner",
+  "infinitive": "boudiner",
+  "translation": "стягивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bouffer",
+  "infinitive": "bouffer",
+  "translation": "жрать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bouffir",
+  "infinitive": "bouffir",
+  "translation": "раздувать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bouffonner",
+  "infinitive": "bouffonner",
+  "translation": "паясничать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -370,6 +4262,824 @@
   ]
  },
  {
+  "id": "bougonner",
+  "infinitive": "bougonner",
+  "translation": "ворчать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bouillir",
+  "infinitive": "bouillir",
+  "translation": "кипеть",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bouillonner",
+  "infinitive": "bouillonner",
+  "translation": "бурлить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bouillotter",
+  "infinitive": "bouillotter",
+  "translation": "слегка кипеть",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "boulanger",
+  "infinitive": "boulanger",
+  "translation": "печь хлеб",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-ger"
+  ]
+ },
+ {
+  "id": "bouler",
+  "infinitive": "bouler",
+  "translation": "катать шаром",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bouleverser",
+  "infinitive": "bouleverser",
+  "translation": "потрясать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "boulocher",
+  "infinitive": "boulocher",
+  "translation": "скатываться в катышки",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "boulonner",
+  "infinitive": "boulonner",
+  "translation": "привинчивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "boulotter",
+  "infinitive": "boulotter",
+  "translation": "перекусывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "boumer",
+  "infinitive": "boumer",
+  "translation": "идти на лад",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bouquiner",
+  "infinitive": "bouquiner",
+  "translation": "читать, рыться в книгах",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bourdonner",
+  "infinitive": "bourdonner",
+  "translation": "жужжать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bourgeonner",
+  "infinitive": "bourgeonner",
+  "translation": "распускать почки",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bourlinguer",
+  "infinitive": "bourlinguer",
+  "translation": "скитаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bourreler",
+  "infinitive": "bourreler",
+  "translation": "терзать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "e→è"
+  ]
+ },
+ {
+  "id": "bourrer",
+  "infinitive": "bourrer",
+  "translation": "набивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "boursicoter",
+  "infinitive": "boursicoter",
+  "translation": "играть на бирже по мелочи",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "boursoufler",
+  "infinitive": "boursoufler",
+  "translation": "вздувать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bousculer",
+  "infinitive": "bousculer",
+  "translation": "толкать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bousiller",
+  "infinitive": "bousiller",
+  "translation": "халтурить, портить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bouter",
+  "infinitive": "bouter",
+  "translation": "выталкивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "boutonner",
+  "infinitive": "boutonner",
+  "translation": "застёгивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bouturer",
+  "infinitive": "bouturer",
+  "translation": "черенковать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "boxer",
+  "infinitive": "boxer",
+  "translation": "боксировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "boycotter",
+  "infinitive": "boycotter",
+  "translation": "бойкотировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "braconner",
+  "infinitive": "braconner",
+  "translation": "браконьерствовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "brader",
+  "infinitive": "brader",
+  "translation": "распродавать за бесценок",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "brailler",
+  "infinitive": "brailler",
+  "translation": "орать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "braire",
+  "infinitive": "braire",
+  "translation": "реветь по-ослиному",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "braiser",
+  "infinitive": "braiser",
+  "translation": "тушить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bramer",
+  "infinitive": "bramer",
+  "translation": "реветь по-оленьи",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "brancarder",
+  "infinitive": "brancarder",
+  "translation": "нести на носилках",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "brancher",
+  "infinitive": "brancher",
+  "translation": "подключать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "brandiller",
+  "infinitive": "brandiller",
+  "translation": "раскачивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "brandir",
+  "infinitive": "brandir",
+  "translation": "потрясать, размахивать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "branler",
+  "infinitive": "branler",
+  "translation": "шатать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "braquer",
+  "infinitive": "braquer",
+  "translation": "наводить, направлять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "braser",
+  "infinitive": "braser",
+  "translation": "паять твёрдым припоем",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "brasiller",
+  "infinitive": "brasiller",
+  "translation": "жарить на углях",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "brasser",
+  "infinitive": "brasser",
+  "translation": "перемешивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "brasseyer",
+  "infinitive": "brasseyer",
+  "translation": "брасопить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "braver",
+  "infinitive": "braver",
+  "translation": "бросать вызов",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "brayer",
+  "infinitive": "brayer",
+  "translation": "смолить",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-ayer"
+  ]
+ },
+ {
+  "id": "bredouiller",
+  "infinitive": "bredouiller",
+  "translation": "мямлить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bretteler",
+  "infinitive": "bretteler",
+  "translation": "насекать зубилом",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "e→è"
+  ]
+ },
+ {
+  "id": "breveter",
+  "infinitive": "breveter",
+  "translation": "патентовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "ll/tt"
+  ]
+ },
+ {
+  "id": "bricoler",
+  "infinitive": "bricoler",
+  "translation": "мастерить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "brider",
+  "infinitive": "brider",
+  "translation": "взнуздывать, ограничивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "briefer",
+  "infinitive": "briefer",
+  "translation": "инструктировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "e→è"
+  ]
+ },
+ {
+  "id": "brigander",
+  "infinitive": "brigander",
+  "translation": "разбойничать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "briller",
+  "infinitive": "briller",
+  "translation": "блестеть",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "brimballer",
+  "infinitive": "brimballer",
+  "translation": "болтаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "briser",
+  "infinitive": "briser",
+  "translation": "разбивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "brocanter",
+  "infinitive": "brocanter",
+  "translation": "торговать стариной",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "brocher",
+  "infinitive": "brocher",
+  "translation": "сшивать, брошюровать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "broder",
+  "infinitive": "broder",
+  "translation": "вышивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "broncher",
+  "infinitive": "broncher",
+  "translation": "спотыкаться, дрогнуть",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bronzer",
+  "infinitive": "bronzer",
+  "translation": "загорать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "brosser",
+  "infinitive": "brosser",
+  "translation": "чистить щёткой",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "brouetter",
+  "infinitive": "brouetter",
+  "translation": "возить в тачке",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "brouiller",
+  "infinitive": "brouiller",
+  "translation": "мутить, ссорить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "brouter",
+  "infinitive": "brouter",
+  "translation": "щипать траву",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "broyer",
+  "infinitive": "broyer",
+  "translation": "дробить",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-yer"
+  ]
+ },
+ {
+  "id": "bruire",
+  "infinitive": "bruire",
+  "translation": "шелестеть",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bruisser",
+  "infinitive": "bruisser",
+  "translation": "шуршать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bruiter",
+  "infinitive": "bruiter",
+  "translation": "озвучивать шумами",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "brunir",
+  "infinitive": "brunir",
+  "translation": "смуглеть, полировать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "brusquer",
+  "infinitive": "brusquer",
+  "translation": "торопить, действовать резко",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "brutaliser",
+  "infinitive": "brutaliser",
+  "translation": "грубо обращаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "bureaucratiser",
+  "infinitive": "bureaucratiser",
+  "translation": "бюрократизировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "buriner",
+  "infinitive": "buriner",
+  "translation": "чеканить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "busquer",
+  "infinitive": "busquer",
+  "translation": "выгибать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "buter",
+  "infinitive": "buter",
+  "translation": "спотыкаться, упираться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "butiner",
+  "infinitive": "butiner",
+  "translation": "собирать нектар",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cabosser",
+  "infinitive": "cabosser",
+  "translation": "вминать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "caboter",
+  "infinitive": "caboter",
+  "translation": "плавать вдоль берега",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cabrer",
+  "infinitive": "cabrer",
+  "translation": "вставать на дыбы",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cabrioler",
+  "infinitive": "cabrioler",
+  "translation": "прыгать, скакать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cacarder",
+  "infinitive": "cacarder",
+  "translation": "гоготать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cacher",
+  "infinitive": "cacher",
+  "translation": "прятать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cacheter",
+  "infinitive": "cacheter",
+  "translation": "запечатывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "ll/tt"
+  ]
+ },
+ {
+  "id": "cachetonner",
+  "infinitive": "cachetonner",
+  "translation": "перебиваться подработками",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cadancher",
+  "infinitive": "cadancher",
+  "translation": "задавать ритм",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cadastrer",
+  "infinitive": "cadastrer",
+  "translation": "вносить в кадастр",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cadenasser",
+  "infinitive": "cadenasser",
+  "translation": "запирать на замок",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cadencer",
+  "infinitive": "cadencer",
+  "translation": "размерять",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-cer"
+  ]
+ },
+ {
+  "id": "cadrer",
+  "infinitive": "cadrer",
+  "translation": "кадрировать, согласовываться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cafarder",
+  "infinitive": "cafarder",
+  "translation": "ябедничать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cafouiller",
+  "infinitive": "cafouiller",
+  "translation": "путаться, барахлить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cafter",
+  "infinitive": "cafter",
+  "translation": "доносить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cahoter",
+  "infinitive": "cahoter",
+  "translation": "трясти на ухабах",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "caillasser",
+  "infinitive": "caillasser",
+  "translation": "забрасывать камнями",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "caillebotter",
+  "infinitive": "caillebotter",
+  "translation": "створаживать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cailler",
+  "infinitive": "cailler",
+  "translation": "свёртываться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "caillouter",
+  "infinitive": "caillouter",
+  "translation": "засыпать щебнем",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cajoler",
+  "infinitive": "cajoler",
+  "translation": "ласкать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "calaminer",
+  "infinitive": "calaminer",
+  "translation": "покрывать нагаром",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "calandrer",
+  "infinitive": "calandrer",
+  "translation": "каландрировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "calcifier",
+  "infinitive": "calcifier",
+  "translation": "обызвествлять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "calculer",
   "infinitive": "calculer",
   "translation": "вычислять",
@@ -378,9 +5088,467 @@
   "types": []
  },
  {
+  "id": "caler",
+  "infinitive": "caler",
+  "translation": "заклинивать, глохнуть",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "calfater",
+  "infinitive": "calfater",
+  "translation": "конопатить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "calfeutrer",
+  "infinitive": "calfeutrer",
+  "translation": "утеплять щели",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "calibrer",
+  "infinitive": "calibrer",
+  "translation": "калибровать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "calligraphier",
+  "infinitive": "calligraphier",
+  "translation": "выводить каллиграфически",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "calmer",
+  "infinitive": "calmer",
+  "translation": "успокаивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "calmir",
+  "infinitive": "calmir",
+  "translation": "стихать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "calomnier",
+  "infinitive": "calomnier",
+  "translation": "клеветать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "calorifuger",
+  "infinitive": "calorifuger",
+  "translation": "теплоизолировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-ger"
+  ]
+ },
+ {
+  "id": "calotter",
+  "infinitive": "calotter",
+  "translation": "давать подзатыльник",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "calquer",
+  "infinitive": "calquer",
+  "translation": "калькировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "camionner",
+  "infinitive": "camionner",
+  "translation": "перевозить грузовиком",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "camoufler",
+  "infinitive": "camoufler",
+  "translation": "маскировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "camper",
+  "infinitive": "camper",
+  "translation": "располагаться лагерем",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "canaliser",
+  "infinitive": "canaliser",
+  "translation": "направлять в русло",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "canarder",
+  "infinitive": "canarder",
+  "translation": "обстреливать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cancaner",
+  "infinitive": "cancaner",
+  "translation": "сплетничать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "candidater",
+  "infinitive": "candidater",
+  "translation": "подавать заявку",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "caner",
+  "infinitive": "caner",
+  "translation": "трусить, подыхать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "canneler",
+  "infinitive": "canneler",
+  "translation": "делать желобки",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "e→è"
+  ]
+ },
+ {
+  "id": "canner",
+  "infinitive": "canner",
+  "translation": "плести из тростника",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cannibaliser",
+  "infinitive": "cannibaliser",
+  "translation": "разбирать на запчасти",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "canoniser",
+  "infinitive": "canoniser",
+  "translation": "канонизировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "canonner",
+  "infinitive": "canonner",
+  "translation": "обстреливать из пушек",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "canoter",
+  "infinitive": "canoter",
+  "translation": "кататься на лодке",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cantiner",
+  "infinitive": "cantiner",
+  "translation": "питаться в столовой",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cantonner",
+  "infinitive": "cantonner",
+  "translation": "размещать на постой",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "canuler",
+  "infinitive": "canuler",
+  "translation": "докучать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "caoutchouter",
+  "infinitive": "caoutchouter",
+  "translation": "прорезинивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "caramboler",
+  "infinitive": "caramboler",
+  "translation": "сталкивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "carapater",
+  "infinitive": "carapater",
+  "translation": "удирать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "carbonater",
+  "infinitive": "carbonater",
+  "translation": "карбонизировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "carboniser",
+  "infinitive": "carboniser",
+  "translation": "обугливать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "carburer",
+  "infinitive": "carburer",
+  "translation": "работать на топливе",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "carcailler",
+  "infinitive": "carcailler",
+  "translation": "кричать по-перепелиному",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "carder",
+  "infinitive": "carder",
+  "translation": "чесать шерсть",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "carencer",
+  "infinitive": "carencer",
+  "translation": "вызывать нехватку",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-cer"
+  ]
+ },
+ {
+  "id": "caresser",
+  "infinitive": "caresser",
+  "translation": "ласкать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "carguer",
+  "infinitive": "carguer",
+  "translation": "убирать паруса",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "caricaturer",
+  "infinitive": "caricaturer",
+  "translation": "шаржировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "carotter",
+  "infinitive": "carotter",
+  "translation": "выманивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "carreler",
+  "infinitive": "carreler",
+  "translation": "класть плитку",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "ll/tt"
+  ]
+ },
+ {
+  "id": "carrer",
+  "infinitive": "carrer",
+  "translation": "придавать квадратную форму",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "carrosser",
+  "infinitive": "carrosser",
+  "translation": "делать кузов",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "carroyer",
+  "infinitive": "carroyer",
+  "translation": "размечать сеткой",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-yer"
+  ]
+ },
+ {
   "id": "casser",
   "infinitive": "casser",
   "translation": "ломать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "catastropher",
+  "infinitive": "catastropher",
+  "translation": "сражать наповал",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "catcher",
+  "infinitive": "catcher",
+  "translation": "бороться в кетче",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "catir",
+  "infinitive": "catir",
+  "translation": "лощить ткань",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cauchemarder",
+  "infinitive": "cauchemarder",
+  "translation": "видеть кошмары",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "causaliser",
+  "infinitive": "causaliser",
+  "translation": "устанавливать причинность",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "causer",
+  "infinitive": "causer",
+  "translation": "вызывать, беседовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cautionner",
+  "infinitive": "cautionner",
+  "translation": "поручаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cavalcader",
+  "infinitive": "cavalcader",
+  "translation": "скакать гурьбой",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cavaler",
+  "infinitive": "cavaler",
+  "translation": "удирать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "caver",
+  "infinitive": "caver",
+  "translation": "подкапывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "caviarder",
+  "infinitive": "caviarder",
+  "translation": "вымарывать",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -396,6 +5564,22 @@
   ]
  },
  {
+  "id": "ceindre",
+  "infinitive": "ceindre",
+  "translation": "опоясывать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ceinturer",
+  "infinitive": "ceinturer",
+  "translation": "обхватывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "célébrer",
   "infinitive": "célébrer",
   "translation": "праздновать",
@@ -404,6 +5588,40 @@
   "types": [
    "é→è"
   ]
+ },
+ {
+  "id": "celer",
+  "infinitive": "celer",
+  "translation": "утаивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "e→è"
+  ]
+ },
+ {
+  "id": "cendrer",
+  "infinitive": "cendrer",
+  "translation": "посыпать золой",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "censurer",
+  "infinitive": "censurer",
+  "translation": "подвергать цензуре",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cesser",
+  "infinitive": "cesser",
+  "translation": "прекращать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
  },
  {
   "id": "changer",
@@ -419,6 +5637,48 @@
   "id": "chanter",
   "infinitive": "chanter",
   "translation": "петь",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "charger",
+  "infinitive": "charger",
+  "translation": "нагружать, заряжать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-ger"
+  ]
+ },
+ {
+  "id": "charmer",
+  "infinitive": "charmer",
+  "translation": "очаровывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "chasser",
+  "infinitive": "chasser",
+  "translation": "охотиться, прогонять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "chauffer",
+  "infinitive": "chauffer",
+  "translation": "греть",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "chausser",
+  "infinitive": "chausser",
+  "translation": "обувать",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -440,10 +5700,114 @@
   "types": []
  },
  {
+  "id": "chuchoter",
+  "infinitive": "chuchoter",
+  "translation": "шептать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cintrer",
+  "infinitive": "cintrer",
+  "translation": "выгибать дугой, приталивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "circuler",
+  "infinitive": "circuler",
+  "translation": "циркулировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "cirer",
+  "infinitive": "cirer",
+  "translation": "натирать воском",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "citer",
+  "infinitive": "citer",
+  "translation": "цитировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "claquer",
+  "infinitive": "claquer",
+  "translation": "хлопать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "clicher",
+  "infinitive": "clicher",
+  "translation": "клишировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "clouer",
+  "infinitive": "clouer",
+  "translation": "прибивать гвоздями",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "coiffer",
+  "infinitive": "coiffer",
+  "translation": "причёсывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "coller",
+  "infinitive": "coller",
+  "translation": "клеить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "colorer",
+  "infinitive": "colorer",
+  "translation": "окрашивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "combattre",
   "infinitive": "combattre",
   "translation": "сражаться",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "combler",
+  "infinitive": "combler",
+  "translation": "заполнять, осыпать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "commander",
+  "infinitive": "commander",
+  "translation": "командовать, заказывать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -466,6 +5830,30 @@
   "types": []
  },
  {
+  "id": "communier",
+  "infinitive": "communier",
+  "translation": "причащаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "communiquer",
+  "infinitive": "communiquer",
+  "translation": "сообщать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "comparer",
+  "infinitive": "comparer",
+  "translation": "сравнивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "compléter",
   "infinitive": "compléter",
   "translation": "дополнять",
@@ -474,6 +5862,22 @@
   "types": [
    "é→è"
   ]
+ },
+ {
+  "id": "compliquer",
+  "infinitive": "compliquer",
+  "translation": "усложнять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "composer",
+  "infinitive": "composer",
+  "translation": "составлять, сочинять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
  },
  {
   "id": "comprendre",
@@ -487,6 +5891,14 @@
   "id": "compter",
   "infinitive": "compter",
   "translation": "считать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "concerner",
+  "infinitive": "concerner",
+  "translation": "касаться",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -508,10 +5920,50 @@
   "types": []
  },
  {
+  "id": "condamner",
+  "infinitive": "condamner",
+  "translation": "осуждать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "conduire",
   "infinitive": "conduire",
   "translation": "вести, водить",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "confectionner",
+  "infinitive": "confectionner",
+  "translation": "изготавливать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "confesser",
+  "infinitive": "confesser",
+  "translation": "исповедовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "confier",
+  "infinitive": "confier",
+  "translation": "доверять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "confirmer",
+  "infinitive": "confirmer",
+  "translation": "подтверждать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -532,10 +5984,50 @@
   "types": []
  },
  {
+  "id": "connecter",
+  "infinitive": "connecter",
+  "translation": "соединять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "conquérir",
   "infinitive": "conquérir",
   "translation": "завоёвывать",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "consacrer",
+  "infinitive": "consacrer",
+  "translation": "посвящать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "conseiller",
+  "infinitive": "conseiller",
+  "translation": "советовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "consentir",
+  "infinitive": "consentir",
+  "translation": "соглашаться",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "conserver",
+  "infinitive": "conserver",
+  "translation": "сохранять",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -550,6 +6042,38 @@
   ]
  },
  {
+  "id": "consister",
+  "infinitive": "consister",
+  "translation": "состоять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "consoler",
+  "infinitive": "consoler",
+  "translation": "утешать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "constater",
+  "infinitive": "constater",
+  "translation": "констатировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "constituer",
+  "infinitive": "constituer",
+  "translation": "составлять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "construire",
   "infinitive": "construire",
   "translation": "строить",
@@ -558,10 +6082,50 @@
   "types": []
  },
  {
+  "id": "consulter",
+  "infinitive": "consulter",
+  "translation": "консультироваться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "contacter",
+  "infinitive": "contacter",
+  "translation": "связываться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "contempler",
+  "infinitive": "contempler",
+  "translation": "созерцать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "contenir",
   "infinitive": "contenir",
   "translation": "содержать",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "contenter",
+  "infinitive": "contenter",
+  "translation": "удовлетворять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "conter",
+  "infinitive": "conter",
+  "translation": "рассказывать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -582,6 +6146,22 @@
   "types": []
  },
  {
+  "id": "contrarier",
+  "infinitive": "contrarier",
+  "translation": "перечить, расстраивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "contribuer",
+  "infinitive": "contribuer",
+  "translation": "способствовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "convaincre",
   "infinitive": "convaincre",
   "translation": "убеждать",
@@ -594,6 +6174,22 @@
   "infinitive": "convenir",
   "translation": "подходить",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "convertir",
+  "infinitive": "convertir",
+  "translation": "обращать, преобразовывать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "copier",
+  "infinitive": "copier",
+  "translation": "копировать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -624,10 +6220,42 @@
   "types": []
  },
  {
+  "id": "coucher",
+  "infinitive": "coucher",
+  "translation": "укладывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "coudre",
   "infinitive": "coudre",
   "translation": "шить",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "couler",
+  "infinitive": "couler",
+  "translation": "течь, тонуть",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "couper",
+  "infinitive": "couper",
+  "translation": "резать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "courber",
+  "infinitive": "courber",
+  "translation": "сгибать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -640,9 +6268,25 @@
   "types": []
  },
  {
+  "id": "couronner",
+  "infinitive": "couronner",
+  "translation": "короновать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "coûter",
   "infinitive": "coûter",
   "translation": "стоить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "couver",
+  "infinitive": "couver",
+  "translation": "высиживать, назревать",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -664,6 +6308,32 @@
   "types": []
  },
  {
+  "id": "craquer",
+  "infinitive": "craquer",
+  "translation": "трещать, сдавать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "creuser",
+  "infinitive": "creuser",
+  "translation": "копать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "crever",
+  "infinitive": "crever",
+  "translation": "лопаться, прокалывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "e→è"
+  ]
+ },
+ {
   "id": "crier",
   "infinitive": "crier",
   "translation": "кричать",
@@ -676,6 +6346,22 @@
   "infinitive": "croire",
   "translation": "верить, считать",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "croiser",
+  "infinitive": "croiser",
+  "translation": "скрещивать, встречать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "croquer",
+  "infinitive": "croquer",
+  "translation": "грызть, набрасывать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -704,9 +6390,41 @@
   "types": []
  },
  {
+  "id": "cultiver",
+  "infinitive": "cultiver",
+  "translation": "возделывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "daigner",
+  "infinitive": "daigner",
+  "translation": "соизволять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "danser",
   "infinitive": "danser",
   "translation": "танцевать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "darder",
+  "infinitive": "darder",
+  "translation": "метать, вонзать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "dater",
+  "infinitive": "dater",
+  "translation": "датировать",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -784,6 +6502,14 @@
   "types": []
  },
  {
+  "id": "demeurer",
+  "infinitive": "demeurer",
+  "translation": "оставаться, проживать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "dépendre",
   "infinitive": "dépendre",
   "translation": "зависеть",
@@ -832,6 +6558,14 @@
   "types": []
  },
  {
+  "id": "destiner",
+  "infinitive": "destiner",
+  "translation": "предназначать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "détruire",
   "infinitive": "détruire",
   "translation": "разрушать",
@@ -848,10 +6582,26 @@
   "types": []
  },
  {
+  "id": "deviner",
+  "infinitive": "deviner",
+  "translation": "угадывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "devoir",
   "infinitive": "devoir",
   "translation": "быть должным",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "dicter",
+  "infinitive": "dicter",
+  "translation": "диктовать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -864,6 +6614,14 @@
   "types": [
    "é→è"
   ]
+ },
+ {
+  "id": "diminuer",
+  "infinitive": "diminuer",
+  "translation": "уменьшать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
  },
  {
   "id": "dire",
@@ -900,9 +6658,97 @@
   "types": []
  },
  {
+  "id": "dispenser",
+  "infinitive": "dispenser",
+  "translation": "освобождать, раздавать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "disperser",
+  "infinitive": "disperser",
+  "translation": "рассеивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "disposer",
+  "infinitive": "disposer",
+  "translation": "располагать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "disputer",
+  "infinitive": "disputer",
+  "translation": "оспаривать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "dissiper",
+  "infinitive": "dissiper",
+  "translation": "рассеивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "distinguer",
+  "infinitive": "distinguer",
+  "translation": "различать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "distraire",
+  "infinitive": "distraire",
+  "translation": "отвлекать, развлекать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "distribuer",
+  "infinitive": "distribuer",
+  "translation": "распределять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "diviser",
+  "infinitive": "diviser",
+  "translation": "делить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "dominer",
+  "infinitive": "dominer",
+  "translation": "господствовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "donner",
   "infinitive": "donner",
   "translation": "давать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "dorer",
+  "infinitive": "dorer",
+  "translation": "золотить",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -912,6 +6758,30 @@
   "infinitive": "dormir",
   "translation": "спать",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "doubler",
+  "infinitive": "doubler",
+  "translation": "удваивать, дублировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "douter",
+  "infinitive": "douter",
+  "translation": "сомневаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "dresser",
+  "infinitive": "dresser",
+  "translation": "воздвигать, дрессировать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -950,6 +6820,14 @@
   ]
  },
  {
+  "id": "effectuer",
+  "infinitive": "effectuer",
+  "translation": "осуществлять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "effrayer",
   "infinitive": "effrayer",
   "translation": "пугать",
@@ -968,6 +6846,54 @@
   "types": []
  },
  {
+  "id": "emballer",
+  "infinitive": "emballer",
+  "translation": "упаковывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "embarquer",
+  "infinitive": "embarquer",
+  "translation": "садиться на борт",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "embarrasser",
+  "infinitive": "embarrasser",
+  "translation": "смущать, загромождать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "embaumer",
+  "infinitive": "embaumer",
+  "translation": "бальзамировать, благоухать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "embellir",
+  "infinitive": "embellir",
+  "translation": "украшать, хорошеть",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "embrasser",
+  "infinitive": "embrasser",
+  "translation": "обнимать, целовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "emmener",
   "infinitive": "emmener",
   "translation": "уводить",
@@ -976,6 +6902,22 @@
   "types": [
    "e→è"
   ]
+ },
+ {
+  "id": "emparer",
+  "infinitive": "emparer",
+  "translation": "завладевать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "emplir",
+  "infinitive": "emplir",
+  "translation": "наполнять",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
  },
  {
   "id": "employer",
@@ -996,6 +6938,22 @@
   "types": []
  },
  {
+  "id": "encadrer",
+  "infinitive": "encadrer",
+  "translation": "обрамлять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "encombrer",
+  "infinitive": "encombrer",
+  "translation": "загромождать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "encourager",
   "infinitive": "encourager",
   "translation": "поощрять",
@@ -1006,6 +6964,66 @@
   ]
  },
  {
+  "id": "endommager",
+  "infinitive": "endommager",
+  "translation": "повреждать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-ger"
+  ]
+ },
+ {
+  "id": "endormir",
+  "infinitive": "endormir",
+  "translation": "усыплять",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "endosser",
+  "infinitive": "endosser",
+  "translation": "надевать, брать на себя",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "enfermer",
+  "infinitive": "enfermer",
+  "translation": "запирать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "enflammer",
+  "infinitive": "enflammer",
+  "translation": "воспламенять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "enfoncer",
+  "infinitive": "enfoncer",
+  "translation": "вбивать, продавливать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-cer"
+  ]
+ },
+ {
+  "id": "enfouir",
+  "infinitive": "enfouir",
+  "translation": "зарывать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "engager",
   "infinitive": "engager",
   "translation": "нанимать",
@@ -1013,6 +7031,24 @@
   "aux": "avoir",
   "types": [
    "-ger"
+  ]
+ },
+ {
+  "id": "engloutir",
+  "infinitive": "engloutir",
+  "translation": "поглощать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "enlever",
+  "infinitive": "enlever",
+  "translation": "снимать, увозить",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "e→è"
   ]
  },
  {
@@ -1026,10 +7062,58 @@
   ]
  },
  {
+  "id": "enrichir",
+  "infinitive": "enrichir",
+  "translation": "обогащать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "enseigner",
+  "infinitive": "enseigner",
+  "translation": "обучать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "entasser",
+  "infinitive": "entasser",
+  "translation": "нагромождать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "entendre",
   "infinitive": "entendre",
   "translation": "слышать",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "enterrer",
+  "infinitive": "enterrer",
+  "translation": "хоронить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "entonner",
+  "infinitive": "entonner",
+  "translation": "затягивать песню",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "entourer",
+  "infinitive": "entourer",
+  "translation": "окружать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -1047,6 +7131,46 @@
   "translation": "входить",
   "group": "1",
   "aux": "etre",
+  "types": []
+ },
+ {
+  "id": "entrouvrir",
+  "infinitive": "entrouvrir",
+  "translation": "приоткрывать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "envahir",
+  "infinitive": "envahir",
+  "translation": "вторгаться",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "envelopper",
+  "infinitive": "envelopper",
+  "translation": "обёртывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "envier",
+  "infinitive": "envier",
+  "translation": "завидовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "environner",
+  "infinitive": "environner",
+  "translation": "окружать",
+  "group": "1",
+  "aux": "avoir",
   "types": []
  },
  {
@@ -1068,6 +7192,22 @@
   "types": [
    "ll/tt"
   ]
+ },
+ {
+  "id": "errer",
+  "infinitive": "errer",
+  "translation": "блуждать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "escalader",
+  "infinitive": "escalader",
+  "translation": "взбираться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
  },
  {
   "id": "espérer",
@@ -1098,6 +7238,14 @@
   "types": [
    "-yer"
   ]
+ },
+ {
+  "id": "estimer",
+  "infinitive": "estimer",
+  "translation": "оценивать, считать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
  },
  {
   "id": "établir",
@@ -1142,6 +7290,40 @@
   ]
  },
  {
+  "id": "examiner",
+  "infinitive": "examiner",
+  "translation": "рассматривать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "exaucer",
+  "infinitive": "exaucer",
+  "translation": "исполнять просьбу",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-cer"
+  ]
+ },
+ {
+  "id": "exciter",
+  "infinitive": "exciter",
+  "translation": "возбуждать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "excuser",
+  "infinitive": "excuser",
+  "translation": "извинять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "exercer",
   "infinitive": "exercer",
   "translation": "упражнять",
@@ -1150,6 +7332,14 @@
   "types": [
    "-cer"
   ]
+ },
+ {
+  "id": "exhaler",
+  "infinitive": "exhaler",
+  "translation": "испускать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
  },
  {
   "id": "exiger",
@@ -1162,9 +7352,73 @@
   ]
  },
  {
+  "id": "exister",
+  "infinitive": "exister",
+  "translation": "существовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "expirer",
+  "infinitive": "expirer",
+  "translation": "истекать, выдыхать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "expliquer",
   "infinitive": "expliquer",
   "translation": "объяснять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "explorer",
+  "infinitive": "explorer",
+  "translation": "исследовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "exposer",
+  "infinitive": "exposer",
+  "translation": "выставлять, излагать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "exprimer",
+  "infinitive": "exprimer",
+  "translation": "выражать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "extraire",
+  "infinitive": "extraire",
+  "translation": "извлекать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "fabriquer",
+  "infinitive": "fabriquer",
+  "translation": "изготавливать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "faciliter",
+  "infinitive": "faciliter",
+  "translation": "облегчать",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -1186,6 +7440,38 @@
   "types": []
  },
  {
+  "id": "faner",
+  "infinitive": "faner",
+  "translation": "вянуть",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "fatiguer",
+  "infinitive": "fatiguer",
+  "translation": "утомлять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "faucher",
+  "infinitive": "faucher",
+  "translation": "косить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "favoriser",
+  "infinitive": "favoriser",
+  "translation": "благоприятствовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "féliciter",
   "infinitive": "féliciter",
   "translation": "поздравлять",
@@ -1194,9 +7480,25 @@
   "types": []
  },
  {
+  "id": "fendre",
+  "infinitive": "fendre",
+  "translation": "раскалывать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "fermer",
   "infinitive": "fermer",
   "translation": "закрывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ferrer",
+  "infinitive": "ferrer",
+  "translation": "подковывать",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -1212,10 +7514,84 @@
   ]
  },
  {
+  "id": "figurer",
+  "infinitive": "figurer",
+  "translation": "изображать, фигурировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "filer",
+  "infinitive": "filer",
+  "translation": "прясть, мчаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "finir",
   "infinitive": "finir",
   "translation": "заканчивать",
   "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "fixer",
+  "infinitive": "fixer",
+  "translation": "закреплять, назначать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "flamber",
+  "infinitive": "flamber",
+  "translation": "пылать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "flatter",
+  "infinitive": "flatter",
+  "translation": "льстить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "fleurir",
+  "infinitive": "fleurir",
+  "translation": "цвести",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "flotter",
+  "infinitive": "flotter",
+  "translation": "плавать, развеваться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "foncer",
+  "infinitive": "foncer",
+  "translation": "мчаться, темнеть",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-cer"
+  ]
+ },
+ {
+  "id": "fonctionner",
+  "infinitive": "fonctionner",
+  "translation": "работать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -1238,6 +7614,106 @@
   ]
  },
  {
+  "id": "forger",
+  "infinitive": "forger",
+  "translation": "ковать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-ger"
+  ]
+ },
+ {
+  "id": "former",
+  "infinitive": "former",
+  "translation": "формировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "foudroyer",
+  "infinitive": "foudroyer",
+  "translation": "поражать молнией",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-yer"
+  ]
+ },
+ {
+  "id": "fouetter",
+  "infinitive": "fouetter",
+  "translation": "хлестать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "fouiller",
+  "infinitive": "fouiller",
+  "translation": "обыскивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "fournir",
+  "infinitive": "fournir",
+  "translation": "поставлять",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "fourrer",
+  "infinitive": "fourrer",
+  "translation": "засовывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "franchir",
+  "infinitive": "franchir",
+  "translation": "преодолевать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "frapper",
+  "infinitive": "frapper",
+  "translation": "ударять, стучать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "frissonner",
+  "infinitive": "frissonner",
+  "translation": "вздрагивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "froisser",
+  "infinitive": "froisser",
+  "translation": "мять, задевать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "frotter",
+  "infinitive": "frotter",
+  "translation": "тереть",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "fuir",
   "infinitive": "fuir",
   "translation": "убегать",
@@ -1246,9 +7722,57 @@
   "types": []
  },
  {
+  "id": "fumer",
+  "infinitive": "fumer",
+  "translation": "курить, дымить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "gagner",
   "infinitive": "gagner",
   "translation": "выигрывать, зарабатывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "gambader",
+  "infinitive": "gambader",
+  "translation": "резвиться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "garantir",
+  "infinitive": "garantir",
+  "translation": "гарантировать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "garder",
+  "infinitive": "garder",
+  "translation": "хранить, стеречь",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "garnir",
+  "infinitive": "garnir",
+  "translation": "снабжать, украшать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "gazouiller",
+  "infinitive": "gazouiller",
+  "translation": "щебетать",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -1274,9 +7798,51 @@
   ]
  },
  {
+  "id": "germer",
+  "infinitive": "germer",
+  "translation": "прорастать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "glacer",
+  "infinitive": "glacer",
+  "translation": "замораживать, леденить",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-cer"
+  ]
+ },
+ {
+  "id": "glisser",
+  "infinitive": "glisser",
+  "translation": "скользить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "gonfler",
+  "infinitive": "gonfler",
+  "translation": "надувать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "goûter",
   "infinitive": "goûter",
   "translation": "пробовать на вкус",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "gouverner",
+  "infinitive": "gouverner",
+  "translation": "управлять",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -1290,10 +7856,100 @@
   "types": []
  },
  {
+  "id": "gratter",
+  "infinitive": "gratter",
+  "translation": "царапать, чесать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "graver",
+  "infinitive": "graver",
+  "translation": "гравировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "gravir",
+  "infinitive": "gravir",
+  "translation": "взбираться",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "grelotter",
+  "infinitive": "grelotter",
+  "translation": "дрожать от холода",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "griffer",
+  "infinitive": "griffer",
+  "translation": "царапать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "grimper",
+  "infinitive": "grimper",
+  "translation": "взбираться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "grincer",
+  "infinitive": "grincer",
+  "translation": "скрипеть",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-cer"
+  ]
+ },
+ {
+  "id": "gronder",
+  "infinitive": "gronder",
+  "translation": "рычать, бранить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "grossir",
+  "infinitive": "grossir",
+  "translation": "толстеть, увеличивать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "grouper",
+  "infinitive": "grouper",
+  "translation": "группировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "guérir",
   "infinitive": "guérir",
   "translation": "лечить, выздоравливать",
   "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "guetter",
+  "infinitive": "guetter",
+  "translation": "подстерегать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -1306,9 +7962,25 @@
   "types": []
  },
  {
+  "id": "habiller",
+  "infinitive": "habiller",
+  "translation": "одевать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "habiter",
   "infinitive": "habiter",
   "translation": "жить, обитать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "habituer",
+  "infinitive": "habituer",
+  "translation": "приучать",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -1324,9 +7996,145 @@
   ]
  },
  {
+  "id": "hausser",
+  "infinitive": "hausser",
+  "translation": "повышать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "heurter",
+  "infinitive": "heurter",
+  "translation": "сталкиваться, задевать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "honorer",
+  "infinitive": "honorer",
+  "translation": "чтить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "hurler",
+  "infinitive": "hurler",
+  "translation": "выть, вопить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "identifier",
+  "infinitive": "identifier",
+  "translation": "опознавать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ignorer",
+  "infinitive": "ignorer",
+  "translation": "не знать, игнорировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "illuminer",
+  "infinitive": "illuminer",
+  "translation": "озарять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "illustrer",
+  "infinitive": "illustrer",
+  "translation": "иллюстрировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "imaginer",
   "infinitive": "imaginer",
   "translation": "воображать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "imiter",
+  "infinitive": "imiter",
+  "translation": "подражать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "implorer",
+  "infinitive": "implorer",
+  "translation": "умолять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "importer",
+  "infinitive": "importer",
+  "translation": "ввозить, иметь значение",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "imposer",
+  "infinitive": "imposer",
+  "translation": "навязывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "imprimer",
+  "infinitive": "imprimer",
+  "translation": "печатать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "incliner",
+  "infinitive": "incliner",
+  "translation": "наклонять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "indiquer",
+  "infinitive": "indiquer",
+  "translation": "указывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "informer",
+  "infinitive": "informer",
+  "translation": "сообщать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "inonder",
+  "infinitive": "inonder",
+  "translation": "затоплять",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -1348,6 +8156,56 @@
   "group": "3",
   "aux": "avoir",
   "types": []
+ },
+ {
+  "id": "insister",
+  "infinitive": "insister",
+  "translation": "настаивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "inspirer",
+  "infinitive": "inspirer",
+  "translation": "вдохновлять, вдыхать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "installer",
+  "infinitive": "installer",
+  "translation": "устанавливать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "instruire",
+  "infinitive": "instruire",
+  "translation": "обучать, вести следствие",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "interdire",
+  "infinitive": "interdire",
+  "translation": "запрещать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "interpeller",
+  "infinitive": "interpeller",
+  "translation": "окликать, задерживать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "ll/tt"
+  ]
  },
  {
   "id": "interroger",
@@ -1384,6 +8242,46 @@
   "types": []
  },
  {
+  "id": "invoquer",
+  "infinitive": "invoquer",
+  "translation": "ссылаться, взывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "irriter",
+  "infinitive": "irriter",
+  "translation": "раздражать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "isoler",
+  "infinitive": "isoler",
+  "translation": "изолировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "jaillir",
+  "infinitive": "jaillir",
+  "translation": "брызгать, бить струёй",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "jaunir",
+  "infinitive": "jaunir",
+  "translation": "желтеть",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "jeter",
   "infinitive": "jeter",
   "translation": "бросать",
@@ -1402,10 +8300,26 @@
   "types": []
  },
  {
+  "id": "joncher",
+  "infinitive": "joncher",
+  "translation": "устилать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "jouer",
   "infinitive": "jouer",
   "translation": "играть",
   "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "jouir",
+  "infinitive": "jouir",
+  "translation": "наслаждаться",
+  "group": "2",
   "aux": "avoir",
   "types": []
  },
@@ -1428,6 +8342,14 @@
   "types": []
  },
  {
+  "id": "labourer",
+  "infinitive": "labourer",
+  "translation": "пахать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "laisser",
   "infinitive": "laisser",
   "translation": "оставлять, позволять",
@@ -1444,6 +8366,14 @@
   "types": [
    "-cer"
   ]
+ },
+ {
+  "id": "lasser",
+  "infinitive": "lasser",
+  "translation": "утомлять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
  },
  {
   "id": "laver",
@@ -1474,10 +8404,78 @@
   ]
  },
  {
+  "id": "limiter",
+  "infinitive": "limiter",
+  "translation": "ограничивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "lire",
   "infinitive": "lire",
   "translation": "читать",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "livrer",
+  "infinitive": "livrer",
+  "translation": "доставлять, выдавать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "loger",
+  "infinitive": "loger",
+  "translation": "селить, помещаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-ger"
+  ]
+ },
+ {
+  "id": "longer",
+  "infinitive": "longer",
+  "translation": "идти вдоль",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-ger"
+  ]
+ },
+ {
+  "id": "louer",
+  "infinitive": "louer",
+  "translation": "снимать, хвалить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "luire",
+  "infinitive": "luire",
+  "translation": "светиться",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "lutter",
+  "infinitive": "lutter",
+  "translation": "бороться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "maigrir",
+  "infinitive": "maigrir",
+  "translation": "худеть",
+  "group": "2",
   "aux": "avoir",
   "types": []
  },
@@ -1500,9 +8498,65 @@
   ]
  },
  {
+  "id": "manier",
+  "infinitive": "manier",
+  "translation": "обращаться с чем-то",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "manifester",
+  "infinitive": "manifester",
+  "translation": "проявлять, митинговать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "manipuler",
+  "infinitive": "manipuler",
+  "translation": "манипулировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "manquer",
+  "infinitive": "manquer",
+  "translation": "не хватать, скучать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "marchander",
+  "infinitive": "marchander",
+  "translation": "торговаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "marcher",
   "infinitive": "marcher",
   "translation": "ходить, работать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "marier",
+  "infinitive": "marier",
+  "translation": "женить, сочетать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "marquer",
+  "infinitive": "marquer",
+  "translation": "отмечать",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -1516,6 +8570,14 @@
   "types": [
    "e→è"
   ]
+ },
+ {
+  "id": "maudire",
+  "infinitive": "maudire",
+  "translation": "проклинать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
  },
  {
   "id": "mélanger",
@@ -1536,6 +8598,14 @@
   "types": [
    "-cer"
   ]
+ },
+ {
+  "id": "mendier",
+  "infinitive": "mendier",
+  "translation": "попрошайничать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
  },
  {
   "id": "mener",
@@ -1572,6 +8642,22 @@
   "types": []
  },
  {
+  "id": "meure",
+  "infinitive": "meure",
+  "translation": "двигать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "mirer",
+  "infinitive": "mirer",
+  "translation": "разглядывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "modeler",
   "infinitive": "modeler",
   "translation": "лепить",
@@ -1580,6 +8666,14 @@
   "types": [
    "e→è"
   ]
+ },
+ {
+  "id": "modifier",
+  "infinitive": "modifier",
+  "translation": "изменять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
  },
  {
   "id": "monter",
@@ -1614,11 +8708,35 @@
   "types": []
  },
  {
+  "id": "mouiller",
+  "infinitive": "mouiller",
+  "translation": "мочить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "mourir",
   "infinitive": "mourir",
   "translation": "умирать",
   "group": "3",
   "aux": "etre",
+  "types": []
+ },
+ {
+  "id": "munir",
+  "infinitive": "munir",
+  "translation": "снабжать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "murmurer",
+  "infinitive": "murmurer",
+  "translation": "шептать, роптать",
+  "group": "1",
+  "aux": "avoir",
   "types": []
  },
  {
@@ -1658,6 +8776,22 @@
   "types": []
  },
  {
+  "id": "noircir",
+  "infinitive": "noircir",
+  "translation": "чернить",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "nommer",
+  "infinitive": "nommer",
+  "translation": "называть, назначать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "noter",
   "infinitive": "noter",
   "translation": "отмечать",
@@ -1684,6 +8818,14 @@
   ]
  },
  {
+  "id": "nuire",
+  "infinitive": "nuire",
+  "translation": "вредить",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "obéir",
   "infinitive": "obéir",
   "translation": "подчиняться",
@@ -1702,6 +8844,14 @@
   ]
  },
  {
+  "id": "obscurcir",
+  "infinitive": "obscurcir",
+  "translation": "затемнять",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "observer",
   "infinitive": "observer",
   "translation": "наблюдать",
@@ -1714,6 +8864,30 @@
   "infinitive": "obtenir",
   "translation": "получать, добиваться",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "occasionner",
+  "infinitive": "occasionner",
+  "translation": "причинять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "occuper",
+  "infinitive": "occuper",
+  "translation": "занимать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "offenser",
+  "infinitive": "offenser",
+  "translation": "оскорблять",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -1734,6 +8908,14 @@
   "types": []
  },
  {
+  "id": "onduler",
+  "infinitive": "onduler",
+  "translation": "волноваться, виться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "opérer",
   "infinitive": "opérer",
   "translation": "оперировать",
@@ -1742,6 +8924,38 @@
   "types": [
    "é→è"
   ]
+ },
+ {
+  "id": "opposer",
+  "infinitive": "opposer",
+  "translation": "противопоставлять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ordonner",
+  "infinitive": "ordonner",
+  "translation": "приказывать, упорядочивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "organiser",
+  "infinitive": "organiser",
+  "translation": "организовывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "orner",
+  "infinitive": "orner",
+  "translation": "украшать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
  },
  {
   "id": "oublier",
@@ -1768,12 +8982,46 @@
   "types": []
  },
  {
+  "id": "pardonner",
+  "infinitive": "pardonner",
+  "translation": "прощать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "parer",
+  "infinitive": "parer",
+  "translation": "украшать, парировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "parfumer",
+  "infinitive": "parfumer",
+  "translation": "душить, ароматизировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "parler",
   "infinitive": "parler",
   "translation": "говорить",
   "group": "1",
   "aux": "avoir",
   "types": []
+ },
+ {
+  "id": "parsemer",
+  "infinitive": "parsemer",
+  "translation": "усеивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "e→è"
+  ]
  },
  {
   "id": "partager",
@@ -1784,6 +9032,14 @@
   "types": [
    "-ger"
   ]
+ },
+ {
+  "id": "participer",
+  "infinitive": "participer",
+  "translation": "участвовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
  },
  {
   "id": "partir",
@@ -1828,6 +9084,14 @@
   "types": []
  },
  {
+  "id": "peiner",
+  "infinitive": "peiner",
+  "translation": "трудиться, огорчать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "peler",
   "infinitive": "peler",
   "translation": "чистить от кожуры",
@@ -1836,6 +9100,22 @@
   "types": [
    "e→è"
   ]
+ },
+ {
+  "id": "pencher",
+  "infinitive": "pencher",
+  "translation": "наклонять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "pendre",
+  "infinitive": "pendre",
+  "translation": "вешать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
  },
  {
   "id": "pénétrer",
@@ -1874,6 +9154,14 @@
   "types": []
  },
  {
+  "id": "percher",
+  "infinitive": "percher",
+  "translation": "сидеть на насесте",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "perdre",
   "infinitive": "perdre",
   "translation": "терять",
@@ -1890,6 +9178,14 @@
   "types": []
  },
  {
+  "id": "persuader",
+  "infinitive": "persuader",
+  "translation": "убеждать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "peser",
   "infinitive": "peser",
   "translation": "весить",
@@ -1898,6 +9194,38 @@
   "types": [
    "e→è"
   ]
+ },
+ {
+  "id": "peupler",
+  "infinitive": "peupler",
+  "translation": "заселять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "photographier",
+  "infinitive": "photographier",
+  "translation": "фотографировать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "pique-niquer",
+  "infinitive": "pique-niquer",
+  "translation": "устраивать пикник",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "piquer",
+  "infinitive": "piquer",
+  "translation": "колоть, жалить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
  },
  {
   "id": "placer",
@@ -1926,6 +9254,22 @@
   "types": []
  },
  {
+  "id": "planer",
+  "infinitive": "planer",
+  "translation": "парить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "planter",
+  "infinitive": "planter",
+  "translation": "сажать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "pleurer",
   "infinitive": "pleurer",
   "translation": "плакать",
@@ -1942,6 +9286,14 @@
   "types": []
  },
  {
+  "id": "plier",
+  "infinitive": "plier",
+  "translation": "складывать, сгибать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "plonger",
   "infinitive": "plonger",
   "translation": "нырять",
@@ -1952,9 +9304,25 @@
   ]
  },
  {
+  "id": "pondre",
+  "infinitive": "pondre",
+  "translation": "нести яйца",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "porter",
   "infinitive": "porter",
   "translation": "нести, носить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "poser",
+  "infinitive": "poser",
+  "translation": "класть, ставить",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -1970,9 +9338,25 @@
   ]
  },
  {
+  "id": "pourrir",
+  "infinitive": "pourrir",
+  "translation": "гнить",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "poursuivre",
   "infinitive": "poursuivre",
   "translation": "преследовать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "pourvoir",
+  "infinitive": "pourvoir",
+  "translation": "обеспечивать",
   "group": "3",
   "aux": "avoir",
   "types": []
@@ -1990,6 +9374,14 @@
   "infinitive": "pouvoir",
   "translation": "мочь",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "pratiquer",
+  "infinitive": "pratiquer",
+  "translation": "практиковать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -2028,6 +9420,14 @@
   "types": []
  },
  {
+  "id": "presser",
+  "infinitive": "presser",
+  "translation": "давить, торопить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "prétendre",
   "infinitive": "prétendre",
   "translation": "утверждать",
@@ -2044,10 +9444,58 @@
   "types": []
  },
  {
+  "id": "prier",
+  "infinitive": "prier",
+  "translation": "молиться, просить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "priver",
+  "infinitive": "priver",
+  "translation": "лишать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "proclamer",
+  "infinitive": "proclamer",
+  "translation": "провозглашать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "procurer",
+  "infinitive": "procurer",
+  "translation": "доставлять, добывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "prodiguer",
+  "infinitive": "prodiguer",
+  "translation": "расточать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "produire",
   "infinitive": "produire",
   "translation": "производить",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "profiter",
+  "infinitive": "profiter",
+  "translation": "пользоваться",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -2059,6 +9507,16 @@
   "aux": "avoir",
   "types": [
    "ll/tt"
+  ]
+ },
+ {
+  "id": "prolonger",
+  "infinitive": "prolonger",
+  "translation": "продлевать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-ger"
   ]
  },
  {
@@ -2109,10 +9567,42 @@
   ]
  },
  {
+  "id": "prouver",
+  "infinitive": "prouver",
+  "translation": "доказывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "provoquer",
+  "infinitive": "provoquer",
+  "translation": "провоцировать, вызывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "publier",
+  "infinitive": "publier",
+  "translation": "публиковать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "punir",
   "infinitive": "punir",
   "translation": "наказывать",
   "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "purifier",
+  "infinitive": "purifier",
+  "translation": "очищать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -2129,6 +9619,22 @@
   "infinitive": "quitter",
   "translation": "покидать",
   "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "raccommoder",
+  "infinitive": "raccommoder",
+  "translation": "чинить, штопать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "raccourcir",
+  "infinitive": "raccourcir",
+  "translation": "укорачивать",
+  "group": "2",
   "aux": "avoir",
   "types": []
  },
@@ -2159,6 +9665,22 @@
   "types": []
  },
  {
+  "id": "raller",
+  "infinitive": "raller",
+  "translation": "идти снова",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ramasser",
+  "infinitive": "ramasser",
+  "translation": "собирать, подбирать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "ramener",
   "infinitive": "ramener",
   "translation": "приводить обратно",
@@ -2179,6 +9701,14 @@
   ]
  },
  {
+  "id": "ranimer",
+  "infinitive": "ranimer",
+  "translation": "оживлять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "rappeler",
   "infinitive": "rappeler",
   "translation": "напоминать",
@@ -2189,9 +9719,115 @@
   ]
  },
  {
+  "id": "rapporter",
+  "infinitive": "rapporter",
+  "translation": "приносить обратно, докладывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "rapprocher",
+  "infinitive": "rapprocher",
+  "translation": "сближать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "raser",
+  "infinitive": "raser",
+  "translation": "брить, сносить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "rassembler",
+  "infinitive": "rassembler",
+  "translation": "собирать вместе",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "rassurer",
+  "infinitive": "rassurer",
+  "translation": "успокаивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "rater",
+  "infinitive": "rater",
+  "translation": "промахиваться, проваливать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "rattraper",
+  "infinitive": "rattraper",
+  "translation": "догонять, наверстывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ravir",
+  "infinitive": "ravir",
+  "translation": "восхищать, похищать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "rayonner",
+  "infinitive": "rayonner",
+  "translation": "излучать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "recevoir",
   "infinitive": "recevoir",
   "translation": "получать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "rechercher",
+  "infinitive": "rechercher",
+  "translation": "разыскивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "recommander",
+  "infinitive": "recommander",
+  "translation": "рекомендовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "recommencer",
+  "infinitive": "recommencer",
+  "translation": "начинать заново",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-cer"
+  ]
+ },
+ {
+  "id": "reconduire",
+  "infinitive": "reconduire",
+  "translation": "продлевать, провожать",
   "group": "3",
   "aux": "avoir",
   "types": []
@@ -2205,9 +9841,65 @@
   "types": []
  },
  {
+  "id": "recouvrir",
+  "infinitive": "recouvrir",
+  "translation": "покрывать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "recueillir",
+  "infinitive": "recueillir",
+  "translation": "собирать, приютить",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "reculer",
   "infinitive": "reculer",
   "translation": "отступать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "redescendre",
+  "infinitive": "redescendre",
+  "translation": "снова спускаться",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "redire",
+  "infinitive": "redire",
+  "translation": "повторять",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "redoubler",
+  "infinitive": "redoubler",
+  "translation": "удваивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "redouter",
+  "infinitive": "redouter",
+  "translation": "опасаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "redresser",
+  "infinitive": "redresser",
+  "translation": "выпрямлять",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -2221,6 +9913,22 @@
   "types": []
  },
  {
+  "id": "refaire",
+  "infinitive": "refaire",
+  "translation": "переделывать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "refermer",
+  "infinitive": "refermer",
+  "translation": "закрывать снова",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "réfléchir",
   "infinitive": "réfléchir",
   "translation": "размышлять",
@@ -2229,9 +9937,25 @@
   "types": []
  },
  {
+  "id": "refroidir",
+  "infinitive": "refroidir",
+  "translation": "охлаждать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "refuser",
   "infinitive": "refuser",
   "translation": "отказывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "regagner",
+  "infinitive": "regagner",
+  "translation": "возвращать, добираться",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -2255,6 +9979,14 @@
   ]
  },
  {
+  "id": "regretter",
+  "infinitive": "regretter",
+  "translation": "сожалеть",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "rejeter",
   "infinitive": "rejeter",
   "translation": "отвергать",
@@ -2268,6 +10000,24 @@
   "id": "rejoindre",
   "infinitive": "rejoindre",
   "translation": "присоединяться",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "relever",
+  "infinitive": "relever",
+  "translation": "поднимать, отмечать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "e→è"
+  ]
+ },
+ {
+  "id": "relire",
+  "infinitive": "relire",
+  "translation": "перечитывать",
   "group": "3",
   "aux": "avoir",
   "types": []
@@ -2297,6 +10047,14 @@
   "types": []
  },
  {
+  "id": "remonter",
+  "infinitive": "remonter",
+  "translation": "снова подниматься, заводить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "remplacer",
   "infinitive": "remplacer",
   "translation": "заменять",
@@ -2315,6 +10073,22 @@
   "types": []
  },
  {
+  "id": "remporter",
+  "infinitive": "remporter",
+  "translation": "уносить, одерживать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "remuer",
+  "infinitive": "remuer",
+  "translation": "шевелить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "rencontrer",
   "infinitive": "rencontrer",
   "translation": "встречать",
@@ -2329,6 +10103,24 @@
   "group": "3",
   "aux": "avoir",
   "types": []
+ },
+ {
+  "id": "renfermer",
+  "infinitive": "renfermer",
+  "translation": "заключать в себе",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "renforcer",
+  "infinitive": "renforcer",
+  "translation": "укреплять",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-cer"
+  ]
  },
  {
   "id": "renoncer",
@@ -2351,11 +10143,27 @@
   ]
  },
  {
+  "id": "renseigner",
+  "infinitive": "renseigner",
+  "translation": "осведомлять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "rentrer",
   "infinitive": "rentrer",
   "translation": "возвращаться домой",
   "group": "1",
   "aux": "etre",
+  "types": []
+ },
+ {
+  "id": "renverser",
+  "infinitive": "renverser",
+  "translation": "опрокидывать",
+  "group": "1",
+  "aux": "avoir",
   "types": []
  },
  {
@@ -2393,6 +10201,14 @@
   "types": []
  },
  {
+  "id": "repasser",
+  "infinitive": "repasser",
+  "translation": "гладить, снова проходить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "répéter",
   "infinitive": "répéter",
   "translation": "повторять",
@@ -2403,10 +10219,42 @@
   ]
  },
  {
+  "id": "replier",
+  "infinitive": "replier",
+  "translation": "складывать, отступать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "répondre",
   "infinitive": "répondre",
   "translation": "отвечать",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "reporter",
+  "infinitive": "reporter",
+  "translation": "переносить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "reposer",
+  "infinitive": "reposer",
+  "translation": "отдыхать, покоиться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "repousser",
+  "infinitive": "repousser",
+  "translation": "отталкивать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -2419,10 +10267,50 @@
   "types": []
  },
  {
+  "id": "reprocher",
+  "infinitive": "reprocher",
+  "translation": "упрекать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "résoudre",
   "infinitive": "résoudre",
   "translation": "решать",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "respecter",
+  "infinitive": "respecter",
+  "translation": "уважать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "respirer",
+  "infinitive": "respirer",
+  "translation": "дышать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "resplendir",
+  "infinitive": "resplendir",
+  "translation": "сиять",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ressembler",
+  "infinitive": "ressembler",
+  "translation": "походить",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -2451,11 +10339,51 @@
   "types": []
  },
  {
+  "id": "retentir",
+  "infinitive": "retentir",
+  "translation": "раздаваться",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "retirer",
+  "infinitive": "retirer",
+  "translation": "вынимать, снимать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "retomber",
+  "infinitive": "retomber",
+  "translation": "падать снова",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "retourner",
   "infinitive": "retourner",
   "translation": "возвращаться",
   "group": "1",
   "aux": "etre",
+  "types": []
+ },
+ {
+  "id": "retrousser",
+  "infinitive": "retrousser",
+  "translation": "засучивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "retrouver",
+  "infinitive": "retrouver",
+  "translation": "снова находить",
+  "group": "1",
+  "aux": "avoir",
   "types": []
  },
  {
@@ -2493,10 +10421,42 @@
   "types": []
  },
  {
+  "id": "reverdir",
+  "infinitive": "reverdir",
+  "translation": "снова зеленеть",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "revivre",
+  "infinitive": "revivre",
+  "translation": "оживать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "rider",
+  "infinitive": "rider",
+  "translation": "морщить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "rire",
   "infinitive": "rire",
   "translation": "смеяться",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "risquer",
+  "infinitive": "risquer",
+  "translation": "рисковать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -2507,6 +10467,66 @@
   "group": "3",
   "aux": "avoir",
   "types": []
+ },
+ {
+  "id": "ronger",
+  "infinitive": "ronger",
+  "translation": "грызть",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-ger"
+  ]
+ },
+ {
+  "id": "ronronner",
+  "infinitive": "ronronner",
+  "translation": "мурлыкать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "rougir",
+  "infinitive": "rougir",
+  "translation": "краснеть",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "rouiller",
+  "infinitive": "rouiller",
+  "translation": "ржаветь",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "rouler",
+  "infinitive": "rouler",
+  "translation": "катить, ехать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ruiner",
+  "infinitive": "ruiner",
+  "translation": "разорять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "ruisseler",
+  "infinitive": "ruisseler",
+  "translation": "струиться",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "ll/tt"
+  ]
  },
  {
   "id": "s'appeler",
@@ -2556,9 +10576,33 @@
   "pronominal": true
  },
  {
+  "id": "sacrifier",
+  "infinitive": "sacrifier",
+  "translation": "жертвовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "saigner",
+  "infinitive": "saigner",
+  "translation": "кровоточить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "saisir",
   "infinitive": "saisir",
   "translation": "хватать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "salir",
+  "infinitive": "salir",
+  "translation": "пачкать",
   "group": "2",
   "aux": "avoir",
   "types": []
@@ -2572,9 +10616,33 @@
   "types": []
  },
  {
+  "id": "satisfaire",
+  "infinitive": "satisfaire",
+  "translation": "удовлетворять",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "sauter",
   "infinitive": "sauter",
   "translation": "прыгать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "sautiller",
+  "infinitive": "sautiller",
+  "translation": "подпрыгивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "sauver",
+  "infinitive": "sauver",
+  "translation": "спасать",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -2584,6 +10652,38 @@
   "infinitive": "savoir",
   "translation": "знать, уметь",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "savourer",
+  "infinitive": "savourer",
+  "translation": "смаковать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "scier",
+  "infinitive": "scier",
+  "translation": "пилить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "scinder",
+  "infinitive": "scinder",
+  "translation": "расчленять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "scintiller",
+  "infinitive": "scintiller",
+  "translation": "мерцать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -2674,6 +10774,14 @@
   ]
  },
  {
+  "id": "secouer",
+  "infinitive": "secouer",
+  "translation": "трясти",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "séduire",
   "infinitive": "séduire",
   "translation": "соблазнять",
@@ -2690,6 +10798,16 @@
   "types": []
  },
  {
+  "id": "semer",
+  "infinitive": "semer",
+  "translation": "сеять",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "e→è"
+  ]
+ },
+ {
   "id": "sentir",
   "infinitive": "sentir",
   "translation": "чувствовать, пахнуть",
@@ -2698,10 +10816,82 @@
   "types": []
  },
  {
+  "id": "serrer",
+  "infinitive": "serrer",
+  "translation": "сжимать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "servir",
   "infinitive": "servir",
   "translation": "служить, подавать",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "siffler",
+  "infinitive": "siffler",
+  "translation": "свистеть",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "signaler",
+  "infinitive": "signaler",
+  "translation": "сигнализировать, отмечать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "signer",
+  "infinitive": "signer",
+  "translation": "подписывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "signifier",
+  "infinitive": "signifier",
+  "translation": "означать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "sillonner",
+  "infinitive": "sillonner",
+  "translation": "бороздить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "situer",
+  "infinitive": "situer",
+  "translation": "располагать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "soigner",
+  "infinitive": "soigner",
+  "translation": "лечить, заботиться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "solliciter",
+  "infinitive": "solliciter",
+  "translation": "ходатайствовать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -2716,11 +10906,27 @@
   ]
  },
  {
+  "id": "sonner",
+  "infinitive": "sonner",
+  "translation": "звонить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "sortir",
   "infinitive": "sortir",
   "translation": "выходить",
   "group": "3",
   "aux": "etre",
+  "types": []
+ },
+ {
+  "id": "souffler",
+  "infinitive": "souffler",
+  "translation": "дуть",
+  "group": "1",
+  "aux": "avoir",
   "types": []
  },
  {
@@ -2740,10 +10946,54 @@
   "types": []
  },
  {
+  "id": "souiller",
+  "infinitive": "souiller",
+  "translation": "пачкать, осквернять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "soulager",
+  "infinitive": "soulager",
+  "translation": "облегчать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-ger"
+  ]
+ },
+ {
+  "id": "soulever",
+  "infinitive": "soulever",
+  "translation": "поднимать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "e→è"
+  ]
+ },
+ {
   "id": "soumettre",
   "infinitive": "soumettre",
   "translation": "подчинять",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "souper",
+  "infinitive": "souper",
+  "translation": "ужинать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "soupirer",
+  "infinitive": "soupirer",
+  "translation": "вздыхать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -2772,10 +11022,84 @@
   "types": []
  },
  {
+  "id": "stationner",
+  "infinitive": "stationner",
+  "translation": "стоять на месте, парковаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "subir",
+  "infinitive": "subir",
+  "translation": "подвергаться",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "sucer",
+  "infinitive": "sucer",
+  "translation": "сосать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-cer"
+  ]
+ },
+ {
+  "id": "suffire",
+  "infinitive": "suffire",
+  "translation": "быть достаточным",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "suivre",
   "infinitive": "suivre",
   "translation": "следовать",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "supplier",
+  "infinitive": "supplier",
+  "translation": "умолять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "supporter",
+  "infinitive": "supporter",
+  "translation": "выносить, поддерживать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "supposer",
+  "infinitive": "supposer",
+  "translation": "предполагать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "surgir",
+  "infinitive": "surgir",
+  "translation": "возникать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "surmonter",
+  "infinitive": "surmonter",
+  "translation": "преодолевать",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -2788,6 +11112,22 @@
   "types": []
  },
  {
+  "id": "sursauter",
+  "infinitive": "sursauter",
+  "translation": "вздрагивать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "surveiller",
+  "infinitive": "surveiller",
+  "translation": "надзирать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "survenir",
   "infinitive": "survenir",
   "translation": "происходить внезапно",
@@ -2796,10 +11136,84 @@
   "types": []
  },
  {
+  "id": "survivre",
+  "infinitive": "survivre",
+  "translation": "выживать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "suspendre",
+  "infinitive": "suspendre",
+  "translation": "подвешивать, приостанавливать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "tacher",
+  "infinitive": "tacher",
+  "translation": "пачкать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "tacheter",
+  "infinitive": "tacheter",
+  "translation": "испещрять",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "e→è"
+  ]
+ },
+ {
+  "id": "tailler",
+  "infinitive": "tailler",
+  "translation": "обрезать, кроить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "taire",
   "infinitive": "taire",
   "translation": "умалчивать",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "taper",
+  "infinitive": "taper",
+  "translation": "стучать, бить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "tapisser",
+  "infinitive": "tapisser",
+  "translation": "оклеивать, устилать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "taquiner",
+  "infinitive": "taquiner",
+  "translation": "дразнить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "tarder",
+  "infinitive": "tarder",
+  "translation": "медлить",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -2820,9 +11234,25 @@
   "types": []
  },
  {
+  "id": "tenter",
+  "infinitive": "tenter",
+  "translation": "пытаться, искушать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "terminer",
   "infinitive": "terminer",
   "translation": "завершать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "tinter",
+  "infinitive": "tinter",
+  "translation": "звенеть",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -2862,12 +11292,46 @@
   "types": []
  },
  {
+  "id": "toucher",
+  "infinitive": "toucher",
+  "translation": "трогать, касаться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "tourbillonner",
+  "infinitive": "tourbillonner",
+  "translation": "кружиться вихрем",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "tourmenter",
+  "infinitive": "tourmenter",
+  "translation": "мучить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "tourner",
   "infinitive": "tourner",
   "translation": "поворачивать",
   "group": "1",
   "aux": "avoir",
   "types": []
+ },
+ {
+  "id": "tournoyer",
+  "infinitive": "tournoyer",
+  "translation": "кружиться",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-yer"
+  ]
  },
  {
   "id": "tracer",
@@ -2888,10 +11352,42 @@
   "types": []
  },
  {
+  "id": "traiter",
+  "infinitive": "traiter",
+  "translation": "обращаться, обрабатывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "trancher",
+  "infinitive": "trancher",
+  "translation": "разрезать, решать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "transformer",
+  "infinitive": "transformer",
+  "translation": "преобразовывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "transmettre",
   "infinitive": "transmettre",
   "translation": "передавать",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "transporter",
+  "infinitive": "transporter",
+  "translation": "перевозить",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -2907,6 +11403,86 @@
   "id": "traverser",
   "infinitive": "traverser",
   "translation": "пересекать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "trembler",
+  "infinitive": "trembler",
+  "translation": "дрожать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "tremper",
+  "infinitive": "tremper",
+  "translation": "мочить, закалять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "tressaillir",
+  "infinitive": "tressaillir",
+  "translation": "вздрагивать",
+  "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "tricoter",
+  "infinitive": "tricoter",
+  "translation": "вязать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "triompher",
+  "infinitive": "triompher",
+  "translation": "торжествовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "tripoter",
+  "infinitive": "tripoter",
+  "translation": "теребить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "tromper",
+  "infinitive": "tromper",
+  "translation": "обманывать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "trotter",
+  "infinitive": "trotter",
+  "translation": "бежать рысью",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "troubler",
+  "infinitive": "troubler",
+  "translation": "смущать, мутить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "trouer",
+  "infinitive": "trouer",
+  "translation": "продырявливать",
   "group": "1",
   "aux": "avoir",
   "types": []
@@ -2938,6 +11514,14 @@
   "types": []
  },
  {
+  "id": "utiliser",
+  "infinitive": "utiliser",
+  "translation": "использовать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "vaincre",
   "infinitive": "vaincre",
   "translation": "побеждать",
@@ -2950,6 +11534,30 @@
   "infinitive": "valoir",
   "translation": "стоить",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "vanter",
+  "infinitive": "vanter",
+  "translation": "расхваливать",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "varier",
+  "infinitive": "varier",
+  "translation": "разнообразить, меняться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "veiller",
+  "infinitive": "veiller",
+  "translation": "бодрствовать, следить",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -2980,6 +11588,38 @@
   "types": []
  },
  {
+  "id": "vernir",
+  "infinitive": "vernir",
+  "translation": "лакировать",
+  "group": "2",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "verser",
+  "infinitive": "verser",
+  "translation": "лить, вносить",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "vider",
+  "infinitive": "vider",
+  "translation": "опорожнять",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "viser",
+  "infinitive": "viser",
+  "translation": "целиться",
+  "group": "1",
+  "aux": "avoir",
+  "types": []
+ },
+ {
   "id": "visiter",
   "infinitive": "visiter",
   "translation": "посещать",
@@ -2992,6 +11632,14 @@
   "infinitive": "vivre",
   "translation": "жить",
   "group": "3",
+  "aux": "avoir",
+  "types": []
+ },
+ {
+  "id": "voiler",
+  "infinitive": "voiler",
+  "translation": "скрывать вуалью",
+  "group": "1",
   "aux": "avoir",
   "types": []
  },
@@ -3012,12 +11660,32 @@
   "types": []
  },
  {
+  "id": "voltiger",
+  "infinitive": "voltiger",
+  "translation": "порхать",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-ger"
+  ]
+ },
+ {
   "id": "vouloir",
   "infinitive": "vouloir",
   "translation": "хотеть",
   "group": "3",
   "aux": "avoir",
   "types": []
+ },
+ {
+  "id": "vouvoyer",
+  "infinitive": "vouvoyer",
+  "translation": "обращаться на «вы»",
+  "group": "1",
+  "aux": "avoir",
+  "types": [
+   "-yer"
+  ]
  },
  {
   "id": "voyager",

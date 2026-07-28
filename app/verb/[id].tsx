@@ -12,6 +12,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useColors } from '@/hooks/useColors';
 import ConjugationTable from '../../components/ConjugationTable';
+import { examplesFor } from '../../data/examples';
 import { useVerbs } from '../../context/VerbsContext';
 import type { Mood, Tense } from '../../data/types';
 import {
@@ -184,6 +185,27 @@ export default function VerbDetail() {
 
         <ConjugationTable verb={verb} tense={selectedTense} />
 
+        {/* Примеры употребления — только для тех глаголов, где они есть */}
+        {examplesFor(verb.id, selectedTense).length > 0 && (
+          <View style={[styles.examples, { backgroundColor: colors.card, borderColor: colors.border }]}>
+            <Text style={[styles.examplesTitle, { color: colors.mutedForeground }]}>Примеры</Text>
+            {examplesFor(verb.id, selectedTense).map((example, index) => (
+              <View
+                key={example.fr}
+                style={[
+                  styles.exampleRow,
+                  index > 0 && { borderTopWidth: 1, borderTopColor: colors.border },
+                ]}
+              >
+                <Pressable onPress={() => speak(example.fr)}>
+                  <Text style={[styles.exampleFr, { color: colors.foreground }]}>{example.fr}</Text>
+                </Pressable>
+                <Text style={[styles.exampleRu, { color: colors.mutedForeground }]}>{example.ru}</Text>
+              </View>
+            ))}
+          </View>
+        )}
+
         {/* Неличные формы */}
         <View style={[styles.nonFinite, { backgroundColor: colors.card, borderColor: colors.border }]}>
           {([
@@ -246,6 +268,35 @@ export default function VerbDetail() {
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
+  examples: {
+    borderWidth: 1,
+    borderRadius: 12,
+    marginTop: 12,
+    paddingHorizontal: 14,
+    paddingBottom: 4,
+  },
+  examplesTitle: {
+    fontSize: 12,
+    fontFamily: 'Inter_600SemiBold',
+    textTransform: 'uppercase',
+    letterSpacing: 0.6,
+    paddingTop: 12,
+    paddingBottom: 6,
+  },
+  exampleRow: {
+    paddingVertical: 10,
+  },
+  exampleFr: {
+    fontSize: 15,
+    fontFamily: 'Inter_500Medium',
+    lineHeight: 21,
+  },
+  exampleRu: {
+    fontSize: 13,
+    fontFamily: 'Inter_400Regular',
+    lineHeight: 19,
+    marginTop: 3,
+  },
   header: {
     flexDirection: 'row',
     alignItems: 'center',

@@ -8,6 +8,7 @@ import {
   type Tense,
 } from '../data/types';
 import { getVerbById, VERBS } from '../data/verbs';
+import { EXAMPLES } from '../data/examples';
 import {
   DRILL_QUESTIONS,
   EXAM_QUESTIONS,
@@ -420,6 +421,41 @@ for (const tense of TENSES) {
   assert(tabledTenses.has(tense), `Tense ${tense} is never shown in a lesson table`);
 }
 
+// ── Примеры употребления ─────────────────────────────────────────────────────
+const seenPhrases = new Set<string>();
+const exampleTenses = new Set<Tense>();
+
+for (const example of EXAMPLES) {
+  const where = `${example.verbId}/${example.tense}/${example.person}`;
+  assert(getVerbById(example.verbId), `${where}: unknown verb`);
+  assert(TENSES.includes(example.tense), `${where}: unknown tense`);
+  assert(PERSONS.includes(example.person), `${where}: unknown person`);
+  assert(example.fr.trim(), `${where}: empty French phrase`);
+  assert(example.ru.trim(), `${where}: empty Russian translation`);
+  assert(!seenPhrases.has(example.fr), `duplicate example phrase: ${example.fr}`);
+  seenPhrases.add(example.fr);
+
+  // Пример должен показывать живую фразу, а не «местоимение + форма»: иначе он
+  // не добавляет ничего к таблице спряжения. У императива местоимения нет,
+  // поэтому там порог на слово ниже.
+  const minWords = IMPERATIVE_TENSES.has(example.tense) ? 2 : 3;
+  assert(
+    example.fr.split(' ').length >= minWords,
+    `${where}: phrase is too short to add context`,
+  );
+
+  const form = getVerbById(example.verbId)!.conjugations[example.tense][
+    PERSONS.indexOf(example.person)
+  ];
+  assert(form && !form.absent, `${where}: example points at a form that does not exist`);
+
+  exampleTenses.add(example.tense);
+}
+
+for (const tense of TENSES) {
+  assert(exampleTenses.has(tense), `Tense ${tense} has no usage example`);
+}
+
 const checkCount = Object.values(expected).reduce((total, checks) => total + checks.length, 0);
 console.log(
   `Validated ${VERBS.length} verbs, ${formCount} forms and ${absentCount} absent slots ` +
@@ -429,3 +465,4 @@ console.log(
   `Validated ${LESSONS.length} lessons with ${tableCount} embedded tables ` +
     `and ${drillCount} drills.`,
 );
+console.log(`Validated ${EXAMPLES.length} usage examples across ${exampleTenses.size} tenses.`);

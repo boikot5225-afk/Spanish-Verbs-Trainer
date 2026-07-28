@@ -915,5 +915,29 @@
     "participePasse": "assis",
     "participePresent": "asseyant",
     "note": "Есть вторая допустимая парадигма на -oi- (je m'assois)."
+  },
+  "bouillir": {
+    "presentOverride": [
+      "bous",
+      "bous",
+      "bout",
+      "bouillons",
+      "bouillez",
+      "bouillent"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      "t"
+    ],
+    "imp": "bouill",
+    "ps": "bouill",
+    "psType": "i",
+    "fut": "bouillir",
+    "sub1": "bouill",
+    "sub2": "bouill",
+    "participePasse": "bouilli",
+    "participePresent": "bouillant",
+    "note": "В единственном числе основа сокращается до bou-: je bous, nous bouillons."
   }
 }

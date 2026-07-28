@@ -12,7 +12,8 @@
     "prebuild:android": "expo prebuild --platform android --clean",
     "build:apk": "cd android && ./gradlew assembleRelease",
     "test:corpus": "tsx scripts/check-corpus.ts scripts/fixtures/forms.json",
-    "test:future": "tsx scripts/check-future.ts scripts/fixtures/future.json"
+    "test:forms": "tsx scripts/check-forms.ts scripts/fixtures/reference-forms.json",
+    "gen:verbs": "python3 scripts/generate-verbs.py"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.4.0",

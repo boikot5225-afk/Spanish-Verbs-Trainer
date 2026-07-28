@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import json, re, unicodedata
+import json, os, re, unicodedata
 
 # (инфинитив, перевод) — частотное ядро французского глагола
 CORE = """
@@ -94,9 +94,13 @@ aboyer:лаять|noyer:топить|tutoyer:обращаться на «ты»|
 # Глаголы третьей группы на -ir (все прочие -ir считаем второй группой)
 G3_IR = {
  'venir','tenir','partir','sortir','dormir','servir','mentir','sentir','courir','mourir',
- 'ouvrir','offrir','couvrir','souffrir','découvrir','cueillir','accueillir','fuir','acquérir',
- 'conquérir','devenir','revenir','obtenir','maintenir','retenir','appartenir','contenir',
- 'soutenir','prévenir','parvenir','survenir','convenir','repartir','ressentir','desservir',
+ 'ouvrir','offrir','couvrir','souffrir','découvrir','recouvrir','entrouvrir','rouvrir',
+ 'cueillir','accueillir','recueillir','fuir','acquérir','conquérir','requérir',
+ 'devenir','revenir','obtenir','maintenir','retenir','appartenir','contenir',
+ 'soutenir','prévenir','parvenir','survenir','convenir','intervenir','repartir',
+ 'ressentir','consentir','pressentir','démentir','desservir','resservir','asservir',
+ 'endormir','rendormir','assaillir','tressaillir','défaillir','saillir','faillir',
+ 'bouillir','vêtir','revêtir','dévêtir','repentir',
  "s'enfuir",'souvenir','se souvenir',
 }
 # Спрягаются с être
@@ -106,11 +110,15 @@ ETRE = {
  'repartir','intervenir',
 }
 DOUBLE = {  # -eler/-eter с удвоением согласной
- 'appeler','rappeler','jeter','rejeter','épeler','renouveler','atteler','feuilleter','projeter',
+ 'appeler','rappeler','interpeller','jeter','rejeter','projeter','épeler','renouveler',
+ 'atteler','dételer','feuilleter','cacheter','décacheter','étiqueter','empaqueter',
+ 'ensorceler','morceler','niveler','amonceler','chanceler','ficeler','grommeler','museler',
+ 'ruisseler','carreler','breveter','banqueter','souffleter','voleter','hoqueter','caqueter',
  "s'appeler",
 }
 GRAVE_ELER = {  # -eler/-eter с è
- 'acheter','geler','peler','modeler','marteler','racheter','haleter','congeler','dégeler','celer',
+ 'acheter','geler','peler','modeler','marteler','racheter','haleter','congeler','dégeler',
+ 'celer','déceler','receler','ciseler','démanteler','écarteler','crocheter','fureter','harceler',
 }
 
 def strip_pron(inf):
@@ -146,12 +154,24 @@ def classify(inf):
     aux = 'etre' if (pron or bare in ETRE) else 'avoir'
     return group, aux, types, pron
 
+def load_pairs():
+    """Частотное ядро из CORE плюс расширенный словарь из файла переводов."""
+    for chunk in CORE.replace('\n', '|').split('|'):
+        chunk = chunk.strip()
+        if chunk and ':' in chunk:
+            inf, tr = chunk.split(':', 1)
+            yield inf.strip(), tr.strip()
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'translations.fr-ru.txt')
+    with open(path, encoding='utf-8') as fh:
+        for line in fh:
+            line = line.strip()
+            if not line or line.startswith('#') or '=' not in line:
+                continue
+            inf, tr = line.split('=', 1)
+            yield inf.strip(), tr.strip()
+
 seen, out = set(), []
-for chunk in CORE.replace('\n', '|').split('|'):
-    chunk = chunk.strip()
-    if not chunk or ':' not in chunk: continue
-    inf, tr = chunk.split(':', 1)
-    inf, tr = inf.strip(), tr.strip()
+for inf, tr in load_pairs():
     if inf in seen: continue
     seen.add(inf)
     group, aux, types, pron = classify(inf)

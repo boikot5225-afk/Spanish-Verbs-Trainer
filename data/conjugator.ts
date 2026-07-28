@@ -480,6 +480,49 @@ const FAMILIES: Family[] = [
       };
     },
   },
+  // cueillir, accueillir, recueillir — настоящее как у первой группы,
+  // основа будущего на -er: je cueillerai
+  {
+    suffix: 'cueillir',
+    type: '-cueillir',
+    build: inf => {
+      const base = cut(inf, 2); // cueill-
+      return {
+        r1: base,
+        r2: base,
+        r3: base,
+        presEndings: ['e', 'es', 'e'],
+        fut: `${base}er`,
+        ps: base,
+        psType: 'i',
+        sub1: base,
+        sub2: base,
+        participePasse: `${base}i`,
+        participePresent: `${base}ant`,
+      };
+    },
+  },
+  // assaillir, tressaillir, défaillir — то же настоящее, но будущее от инфинитива
+  {
+    suffix: 'saillir',
+    type: '-saillir',
+    build: inf => {
+      const base = cut(inf, 2); // assaill-
+      return {
+        r1: base,
+        r2: base,
+        r3: base,
+        presEndings: ['e', 'es', 'e'],
+        fut: inf,
+        ps: base,
+        psType: 'i',
+        sub1: base,
+        sub2: base,
+        participePasse: `${base}i`,
+        participePresent: `${base}ant`,
+      };
+    },
+  },
   // ouvrir, offrir, souffrir, couvrir — спрягаются в настоящем как первая группа
   {
     suffix: 'rir',
