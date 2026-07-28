@@ -10,15 +10,14 @@ interface Props {
 }
 
 const GROUP_LABELS: Record<string, string> = {
-  ar: '-AR',
-  er: '-ER',
-  ir: '-IR',
-  irregular: 'IRREG',
+  '1': 'I гр.',
+  '2': 'II гр.',
+  '3': 'III гр.',
 };
 
 export default function VerbListItem({ verb, onPress }: Props) {
   const colors = useColors();
-  const isIrreg = verb.group === 'irregular';
+  const isIrreg = verb.group === '3';
 
   return (
     <Pressable

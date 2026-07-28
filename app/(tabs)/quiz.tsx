@@ -32,9 +32,9 @@ const MODES: { id: QuizMode; label: string; description: string }[] = [
 
 const QUESTION_LIMITS = [10, 20, 30, 50] as const;
 const FREQUENT_IDS = [
-  'ser', 'estar', 'tener', 'hacer', 'ir', 'venir', 'poder', 'querer', 'decir', 'ver',
-  'dar', 'saber', 'poner', 'salir', 'traer', 'hablar', 'comer', 'vivir', 'llegar', 'pasar',
-  'deber', 'parecer', 'quedar', 'creer', 'llevar', 'dejar', 'seguir', 'encontrar', 'llamar', 'pensar',
+  'être', 'avoir', 'faire', 'dire', 'aller', 'voir', 'savoir', 'pouvoir', 'vouloir', 'venir',
+  'devoir', 'prendre', 'trouver', 'donner', 'parler', 'mettre', 'passer', 'regarder', 'croire', 'aimer',
+  'penser', 'demander', 'rester', 'tenir', 'porter', 'laisser', 'comprendre', 'connaître', 'partir', 'sortir',
 ].filter(id => VERBS.some(verb => verb.id === id));
 
 function SelectionMark({ active, color, borderColor }: { active: boolean; color: string; borderColor: string }) {
@@ -286,13 +286,13 @@ export default function QuizTab() {
             <Text style={[styles.groupButtonText, { color: colors.foreground }]}>Частотные</Text>
           </Pressable>
           <Pressable
-            onPress={() => setVerbGroup(VERBS.filter(verb => verb.group === 'irregular').map(verb => verb.id))}
+            onPress={() => setVerbGroup(VERBS.filter(verb => verb.group === '3').map(verb => verb.id))}
             style={[styles.groupButton, { borderColor: colors.border, backgroundColor: colors.card }]}
           >
             <Text style={[styles.groupButtonText, { color: colors.foreground }]}>Неправильные</Text>
           </Pressable>
           <Pressable
-            onPress={() => setVerbGroup(VERBS.filter(verb => verb.group !== 'irregular').map(verb => verb.id))}
+            onPress={() => setVerbGroup(VERBS.filter(verb => verb.group !== '3').map(verb => verb.id))}
             style={[styles.groupButton, { borderColor: colors.border, backgroundColor: colors.card }]}
           >
             <Text style={[styles.groupButtonText, { color: colors.foreground }]}>Правильные</Text>

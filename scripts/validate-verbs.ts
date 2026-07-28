@@ -1,6 +1,7 @@
 import { strict as assert } from 'node:assert';
 import {
   COMPOUND_TENSES,
+  IMPERATIVE_PERSONS,
   IMPERATIVE_TENSES,
   PERSONS,
   TENSES,
@@ -17,23 +18,12 @@ import {
   lessonPracticeVerbIds,
 } from '../data/lessons';
 
-const EXPECTED_VERBS = 2129;
-// 20 времён × 6 лиц, минус отсутствующее «yo» в двух формах императива.
-const EXPECTED_FORMS = EXPECTED_VERBS * (TENSES.length * PERSONS.length - 2);
+assert.equal(TENSES.length, 16, `Expected 16 tenses, got ${TENSES.length}`);
+assert.equal(PERSONS.length, 6, `Expected 6 persons, got ${PERSONS.length}`);
 
-assert.equal(VERBS.length, EXPECTED_VERBS, `Expected ${EXPECTED_VERBS} verbs, got ${VERBS.length}`);
-assert.equal(TENSES.length, 20, `Expected 20 tenses, got ${TENSES.length}`);
-
-const WORD = 'a-záéíóúüñ';
-const SIMPLE_RE = new RegExp(`^[${WORD}]+$`, 'u');
-const COMPOUND_RE = new RegExp(`^h[${WORD}]+ [${WORD}]+$`, 'u');
-const NEGATIVE_RE = new RegExp(`^no [${WORD}]+$`, 'u');
-
-function expectedShape(tense: Tense): RegExp {
-  if (COMPOUND_TENSES.has(tense)) return COMPOUND_RE;
-  if (tense === 'imperativoNegativo') return NEGATIVE_RE;
-  return SIMPLE_RE;
-}
+// Буквы французского алфавита плюс апостроф (m’appelle), дефис (lave-toi)
+// и пробел (составные времена: ai parlé, me suis lavé).
+const FORM_RE = /^[a-zàâäçéèêëîïôöûùüÿœæ'’-]+( [a-zàâäçéèêëîïôöûùüÿœæ'’-]+)*$/u;
 
 const ids = new Set<string>();
 let formCount = 0;
@@ -44,279 +34,278 @@ for (const verb of VERBS) {
   ids.add(verb.id);
   assert(verb.infinitive.trim(), `Empty infinitive for ${verb.id}`);
   assert(verb.translation.trim(), `Empty translation for ${verb.id}`);
-
-  for (const nonFinite of ['gerundio', 'participio'] as const) {
-    const form = verb[nonFinite].form;
-    assert(SIMPLE_RE.test(form), `${verb.id}/${nonFinite}: invalid form ${form}`);
+  assert(['1', '2', '3'].includes(verb.group), `${verb.id}: unknown group ${verb.group}`);
+  assert(['avoir', 'etre'].includes(verb.aux), `${verb.id}: unknown auxiliary ${verb.aux}`);
+  if (verb.pronominal) {
+    assert.equal(verb.aux, 'etre', `${verb.id}: pronominal verbs must take être`);
   }
-  assert(verb.gerundio.form.endsWith('ndo'), `${verb.id}/gerundio: ${verb.gerundio.form}`);
+
+  for (const nonFinite of ['participePresent', 'participePasse'] as const) {
+    const form = verb[nonFinite].form;
+    assert(form.trim(), `${verb.id}/${nonFinite}: empty form`);
+  }
+
+  const impersonal = verb.conjugations.present.filter(form => form.absent).length === 5;
+  // У pouvoir императива нет вообще — это не дефект данных, а свойство глагола.
+  const noImperative = verb.conjugations.imperatifPresent.every(form => form.absent);
 
   for (const tense of TENSES) {
     const forms = verb.conjugations[tense];
     assert.equal(forms.length, PERSONS.length, `${verb.id}/${tense}: expected 6 forms`);
 
     for (const [index, form] of forms.entries()) {
-      const where = `${verb.id}/${tense}/${PERSONS[index]}`;
+      const person = PERSONS[index]!;
+      const where = `${verb.id}/${tense}/${person}`;
 
       if (form.absent) {
-        assert(
-          IMPERATIVE_TENSES.has(tense) && index === 0,
-          `${where}: unexpected absent form`,
-        );
-        assert.equal(form.form, '', `${where}: absent form must be empty`);
+        const allowed =
+          (IMPERATIVE_TENSES.has(tense) &&
+            (!IMPERATIVE_PERSONS.has(person) || noImperative)) ||
+          impersonal;
+        assert(allowed, `${where}: unexpected absent form`);
         absentCount += 1;
         continue;
       }
 
       assert(form.form.trim(), `${where}: empty form`);
-      assert(expectedShape(tense).test(form.form), `${where}: invalid form ${form.form}`);
+      assert(FORM_RE.test(form.form), `${where}: invalid form ${form.form}`);
+      if (COMPOUND_TENSES.has(tense)) {
+        assert(form.form.includes(' '), `${where}: compound tense must have an auxiliary`);
+      }
       formCount += 1;
     }
   }
 
-  // Императив не имеет формы 1-го лица ед. ч.
+  // В императиве есть только tu, nous и vous — либо нет ни одного лица.
   for (const tense of IMPERATIVE_TENSES) {
-    assert(verb.conjugations[tense][0]?.absent, `${verb.id}/${tense}: yo must be absent`);
+    for (const [index, person] of PERSONS.entries()) {
+      if (IMPERATIVE_PERSONS.has(person) && !noImperative) continue;
+      assert(
+        verb.conjugations[tense][index]?.absent,
+        `${verb.id}/${tense}: ${person} must be absent`,
+      );
+    }
   }
 }
 
-assert.equal(absentCount, EXPECTED_VERBS * 2, `Expected ${EXPECTED_VERBS * 2} absent slots, got ${absentCount}`);
-assert.equal(formCount, EXPECTED_FORMS, `Expected ${EXPECTED_FORMS} forms, got ${formCount}`);
-
-type Check = [Tense | 'gerundio' | 'participio', number, string];
+type Check = [Tense | 'participePresent' | 'participePasse', number, string];
 
 const expected: Record<string, Check[]> = {
-  // Простые времена — регрессия относительно прежнего набора
-  ser: [
-    ['presente', 0, 'soy'],
-    ['preteriteIndef', 5, 'fueron'],
-    ['subjuntivo', 3, 'seamos'],
-    ['subjImperfectoRa', 0, 'fuera'],
-    ['subjImperfectoSe', 3, 'fuésemos'],
-    ['imperativoAfirmativo', 1, 'sé'],
-    ['perfecto', 0, 'he sido'],
-    ['gerundio', 0, 'siendo'],
+  // Супплетивные — основа проверки всей таблицы исключений
+  être: [
+    ['present', 0, 'suis'],
+    ['present', 4, 'êtes'],
+    ['imparfait', 0, 'étais'],
+    ['passeSimple', 5, 'furent'],
+    ['futurSimple', 0, 'serai'],
+    ['conditionnel', 0, 'serais'],
+    ['subjPresent', 0, 'sois'],
+    ['subjImparfait', 2, 'fût'],
+    ['imperatifPresent', 1, 'sois'],
+    ['passeCompose', 0, 'ai été'],
+    ['participePasse', 0, 'été'],
   ],
-  estar: [
-    ['presente', 0, 'estoy'],
-    ['preteriteIndef', 2, 'estuvo'],
-    ['subjuntivo', 5, 'estén'],
-    ['subjImperfectoRa', 3, 'estuviéramos'],
-    ['imperativoAfirmativo', 2, 'esté'],
-    ['gerundio', 0, 'estando'],
+  avoir: [
+    ['present', 5, 'ont'],
+    ['passeSimple', 0, 'eus'],
+    ['futurSimple', 0, 'aurai'],
+    ['subjPresent', 0, 'aie'],
+    ['imperatifPresent', 4, 'ayez'],
+    ['participePasse', 0, 'eu'],
+    ['participePresent', 0, 'ayant'],
   ],
-  tener: [
-    ['presente', 1, 'tienes'],
-    ['preteriteIndef', 0, 'tuve'],
-    ['futuro', 0, 'tendré'],
-    ['subjImperfectoRa', 0, 'tuviera'],
-    ['imperativoAfirmativo', 1, 'ten'],
-    ['pluscuamperfecto', 0, 'había tenido'],
+  aller: [
+    ['present', 0, 'vais'],
+    ['present', 5, 'vont'],
+    ['futurSimple', 0, 'irai'],
+    ['subjPresent', 0, 'aille'],
+    ['subjPresent', 3, 'allions'],
+    ['imperatifPresent', 1, 'va'],
+    ['passeCompose', 0, 'suis allé'],
+    ['passeCompose', 5, 'sont allés'],
   ],
-  hacer: [
-    ['presente', 0, 'hago'],
-    ['preteriteIndef', 2, 'hizo'],
-    ['subjuntivo', 3, 'hagamos'],
-    ['imperativoAfirmativo', 1, 'haz'],
-    ['subjPluscuamRa', 0, 'hubiera hecho'],
-    ['participio', 0, 'hecho'],
+  faire: [
+    ['present', 4, 'faites'],
+    ['present', 5, 'font'],
+    ['passeSimple', 0, 'fis'],
+    ['futurSimple', 0, 'ferai'],
+    ['subjPresent', 0, 'fasse'],
+    ['participePasse', 0, 'fait'],
   ],
-  ir: [
-    ['presente', 0, 'voy'],
-    ['preteriteIndef', 3, 'fuimos'],
-    ['subjuntivo', 0, 'vaya'],
-    ['subjImperfectoRa', 0, 'fuera'],
-    ['imperativoAfirmativo', 1, 've'],
-    ['imperativoAfirmativo', 3, 'vamos'],
-    ['imperativoAfirmativo', 4, 'id'],
-    ['imperativoNegativo', 1, 'no vayas'],
-    ['gerundio', 0, 'yendo'],
+  // Семейства третьей группы
+  prendre: [
+    ['present', 2, 'prend'],
+    ['present', 3, 'prenons'],
+    ['present', 5, 'prennent'],
+    ['passeSimple', 0, 'pris'],
+    ['subjPresent', 0, 'prenne'],
+    ['subjPresent', 3, 'prenions'],
+    ['participePasse', 0, 'pris'],
+  ],
+  mettre: [
+    ['present', 0, 'mets'],
+    ['present', 2, 'met'],
+    ['passeSimple', 0, 'mis'],
+    ['participePasse', 0, 'mis'],
+  ],
+  battre: [
+    ['present', 2, 'bat'],
+    ['participePasse', 0, 'battu'],
+  ],
+  attendre: [
+    ['present', 2, 'attend'],
+    ['participePasse', 0, 'attendu'],
+  ],
+  craindre: [
+    ['present', 0, 'crains'],
+    ['present', 3, 'craignons'],
+    ['participePasse', 0, 'craint'],
+  ],
+  conduire: [
+    ['present', 3, 'conduisons'],
+    ['participePasse', 0, 'conduit'],
+  ],
+  connaître: [
+    ['present', 2, 'connaît'],
+    ['passeSimple', 0, 'connus'],
+    ['participePasse', 0, 'connu'],
   ],
   venir: [
-    ['presente', 0, 'vengo'],
-    ['preteriteIndef', 0, 'vine'],
-    ['futuro', 0, 'vendré'],
-    ['imperativoAfirmativo', 1, 'ven'],
-    ['gerundio', 0, 'viniendo'],
+    ['present', 0, 'viens'],
+    ['present', 5, 'viennent'],
+    ['futurSimple', 0, 'viendrai'],
+    ['passeSimple', 0, 'vins'],
+    ['passeCompose', 0, 'suis venu'],
   ],
-  poder: [
-    ['presente', 0, 'puedo'],
-    ['preteriteIndef', 0, 'pude'],
-    ['subjuntivo', 3, 'podamos'],
-    ['subjImperfectoRa', 0, 'pudiera'],
-    ['gerundio', 0, 'pudiendo'],
+  recevoir: [
+    ['present', 0, 'reçois'],
+    ['present', 3, 'recevons'],
+    ['passeSimple', 0, 'reçus'],
+    ['futurSimple', 0, 'recevrai'],
+    ['participePasse', 0, 'reçu'],
   ],
-  querer: [
-    ['presente', 0, 'quiero'],
-    ['preteriteIndef', 0, 'quise'],
-    ['subjuntivo', 4, 'queráis'],
-    ['subjImperfectoSe', 0, 'quisiese'],
+  partir: [
+    ['present', 0, 'pars'],
+    ['present', 3, 'partons'],
+    ['passeCompose', 0, 'suis parti'],
   ],
-  decir: [
-    ['presente', 0, 'digo'],
-    ['preteriteIndef', 5, 'dijeron'],
-    ['subjuntivo', 3, 'digamos'],
-    ['subjImperfectoRa', 0, 'dijera'],
-    ['imperativoAfirmativo', 1, 'di'],
-    ['participio', 0, 'dicho'],
-    ['gerundio', 0, 'diciendo'],
+  ouvrir: [
+    ['present', 0, 'ouvre'],
+    ['imperatifPresent', 1, 'ouvre'],
+    ['participePasse', 0, 'ouvert'],
   ],
-  ver: [
-    ['presente', 0, 'veo'],
-    ['preteriteImp', 0, 'veía'],
-    ['subjuntivo', 3, 'veamos'],
-    ['imperativoAfirmativo', 1, 've'],
-    ['participio', 0, 'visto'],
+  // Орфографические чередования первой группы
+  manger: [
+    ['present', 3, 'mangeons'],
+    ['imparfait', 0, 'mangeais'],
+    ['imparfait', 3, 'mangions'],
+    ['passeSimple', 3, 'mangeâmes'],
+    ['participePresent', 0, 'mangeant'],
   ],
-  dar: [
-    ['presente', 0, 'doy'],
-    ['preteriteIndef', 0, 'di'],
-    ['subjuntivo', 1, 'des'],
-    ['subjImperfectoRa', 0, 'diera'],
-    ['imperativoAfirmativo', 1, 'da'],
+  commencer: [
+    ['present', 3, 'commençons'],
+    ['imparfait', 0, 'commençais'],
+    ['imparfait', 3, 'commencions'],
+    ['passeSimple', 3, 'commençâmes'],
   ],
-  saber: [
-    ['presente', 0, 'sé'],
-    ['preteriteIndef', 0, 'supe'],
-    ['futuro', 0, 'sabré'],
-    ['subjImperfectoRa', 0, 'supiera'],
-    ['imperativoAfirmativo', 2, 'sepa'],
+  acheter: [
+    ['present', 0, 'achète'],
+    ['present', 3, 'achetons'],
+    ['futurSimple', 0, 'achèterai'],
   ],
-  poner: [
-    ['presente', 0, 'pongo'],
-    ['preteriteIndef', 0, 'puse'],
-    ['futuro', 0, 'pondré'],
-    ['imperativoAfirmativo', 1, 'pon'],
-    ['participio', 0, 'puesto'],
+  appeler: [
+    ['present', 0, 'appelle'],
+    ['present', 3, 'appelons'],
+    ['futurSimple', 0, 'appellerai'],
   ],
-  componer: [
-    ['imperativoAfirmativo', 1, 'compón'],
-    ['participio', 0, 'compuesto'],
-    ['subjImperfectoRa', 3, 'compusiéramos'],
+  espérer: [
+    ['present', 0, 'espère'],
+    // По традиционной норме é в основе будущего сохраняется.
+    ['futurSimple', 0, 'espérerai'],
   ],
-  salir: [
-    ['presente', 0, 'salgo'],
-    ['futuro', 0, 'saldré'],
-    ['subjuntivo', 0, 'salga'],
-    ['imperativoAfirmativo', 1, 'sal'],
+  nettoyer: [['present', 0, 'nettoie']],
+  payer: [['present', 0, 'paye']],
+  envoyer: [['futurSimple', 0, 'enverrai']],
+  courir: [['futurSimple', 0, 'courrai']],
+  // Составные времена и согласование
+  sortir: [
+    ['passeCompose', 2, 'est sorti'],
+    ['passeCompose', 5, 'sont sortis'],
+    ['plusQueParfait', 0, 'étais sorti'],
   ],
-  haber: [
-    ['presente', 0, 'he'],
-    ['subjImperfectoRa', 0, 'hubiera'],
-    ['subjImperfectoSe', 3, 'hubiésemos'],
-    ['subjFuturo', 0, 'hubiere'],
+  mourir: [
+    ['participePasse', 0, 'mort'],
+    ['passeCompose', 5, 'sont morts'],
   ],
-  traer: [
-    ['presente', 0, 'traigo'],
-    ['preteriteIndef', 5, 'trajeron'],
-    ['subjuntivo', 0, 'traiga'],
-    ['subjImperfectoRa', 0, 'trajera'],
-    ['participio', 0, 'traído'],
-    ['gerundio', 0, 'trayendo'],
+  naître: [
+    ['present', 2, 'naît'],
+    ['participePasse', 0, 'né'],
   ],
-  construir: [
-    ['presente', 1, 'construyes'],
-    ['preteriteIndef', 2, 'construyó'],
-    ['subjImperfectoRa', 0, 'construyera'],
-    ['participio', 0, 'construido'],
+  devoir: [['participePasse', 0, 'dû']],
+  // Модальные и безличные
+  pouvoir: [
+    ['present', 0, 'peux'],
+    ['futurSimple', 0, 'pourrai'],
+    ['subjPresent', 0, 'puisse'],
   ],
-  conducir: [
-    ['subjImperfectoRa', 0, 'condujera'],
-    ['gerundio', 0, 'conduciendo'],
+  vouloir: [
+    ['present', 0, 'veux'],
+    ['imperatifPresent', 4, 'veuillez'],
   ],
-  seguir: [
-    ['preteriteIndef', 2, 'siguió'],
-    ['subjuntivo', 3, 'sigamos'],
-    ['gerundio', 0, 'siguiendo'],
+  savoir: [
+    ['present', 0, 'sais'],
+    ['imperatifPresent', 1, 'sache'],
+    ['participePresent', 0, 'sachant'],
   ],
-  avergonzar: [
-    ['presente', 0, 'avergüenzo'],
-    ['subjuntivo', 3, 'avergoncemos'],
+  falloir: [
+    ['present', 2, 'faut'],
+    ['futurSimple', 2, 'faudra'],
   ],
-  oír: [
-    ['presente', 3, 'oímos'],
-    ['preteriteIndef', 5, 'oyeron'],
-    ['futuro', 0, 'oiré'],
-    ['imperativoAfirmativo', 4, 'oíd'],
-    ['participio', 0, 'oído'],
-    ['gerundio', 0, 'oyendo'],
+  boire: [
+    ['present', 3, 'buvons'],
+    ['present', 5, 'boivent'],
+    ['passeSimple', 0, 'bus'],
   ],
-  reír: [
-    ['presente', 0, 'río'],
-    ['preteriteIndef', 2, 'rio'],
-    ['subjuntivo', 4, 'riais'],
-    ['imperativoAfirmativo', 4, 'reíd'],
-    ['participio', 0, 'reído'],
-    ['gerundio', 0, 'riendo'],
+  vivre: [
+    ['passeSimple', 0, 'vécus'],
+    ['participePasse', 0, 'vécu'],
   ],
-  desleír: [
-    ['presente', 0, 'deslío'],
-    ['preteriteIndef', 2, 'deslió'],
-    ['futuro', 0, 'desleiré'],
+  // Местоименные
+  'se laver': [
+    ['present', 0, 'me lave'],
+    ['passeCompose', 0, 'me suis lavé'],
+    ['imperatifPresent', 1, 'lave-toi'],
   ],
-  dormir: [
-    ['subjImperfectoRa', 0, 'durmiera'],
-    ['imperativoAfirmativo', 3, 'durmamos'],
-    ['gerundio', 0, 'durmiendo'],
+  "s'appeler": [
+    ['present', 0, "m'appelle"],
+    ['present', 3, 'nous appelons'],
   ],
-  morir: [
-    ['participio', 0, 'muerto'],
-    ['gerundio', 0, 'muriendo'],
+  // Полностью правильные образцы всех трёх групп
+  parler: [
+    ['present', 0, 'parle'],
+    ['imparfait', 0, 'parlais'],
+    ['passeSimple', 0, 'parlai'],
+    ['futurSimple', 0, 'parlerai'],
+    ['conditionnel', 0, 'parlerais'],
+    ['subjPresent', 0, 'parle'],
+    ['subjImparfait', 2, 'parlât'],
+    ['imperatifPresent', 1, 'parle'],
+    ['passeCompose', 0, 'ai parlé'],
+    ['plusQueParfait', 0, 'avais parlé'],
+    ['passeAnterieur', 0, 'eus parlé'],
+    ['futurAnterieur', 0, 'aurai parlé'],
+    ['conditionnelPasse', 0, 'aurais parlé'],
+    ['subjPasse', 0, 'aie parlé'],
+    ['subjPlusQueParfait', 0, 'eusse parlé'],
+    ['imperatifPasse', 1, 'aie parlé'],
   ],
-  volver: [
-    ['participio', 0, 'vuelto'],
-    ['imperativoAfirmativo', 1, 'vuelve'],
-  ],
-  escribir: [['participio', 0, 'escrito']],
-  describir: [['participio', 0, 'descrito']],
-  freír: [['participio', 0, 'frito']],
-  abrir: [['participio', 0, 'abierto']],
-  descubrir: [['participio', 0, 'descubierto']],
-  resolver: [['participio', 0, 'resuelto']],
-  disolver: [['participio', 0, 'disuelto']],
-  predecir: [['participio', 0, 'predicho']],
-  bendecir: [
-    ['participio', 0, 'bendecido'],
-    ['gerundio', 0, 'bendiciendo'],
-  ],
-  prever: [
-    ['participio', 0, 'previsto'],
-    ['imperativoAfirmativo', 1, 'prevé'],
-  ],
-  satisfacer: [['participio', 0, 'satisfecho']],
-  romper: [['participio', 0, 'roto']],
-  pudrir: [['participio', 0, 'podrido']],
-  leer: [
-    ['subjImperfectoRa', 0, 'leyera'],
-    ['participio', 0, 'leído'],
-    ['gerundio', 0, 'leyendo'],
-  ],
-  caer: [['participio', 0, 'caído']],
-  huir: [['participio', 0, 'huido']],
-  gruñir: [['gerundio', 0, 'gruñendo']],
-  // Полностью правильные образцы всех трёх спряжений
-  hablar: [
-    ['subjImperfectoRa', 3, 'habláramos'],
-    ['subjImperfectoSe', 0, 'hablase'],
-    ['subjFuturo', 0, 'hablare'],
-    ['imperativoAfirmativo', 4, 'hablad'],
-    ['imperativoNegativo', 1, 'no hables'],
-    ['perfecto', 0, 'he hablado'],
-    ['anterior', 0, 'hube hablado'],
-    ['futuroPerfecto', 0, 'habré hablado'],
-    ['condicionalPerfecto', 0, 'habría hablado'],
-    ['subjPerfecto', 0, 'haya hablado'],
-    ['subjPluscuamSe', 0, 'hubiese hablado'],
-    ['subjFuturoPerfecto', 0, 'hubiere hablado'],
-  ],
-  comer: [
-    ['subjImperfectoRa', 3, 'comiéramos'],
-    ['imperativoAfirmativo', 4, 'comed'],
-    ['imperativoNegativo', 5, 'no coman'],
-  ],
-  vivir: [
-    ['imperativoAfirmativo', 4, 'vivid'],
-    ['subjFuturo', 3, 'viviéremos'],
+  finir: [
+    ['present', 0, 'finis'],
+    ['present', 3, 'finissons'],
+    ['imparfait', 0, 'finissais'],
+    ['passeSimple', 0, 'finis'],
+    ['imperatifPresent', 1, 'finis'],
+    ['participePresent', 0, 'finissant'],
   ],
 };
 
@@ -325,7 +314,7 @@ for (const [verbId, checks] of Object.entries(expected)) {
   if (!verb) throw new Error(`Missing expected verb: ${verbId}`);
   for (const [tense, personIndex, form] of checks) {
     const actual =
-      tense === 'gerundio' || tense === 'participio'
+      tense === 'participePresent' || tense === 'participePasse'
         ? verb[tense].form
         : verb.conjugations[tense][personIndex]?.form;
     assert.equal(actual, form, `${verbId}/${tense}/${personIndex}: expected ${form}, got ${actual}`);
@@ -379,6 +368,17 @@ for (const lesson of LESSONS) {
     `${lesson.id}: exam is only ${lessonExamSize(lesson)} questions, need ${EXAM_QUESTIONS}`,
   );
 
+  // У императива формы есть только у трёх лиц, поэтому темы, которые тренируют
+  // только его, должны набирать 30 вопросов втрое большим числом глаголов.
+  const imperativeOnly = lesson.practice.tenses.every(tense => IMPERATIVE_TENSES.has(tense));
+  if (imperativeOnly) {
+    const real = practiceVerbs.length * lesson.practice.tenses.length * IMPERATIVE_PERSONS.size;
+    assert(
+      real >= EXAM_QUESTIONS,
+      `${lesson.id}: only ${real} real imperative forms, need ${EXAM_QUESTIONS}`,
+    );
+  }
+
   // Подуровни: ключевые глаголы обязаны входить в набор темы, иначе плитка
   // молча исчезнет, а каждый подход должен быть полноразмерным.
   for (const verbId of lesson.practice.featured ?? []) {
@@ -399,8 +399,6 @@ for (const lesson of LESSONS) {
     if (drill.isAll) {
       assert.equal(size, EXAM_QUESTIONS, `${lesson.id}: full-set drill is only ${size} questions`);
     } else {
-      // Подход по одному глаголу не может быть длиннее его форм: при одном
-      // времени это ровно парадигма из шести лиц.
       assert(
         size >= PERSONS.length && size <= DRILL_QUESTIONS,
         `${lesson.id}/${drill.key}: drill of ${size} questions is out of range`,
@@ -424,8 +422,8 @@ for (const tense of TENSES) {
 
 const checkCount = Object.values(expected).reduce((total, checks) => total + checks.length, 0);
 console.log(
-  `Validated ${VERBS.length} verbs, ${formCount} forms across ${TENSES.length} tenses, ` +
-    `${checkCount} spot checks.`,
+  `Validated ${VERBS.length} verbs, ${formCount} forms and ${absentCount} absent slots ` +
+    `across ${TENSES.length} tenses, ${checkCount} spot checks.`,
 );
 console.log(
   `Validated ${LESSONS.length} lessons with ${tableCount} embedded tables ` +

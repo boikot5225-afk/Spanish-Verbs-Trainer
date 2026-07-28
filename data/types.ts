@@ -1,211 +1,197 @@
-export type Mood = 'indicativo' | 'subjuntivo' | 'imperativo';
+export type Mood = 'indicatif' | 'subjonctif' | 'imperatif';
 
 export type Tense =
-  // Indicativo — простые
-  | 'presente'
-  | 'preteriteIndef'
-  | 'preteriteImp'
-  | 'futuro'
-  | 'condicional'
-  // Indicativo — составные
-  | 'perfecto'
-  | 'pluscuamperfecto'
-  | 'anterior'
-  | 'futuroPerfecto'
-  | 'condicionalPerfecto'
-  // Subjuntivo — простые
-  | 'subjuntivo'
-  | 'subjImperfectoRa'
-  | 'subjImperfectoSe'
-  | 'subjFuturo'
-  // Subjuntivo — составные
-  | 'subjPerfecto'
-  | 'subjPluscuamRa'
-  | 'subjPluscuamSe'
-  | 'subjFuturoPerfecto'
-  // Imperativo
-  | 'imperativoAfirmativo'
-  | 'imperativoNegativo';
+  // Indicatif — простые
+  | 'present'
+  | 'imparfait'
+  | 'passeSimple'
+  | 'futurSimple'
+  | 'conditionnel'
+  // Indicatif — составные
+  | 'passeCompose'
+  | 'plusQueParfait'
+  | 'passeAnterieur'
+  | 'futurAnterieur'
+  | 'conditionnelPasse'
+  // Subjonctif — простые
+  | 'subjPresent'
+  | 'subjImparfait'
+  // Subjonctif — составные
+  | 'subjPasse'
+  | 'subjPlusQueParfait'
+  // Impératif
+  | 'imperatifPresent'
+  | 'imperatifPasse';
 
-export type Person = 'yo' | 'tu' | 'el' | 'nosotros' | 'vosotros' | 'ellos';
+export type Person = 'je' | 'tu' | 'il' | 'nous' | 'vous' | 'ils';
 
 export const TENSES: Tense[] = [
-  'presente',
-  'preteriteIndef',
-  'preteriteImp',
-  'futuro',
-  'condicional',
-  'perfecto',
-  'pluscuamperfecto',
-  'anterior',
-  'futuroPerfecto',
-  'condicionalPerfecto',
-  'subjuntivo',
-  'subjImperfectoRa',
-  'subjImperfectoSe',
-  'subjFuturo',
-  'subjPerfecto',
-  'subjPluscuamRa',
-  'subjPluscuamSe',
-  'subjFuturoPerfecto',
-  'imperativoAfirmativo',
-  'imperativoNegativo',
+  'present',
+  'imparfait',
+  'passeSimple',
+  'futurSimple',
+  'conditionnel',
+  'passeCompose',
+  'plusQueParfait',
+  'passeAnterieur',
+  'futurAnterieur',
+  'conditionnelPasse',
+  'subjPresent',
+  'subjImparfait',
+  'subjPasse',
+  'subjPlusQueParfait',
+  'imperatifPresent',
+  'imperatifPasse',
 ];
 
-/** Времена, которые были в приложении до расширения — выбор по умолчанию в квизе. */
+/** Времена живой речи — выбор по умолчанию в квизе. */
 export const CORE_TENSES: Tense[] = [
-  'presente',
-  'preteriteIndef',
-  'preteriteImp',
-  'futuro',
-  'condicional',
-  'subjuntivo',
+  'present',
+  'imparfait',
+  'futurSimple',
+  'conditionnel',
+  'passeCompose',
+  'subjPresent',
 ];
 
-export const PERSONS: Person[] = [
-  'yo',
-  'tu',
-  'el',
-  'nosotros',
-  'vosotros',
-  'ellos',
-];
+export const PERSONS: Person[] = ['je', 'tu', 'il', 'nous', 'vous', 'ils'];
 
 export const TENSE_LABELS: Record<Tense, string> = {
-  presente: 'Presente',
-  preteriteIndef: 'Indefinido',
-  preteriteImp: 'Imperfecto',
-  futuro: 'Futuro',
-  condicional: 'Condicional',
-  perfecto: 'P. perfecto',
-  pluscuamperfecto: 'Pluscuamperfecto',
-  anterior: 'P. anterior',
-  futuroPerfecto: 'Futuro perfecto',
-  condicionalPerfecto: 'Cond. perfecto',
-  subjuntivo: 'Presente',
-  subjImperfectoRa: 'Imperfecto -ra',
-  subjImperfectoSe: 'Imperfecto -se',
-  subjFuturo: 'Futuro',
-  subjPerfecto: 'P. perfecto',
-  subjPluscuamRa: 'Pluscuam. -ra',
-  subjPluscuamSe: 'Pluscuam. -se',
-  subjFuturoPerfecto: 'Futuro perfecto',
-  imperativoAfirmativo: 'Afirmativo',
-  imperativoNegativo: 'Negativo',
+  present: 'Présent',
+  imparfait: 'Imparfait',
+  passeSimple: 'Passé simple',
+  futurSimple: 'Futur simple',
+  conditionnel: 'Conditionnel',
+  passeCompose: 'Passé composé',
+  plusQueParfait: 'Plus-que-parfait',
+  passeAnterieur: 'Passé antérieur',
+  futurAnterieur: 'Futur antérieur',
+  conditionnelPasse: 'Conditionnel passé',
+  subjPresent: 'Présent',
+  subjImparfait: 'Imparfait',
+  subjPasse: 'Passé',
+  subjPlusQueParfait: 'Plus-que-parfait',
+  imperatifPresent: 'Présent',
+  imperatifPasse: 'Passé',
 };
 
 export const TENSE_FULL_LABELS: Record<Tense, string> = {
-  presente: 'Настоящее (Presente)',
-  preteriteIndef: 'Прош. законч. (Indefinido)',
-  preteriteImp: 'Прош. длит. (Imperfecto)',
-  futuro: 'Будущее (Futuro simple)',
-  condicional: 'Условное (Condicional simple)',
-  perfecto: 'Прош. связ. с наст. (Pretérito perfecto)',
-  pluscuamperfecto: 'Предпрош. (Pluscuamperfecto)',
-  anterior: 'Предпрош. книжн. (Pretérito anterior)',
-  futuroPerfecto: 'Предбудущее (Futuro perfecto)',
-  condicionalPerfecto: 'Условное прош. (Condicional perfecto)',
-  subjuntivo: 'Сослаг. наст. (Presente de subjuntivo)',
-  subjImperfectoRa: 'Сослаг. прош. на -ra',
-  subjImperfectoSe: 'Сослаг. прош. на -se',
-  subjFuturo: 'Сослаг. будущее (книжное)',
-  subjPerfecto: 'Сослаг. прош. (Pretérito perfecto)',
-  subjPluscuamRa: 'Сослаг. предпрош. на -ra',
-  subjPluscuamSe: 'Сослаг. предпрош. на -se',
-  subjFuturoPerfecto: 'Сослаг. предбудущее (книжное)',
-  imperativoAfirmativo: 'Повелительное утвердительное',
-  imperativoNegativo: 'Повелительное отрицательное',
+  present: 'Настоящее (Présent)',
+  imparfait: 'Прош. длит. (Imparfait)',
+  passeSimple: 'Прош. книжн. (Passé simple)',
+  futurSimple: 'Будущее (Futur simple)',
+  conditionnel: 'Условное (Conditionnel présent)',
+  passeCompose: 'Прош. разг. (Passé composé)',
+  plusQueParfait: 'Предпрош. (Plus-que-parfait)',
+  passeAnterieur: 'Предпрош. книжн. (Passé antérieur)',
+  futurAnterieur: 'Предбудущее (Futur antérieur)',
+  conditionnelPasse: 'Условное прош. (Conditionnel passé)',
+  subjPresent: 'Сослаг. наст. (Subjonctif présent)',
+  subjImparfait: 'Сослаг. прош. книжн. (Subjonctif imparfait)',
+  subjPasse: 'Сослаг. прош. (Subjonctif passé)',
+  subjPlusQueParfait: 'Сослаг. предпрош. (Subjonctif plus-que-parfait)',
+  imperatifPresent: 'Повелительное (Impératif présent)',
+  imperatifPasse: 'Повелительное прош. (Impératif passé)',
 };
 
 export const TENSE_MOODS: Record<Tense, Mood> = {
-  presente: 'indicativo',
-  preteriteIndef: 'indicativo',
-  preteriteImp: 'indicativo',
-  futuro: 'indicativo',
-  condicional: 'indicativo',
-  perfecto: 'indicativo',
-  pluscuamperfecto: 'indicativo',
-  anterior: 'indicativo',
-  futuroPerfecto: 'indicativo',
-  condicionalPerfecto: 'indicativo',
-  subjuntivo: 'subjuntivo',
-  subjImperfectoRa: 'subjuntivo',
-  subjImperfectoSe: 'subjuntivo',
-  subjFuturo: 'subjuntivo',
-  subjPerfecto: 'subjuntivo',
-  subjPluscuamRa: 'subjuntivo',
-  subjPluscuamSe: 'subjuntivo',
-  subjFuturoPerfecto: 'subjuntivo',
-  imperativoAfirmativo: 'imperativo',
-  imperativoNegativo: 'imperativo',
+  present: 'indicatif',
+  imparfait: 'indicatif',
+  passeSimple: 'indicatif',
+  futurSimple: 'indicatif',
+  conditionnel: 'indicatif',
+  passeCompose: 'indicatif',
+  plusQueParfait: 'indicatif',
+  passeAnterieur: 'indicatif',
+  futurAnterieur: 'indicatif',
+  conditionnelPasse: 'indicatif',
+  subjPresent: 'subjonctif',
+  subjImparfait: 'subjonctif',
+  subjPasse: 'subjonctif',
+  subjPlusQueParfait: 'subjonctif',
+  imperatifPresent: 'imperatif',
+  imperatifPasse: 'imperatif',
 };
 
-export const MOODS: Mood[] = ['indicativo', 'subjuntivo', 'imperativo'];
+export const MOODS: Mood[] = ['indicatif', 'subjonctif', 'imperatif'];
 
 export const MOOD_LABELS: Record<Mood, string> = {
-  indicativo: 'Indicativo · Изъявительное',
-  subjuntivo: 'Subjuntivo · Сослагательное',
-  imperativo: 'Imperativo · Повелительное',
+  indicatif: 'Indicatif · Изъявительное',
+  subjonctif: 'Subjonctif · Сослагательное',
+  imperatif: 'Impératif · Повелительное',
 };
 
-/** Составные времена: haber + причастие. */
+/** Составные времена: avoir/être + participe passé. */
 export type CompoundTense = Extract<
   Tense,
-  | 'perfecto'
-  | 'pluscuamperfecto'
-  | 'anterior'
-  | 'futuroPerfecto'
-  | 'condicionalPerfecto'
-  | 'subjPerfecto'
-  | 'subjPluscuamRa'
-  | 'subjPluscuamSe'
-  | 'subjFuturoPerfecto'
+  | 'passeCompose'
+  | 'plusQueParfait'
+  | 'passeAnterieur'
+  | 'futurAnterieur'
+  | 'conditionnelPasse'
+  | 'subjPasse'
+  | 'subjPlusQueParfait'
+  | 'imperatifPasse'
 >;
 
 export const COMPOUND_TENSES: ReadonlySet<Tense> = new Set<Tense>([
-  'perfecto',
-  'pluscuamperfecto',
-  'anterior',
-  'futuroPerfecto',
-  'condicionalPerfecto',
-  'subjPerfecto',
-  'subjPluscuamRa',
-  'subjPluscuamSe',
-  'subjFuturoPerfecto',
+  'passeCompose',
+  'plusQueParfait',
+  'passeAnterieur',
+  'futurAnterieur',
+  'conditionnelPasse',
+  'subjPasse',
+  'subjPlusQueParfait',
+  'imperatifPasse',
 ]);
 
 export const IMPERATIVE_TENSES: ReadonlySet<Tense> = new Set<Tense>([
-  'imperativoAfirmativo',
-  'imperativoNegativo',
+  'imperatifPresent',
+  'imperatifPasse',
 ]);
+
+/** Какое простое время вспомогательного глагола берёт каждое составное. */
+export const COMPOUND_AUX_TENSE: Record<CompoundTense, Tense> = {
+  passeCompose: 'present',
+  plusQueParfait: 'imparfait',
+  passeAnterieur: 'passeSimple',
+  futurAnterieur: 'futurSimple',
+  conditionnelPasse: 'conditionnel',
+  subjPasse: 'subjPresent',
+  subjPlusQueParfait: 'subjImparfait',
+  imperatifPasse: 'imperatifPresent',
+};
 
 export function tensesByMood(mood: Mood): Tense[] {
   return TENSES.filter(tense => TENSE_MOODS[tense] === mood);
 }
 
 export const PERSON_LABELS: Record<Person, string> = {
-  yo: 'yo',
-  tu: 'tú',
-  el: 'él/ella',
-  nosotros: 'nosotros',
-  vosotros: 'vosotros',
-  ellos: 'ellos/ellas',
+  je: 'je',
+  tu: 'tu',
+  il: 'il/elle',
+  nous: 'nous',
+  vous: 'vous',
+  ils: 'ils/elles',
 };
 
-/** В императиве 3-е лицо — это вежливые формы usted/ustedes, а «yo» отсутствует. */
+/** В императиве есть только tu, nous и vous — остальные лица отсутствуют. */
 export const IMPERATIVE_PERSON_LABELS: Record<Person, string> = {
-  yo: '—',
-  tu: 'tú',
-  el: 'usted',
-  nosotros: 'nosotros',
-  vosotros: 'vosotros',
-  ellos: 'ustedes',
+  je: '—',
+  tu: 'tu',
+  il: '—',
+  nous: 'nous',
+  vous: 'vous',
+  ils: '—',
 };
+
+/** Лица, у которых есть форма императива. */
+export const IMPERATIVE_PERSONS: ReadonlySet<Person> = new Set<Person>(['tu', 'nous', 'vous']);
 
 const MOOD_PREFIX: Record<Mood, string> = {
-  indicativo: '',
-  subjuntivo: 'Subj. ',
-  imperativo: 'Imper. ',
+  indicatif: '',
+  subjonctif: 'Subj. ',
+  imperatif: 'Impér. ',
 };
 
 /** Короткая подпись, однозначная вне группировки по наклонениям (списки, разбор ошибок). */
@@ -218,32 +204,41 @@ export function personLabels(tense: Tense): Record<Person, string> {
   return IMPERATIVE_TENSES.has(tense) ? IMPERATIVE_PERSON_LABELS : PERSON_LABELS;
 }
 
+/**
+ * Местоимение с элизией перед гласной: j'ai, j'habite — но je sais.
+ *
+ * Придыхательное h (je hais) от немого (j'habite) по написанию не отличается;
+ * среди частотных глаголов немое встречается практически всегда, поэтому h
+ * считается немым.
+ */
+export function displayPronoun(person: Person, tense: Tense, form: string): string {
+  const label = personLabels(tense)[person];
+  if (person !== 'je' || IMPERATIVE_TENSES.has(tense)) return label;
+  return /^[aeiouyàâéèêëîïôûùüh]/iu.test(form) ? "j'" : label;
+}
+
 export type Level = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
 
 export const LEVELS: Level[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
-/** Ориентировочный уровень, на котором время обычно вводится в курсе испанского. */
+/** Ориентировочный уровень, на котором время обычно вводится в курсе французского. */
 export const TENSE_LEVELS: Record<Tense, Level> = {
-  presente: 'A1',
-  imperativoAfirmativo: 'A1',
-  preteriteIndef: 'A2',
-  preteriteImp: 'A2',
-  futuro: 'A2',
-  perfecto: 'A2',
-  imperativoNegativo: 'A2',
-  condicional: 'B1',
-  pluscuamperfecto: 'B1',
-  subjuntivo: 'B1',
-  futuroPerfecto: 'B1',
-  subjImperfectoRa: 'B2',
-  subjImperfectoSe: 'B2',
-  condicionalPerfecto: 'B2',
-  subjPerfecto: 'B2',
-  subjPluscuamRa: 'C1',
-  subjPluscuamSe: 'C1',
-  anterior: 'C1',
-  subjFuturo: 'C2',
-  subjFuturoPerfecto: 'C2',
+  present: 'A1',
+  imperatifPresent: 'A1',
+  passeCompose: 'A1',
+  imparfait: 'A2',
+  futurSimple: 'A2',
+  conditionnel: 'B1',
+  plusQueParfait: 'B1',
+  subjPresent: 'B1',
+  futurAnterieur: 'B2',
+  conditionnelPasse: 'B2',
+  subjPasse: 'B2',
+  passeSimple: 'B2',
+  passeAnterieur: 'C1',
+  subjImparfait: 'C1',
+  imperatifPasse: 'C2',
+  subjPlusQueParfait: 'C2',
 };
 
 export function tensesByLevel(level: Level): Tense[] {
@@ -267,20 +262,33 @@ export type TenseStats = Partial<Record<Tense, TenseStat>>;
 export interface ConjugationForm {
   form: string;
   irregular: boolean;
-  /** Формы для этого лица не существует (например, «yo» в императиве). */
+  /** Формы для этого лица не существует (например, «je» в императиве). */
   absent?: boolean;
 }
+
+/** Вспомогательный глагол составных времён. */
+export type Auxiliary = 'avoir' | 'etre';
+
+/**
+ * Группа спряжения. Первая — на -er, вторая — на -ir с расширением -iss-,
+ * третья — все остальные (-re, -oir и -ir без -iss-).
+ */
+export type VerbGroup = '1' | '2' | '3';
 
 export interface Verb {
   id: string;
   infinitive: string;
   translation: string;
-  group: 'ar' | 'er' | 'ir' | 'irregular';
-  /** Признаки неправильности из метаданных («o to ue», «add g», …). Уроки подбирают по ним примеры. */
+  group: VerbGroup;
+  /** Вспомогательный глагол; «etre» тянет за собой согласование причастия. */
+  aux: Auxiliary;
+  /** Местоименный глагол (se laver): всегда être и всегда согласование. */
+  pronominal?: boolean;
+  /** Признаки неправильности из метаданных («-cer», «e→è», «prendre»…). Уроки подбирают по ним примеры. */
   types: string[];
   conjugations: Record<Tense, ConjugationForm[]>; // index = PERSONS order
-  gerundio: ConjugationForm;
-  participio: ConjugationForm;
+  participePresent: ConjugationForm;
+  participePasse: ConjugationForm;
   irregularNote?: string;
 }
 

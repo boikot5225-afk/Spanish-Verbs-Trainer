@@ -24,10 +24,9 @@ import {
 import { getVerbById } from '../../data/verbs';
 
 const GROUP_LABELS: Record<string, string> = {
-  ar: 'Правильный -AR',
-  er: 'Правильный -ER',
-  ir: 'Правильный -IR',
-  irregular: 'Неправильный глагол',
+  '1': 'Первая группа · -ER',
+  '2': 'Вторая группа · -IR (-iss-)',
+  '3': 'Третья группа · неправильные',
 };
 
 export default function VerbDetail() {
@@ -35,8 +34,8 @@ export default function VerbDetail() {
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
   const { speak } = useVerbs();
-  const [selectedMood, setSelectedMood] = useState<Mood>('indicativo');
-  const [selectedTense, setSelectedTense] = useState<Tense>('presente');
+  const [selectedMood, setSelectedMood] = useState<Mood>('indicatif');
+  const [selectedTense, setSelectedTense] = useState<Tense>('present');
 
   const moodTenses = tensesByMood(selectedMood);
 
@@ -60,7 +59,7 @@ export default function VerbDetail() {
     );
   }
 
-  const isIrreg = verb.group === 'irregular';
+  const isIrreg = verb.group === '3';
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
@@ -188,8 +187,8 @@ export default function VerbDetail() {
         {/* Неличные формы */}
         <View style={[styles.nonFinite, { backgroundColor: colors.card, borderColor: colors.border }]}>
           {([
-            ['Gerundio', verb.gerundio],
-            ['Participio', verb.participio],
+            ['Participe présent', verb.participePresent],
+            ['Participe passé', verb.participePasse],
           ] as const).map(([label, form], index) => (
             <View
               key={label}

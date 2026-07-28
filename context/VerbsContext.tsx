@@ -49,7 +49,7 @@ export function VerbsProvider({ children }: { children: React.ReactNode }) {
     if (Platform.OS === 'web') return;
     // Dynamically import expo-speech to avoid web crashes
     import('expo-speech').then(Speech => {
-      Speech.speak(text, { language: 'es-ES', rate: 0.85 });
+      Speech.speak(text, { language: 'fr-FR', rate: 0.85 });
     }).catch(() => {});
   }, []);
 

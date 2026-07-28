@@ -19,8 +19,8 @@ import {
 } from '../utils/storage';
 
 const DEFAULT_CONFIG: QuizConfig = {
-  tenses: ['presente'],
-  persons: ['yo', 'tu', 'el', 'nosotros', 'vosotros', 'ellos'],
+  tenses: ['present'],
+  persons: ['je', 'tu', 'il', 'nous', 'vous', 'ils'],
   verbIds: 'all',
   mode: 'multiple-choice',
   maxQuestions: 20,

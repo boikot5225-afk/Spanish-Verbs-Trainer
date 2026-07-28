@@ -7,35 +7,35 @@ export const EXAM_QUESTIONS = 30;
 export const EXAM_MAX_MISTAKES = 2;
 
 export type LessonBlock =
-  | 'presente'
-  | 'construcciones'
-  | 'pasado'
-  | 'futuro'
-  | 'compuestos'
-  | 'subjuntivo'
-  | 'imperativo'
-  | 'literario';
+  | 'present'
+  | 'constructions'
+  | 'passe'
+  | 'futur'
+  | 'composes'
+  | 'subjonctif'
+  | 'imperatif'
+  | 'litteraire';
 
 export const LESSON_BLOCKS: LessonBlock[] = [
-  'presente',
-  'construcciones',
-  'pasado',
-  'futuro',
-  'compuestos',
-  'subjuntivo',
-  'imperativo',
-  'literario',
+  'present',
+  'constructions',
+  'passe',
+  'futur',
+  'composes',
+  'subjonctif',
+  'imperatif',
+  'litteraire',
 ];
 
 export const LESSON_BLOCK_LABELS: Record<LessonBlock, string> = {
-  presente: 'Настоящее время',
-  construcciones: 'Глагольные конструкции',
-  pasado: 'Прошедшее время',
-  futuro: 'Будущее и условное',
-  compuestos: 'Составные времена',
-  subjuntivo: 'Сослагательное наклонение',
-  imperativo: 'Повелительное наклонение',
-  literario: 'Книжные времена',
+  present: 'Настоящее время',
+  constructions: 'Глагольные конструкции',
+  passe: 'Прошедшее время',
+  futur: 'Будущее и условное',
+  composes: 'Составные времена',
+  subjonctif: 'Сослагательное наклонение',
+  imperatif: 'Повелительное наклонение',
+  litteraire: 'Книжные времена',
 };
 
 export interface LessonSection {
@@ -96,1693 +96,1697 @@ export const MEDAL_LABELS: Record<Exclude<Medal, null>, string> = {
   bronze: 'Бронза · от 70%',
 };
 
-const REGULAR_SAMPLE = [
-  'hablar',
-  'trabajar',
-  'estudiar',
-  'comer',
-  'beber',
-  'aprender',
-  'vivir',
-  'recibir',
-];
-
 export const LESSONS: Lesson[] = [
   // ── Настоящее время ──────────────────────────────────────────────────────
   {
-    id: 'presente-regular',
-    block: 'presente',
-    title: 'Три спряжения',
-    summary: 'Окончания -ar, -er, -ir в настоящем времени',
+    id: 'present-trois-groupes',
+    block: 'present',
+    title: 'Три группы глаголов',
+    summary: 'Как устроено деление на -er, -ir с -iss- и всё остальное',
     sections: [
       {
         body:
-          'Все испанские глаголы в словаре стоят в инфинитиве и кончаются на -ar, -er или -ir. ' +
-          'Это и есть три спряжения. Отбросьте у инфинитива последние две буквы — останется основа, ' +
-          'к ней и добавляются личные окончания.',
+          'Французские глаголы делятся на три группы. Деление не декоративное: от группы ' +
+          'зависит, какие окончания глагол получает в настоящем времени и насколько ' +
+          'предсказуемо ведёт себя во всех остальных.',
       },
       {
-        heading: 'Первое спряжение: -ar',
-        body: 'Самая большая группа — больше половины всех глаголов языка.',
-        table: { verbId: 'hablar', tense: 'presente', caption: 'hablar — говорить' },
-      },
-      {
-        heading: 'Второе и третье: -er и -ir',
+        heading: 'Первая группа: -er',
         body:
-          'Эти два спряжения различаются всего в двух формах — nosotros и vosotros. ' +
-          'В остальных четырёх окончания совпадают полностью, так что запоминать нужно только разницу.',
-        table: { verbId: 'comer', tense: 'presente', caption: 'comer — есть' },
+          'Самая большая и самая правильная группа — около 90% всех глаголов языка. ' +
+          'Отбросьте -er, к оставшейся основе добавьте окончания -e, -es, -e, -ons, -ez, -ent. ' +
+          'Четыре формы из шести звучат одинаково, различаясь только на письме.',
+        table: { verbId: 'parler', tense: 'present', caption: 'parler — говорить' },
       },
       {
-        table: { verbId: 'vivir', tense: 'presente', caption: 'vivir — жить' },
-        body: 'Сравните: comemos / coméis против vivimos / vivís. Больше нигде -er и -ir не расходятся.',
-      },
-      {
-        heading: 'Местоимения обычно не нужны',
+        heading: 'Вторая группа: -ir с расширением -iss-',
         body:
-          'Окончание само указывает на лицо, поэтому yo, tú, nosotros в речи чаще опускают: ' +
-          'вместо «yo hablo español» говорят просто «hablo español». Местоимение добавляют, ' +
-          'когда нужно подчеркнуть, кто именно, или снять неоднозначность между él, ella и usted.',
+          'Во множественном числе между основой и окончанием вставляется -iss-. ' +
+          'Именно это расширение отличает вторую группу от третьей: глаголы выглядят ' +
+          'одинаково в инфинитиве, но расходятся уже в форме nous.',
+        table: { verbId: 'finir', tense: 'present', caption: 'finir — заканчивать' },
       },
-    ],
-    practice: { tenses: ['presente'], verbIds: REGULAR_SAMPLE },
-  },
-  {
-    id: 'pronombres',
-    block: 'presente',
-    title: 'Местоимения и обращение',
-    summary: 'tú, usted, vosotros, ustedes — и где какое',
-    sections: [
       {
+        heading: 'Третья группа: всё остальное',
         body:
-          'В таблицах приложения шесть строк, и две из них устроены сложнее, чем кажется. ' +
-          'Испанский различает не только число, но и вежливость, а распределение форм ' +
-          'зависит от страны.',
+          'Сюда попадают глаголы на -re, на -oir и та часть глаголов на -ir, которая ' +
+          'обходится без -iss-. Их около 350, они самые частотные в языке, и учить их ' +
+          'приходится по семействам.',
+        table: { verbId: 'prendre', tense: 'present', caption: 'prendre — брать' },
       },
       {
-        heading: 'Единственное число',
-        bullets: [
-          'yo — я',
-          'tú — ты, обращение на равных',
-          'usted — вы вежливое, к одному человеку',
-          'él, ella — он, она',
-        ],
-      },
-      {
+        heading: 'Местоимение обязательно',
         body:
-          'Главная ловушка: usted грамматически стоит в третьем лице. Usted habla, а не ' +
-          '«usted hablas». Поэтому в таблице строка «él/ella» обслуживает и вежливое обращение — ' +
-          'форма у них одна.',
-        table: { verbId: 'hablar', tense: 'presente', caption: 'usted habla — как él' },
-      },
-      {
-        heading: 'Множественное число',
-        bullets: [
-          'nosotros, nosotras — мы',
-          'vosotros, vosotras — вы, к нескольким на равных',
-          'ustedes — вы, к нескольким',
-          'ellos, ellas — они',
-        ],
-      },
-      {
-        heading: 'Где что употребляют',
-        body:
-          'В Испании работают обе формы: vosotros для своих, ustedes для вежливости. ' +
-          'В Латинской Америке vosotros не используют вообще — там ustedes покрывает и ' +
-          'дружеское, и вежливое обращение. Формы ustedes при этом всегда совпадают с ellos.',
-      },
-      {
-        body:
-          'Отсюда практический вывод: если учите испанский Испании, строку vosotros нужно ' +
-          'знать. Если Латинской Америки — её можно почти не трогать, но узнавать в книгах ' +
-          'и фильмах всё равно полезно.',
-      },
-      {
-        heading: 'Местоимение обычно опускают',
-        body:
-          'Окончание уже указывает на лицо, поэтому hablo español звучит естественнее, ' +
-          'чем yo hablo español. Местоимение добавляют для контраста (yo trabajo, él no) ' +
-          'или чтобы различить él, ella и usted — у них одна форма глагола.',
+          'В отличие от испанского или итальянского, французский не опускает подлежащее: ' +
+          'нельзя сказать просто «parle», нужно «je parle». Причина простая — окончания ' +
+          'на слух совпадают, и без местоимения лицо не восстановить.',
       },
     ],
     practice: {
-      tenses: ['presente'],
-      verbIds: REGULAR_SAMPLE,
-      featured: ['hablar', 'comer', 'vivir', 'trabajar', 'beber', 'recibir'],
+      tenses: ['present'],
+      verbIds: ['parler', 'travailler', 'aimer', 'finir', 'choisir', 'partir', 'prendre'],
+      featured: ['parler', 'finir', 'prendre'],
     },
   },
   {
-    id: 'presente-o-ue',
-    block: 'presente',
-    title: 'Чередование o → ue',
-    summary: 'dormir → duermo, contar → cuento',
+    id: 'present-g1-cer-ger',
+    block: 'present',
+    title: 'Глаголы на -cer и -ger',
+    summary: 'Смягчение перед a и o: nous commençons, nous mangeons',
     sections: [
       {
         body:
-          'У части глаголов гласная в корне меняется, когда на неё падает ударение. ' +
-          'Самое частое чередование — o переходит в ue.',
+          'Буквы c и g читаются мягко перед e и i, но твёрдо перед a, o, u. Чтобы ' +
+          'произношение основы не менялось от формы к форме, орфография подстраивается.',
       },
       {
-        table: { verbId: 'dormir', tense: 'presente', caption: 'dormir — спать' },
-      },
-      {
-        heading: 'Правило ботинка',
+        heading: '-cer: c переходит в ç',
         body:
-          'Обратите внимание, где чередование есть, а где нет: duermo, duermes, duerme … duermen — ' +
-          'но dormimos и dormís остаются с o. Дело в ударении: в формах nosotros и vosotros оно ' +
-          'уходит на окончание, и корень его теряет. Если обвести на таблице формы с чередованием, ' +
-          'получится контур ботинка — отсюда школьное название этого правила.',
+          'Перед окончанием на -o- и -a- пишется ç. В настоящем времени это задевает ' +
+          'единственную форму — nous, — зато в imparfait и passé simple таких форм больше.',
+        table: { verbId: 'commencer', tense: 'present', caption: 'commencer — начинать' },
       },
       {
-        body:
-          'Чередование не зависит от спряжения — оно встречается у всех трёх: contar и mostrar на -ar, ' +
-          'volver и poder на -er, dormir и morir на -ir.',
-        table: { verbId: 'contar', tense: 'presente', caption: 'contar — считать, рассказывать' },
+        heading: '-ger: между g и окончанием вставляется e',
+        body: 'Тот же приём другим способом: g остаётся мягким за счёт немой e.',
+        table: { verbId: 'manger', tense: 'present', caption: 'manger — есть' },
       },
       {
-        heading: 'Отдельный случай',
-        body:
-          'Глагол jugar («играть») — единственный, где чередуется u → ue: juego, juegas, juega, ' +
-          'jugamos, jugáis, juegan. Логика та же самая.',
-      },
-    ],
-    practice: { tenses: ['presente'], types: ['o to ue', 'u to ue'], limit: 60, featured: ['dormir', 'poder', 'contar', 'volver', 'mostrar', 'jugar'] },
-  },
-  {
-    id: 'presente-e-ie',
-    block: 'presente',
-    title: 'Чередование e → ie',
-    summary: 'pensar → pienso, querer → quiero',
-    sections: [
-      {
-        body:
-          'Второе по частоте чередование работает по тому же правилу ботинка: под ударением ' +
-          'корневая e превращается в ie, а в формах nosotros и vosotros остаётся как в инфинитиве.',
-      },
-      {
-        table: { verbId: 'pensar', tense: 'presente', caption: 'pensar — думать' },
-      },
-      {
-        body:
-          'Так же ведут себя empezar и cerrar на -ar, entender и querer на -er, sentir и preferir на -ir. ' +
-          'Это одна из самых больших групп в языке — около девяноста глаголов.',
-        table: { verbId: 'querer', tense: 'presente', caption: 'querer — хотеть, любить' },
-      },
-      {
-        heading: 'Не путайте с прошедшим',
-        body:
-          'У глаголов на -ir вроде sentir чередование e → ie в настоящем сочетается с другим, ' +
-          'e → i, в прошедшем: siento, но sintió. К этому вернёмся в уроке про индефинидо.',
-      },
-    ],
-    practice: { tenses: ['presente'], types: ['i before e'], limit: 60, featured: ['pensar', 'querer', 'sentir', 'empezar', 'entender', 'cerrar'] },
-  },
-  {
-    id: 'presente-e-i',
-    block: 'presente',
-    title: 'Чередование e → i',
-    summary: 'pedir → pido, servir → sirvo',
-    sections: [
-      {
-        body:
-          'Третье чередование встречается только у глаголов на -ir. Корневая e под ударением ' +
-          'переходит не в ie, а просто в i.',
-      },
-      {
-        table: { verbId: 'pedir', tense: 'presente', caption: 'pedir — просить, заказывать' },
-      },
-      {
-        body:
-          'Правило ботинка действует и здесь: pedimos и pedís сохраняют e. По этому образцу ' +
-          'изменяются servir, repetir, seguir, medir, vestir и ещё около тридцати глаголов.',
-      },
-      {
-        heading: 'Как отличить от e → ie',
-        body:
-          'По инфинитиву угадать нельзя — sentir даёт siento, а servir даёт sirvo. ' +
-          'Тип чередования приходится запоминать вместе с глаголом, но подсказка есть: ' +
-          'глаголы на -edir, -egir, -eguir, -etir, -estir почти всегда идут по модели e → i.',
-      },
-    ],
-    practice: { tenses: ['presente'], types: ['e to i'], limit: 60, featured: ['pedir', 'servir', 'repetir', 'seguir', 'vestir', 'medir'] },
-  },
-  {
-    id: 'presente-yo-irregular',
-    block: 'presente',
-    title: 'Неправильное «yo»',
-    summary: 'hago, pongo, salgo, conozco',
-    sections: [
-      {
-        body:
-          'Есть группа глаголов, у которых неправильная только одна форма — первое лицо ' +
-          'единственного числа. Остальные пять спрягаются как обычно.',
-      },
-      {
-        table: { verbId: 'hacer', tense: 'presente', caption: 'hacer — делать' },
-      },
-      {
-        heading: 'Три способа',
         bullets: [
-          'Вставка -g-: hacer → hago, poner → pongo, salir → salgo, tener → tengo, venir → vengo',
-          'Вставка -ig-: traer → traigo, caer → caigo, oír → oigo',
-          'Вставка -zc- у глаголов на -cer и -cir после гласной: conocer → conozco, traducir → traduzco',
+          'nous commençons, но vous commencez — перед e смягчение не нужно',
+          'nous mangeons, но vous mangez — по той же причине',
+          'в imparfait затронуты все формы, кроме nous и vous: je mangeais, mais nous mangions',
         ],
-      },
-      {
-        table: { verbId: 'conocer', tense: 'presente', caption: 'conocer — знать, быть знакомым' },
-      },
-      {
-        heading: 'Почему это важно запомнить',
-        body:
-          'Форма yo — не просто исключение, из неё строится всё сослагательное наклонение. ' +
-          'Запомнив tengo, вы автоматически получаете tenga, tengas, tengamos и так далее. ' +
-          'Подробнее об этом — в уроке о presente de subjuntivo.',
       },
     ],
     practice: {
-      tenses: ['presente'],
-      types: ['add g', 'add ig', 'z before c'],
-      limit: 60,
-      featured: ['hacer', 'poner', 'salir', 'tener', 'conocer', 'traer'],
+      tenses: ['present'],
+      verbIds: [
+        'commencer',
+        'avancer',
+        'lancer',
+        'placer',
+        'manger',
+        'changer',
+        'nager',
+        'partager',
+      ],
+      featured: ['commencer', 'manger', 'changer'],
     },
   },
   {
-    id: 'presente-ortografia',
-    block: 'presente',
-    title: 'Орфографические изменения',
-    summary: 'busqué, llegué, crucé — звук важнее буквы',
+    id: 'present-g1-alternance',
+    block: 'present',
+    title: 'Чередования e → è и удвоение согласной',
+    summary: 'acheter → j’achète, appeler → j’appelle',
     sections: [
       {
         body:
-          'Часть глаголов выглядит неправильными, хотя на самом деле они правильные. ' +
-          'Написание меняется только чтобы сохранить звучание основы — в испанском буквы c, g и z ' +
-          'читаются по-разному перед разными гласными.',
+          'Часть глаголов первой группы меняет основу в тех формах, где окончание немое, ' +
+          'то есть в единственном числе и в третьем лице множественного. Причина ' +
+          'фонетическая: без изменения основы гласная оказалась бы в безударном слоге и ослабла.',
       },
       {
-        heading: 'Что и когда меняется',
-        bullets: [
-          'c → qu перед e: buscar → busqué (иначе читалось бы «бусер»)',
-          'g → gu перед e: llegar → llegué',
-          'z → c перед e: cruzar → crucé (в испанском z перед e почти не пишется)',
-          'g → j перед a и o: coger → cojo',
-        ],
-      },
-      {
-        table: { verbId: 'buscar', tense: 'preteriteIndef', caption: 'buscar — искать' },
-      },
-      {
+        heading: 'e → è',
         body:
-          'В индефинидо это затрагивает только форму yo — единственную с окончанием на -é. ' +
-          'Зато в сослагательном наклонении, где все окончания начинаются на -e, изменение проходит ' +
-          'через всю таблицу: busque, busques, busquemos…',
+          'Глаголы вроде acheter, mener, lever, peser ставят гравис: j’achète, mais nous achetons. ' +
+          'Чередование доходит и до будущего времени: j’achèterai.',
+        table: { verbId: 'acheter', tense: 'present', caption: 'acheter — покупать' },
       },
       {
+        heading: 'Удвоение согласной',
         body:
-          'Таких глаголов много — почти триста, — но правило одно и запоминать отдельные слова не нужно. ' +
-          'Достаточно услышать, что звук должен остаться прежним.',
+          'Другая часть глаголов на -eler и -eter вместо грависа удваивает согласную: ' +
+          'appeler → j’appelle, jeter → je jette. Список закрытый, его проще запомнить целиком.',
+        table: { verbId: 'appeler', tense: 'present', caption: 'appeler — звать' },
+      },
+      {
+        heading: 'é → è',
+        body:
+          'Глаголы с é в основе (espérer, préférer, répéter) ведут себя похоже, но с важной ' +
+          'оговоркой: в будущем времени по традиционной норме é сохраняется — j’espérerai, ' +
+          'хотя в настоящем j’espère.',
+        table: { verbId: 'espérer', tense: 'present', caption: 'espérer — надеяться' },
       },
     ],
     practice: {
-      tenses: ['preteriteIndef', 'subjuntivo'],
-      types: ['c to qu', 'g to gu', 'z to c', 'g to j'],
-      limit: 60,
-      featured: ['buscar', 'llegar', 'cruzar', 'tocar', 'pagar', 'empezar'],
+      tenses: ['present'],
+      verbIds: [
+        'acheter',
+        'lever',
+        'mener',
+        'peser',
+        'appeler',
+        'jeter',
+        'espérer',
+        'préférer',
+        'répéter',
+      ],
+      featured: ['acheter', 'appeler', 'espérer'],
+    },
+  },
+  {
+    id: 'present-g1-yer',
+    block: 'present',
+    title: 'Глаголы на -yer',
+    summary: 'nettoyer → je nettoie, но payer → je paye',
+    sections: [
+      {
+        body:
+          'Перед немым окончанием y переходит в i. Это касается глаголов на -oyer и -uyer ' +
+          'без исключений.',
+        table: { verbId: 'nettoyer', tense: 'present', caption: 'nettoyer — чистить' },
+      },
+      {
+        heading: 'Глаголы на -ayer — особый случай',
+        body:
+          'У них допустимы оба написания: je paye и je paie одинаково правильны. ' +
+          'В приложении принят вариант с сохранением y.',
+        table: { verbId: 'payer', tense: 'present', caption: 'payer — платить' },
+      },
+      {
+        heading: 'envoyer выбивается',
+        body:
+          'В настоящем времени envoyer ведёт себя как все на -oyer, но основу будущего ' +
+          'берёт супплетивную: j’enverrai, а не «j’envoierai».',
+      },
+    ],
+    practice: {
+      tenses: ['present'],
+      verbIds: [
+        'nettoyer',
+        'employer',
+        'ennuyer',
+        'appuyer',
+        'payer',
+        'essayer',
+        'balayer',
+        'envoyer',
+      ],
+      featured: ['nettoyer', 'payer', 'envoyer'],
+    },
+  },
+  {
+    id: 'present-g2',
+    block: 'present',
+    title: 'Вторая группа',
+    summary: 'Расширение -iss- во множественном числе',
+    sections: [
+      {
+        body:
+          'Вторая группа полностью регулярна: единственное число даёт -is, -is, -it, ' +
+          'множественное — -issons, -issez, -issent. Никаких чередований в основе не бывает.',
+        table: { verbId: 'finir', tense: 'present', caption: 'finir — заканчивать' },
+      },
+      {
+        heading: 'Как отличить от третьей группы',
+        body:
+          'Оба типа глаголов оканчиваются на -ir. Проверка одна: поставьте глагол в форму nous. ' +
+          'Если появляется -iss- (nous finissons) — вторая группа; если нет (nous partons) — третья.',
+      },
+      {
+        heading: 'Откуда они берутся',
+        body:
+          'Группа продуктивна: от прилагательных регулярно образуются новые глаголы — ' +
+          'rouge → rougir, grand → grandir. Поэтому значение «становиться каким-то» ' +
+          'встречается в ней особенно часто.',
+        bullets: [
+          'choisir — выбирать',
+          'réussir — добиваться успеха',
+          'réfléchir — размышлять',
+          'obéir — подчиняться',
+        ],
+      },
+    ],
+    practice: {
+      tenses: ['present'],
+      verbIds: ['finir', 'choisir', 'réussir', 'remplir', 'grandir', 'obéir', 'réfléchir', 'agir'],
+      featured: ['finir', 'choisir', 'réfléchir'],
+    },
+  },
+  {
+    id: 'present-g3-ir',
+    block: 'present',
+    title: 'Третья группа на -ir',
+    summary: 'partir, ouvrir, venir — три разных образца',
+    sections: [
+      {
+        body:
+          'Глаголы третьей группы на -ir распадаются на несколько семейств. ' +
+          'Внутри семейства спряжение предсказуемо, поэтому учить стоит именно образцами.',
+      },
+      {
+        heading: 'Тип partir: теряют согласную',
+        body:
+          'partir, sortir, dormir, servir, mentir, sentir. В единственном числе последняя ' +
+          'согласная основы исчезает: je pars, nous partons.',
+        table: { verbId: 'partir', tense: 'present', caption: 'partir — уезжать' },
+      },
+      {
+        heading: 'Тип ouvrir: как первая группа',
+        body:
+          'ouvrir, offrir, couvrir, souffrir выглядят как глаголы на -ir, но в настоящем ' +
+          'времени берут окончания первой группы: j’ouvre, а не «j’ouvris».',
+        table: { verbId: 'ouvrir', tense: 'present', caption: 'ouvrir — открывать' },
+      },
+      {
+        heading: 'Тип venir: три основы',
+        body:
+          'venir и tenir со всеми производными меняют основу трижды: vien-, ven-, vienn-. ' +
+          'Ту же схему повторяют devenir, revenir, obtenir, maintenir.',
+        table: { verbId: 'venir', tense: 'present', caption: 'venir — приходить' },
+      },
+    ],
+    practice: {
+      tenses: ['present'],
+      verbIds: [
+        'partir',
+        'sortir',
+        'dormir',
+        'servir',
+        'ouvrir',
+        'offrir',
+        'venir',
+        'tenir',
+        'courir',
+      ],
+      featured: ['partir', 'ouvrir', 'venir'],
+    },
+  },
+  {
+    id: 'present-etre-avoir',
+    block: 'present',
+    title: 'Четыре главных глагола',
+    summary: 'être, avoir, aller, faire — фундамент всей системы',
+    sections: [
+      {
+        body:
+          'Эти четыре глагола нужно знать раньше всех остальных: два из них служат ' +
+          'вспомогательными для всех составных времён, а два образуют базовые конструкции.',
+      },
+      { table: { verbId: 'être', tense: 'present', caption: 'être — быть' } },
+      { table: { verbId: 'avoir', tense: 'present', caption: 'avoir — иметь' } },
+      {
+        heading: 'Формы на -tes',
+        body:
+          'Во всём языке только три глагола дают в форме vous окончание -tes: ' +
+          'vous êtes, vous faites, vous dites. Все остальные без исключения оканчиваются на -ez.',
+        table: { verbId: 'faire', tense: 'present', caption: 'faire — делать' },
+      },
+      {
+        heading: 'aller — единственный неправильный на -er',
+        body:
+          'По написанию инфинитива aller выглядит как первая группа, но спрягается ' +
+          'полностью супплетивно: je vais, nous allons, ils vont.',
+        table: { verbId: 'aller', tense: 'present', caption: 'aller — идти' },
+      },
+    ],
+    practice: {
+      tenses: ['present'],
+      verbIds: [
+        'être',
+        'avoir',
+        'aller',
+        'faire',
+        'dire',
+        'pouvoir',
+        'vouloir',
+        'devoir',
+        'savoir',
+        'voir',
+      ],
+      featured: ['être', 'avoir', 'aller', 'faire'],
     },
   },
 
   // ── Глагольные конструкции ───────────────────────────────────────────────
   {
-    id: 'ser-estar',
-    block: 'construcciones',
-    title: 'Ser или estar',
-    summary: 'Два глагола «быть» и как их не путать',
+    id: 'constr-futur-proche',
+    block: 'constructions',
+    title: 'Ближайшее будущее',
+    summary: 'aller + инфинитив — самый частый способ говорить о будущем',
     sections: [
       {
         body:
-          'В испанском два глагола со значением «быть», и выбор между ними меняет смысл. ' +
-          'Грубое правило «ser — постоянное, estar — временное» работает часто, но подводит: ' +
-          'человек смертен постоянно, а «está muerto» говорят через estar.',
+          'В разговорной речи будущее чаще выражается не формой futur simple, а конструкцией ' +
+          '«aller в настоящем времени + инфинитив»: je vais partir — «я сейчас уеду».',
+        table: {
+          verbId: 'aller',
+          tense: 'present',
+          caption: 'aller — вспомогательный для futur proche',
+        },
       },
       {
-        heading: 'Ser — что это такое',
-        body:
-          'Определение, профессия, происхождение, национальность, материал, принадлежность, ' +
-          'время и дата. Soy médico. Es de Perú. La mesa es de madera. Son las tres.',
-        table: { verbId: 'ser', tense: 'presente', caption: 'ser — быть (сущность)' },
-      },
-      {
-        heading: 'Estar — в каком состоянии и где',
-        body:
-          'Местоположение, самочувствие, настроение, результат изменения. ' +
-          'Estoy en casa. Está cansado. La puerta está abierta.',
-        table: { verbId: 'estar', tense: 'presente', caption: 'estar — быть (состояние)' },
-      },
-      {
-        heading: 'Одно прилагательное — два смысла',
+        heading: 'Чем отличается от futur simple',
         bullets: [
-          'es aburrido — он скучный человек · está aburrido — ему скучно',
-          'es listo — он сообразительный · está listo — он готов',
-          'es rico — он богатый · está rico — это вкусно',
-          'es verde — он зелёного цвета · está verde — он незрелый',
+          'futur proche — ближайшее, запланированное, связанное с настоящим',
+          'futur simple — отдалённое, нейтральное, книжное',
+          'в устной речи futur proche вытесняет futur simple почти полностью',
         ],
       },
       {
+        heading: 'Отрицание охватывает aller',
         body:
-          'Отсюда практический приём: если фраза описывает, каков предмет по сути, берите ser; ' +
-          'если в каком он сейчас виде или где находится — estar.',
+          'Je ne vais pas partir. Частицы окружают именно спрягаемый глагол, а не инфинитив.',
       },
     ],
     practice: {
-      tenses: ['presente', 'preteriteIndef', 'preteriteImp'],
-      verbIds: ['ser', 'estar'],
-      featured: ['ser', 'estar'],
+      tenses: ['present'],
+      verbIds: ['aller', 'partir', 'manger', 'venir', 'faire', 'voir', 'sortir'],
+      featured: ['aller', 'faire', 'venir'],
     },
   },
   {
-    id: 'hay-haber',
-    block: 'construcciones',
-    title: 'Hay и haber',
-    summary: 'Безличное «есть, имеется»',
+    id: 'constr-passe-recent',
+    block: 'constructions',
+    title: 'Недавнее прошедшее',
+    summary: 'venir de + инфинитив — «только что»',
     sections: [
       {
         body:
-          'Hay — особая безличная форма глагола haber. Она сообщает, что нечто существует ' +
-          'или имеется в наличии: Hay un problema. Hay tres libros en la mesa.',
+          'Конструкция «venir в настоящем времени + de + инфинитив» означает действие, ' +
+          'завершившееся буквально только что: je viens de manger — «я только что поел».',
+        table: {
+          verbId: 'venir',
+          tense: 'present',
+          caption: 'venir — вспомогательный для passé récent',
+        },
       },
       {
-        heading: 'Всегда единственное число',
+        heading: 'Предлог de обязателен',
         body:
-          'Это главная ошибка изучающих. Hay не согласуется с тем, что за ним стоит: ' +
-          'hay un libro и hay veinte libros — форма одна и та же. Никаких «hayn» не бывает.',
+          'Без него конструкция распадается: je viens manger значит «я иду поесть», ' +
+          'то есть цель, а не недавнее прошлое.',
       },
       {
-        heading: 'В других временах',
-        bullets: [
-          'Прошедшее длительное: había — Había mucha gente (не «habían»)',
-          'Прошедшее законченное: hubo — Hubo un accidente',
-          'Будущее: habrá · Условное: habría',
-          'Сослагательное: haya — No creo que haya problemas',
-        ],
-        table: { verbId: 'haber', tense: 'preteriteImp', caption: 'había — безличное «было»' },
-      },
-      {
-        heading: 'Hay или estar',
+        heading: 'В прошедшем — через imparfait',
         body:
-          'Hay вводит нечто новое и неопределённое, estar сообщает, где находится уже известное. ' +
-          'Hay un banco en la plaza — «на площади есть банк». El banco está en la plaza — ' +
-          '«тот самый банк находится на площади». После hay не бывает артикля el или la.',
-      },
-      {
-        heading: 'Не путайте с вспомогательным haber',
-        body:
-          'Тот же глагол в формах he, has, ha строит составные времена: he comido. ' +
-          'Это разные употребления одного слова, и безличное hay стоит особняком от всей таблицы.',
-        table: { verbId: 'haber', tense: 'presente', caption: 'haber как вспомогательный' },
+          'Чтобы сдвинуть точку отсчёта в прошлое, venir ставится в imparfait: ' +
+          'je venais de manger — «я только что поел» на фоне другого прошлого события.',
       },
     ],
     practice: {
-      tenses: ['presente', 'preteriteIndef', 'preteriteImp', 'futuro'],
-      verbIds: ['haber', 'estar'],
-      featured: ['haber', 'estar'],
+      tenses: ['present'],
+      verbIds: ['venir', 'arriver', 'finir', 'partir', 'manger', 'rentrer', 'sortir'],
+      featured: ['venir', 'arriver', 'finir'],
     },
   },
   {
-    id: 'gustar',
-    block: 'construcciones',
-    title: 'Gustar и обратные глаголы',
-    summary: 'Me gusta — нравится не «я», а «оно»',
+    id: 'constr-en-train',
+    block: 'constructions',
+    title: 'Действие в процессе',
+    summary: 'être en train de — французский аналог продолженного времени',
     sections: [
       {
         body:
-          'Gustar устроен наоборот по сравнению с русским «я люблю». Подлежащее здесь — ' +
-          'то, что нравится, а человек стоит в дательном: Me gusta el café — дословно ' +
-          '«кофе мне нравится».',
+          'Отдельного продолженного времени во французском нет. Когда нужно подчеркнуть, ' +
+          'что действие разворачивается прямо сейчас, используют «être en train de + инфинитив».',
+        table: {
+          verbId: 'être',
+          tense: 'present',
+          caption: 'être — вспомогательный для конструкции',
+        },
       },
       {
-        heading: 'Глагол согласуется с предметом',
-        bullets: [
-          'Me gusta el libro — единственное число',
-          'Me gustan los libros — множественное',
-          'Me gusta leer — с инфинитивом всегда единственное',
-        ],
-      },
-      {
+        heading: 'Когда без неё не обойтись',
         body:
-          'Меняется не глагол, а местоимение перед ним: me, te, le, nos, os, les. ' +
-          'Te gusta — тебе нравится, les gusta — им нравится. Для ясности или усиления ' +
-          'добавляют a mí, a ti, a Juan: A mí me gusta, pero a él no le gusta.',
-        table: { verbId: 'gustar', tense: 'presente', caption: 'gustar — в речи живут 3-и лица' },
+          'Обычное настоящее время двусмысленно: je travaille значит и «я работаю сейчас», ' +
+          'и «я работаю вообще». Конструкция снимает эту двусмысленность.',
       },
       {
-        heading: 'Такие же глаголы',
-        bullets: [
-          'encantar — очень нравиться: Me encanta este libro',
-          'interesar, importar — интересовать, быть важным',
-          'doler — болеть: Me duele la cabeza',
-          'faltar, quedar — не хватать, оставаться',
-          'parecer — казаться: Me parece bien',
-        ],
-      },
-      {
+        heading: 'Только для длящихся действий',
         body:
-          'Обратите внимание на doler: болит голова, поэтому me duele la cabeza, ' +
-          'а не «yo duelo». Это та же схема, что и у gustar.',
-        table: { verbId: 'doler', tense: 'presente', caption: 'doler — болеть' },
+          'С мгновенными глаголами она не сочетается: действие должно быть растянуто во времени.',
       },
     ],
     practice: {
-      tenses: ['presente', 'preteriteIndef', 'subjuntivo'],
-      verbIds: ['gustar', 'encantar', 'interesar', 'importar', 'doler', 'faltar', 'quedar', 'parecer'],
-      featured: ['gustar', 'encantar', 'doler', 'parecer', 'quedar', 'faltar'],
+      tenses: ['present'],
+      verbIds: ['être', 'travailler', 'manger', 'lire', 'écrire', 'dormir', 'parler'],
+      featured: ['être', 'travailler', 'lire'],
     },
   },
   {
-    id: 'saber-conocer',
-    block: 'construcciones',
-    title: 'Saber или conocer',
-    summary: 'Два глагола «знать»',
+    id: 'constr-modaux',
+    block: 'constructions',
+    title: 'Модальные глаголы',
+    summary: 'pouvoir, vouloir, devoir + инфинитив без предлога',
     sections: [
       {
         body:
-          'Русское «знать» в испанском распадается надвое, и выбор здесь такой же ' +
-          'обязательный, как между ser и estar.',
+          'Три модальных глагола присоединяют инфинитив напрямую, без предлога. ' +
+          'Все три относятся к третьей группе и меняют основу.',
       },
+      { table: { verbId: 'pouvoir', tense: 'present', caption: 'pouvoir — мочь' } },
+      { table: { verbId: 'vouloir', tense: 'present', caption: 'vouloir — хотеть' } },
+      { table: { verbId: 'devoir', tense: 'present', caption: 'devoir — быть должным' } },
       {
-        heading: 'Saber — знать факт или уметь',
+        heading: 'Окончание -x вместо -s',
         body:
-          'Информация, факты, а с инфинитивом — умение. Sé la respuesta. No sé dónde está. ' +
-          'Sé nadar — «умею плавать».',
-        table: { verbId: 'saber', tense: 'presente', caption: 'saber — знать, уметь' },
-      },
-      {
-        heading: 'Conocer — быть знакомым',
-        body:
-          'Люди, города, книги, вкус вина — всё, с чем можно свести знакомство. ' +
-          'Conozco a María. Conozco Madrid. Перед человеком обязателен предлог a.',
-        table: { verbId: 'conocer', tense: 'presente', caption: 'conocer — знать, быть знакомым' },
-      },
-      {
-        heading: 'В прошедшем смысл меняется',
-        bullets: [
-          'Supe la verdad — «узнал правду» (в тот момент), а не «знал»',
-          'Conocí a Juan — «познакомился с Хуаном», а не «был знаком»',
-          'Для длящегося состояния берут imperfecto: sabía, conocía',
-        ],
-      },
-      {
-        body:
-          'Отсюда практическое правило: индефинидо у этих глаголов означает начало знания, ' +
-          'а имперфект — само знание. Ya sabía la respuesta — «уже знал ответ».',
+          'pouvoir, vouloir и valoir — единственные глаголы, у которых в первом и втором лице ' +
+          'единственного числа пишется -x: je peux, tu veux, je vaux.',
       },
     ],
     practice: {
-      tenses: ['presente', 'preteriteIndef', 'preteriteImp'],
-      verbIds: ['saber', 'conocer'],
-      featured: ['saber', 'conocer'],
+      tenses: ['present'],
+      verbIds: ['pouvoir', 'vouloir', 'devoir', 'savoir', 'aller', 'faire', 'venir'],
+      featured: ['pouvoir', 'vouloir', 'devoir'],
     },
   },
   {
-    id: 'verbos-de-cambio',
-    block: 'construcciones',
-    title: 'Глаголы становления',
-    summary: 'ponerse, hacerse, volverse, quedarse',
+    id: 'constr-il-faut',
+    block: 'constructions',
+    title: 'Безличные конструкции',
+    summary: 'il faut, il pleut — глаголы без подлежащего',
     sections: [
       {
         body:
-          'В русском одно «становиться», в испанском — целый набор, и выбор зависит от того, ' +
-          'какая это перемена: мгновенная или постепенная, добровольная или случившаяся с вами.',
+          'Часть глаголов существует только в третьем лице единственного числа. ' +
+          'Подлежащее il у них формальное и ничего не обозначает.',
+        table: { verbId: 'falloir', tense: 'present', caption: 'falloir — быть нужным' },
       },
       {
-        heading: 'ponerse — внезапно и ненадолго',
-        body:
-          'С прилагательными о настроении, цвете, самочувствии. Se puso rojo — «покраснел». ' +
-          'Me pongo nervioso. Перемена быстрая и обратимая.',
-        table: { verbId: 'poner', tense: 'presente', caption: 'ponerse + прилагательное' },
-      },
-      {
-        heading: 'volverse — глубоко и необратимо',
-        body:
-          'Se volvió loco — «сошёл с ума». Se ha vuelto muy desconfiado. Часто о переменах ' +
-          'к худшему и о свойствах характера.',
-        table: { verbId: 'volver', tense: 'preteriteIndef', caption: 'volverse + прилагательное' },
-      },
-      {
-        heading: 'Остальные',
+        heading: 'Два способа продолжить il faut',
         bullets: [
-          'hacerse — постепенно и по своей воле: se hizo médico, se hizo rico',
-          'llegar a ser — достижение через усилия: llegó a ser director',
-          'quedarse — состояние как итог события: se quedó solo, se quedó sordo',
-          'convertirse en — превращение во что-то другое: se convirtió en un símbolo',
+          'il faut + инфинитив — общее правило: il faut partir',
+          'il faut que + subjonctif — адресное требование: il faut que tu partes',
         ],
       },
       {
+        heading: 'Почему именно subjonctif',
         body:
-          'Проверить себя просто: если перемена случилась сама и вдруг — ponerse или quedarse; ' +
-          'если человек шёл к ней — hacerse или llegar a ser.',
+          'После il faut que действие ещё не состоялось — это не факт, а необходимость. ' +
+          'Изъявительное наклонение сообщало бы о реальном событии, поэтому язык требует сослагательного.',
+        table: { verbId: 'être', tense: 'subjPresent', caption: 'il faut que je sois…' },
       },
     ],
     practice: {
-      tenses: ['presente', 'preteriteIndef', 'subjuntivo'],
-      verbIds: ['poner', 'volver', 'hacer', 'quedar', 'llegar', 'convertir'],
-      featured: ['poner', 'volver', 'hacer', 'quedar', 'llegar', 'convertir'],
+      tenses: ['present', 'subjPresent'],
+      verbIds: ['falloir', 'être', 'avoir', 'faire', 'aller', 'partir', 'venir'],
+      featured: ['être', 'avoir', 'faire'],
     },
   },
   {
-    id: 'reflexivos',
-    block: 'construcciones',
-    title: 'Возвратные глаголы',
-    summary: 'levantarse, llamarse, ducharse',
+    id: 'constr-savoir-connaitre',
+    block: 'constructions',
+    title: 'savoir и connaître',
+    summary: 'Два глагола «знать» и граница между ними',
     sections: [
       {
         body:
-          'Возвратные глаголы в словаре кончаются на -se: levantarse, llamarse, ducharse. ' +
-          'Это тот же глагол плюс местоимение, которое меняется по лицам.',
+          'Русское «знать» распадается во французском на два глагола, и выбор между ними ' +
+          'не стилистический, а смысловой.',
       },
       {
-        heading: 'Местоимения',
-        bullets: [
-          'me levanto — я встаю · te levantas — ты встаёшь',
-          'se levanta — он встаёт · nos levantamos — мы встаём',
-          'os levantáis — вы встаёте · se levantan — они встают',
-        ],
-        table: { verbId: 'levantar', tense: 'presente', caption: 'основа спрягается как обычно' },
-      },
-      {
+        heading: 'savoir — знать факт или уметь',
         body:
-          'Сам глагол спрягается совершенно обычно — вся возвратность в местоимении. ' +
-          'В приложении таблицы даны без него: подставляйте me, te, se сами.',
+          'Присоединяет придаточное или инфинитив: je sais qu’il est parti, je sais nager. ' +
+          'С инфинитивом означает приобретённое умение.',
+        table: { verbId: 'savoir', tense: 'present', caption: 'savoir — знать, уметь' },
       },
       {
-        heading: 'Где стоит местоимение',
-        bullets: [
-          'Перед спрягаемой формой: me levanto',
-          'С инфинитивом и герундием — на выбор: voy a levantarme или me voy a levantar',
-          'В утвердительном императиве приклеивается: ¡levántate!, ¡siéntese!',
-          'В отрицательном — снова впереди: no te levantes',
-        ],
-      },
-      {
-        heading: 'Возвратность меняет смысл',
-        bullets: [
-          'ir — идти · irse — уходить',
-          'dormir — спать · dormirse — засыпать',
-          'llamar — звать, звонить · llamarse — называться',
-          'poner — класть · ponerse — надевать, становиться',
-        ],
-      },
-      {
-        heading: 'Неправильные возвратные',
+        heading: 'connaître — быть знакомым',
         body:
-          'Отдельно их учить не нужно: местоимение на спряжение не влияет вообще. ' +
-          'Если глагол чередуется, он чередуется и в возвратной форме — despertarse даёт ' +
-          'me despierto, dormirse даёт me duermo, vestirse даёт me visto.',
-        table: { verbId: 'despertar', tense: 'presente', caption: 'despertarse — me despierto' },
+          'Всегда с прямым дополнением-существительным: je connais Paris, je connais cette femme. ' +
+          'Придаточное после него невозможно.',
+        table: { verbId: 'connaître', tense: 'present', caption: 'connaître — быть знакомым' },
       },
       {
+        heading: 'Циркумфлекс',
         body:
-          'Так же ведут себя acordarse (me acuerdo), encontrarse (me encuentro), sentarse ' +
-          '(me siento), probarse (me pruebo), despedirse (me despido) и sentirse (me siento — ' +
-          'да, совпадает с sentarse в первом лице).',
+          'В третьем лице единственного числа перед -t сохраняется крышечка: il connaît. ' +
+          'Реформа 1990 года разрешает писать без неё, но традиционное написание остаётся основным.',
       },
     ],
     practice: {
-      tenses: ['presente', 'imperativoAfirmativo', 'imperativoNegativo'],
-      verbIds: ['levantar', 'llamar', 'despertar', 'acostar', 'duchar', 'sentar', 'vestir', 'ir', 'dormir', 'poner'],
-      featured: ['levantar', 'llamar', 'despertar', 'acostar', 'vestir', 'ir'],
+      tenses: ['present'],
+      verbIds: [
+        'savoir',
+        'connaître',
+        'pouvoir',
+        'comprendre',
+        'apprendre',
+        'reconnaître',
+        'paraître',
+      ],
+      featured: ['savoir', 'connaître', 'reconnaître'],
     },
   },
   {
-    id: 'ir-a-infinitivo',
-    block: 'construcciones',
-    title: 'Ir a + инфинитив и перифразы',
-    summary: 'Voy a comer — ближайшее будущее',
+    id: 'constr-pronominaux',
+    block: 'constructions',
+    title: 'Местоименные глаголы',
+    summary: 'se laver, se lever — глаголы с возвратным местоимением',
     sections: [
       {
         body:
-          'Конструкция ir a плюс инфинитив выражает намерение и ближайшее будущее. ' +
-          'В разговоре она вытеснила простое будущее: чаще скажут voy a llamarte, чем llamaré.',
-        table: { verbId: 'ir', tense: 'presente', caption: 'ir — спрягается только он' },
+          'Местоименные глаголы всегда идут с местоимением, которое согласуется с подлежащим: ' +
+          'me, te, se, nous, vous, se. В словаре они записываются с частицей se.',
+        table: { verbId: 'se laver', tense: 'present', caption: 'se laver — мыться' },
       },
       {
+        heading: 'Элизия перед гласной',
+        body: 'me, te и se теряют гласную: je m’appelle, tu t’habilles, il s’arrête.',
+      },
+      {
+        heading: 'Всегда être в составных временах',
         body:
-          'Меняется только ir, инфинитив остаётся неизменным: vas a comer, vamos a salir, ' +
-          'van a llegar. В прошедшем длительном получается «собирался»: iba a llamarte.',
+          'Независимо от значения местоименные глаголы образуют сложные времена только ' +
+          'с être — и, соответственно, требуют согласования причастия: elle s’est levée.',
       },
       {
-        heading: 'Другие полезные перифразы',
-        bullets: [
-          'acabar de + инфинитив — только что: Acabo de llegar',
-          'tener que + инфинитив — быть должным: Tengo que trabajar',
-          'hay que + инфинитив — нужно (безлично): Hay que estudiar',
-          'volver a + инфинитив — сделать снова: Vuelvo a intentarlo',
-          'empezar a / terminar de — начать и закончить делать',
-          'seguir + герундий — продолжать: Sigo estudiando',
-        ],
-      },
-      {
-        heading: 'Что здесь спрягается',
+        heading: 'В императиве местоимение уходит вправо',
         body:
-          'Во всех этих оборотах изменяется только первый глагол. Второй стоит в инфинитиве ' +
-          'или герундии и не меняется никогда — поэтому выучив спряжение ir, tener, acabar ' +
-          'и volver, вы получаете все конструкции разом.',
-        table: { verbId: 'tener', tense: 'presente', caption: 'tener que — «должен»' },
+          'В утвердительной форме оно ставится после глагола через дефис, причём te ' +
+          'превращается в toi: lave-toi, levons-nous, dépêchez-vous.',
       },
     ],
     practice: {
-      tenses: ['presente', 'preteriteImp', 'preteriteIndef'],
-      verbIds: ['ir', 'acabar', 'tener', 'deber', 'volver', 'seguir', 'empezar', 'terminar'],
-      featured: ['ir', 'tener', 'acabar', 'volver', 'seguir', 'empezar'],
-    },
-  },
-  {
-    id: 'estar-gerundio',
-    block: 'construcciones',
-    title: 'Estar + герундий',
-    summary: 'Estoy comiendo — действие прямо сейчас',
-    sections: [
-      {
-        body:
-          'Продолженное время строится из estar в нужном времени и герундия: estoy comiendo — ' +
-          '«я (сейчас) ем». Герундий не меняется, спрягается только estar.',
-        table: { verbId: 'estar', tense: 'presente', caption: 'estar + герундий' },
-      },
-      {
-        heading: 'Работает в любом времени',
-        bullets: [
-          'estaba comiendo — ел (в тот момент)',
-          'estuve comiendo — поел (некоторое время)',
-          'estaré comiendo — буду есть',
-          'he estado comiendo — ел всё это время',
-        ],
-      },
-      {
-        heading: 'Важное отличие от английского',
-        body:
-          'В испанском эта конструкция не годится для будущего. «Завтра я еду в Мадрид» — ' +
-          'mañana voy a Madrid или voy a ir, но не «estoy yendo». Estar + герундий говорит ' +
-          'только о том, что разворачивается в описываемый момент.',
-      },
-      {
-        heading: 'Не только с estar',
-        bullets: [
-          'seguir + герундий — продолжать: Sigue lloviendo',
-          'llevar + герундий — делать уже сколько-то времени: Llevo dos horas esperando',
-          'ir + герундий — постепенно: Va mejorando',
-          'andar + герундий — делать то и дело',
-        ],
-      },
-      {
-        body:
-          'Герундий каждого глагола показан на его странице рядом с причастием — ' +
-          'там же видно, если он неправильный: leyendo, durmiendo, diciendo.',
-        table: { verbId: 'estar', tense: 'preteriteImp', caption: 'estaba — «делал в тот момент»' },
-      },
-    ],
-    practice: {
-      tenses: ['presente', 'preteriteImp', 'preteriteIndef', 'futuro'],
-      verbIds: ['estar', 'seguir', 'andar', 'llevar', 'ir', 'venir'],
-      featured: ['estar', 'seguir', 'ir', 'venir', 'andar', 'llevar'],
+      tenses: ['present'],
+      verbIds: [
+        'se laver',
+        'se lever',
+        'se coucher',
+        "s'habiller",
+        'se promener',
+        'se dépêcher',
+        "s'appeler",
+        'se réveiller',
+        'se tromper',
+        "s'arrêter",
+      ],
+      featured: ['se laver', 'se lever', "s'appeler"],
     },
   },
 
   // ── Прошедшее время ──────────────────────────────────────────────────────
   {
-    id: 'indefinido-regular',
-    block: 'pasado',
-    title: 'Indefinido: правильные глаголы',
-    summary: 'Законченное действие в прошлом',
+    id: 'passe-compose-avoir',
+    block: 'passe',
+    title: 'Passé composé с avoir',
+    summary: 'Основное прошедшее время разговорной речи',
     sections: [
       {
         body:
-          'Pretérito indefinido описывает действие, которое произошло и закончилось: ' +
-          '«вчера я поговорил с ним», «в прошлом году мы переехали».',
+          'Passé composé строится из вспомогательного глагола в настоящем времени и ' +
+          'причастия прошедшего времени. Подавляющее большинство глаголов берёт avoir.',
+        table: { verbId: 'parler', tense: 'passeCompose', caption: 'parler — говорить' },
       },
       {
-        table: { verbId: 'hablar', tense: 'preteriteIndef', caption: 'hablar — говорить' },
-      },
-      {
-        heading: 'Хорошая новость',
-        body:
-          'У -er и -ir здесь совершенно одинаковые окончания — запоминать нужно только два набора ' +
-          'вместо трёх.',
-        table: { verbId: 'comer', tense: 'preteriteIndef', caption: 'comer — есть' },
-      },
-      {
-        heading: 'Следите за ударением',
-        body:
-          'Ударение — единственное, что отличает некоторые формы от настоящего времени. ' +
-          'hablo («я говорю») и habló («он поговорил») различаются только им. ' +
-          'То же с hablé и hable. В письме это значок, в речи — смысл.',
-      },
-    ],
-    practice: { tenses: ['preteriteIndef'], verbIds: REGULAR_SAMPLE },
-  },
-  {
-    id: 'indefinido-fuerte',
-    block: 'pasado',
-    title: 'Indefinido: сильные основы',
-    summary: 'tuve, estuve, supe, hice, dije',
-    sections: [
-      {
-        body:
-          'Около двадцати самых частых глаголов образуют индефинидо от изменённой основы. ' +
-          'Их называют сильными, потому что ударение в первом и третьем лице падает на корень, ' +
-          'а не на окончание.',
-      },
-      {
-        heading: 'Общий набор окончаний',
-        body:
-          'Все сильные глаголы берут одни и те же окончания — и ни одно из них не имеет ударения ' +
-          'на письме: -e, -iste, -o, -imos, -isteis, -ieron. Сравните с правильным hablé / habló, ' +
-          'где значок обязателен.',
-        table: { verbId: 'tener', tense: 'preteriteIndef', caption: 'tener — иметь' },
-      },
-      {
-        heading: 'Основы, которые стоит выучить',
+        heading: 'Как образуется причастие',
         bullets: [
-          'tener → tuv-, estar → estuv-, andar → anduv-',
-          'saber → sup-, caber → cup-, poder → pud-, poner → pus-',
-          'querer → quis-, hacer → hic-, venir → vin-',
-          'decir → dij-, traer → traj-, conducir → conduj-',
+          'первая группа: -er → -é (parlé, mangé)',
+          'вторая группа: -ir → -i (fini, choisi)',
+          'третья группа: непредсказуемо (pris, fait, vu, dit, écrit)',
         ],
       },
       {
-        heading: 'Основа на -j',
+        heading: 'С avoir согласования нет',
         body:
-          'Если основа кончается на j, третье лицо множественного числа теряет i: не dijieron, ' +
-          'а dijeron. То же у trajeron, condujeron. Это касается всех глаголов на -ducir.',
-        table: { verbId: 'decir', tense: 'preteriteIndef', caption: 'decir — говорить, сказать' },
-      },
-      {
-        heading: 'Два одинаковых',
-        body:
-          'Ser и ir в индефинидо совпадают полностью: fui, fuiste, fue, fuimos, fuisteis, fueron. ' +
-          'Что именно имелось в виду, всегда понятно из контекста.',
+          'Причастие остаётся неизменным: elles ont parlé, а не «parlées». ' +
+          'Согласование появляется только при être — об этом отдельный урок.',
+        table: { verbId: 'prendre', tense: 'passeCompose', caption: 'prendre — брать' },
       },
     ],
     practice: {
-      tenses: ['preteriteIndef'],
-      types: ['uv preterite', 'up preterite', 'add j', 'c to j'],
-      limit: 40,
-      featured: ['tener', 'estar', 'saber', 'hacer', 'decir', 'poder'],
+      tenses: ['passeCompose'],
+      verbIds: [
+        'parler',
+        'finir',
+        'prendre',
+        'faire',
+        'voir',
+        'dire',
+        'écrire',
+        'mettre',
+        'boire',
+        'lire',
+      ],
+      featured: ['parler', 'prendre', 'faire'],
     },
   },
   {
-    id: 'imperfecto',
-    block: 'pasado',
-    title: 'Imperfecto',
-    summary: 'Самое правильное время в языке',
+    id: 'passe-compose-etre',
+    block: 'passe',
+    title: 'Passé composé с être',
+    summary: 'Закрытый список глаголов движения и состояния',
     sections: [
       {
         body:
-          'Pretérito imperfecto описывает прошлое без границ: то, что тянулось, повторялось ' +
-          'или служило фоном. «Раньше я много читал», «шёл дождь», «мне было десять лет».',
+          'Небольшая группа глаголов образует составные времена не с avoir, а с être. ' +
+          'Список закрытый, и его придётся выучить — логика в нём есть, но неполная.',
+        table: { verbId: 'aller', tense: 'passeCompose', caption: 'aller — идти' },
       },
       {
-        table: { verbId: 'hablar', tense: 'preteriteImp', caption: 'hablar — говорить' },
+        heading: 'Что входит в список',
+        bullets: [
+          'движение с изменением места: aller, venir, arriver, partir, entrer, sortir',
+          'изменение положения: monter, descendre, tomber',
+          'пребывание и возвращение: rester, rentrer, retourner',
+          'рождение и смерть: naître, mourir',
+          'производные от venir: devenir, revenir, parvenir',
+        ],
       },
       {
+        heading: 'Причастие согласуется с подлежащим',
         body:
-          'Глаголы на -er и -ir берут окончания -ía, -ías, -ía, -íamos, -íais, -ían — снова один ' +
-          'набор на два спряжения.',
-      },
-      {
-        heading: 'Три исключения на весь язык',
-        body:
-          'Это единственное время, где почти нет неправильных форм. Их ровно три: ser (era, eras, era…), ' +
-          'ir (iba, ibas, iba…) и ver (veía, veías…). Больше ничего запоминать не нужно — ' +
-          'ни чередований, ни сильных основ.',
-        table: { verbId: 'ser', tense: 'preteriteImp', caption: 'ser — быть' },
+          'Это главное отличие от avoir: il est sorti, но elle est sortie и elles sont sorties. ' +
+          'Согласование идёт по роду и числу, как у прилагательного.',
+        table: { verbId: 'sortir', tense: 'passeCompose', caption: 'sortir — выходить' },
       },
     ],
-    practice: { tenses: ['preteriteImp'], verbIds: [...REGULAR_SAMPLE, 'ser', 'ir', 'ver'] },
+    practice: {
+      tenses: ['passeCompose'],
+      verbIds: [
+        'aller',
+        'venir',
+        'partir',
+        'sortir',
+        'arriver',
+        'entrer',
+        'monter',
+        'descendre',
+        'tomber',
+        'rester',
+        'naître',
+        'mourir',
+      ],
+      featured: ['aller', 'venir', 'sortir'],
+    },
   },
   {
-    id: 'indefinido-vs-imperfecto',
-    block: 'pasado',
-    title: 'Indefinido или imperfecto',
-    summary: 'Как выбрать между двумя прошедшими',
+    id: 'imparfait',
+    block: 'passe',
+    title: 'Imparfait',
+    summary: 'Самое регулярное время французского языка',
     sections: [
       {
         body:
-          'Оба времени переводятся на русский прошедшим, поэтому выбор кажется произвольным. ' +
-          'На деле разница не во времени события, а во взгляде на него.',
+          'Imparfait образуется по единому правилу вообще для всех глаголов: возьмите форму nous ' +
+          'в настоящем времени, отбросьте -ons и добавьте -ais, -ais, -ait, -ions, -iez, -aient.',
+        table: { verbId: 'parler', tense: 'imparfait', caption: 'nous parlons → je parlais' },
       },
       {
-        heading: 'Indefinido — точка',
+        heading: 'Единственное исключение',
         body:
-          'Действие как факт, у которого есть начало и конец. Отвечает на вопрос «что произошло». ' +
-          'Ayer hablé con María. El año pasado viajamos a Perú.',
+          'Только être не подчиняется правилу: у него основа ét-, потому что форма «nous sommes» ' +
+          'для вывода не годится.',
+        table: { verbId: 'être', tense: 'imparfait', caption: 'être — единственное исключение' },
       },
       {
-        heading: 'Imperfecto — линия',
+        heading: 'Орфография догоняет',
         body:
-          'Фон, привычка, состояние, описание. Отвечает на «что было, как было, что обычно происходило». ' +
-          'Antes hablaba con María todos los días. Llovía y hacía frío.',
+          'У глаголов на -cer и -ger смягчение проявляется во всех формах, кроме nous и vous: ' +
+          'je mangeais, nous mangions.',
+        table: { verbId: 'manger', tense: 'imparfait', caption: 'manger — смягчение перед a' },
       },
+    ],
+    practice: {
+      tenses: ['imparfait'],
+      verbIds: [
+        'être',
+        'avoir',
+        'faire',
+        'parler',
+        'finir',
+        'prendre',
+        'aller',
+        'manger',
+        'commencer',
+        'voir',
+      ],
+      featured: ['être', 'manger', 'prendre'],
+    },
+  },
+  {
+    id: 'imparfait-vs-passe-compose',
+    block: 'passe',
+    title: 'Imparfait или passé composé',
+    summary: 'Главный выбор при рассказе о прошлом',
+    sections: [
       {
-        heading: 'Вместе в одном предложении',
         body:
-          'Чаще всего они встречаются в паре: imperfecto задаёт обстановку, indefinido вносит событие, ' +
-          'которое её прерывает. Yo dormía cuando sonó el teléfono — «я спал (фон), когда зазвонил ' +
-          'телефон (событие)». Поменяйте времена местами, и смысл рассыплется.',
+          'Оба времени переводятся на русский одинаково, но описывают разное. ' +
+          'Разница не во времени события, а в том, как говорящий на него смотрит.',
       },
       {
-        heading: 'Подсказки-маркеры',
+        heading: 'Passé composé — событие',
+        body:
+          'Завершённое действие, продвигающее рассказ вперёд. Отвечает на вопрос ' +
+          '«что произошло?»: hier, j’ai vu un film.',
+        table: { verbId: 'parler', tense: 'passeCompose', caption: 'законченное действие' },
+      },
+      {
+        heading: 'Imparfait — фон',
+        body:
+          'Обстановка, привычка, длящееся состояние. Отвечает на вопрос «как было?»: ' +
+          'quand j’étais petit, je parlais souvent avec lui.',
+        table: { verbId: 'parler', tense: 'imparfait', caption: 'фон и привычка' },
+      },
+      {
+        heading: 'Маркеры',
         bullets: [
-          'Indefinido: ayer, anoche, el lunes pasado, hace dos años, de repente',
-          'Imperfecto: siempre, a menudo, todos los días, mientras, cuando era niño',
+          'passé composé: soudain, hier, une fois, trois fois',
+          'imparfait: toujours, souvent, chaque jour, pendant que',
         ],
       },
     ],
     practice: {
-      tenses: ['preteriteIndef', 'preteriteImp'],
-      verbIds: [...REGULAR_SAMPLE, 'ser', 'ir', 'tener', 'estar', 'hacer'],
+      tenses: ['imparfait', 'passeCompose'],
+      verbIds: [
+        'parler',
+        'faire',
+        'aller',
+        'voir',
+        'manger',
+        'finir',
+        'prendre',
+        'être',
+        'avoir',
+        'venir',
+      ],
+      featured: ['parler', 'aller', 'être'],
     },
   },
 
   // ── Будущее и условное ───────────────────────────────────────────────────
   {
-    id: 'futuro-condicional',
-    block: 'futuro',
-    title: 'Futuro и condicional',
-    summary: 'Два времени с одной основой',
+    id: 'futur-simple',
+    block: 'futur',
+    title: 'Futur simple',
+    summary: 'Окончания приклеиваются прямо к инфинитиву',
     sections: [
       {
         body:
-          'Эти два времени удобно учить вместе: у них общая основа и почти нет исключений. ' +
-          'Причём основа — не корень, а целый инфинитив, к которому окончания добавляются прямо ' +
-          'в конец, ничего не отбрасывая.',
+          'Основа будущего времени — сам инфинитив, а окончания совпадают с настоящим ' +
+          'временем глагола avoir: -ai, -as, -a, -ons, -ez, -ont. Основа всегда оканчивается на -r.',
+        table: { verbId: 'parler', tense: 'futurSimple', caption: 'parler → je parlerai' },
       },
       {
-        table: { verbId: 'hablar', tense: 'futuro', caption: 'futuro: hablar + окончание' },
+        heading: 'Глаголы на -re теряют e',
+        body: 'prendre → je prendrai, attendre → j’attendrai. Согласная -r- при этом сохраняется.',
+        table: { verbId: 'prendre', tense: 'futurSimple', caption: 'prendre → je prendrai' },
       },
       {
+        heading: 'Чередования доходят и сюда',
         body:
-          'Окончания одни и те же для всех трёх спряжений: -é, -ás, -á, -emos, -éis, -án. ' +
-          'Никакой разницы между -ar, -er и -ir здесь нет.',
-      },
-      {
-        heading: 'Condicional',
-        body:
-          'Условное наклонение строится от той же основы, но с окончаниями -ía, -ías, -ía, -íamos, ' +
-          '-íais, -ían. Они совпадают с imperfecto глаголов на -er и -ir — только приклеиваются ' +
-          'к полному инфинитиву, а не к корню.',
-        table: { verbId: 'hablar', tense: 'condicional', caption: 'condicional: hablaría' },
-      },
-    ],
-    practice: { tenses: ['futuro', 'condicional'], verbIds: REGULAR_SAMPLE },
-  },
-  {
-    id: 'futuro-irregular',
-    block: 'futuro',
-    title: 'Неправильные основы будущего',
-    summary: 'tendré, saldré, diré — двенадцать глаголов',
-    sections: [
-      {
-        body:
-          'Исключений здесь всего около двенадцати, и они одни и те же для futuro и condicional: ' +
-          'выучив tendré, вы автоматически знаете tendría.',
-      },
-      {
-        heading: 'Выпадает гласная',
-        bullets: [
-          'poder → podr-',
-          'saber → sabr-',
-          'querer → querr-',
-          'haber → habr-',
-          'caber → cabr-',
-        ],
-      },
-      {
-        heading: 'Появляется d',
-        bullets: [
-          'tener → tendr-',
-          'poner → pondr-',
-          'salir → saldr-',
-          'venir → vendr-',
-          'valer → valdr-',
-        ],
-      },
-      {
-        heading: 'Совсем короткие',
-        body: 'decir → dir- и hacer → har-. Это самые сильные сокращения в группе.',
-        table: { verbId: 'tener', tense: 'futuro', caption: 'tener — иметь' },
-      },
-      {
-        body:
-          'Обратите внимание: окончания при этом остаются абсолютно правильными. Меняется только ' +
-          'то, к чему они присоединяются.',
+          'Глаголы с чередованием e → è сохраняют его во всех формах будущего: ' +
+          'j’achèterai, j’appellerai. А вот é → è в будущем по традиционной норме не происходит: j’espérerai.',
       },
     ],
     practice: {
-      tenses: ['futuro', 'condicional'],
-      types: ['d future', 'drop vowel future'],
-      limit: 40,
-      featured: ['tener', 'poder', 'saber', 'salir', 'venir', 'decir'],
+      tenses: ['futurSimple'],
+      verbIds: [
+        'parler',
+        'finir',
+        'prendre',
+        'partir',
+        'manger',
+        'choisir',
+        'rendre',
+        'attendre',
+        'sortir',
+        'écrire',
+      ],
+      featured: ['parler', 'prendre', 'finir'],
     },
   },
-
   {
-    id: 'probabilidad',
-    block: 'futuro',
-    title: 'Догадка и предположение',
-    summary: 'Serán las tres — «наверное, три часа»',
+    id: 'futur-irreguliers',
+    block: 'futur',
+    title: 'Неправильные основы будущего',
+    summary: 'Полтора десятка глаголов, которые нужно знать наизусть',
     sections: [
       {
         body:
-          'У будущего и условного есть второе, очень разговорное употребление, никак ' +
-          'не связанное со временем: ими выражают предположение. По-русски это «наверное», ' +
-          '«должно быть», «пожалуй».',
+          'У самых частотных глаголов основа будущего не выводится из инфинитива. ' +
+          'Хорошая новость: эта же основа обслуживает и conditionnel, так что выучить её нужно один раз.',
+        table: { verbId: 'aller', tense: 'futurSimple', caption: 'aller → j’irai' },
       },
       {
-        heading: 'Futuro — догадка о настоящем',
-        body:
-          '¿Qué hora es? — Serán las tres. «Часа три, наверное». ¿Dónde está Juan? — ' +
-          'Estará en casa. Речь не о будущем: говорящий предполагает про сейчас.',
-        table: { verbId: 'ser', tense: 'futuro', caption: 'serán — «наверное, столько»' },
-      },
-      {
-        heading: 'Condicional — догадка о прошлом',
-        body:
-          'Estaría cansado — «он, наверное, устал» (тогда). Serían las tres cuando llegó — ' +
-          '«было часа три, когда он пришёл».',
-        table: { verbId: 'estar', tense: 'condicional', caption: 'estaría — «наверное, был»' },
-      },
-      {
-        heading: 'Составные — то же самое, но о завершённом',
+        heading: 'Список',
         bullets: [
-          'Habrá salido ya — «наверное, уже вышел»',
-          'Habría salido antes — «наверное, вышел раньше»',
+          'être → ser-, avoir → aur-, aller → ir-, faire → fer-',
+          'venir → viendr-, tenir → tiendr-, voir → verr-, envoyer → enverr-',
+          'pouvoir → pourr-, vouloir → voudr-, devoir → devr-, savoir → saur-',
+          'courir → courr-, mourir → mourr-, valoir → vaudr-, falloir → faudr-',
         ],
       },
       {
+        heading: 'Удвоенное -rr-',
         body:
-          'Понять, о чём речь, помогает контекст: если рядом нет указания на будущее, ' +
-          'а вопрос про «сейчас» — перед вами предположение, а не прогноз.',
+          'У courir, mourir, pouvoir и voir в основе два r. На письме это заметно, ' +
+          'на слух — почти нет, поэтому ошибка частая.',
+        table: { verbId: 'avoir', tense: 'futurSimple', caption: 'avoir → j’aurai' },
       },
     ],
     practice: {
-      tenses: ['futuro', 'condicional', 'futuroPerfecto', 'condicionalPerfecto'],
-      verbIds: ['ser', 'estar', 'tener', 'ir', 'hacer', 'salir', 'venir', 'saber'],
-      featured: ['ser', 'estar', 'tener', 'ir', 'hacer', 'salir'],
+      tenses: ['futurSimple'],
+      verbIds: [
+        'être',
+        'avoir',
+        'aller',
+        'faire',
+        'venir',
+        'voir',
+        'pouvoir',
+        'vouloir',
+        'devoir',
+        'savoir',
+        'courir',
+        'mourir',
+        'envoyer',
+        'tenir',
+        'recevoir',
+      ],
+      featured: ['être', 'avoir', 'aller', 'faire'],
+    },
+  },
+  {
+    id: 'conditionnel',
+    block: 'futur',
+    title: 'Conditionnel présent',
+    summary: 'Основа будущего плюс окончания imparfait',
+    sections: [
+      {
+        body:
+          'Условное наклонение собирается из двух уже знакомых деталей: основа берётся ' +
+          'от futur simple, окончания — от imparfait. Ничего нового учить не нужно.',
+        table: { verbId: 'être', tense: 'conditionnel', caption: 'ser- + -ais = je serais' },
+      },
+      {
+        heading: 'Три употребления',
+        bullets: [
+          'вежливость: je voudrais un café — вместо резкого je veux',
+          'гипотеза: si j’avais le temps, je viendrais',
+          'непроверенная информация: le train aurait du retard',
+        ],
+      },
+      {
+        heading: 'Не путать с futur',
+        body:
+          'Разница только в окончании: je serai — будущее, je serais — условное. ' +
+          'На слух они у многих носителей совпадают, поэтому опора идёт на контекст.',
+        table: { verbId: 'vouloir', tense: 'conditionnel', caption: 'vouloir — вежливая просьба' },
+      },
+    ],
+    practice: {
+      tenses: ['conditionnel'],
+      verbIds: [
+        'être',
+        'avoir',
+        'aller',
+        'faire',
+        'vouloir',
+        'pouvoir',
+        'aimer',
+        'savoir',
+        'venir',
+        'parler',
+      ],
+      featured: ['vouloir', 'être', 'pouvoir'],
     },
   },
 
   // ── Составные времена ────────────────────────────────────────────────────
   {
-    id: 'participio-perfecto',
-    block: 'compuestos',
-    title: 'Причастие и pretérito perfecto',
-    summary: 'he hablado — основа всех составных времён',
+    id: 'plus-que-parfait',
+    block: 'composes',
+    title: 'Plus-que-parfait',
+    summary: 'Прошедшее до прошедшего',
     sections: [
       {
         body:
-          'Все девять составных времён устроены одинаково: вспомогательный глагол haber ' +
-          'плюс причастие. Меняется только форма haber — причастие остаётся неизменным всегда.',
+          'Вспомогательный глагол ставится в imparfait, дальше идёт причастие. ' +
+          'Время обозначает действие, предшествовавшее другому прошедшему.',
+        table: { verbId: 'parler', tense: 'plusQueParfait', caption: 'j’avais parlé' },
       },
       {
-        heading: 'Причастие',
+        heading: 'Выбор вспомогательного тот же',
         body:
-          'Образуется просто: -ar → -ado, -er и -ir → -ido. Hablar → hablado, comer → comido, ' +
-          'vivir → vivido.',
+          'Глагол, который берёт être в passé composé, берёт его и здесь — вместе с ' +
+          'согласованием причастия.',
+        table: { verbId: 'aller', tense: 'plusQueParfait', caption: 'j’étais allé(e)' },
       },
       {
-        heading: 'Pretérito perfecto',
+        heading: 'В условных предложениях',
         body:
-          'Настоящее время haber (he, has, ha, hemos, habéis, han) плюс причастие. ' +
-          'Описывает прошедшее, связанное с настоящим: «сегодня я уже поел», «я никогда там не был».',
-        table: { verbId: 'hablar', tense: 'perfecto', caption: 'hablar — говорить' },
-      },
-      {
-        heading: 'Неправильные причастия',
-        bullets: [
-          'hacer → hecho, decir → dicho',
-          'ver → visto, poner → puesto',
-          'escribir → escrito, abrir → abierto',
-          'volver → vuelto, morir → muerto, romper → roto',
-        ],
-      },
-      {
-        body:
-          'Приставочные глаголы наследуют причастие корневого: componer → compuesto, ' +
-          'describir → descrito, devolver → devuelto. Отдельно их запоминать не нужно.',
-        table: { verbId: 'hacer', tense: 'perfecto', caption: 'hacer — делать' },
-      },
-    ],
-    practice: { tenses: ['perfecto'], verbIds: [...REGULAR_SAMPLE, 'hacer', 'decir', 'ver', 'escribir'] },
-  },
-  {
-    id: 'compuestos-resto',
-    block: 'compuestos',
-    title: 'Остальные составные',
-    summary: 'había hablado, habré hablado, habría hablado',
-    sections: [
-      {
-        body:
-          'Освоив схему «haber + причастие», вы получаете сразу все составные времена. ' +
-          'Причастие не меняется — достаточно поставить haber в нужное время.',
-      },
-      {
-        heading: 'Pluscuamperfecto',
-        body:
-          'Imperfecto глагола haber плюс причастие: «к тому моменту уже сделал». ' +
-          'Cuando llegué, ya habían cenado — «когда я пришёл, они уже поужинали».',
-        table: { verbId: 'hablar', tense: 'pluscuamperfecto', caption: 'había hablado' },
-      },
-      {
-        heading: 'Futuro perfecto',
-        body:
-          'Habré hablado — «к тому времени уже поговорю». Второе, более частое значение — ' +
-          'предположение о прошлом: Ya habrá llegado — «наверное, он уже приехал».',
-        table: { verbId: 'hablar', tense: 'futuroPerfecto', caption: 'habré hablado' },
-      },
-      {
-        heading: 'Condicional perfecto',
-        body:
-          'Habría hablado — «поговорил бы». Чаще всего встречается во второй части условных ' +
-          'предложений о несбывшемся прошлом, к которым мы придём в блоке о сослагательном.',
-        table: { verbId: 'hablar', tense: 'condicionalPerfecto', caption: 'habría hablado' },
-      },
-      {
-        heading: 'Pretérito anterior',
-        body:
-          'Hube hablado существует, но в живой речи почти не встречается — только в книжном ' +
-          'повествовании после apenas, en cuanto, cuando. Знать его полезно для чтения, ' +
-          'использовать в разговоре не нужно.',
+          'После si в нереальном условии прошлого стоит именно plus-que-parfait: ' +
+          'si j’avais su, je serais venu.',
       },
     ],
     practice: {
-      tenses: ['pluscuamperfecto', 'futuroPerfecto', 'condicionalPerfecto'],
-      verbIds: [...REGULAR_SAMPLE, 'hacer', 'ver'],
-    },
-  },
-
-  {
-    id: 'perfecto-vs-indefinido',
-    block: 'compuestos',
-    title: 'Perfecto или indefinido',
-    summary: 'he comido или comí',
-    sections: [
-      {
-        body:
-          'Оба времени переводятся русским прошедшим и оба означают законченное действие. ' +
-          'Разница — в том, закончился ли период, о котором вы говорите.',
-      },
-      {
-        heading: 'Perfecto — период ещё длится',
-        body:
-          'Сегодня, на этой неделе, в этом году, за всю жизнь. Hoy he trabajado mucho. ' +
-          'Este año hemos viajado dos veces. Момент говорения входит в этот отрезок.',
-        table: { verbId: 'hablar', tense: 'perfecto', caption: 'he hablado' },
-      },
-      {
-        heading: 'Indefinido — период закрыт',
-        body:
-          'Вчера, на прошлой неделе, в 2020 году. Ayer trabajé mucho. En 2020 viajamos a Perú. ' +
-          'Отрезок остался в прошлом целиком.',
-        table: { verbId: 'hablar', tense: 'preteriteIndef', caption: 'hablé' },
-      },
-      {
-        heading: 'Слова-подсказки',
-        bullets: [
-          'Perfecto: hoy, esta mañana, esta semana, este mes, ya, todavía no, alguna vez, nunca',
-          'Indefinido: ayer, anoche, la semana pasada, hace un año, en 2020, aquel día',
-        ],
-      },
-      {
-        heading: 'Важная оговорка про регионы',
-        body:
-          'Это норма Испании. В большей части Латинской Америки perfecto употребляют заметно ' +
-          'реже и говорят hoy trabajé там, где испанец скажет hoy he trabajado. Ошибкой это ' +
-          'не считается — просто другая региональная норма.',
-      },
-    ],
-    practice: {
-      tenses: ['perfecto', 'preteriteIndef'],
-      verbIds: [...REGULAR_SAMPLE, 'hacer', 'decir', 'ver', 'ir', 'tener', 'estar'],
-      featured: ['hablar', 'comer', 'hacer', 'decir', 'ver', 'tener'],
+      tenses: ['plusQueParfait'],
+      verbIds: [
+        'parler',
+        'finir',
+        'prendre',
+        'aller',
+        'sortir',
+        'faire',
+        'voir',
+        'dire',
+        'partir',
+        'venir',
+      ],
+      featured: ['parler', 'aller', 'faire'],
     },
   },
   {
-    id: 'estilo-indirecto',
-    block: 'compuestos',
-    title: 'Косвенная речь',
-    summary: 'Dijo que venía — согласование времён',
+    id: 'futur-anterieur',
+    block: 'composes',
+    title: 'Futur antérieur',
+    summary: 'Будущее, завершённое к моменту в будущем',
     sections: [
       {
         body:
-          'Когда чужие слова пересказывают в прошедшем, времена внутри придаточного сдвигаются ' +
-          'на шаг назад. Это и есть то, ради чего нужны имперфект, плюсквамперфект и кондисионал ' +
-          'одновременно.',
+          'Вспомогательный глагол в futur simple плюс причастие. Означает действие, ' +
+          'которое закончится раньше другого будущего: quand j’aurai fini, je partirai.',
+        table: { verbId: 'parler', tense: 'futurAnterieur', caption: 'j’aurai parlé' },
       },
       {
-        heading: 'Как сдвигаются времена',
-        bullets: [
-          '«Vengo» → Dijo que venía (настоящее → имперфект)',
-          '«Vine» / «He venido» → Dijo que había venido (прошедшее → плюсквамперфект)',
-          '«Vendré» → Dijo que vendría (будущее → кондисионал)',
-          '«Ven» → Me dijo que viniera (императив → сослагательное прошедшее)',
-        ],
-      },
-      {
-        table: { verbId: 'venir', tense: 'preteriteImp', caption: 'настоящее уходит в имперфект' },
-      },
-      {
-        table: { verbId: 'venir', tense: 'condicional', caption: 'будущее уходит в кондисионал' },
-      },
-      {
-        heading: 'Когда сдвигать не нужно',
+        heading: 'После временных союзов',
         body:
-          'Если сказанное верно и сейчас, презенс можно оставить: Dijo que vive en Madrid — ' +
-          'он и правда там живёт. Сдвиг обязателен, когда вводящий глагол в прошедшем ' +
-          'и сказанное к моменту пересказа уже неактуально.',
+          'Quand, dès que, après que требуют futur antérieur там, где русский обходится ' +
+          'совершенным видом: «когда закончу» → quand j’aurai fini.',
       },
       {
+        heading: 'Предположение о прошлом',
         body:
-          'Обратите внимание: imperfecto и condicional при таком сдвиге не означают ни ' +
-          'привычки, ни условия. Они просто занимают место настоящего и будущего.',
+          'Il aura oublié — «наверное, забыл». Формально будущее, по смыслу догадка о прошедшем.',
       },
     ],
     practice: {
-      tenses: ['preteriteImp', 'pluscuamperfecto', 'condicional', 'subjImperfectoRa'],
-      verbIds: ['venir', 'ir', 'ser', 'estar', 'tener', 'hacer', 'decir', 'hablar', 'comer', 'vivir'],
-      featured: ['venir', 'decir', 'ir', 'ser', 'tener', 'hacer'],
+      tenses: ['futurAnterieur'],
+      verbIds: [
+        'parler',
+        'finir',
+        'partir',
+        'arriver',
+        'faire',
+        'terminer',
+        'sortir',
+        'prendre',
+        'venir',
+        'rentrer',
+      ],
+      featured: ['parler', 'finir', 'partir'],
     },
   },
   {
-    id: 'pasiva',
-    block: 'compuestos',
-    title: 'Пассив',
-    summary: 'ser + причастие и оборот с se',
+    id: 'conditionnel-passe',
+    block: 'composes',
+    title: 'Conditionnel passé',
+    summary: 'Несбывшееся: «я бы сделал, но не сделал»',
     sections: [
       {
         body:
-          'Причастие нужно не только для составных времён. Вместе с ser оно образует ' +
-          'страдательный залог: La casa fue construida en 1920 — «дом был построен в 1920».',
-        table: { verbId: 'ser', tense: 'preteriteIndef', caption: 'ser — спрягается он' },
+          'Вспомогательный глагол в conditionnel présent плюс причастие. ' +
+          'Обозначает действие, которое могло произойти, но не произошло.',
+        table: { verbId: 'faire', tense: 'conditionnelPasse', caption: 'j’aurais fait' },
       },
       {
-        heading: 'Причастие здесь согласуется',
+        heading: 'Полная условная конструкция',
         body:
-          'И это главное отличие от составных времён. После haber причастие неизменно ' +
-          '(ha construido), а в пассиве оно меняется по роду и числу вместе с подлежащим: ' +
-          'el libro fue escrito, la carta fue escrita, los libros fueron escritos.',
+          'Si + plus-que-parfait в придаточном, conditionnel passé в главном: ' +
+          'si tu étais venu, nous aurions parlé.',
       },
       {
-        body: 'Исполнитель действия вводится предлогом por: La novela fue escrita por Cervantes.',
-      },
-      {
-        heading: 'В речи чаще другое',
+        heading: 'Упрёк и сожаление',
         body:
-          'Полный пассив с ser в испанском звучит книжно. В разговоре его заменяет оборот ' +
-          'с se: Se venden casas — «продаются дома», Aquí se habla español — «здесь говорят ' +
-          'по-испански». Глагол согласуется с предметом: se vende casa, se venden casas.',
-      },
-      {
-        heading: 'Estar + причастие — это не пассив',
-        body:
-          'Сравните: La puerta fue cerrada — «дверь закрыли» (действие). La puerta está cerrada — ' +
-          '«дверь закрыта» (результат, состояние). Первое сообщает о событии, второе описывает вид.',
-        table: { verbId: 'estar', tense: 'presente', caption: 'estar + причастие — результат' },
+          'Tu aurais dû me le dire — «ты должен был мне сказать». Одно из самых частых употреблений.',
       },
     ],
     practice: {
-      tenses: ['preteriteIndef', 'presente', 'perfecto', 'preteriteImp'],
-      verbIds: ['ser', 'estar', 'construir', 'escribir', 'abrir', 'hacer', 'vender', 'publicar'],
-      featured: ['ser', 'estar', 'escribir', 'abrir', 'hacer', 'construir'],
+      tenses: ['conditionnelPasse'],
+      verbIds: [
+        'parler',
+        'faire',
+        'aller',
+        'venir',
+        'pouvoir',
+        'vouloir',
+        'devoir',
+        'savoir',
+        'dire',
+        'voir',
+      ],
+      featured: ['faire', 'devoir', 'pouvoir'],
+    },
+  },
+  {
+    id: 'choix-auxiliaire',
+    block: 'composes',
+    title: 'Глаголы с двумя вспомогательными',
+    summary: 'monter, sortir, passer — être или avoir по смыслу',
+    sections: [
+      {
+        body:
+          'Часть глаголов из списка être может брать и avoir. Выбор определяется не капризом, ' +
+          'а наличием прямого дополнения.',
+        table: { verbId: 'monter', tense: 'passeCompose', caption: 'il est monté — без дополнения' },
+      },
+      {
+        heading: 'Правило',
+        bullets: [
+          'нет дополнения → être, глагол непереходный: il est sorti — «он вышел»',
+          'есть дополнение → avoir, глагол переходный: il a sorti la voiture — «он вывел машину»',
+        ],
+      },
+      {
+        heading: 'Кого это касается',
+        body:
+          'monter, descendre, sortir, rentrer, retourner, passer. У остальных глаголов ' +
+          'из списка être переходного значения нет.',
+        table: {
+          verbId: 'descendre',
+          tense: 'passeCompose',
+          caption: 'descendre — то же чередование',
+        },
+      },
+      {
+        heading: 'Смысл меняется вместе с вспомогательным',
+        body:
+          'Il a passé l’examen — «он сдавал экзамен». Il est passé — «он зашёл». ' +
+          'Это разные значения, а не стилистические варианты.',
+      },
+    ],
+    practice: {
+      tenses: ['passeCompose'],
+      verbIds: [
+        'monter',
+        'descendre',
+        'sortir',
+        'rentrer',
+        'retourner',
+        'passer',
+        'entrer',
+        'tomber',
+        'rester',
+        'arriver',
+      ],
+      featured: ['monter', 'descendre', 'sortir'],
+    },
+  },
+  {
+    id: 'accord-participe',
+    block: 'composes',
+    title: 'Согласование причастия',
+    summary: 'Когда причастие меняет род и число',
+    sections: [
+      {
+        body:
+          'Причастие в составных временах ведёт себя то как глагол, то как прилагательное. ' +
+          'Всё зависит от вспомогательного.',
+      },
+      {
+        heading: 'С être — согласуется с подлежащим',
+        body:
+          'Работает как обычное прилагательное: +e для женского рода, +s для множественного, ' +
+          '+es для обоих сразу.',
+        table: { verbId: 'sortir', tense: 'passeCompose', caption: 'il est sorti / elle est sortie' },
+      },
+      {
+        heading: 'С avoir — не согласуется',
+        body:
+          'Причастие остаётся в базовой форме: elles ont mangé. Исключение существует — ' +
+          'согласование с предшествующим прямым дополнением, — но в тренажёре форм оно не ' +
+          'проверяется, потому что зависит от порядка слов в предложении.',
+      },
+      {
+        heading: 'Причастия на -s и -x',
+        body:
+          'Во множественном числе мужского рода они не меняются: il est assis → ils sont assis. ' +
+          'Наращивать второе -s не нужно.',
+      },
+      {
+        heading: 'Местоименные глаголы',
+        body: 'Всегда être, значит всегда согласование: elle s’est levée, elles se sont levées.',
+        table: {
+          verbId: 'se laver',
+          tense: 'passeCompose',
+          caption: 'se laver — согласование обязательно',
+        },
+      },
+    ],
+    practice: {
+      tenses: ['passeCompose', 'plusQueParfait'],
+      verbIds: [
+        'aller',
+        'venir',
+        'partir',
+        'sortir',
+        'naître',
+        'mourir',
+        'arriver',
+        'rester',
+        'tomber',
+        'se laver',
+        'se lever',
+      ],
+      featured: ['sortir', 'se laver', 'venir'],
     },
   },
 
   // ── Сослагательное наклонение ────────────────────────────────────────────
   {
-    id: 'subjuntivo-formacion',
-    block: 'subjuntivo',
-    title: 'Presente de subjuntivo: образование',
-    summary: 'Всё начинается с формы «yo»',
+    id: 'subj-present-formation',
+    block: 'subjonctif',
+    title: 'Образование subjonctif présent',
+    summary: 'Основа третьего лица множественного плюс окончания',
     sections: [
       {
         body:
-          'Сослагательное наклонение пугает больше, чем заслуживает. Образуется оно механически, ' +
-          'из формы, которую вы уже знаете.',
+          'Возьмите форму ils в настоящем времени, отбросьте -ent — получится основа. ' +
+          'К ней добавляются -e, -es, -e, -ions, -iez, -ent.',
+        table: { verbId: 'parler', tense: 'subjPresent', caption: 'ils parlent → que je parle' },
       },
       {
-        heading: 'Три шага',
+        heading: 'Формы nous и vous особые',
+        body:
+          'Они совпадают с imparfait, а не строятся от основы ils. У глаголов с двумя основами ' +
+          'это сразу заметно: que je prenne, но que nous prenions.',
+        table: { verbId: 'prendre', tense: 'subjPresent', caption: 'prendre — две основы' },
+      },
+      {
+        heading: 'Совпадения с настоящим временем',
+        body:
+          'У глаголов первой группы subjonctif в единственном числе внешне не отличается от ' +
+          'présent. Различие проявляется только у глаголов с чередованием основы.',
+      },
+    ],
+    practice: {
+      tenses: ['subjPresent'],
+      verbIds: [
+        'parler',
+        'finir',
+        'partir',
+        'prendre',
+        'venir',
+        'boire',
+        'voir',
+        'écrire',
+        'dire',
+        'mettre',
+      ],
+      featured: ['parler', 'prendre', 'venir'],
+    },
+  },
+  {
+    id: 'subj-present-irreguliers',
+    block: 'subjonctif',
+    title: 'Неправильный subjonctif',
+    summary: 'Девять глаголов со своей основой',
+    sections: [
+      {
+        body:
+          'У небольшой группы глаголов основа сослагательного не выводится из формы ils. ' +
+          'Их немного, но все они очень частотные.',
+        table: { verbId: 'être', tense: 'subjPresent', caption: 'être — soi-' },
+      },
+      { table: { verbId: 'aller', tense: 'subjPresent', caption: 'aller — aill- / all-' } },
+      {
+        heading: 'Список',
         bullets: [
-          'Возьмите глагол в первом лице настоящего времени: hablo, como, tengo',
-          'Уберите конечную -o: habl-, com-, teng-',
-          'Добавьте «противоположную» гласную: у -ar это -e, у -er и -ir это -a',
+          'être → sois, avoir → aie, aller → aille, faire → fasse',
+          'savoir → sache, pouvoir → puisse, vouloir → veuille',
+          'valoir → vaille, falloir → faille',
         ],
       },
       {
-        table: { verbId: 'hablar', tense: 'subjuntivo', caption: 'hablar → hable' },
-      },
-      {
-        heading: 'Зачем нужен был шаг с «yo»',
+        heading: 'faire, savoir и pouvoir не меняют основу',
         body:
-          'Именно поэтому в прошлом уроке мы отдельно разбирали неправильное первое лицо. ' +
-          'Вся его неправильность автоматически переходит в сослагательное: tengo даёт tenga, ' +
-          'hago даёт haga, conozco даёт conozca — во всех шести формах.',
-        table: { verbId: 'tener', tense: 'subjuntivo', caption: 'tengo → tenga' },
-      },
-      {
-        heading: 'Шесть настоящих исключений',
-        body:
-          'Только у них форма yo не подходит, потому что не кончается на -o: ser → sea, ir → vaya, ' +
-          'saber → sepa, haber → haya, estar → esté, dar → dé. Шесть глаголов на весь язык.',
+          'В отличие от aller и vouloir, у них одна основа на все шесть форм: ' +
+          'que je fasse, que nous fassions.',
+        table: { verbId: 'faire', tense: 'subjPresent', caption: 'faire — одна основа fass-' },
       },
     ],
     practice: {
-      tenses: ['subjuntivo'],
-      verbIds: [...REGULAR_SAMPLE, 'tener', 'hacer', 'conocer', 'ser', 'ir', 'saber', 'estar', 'dar'],
+      tenses: ['subjPresent'],
+      verbIds: [
+        'être',
+        'avoir',
+        'aller',
+        'faire',
+        'savoir',
+        'pouvoir',
+        'vouloir',
+        'valoir',
+        'falloir',
+        'devoir',
+      ],
+      featured: ['être', 'avoir', 'aller', 'faire'],
     },
   },
   {
-    id: 'subjuntivo-cambios',
-    block: 'subjuntivo',
-    title: 'Чередования в сослагательном',
-    summary: 'sintamos, durmamos, pidamos',
+    id: 'subj-volonte',
+    block: 'subjonctif',
+    title: 'Воля и необходимость',
+    summary: 'Глаголы, после которых subjonctif обязателен',
     sections: [
       {
         body:
-          'Правило «взять форму yo» переносит в сослагательное и чередование корня. ' +
-          'Но у глаголов на -ir есть добавочное изменение, которого в настоящем времени нет.',
+          'Сослагательное появляется после выражений воли, желания и требования. ' +
+          'Логика общая: действие в придаточном ещё не факт, а лишь чьё-то намерение.',
+        table: { verbId: 'vouloir', tense: 'subjPresent', caption: 'que je veuille' },
       },
       {
-        heading: 'Глаголы на -ar и -er: обычный ботинок',
-        body:
-          'Чередование идёт там же, где в настоящем, а nosotros и vosotros остаются с исходной ' +
-          'гласной: pienso → piense, pienses… но pensemos, penséis.',
-        table: { verbId: 'pensar', tense: 'subjuntivo', caption: 'pensar — ботинок сохраняется' },
-      },
-      {
-        body:
-          'Так же ведут себя poder и querer: podamos, queramos — без ue и ie. ' +
-          'Это частая ошибка: «puedamos» не существует.',
-        table: { verbId: 'poder', tense: 'subjuntivo', caption: 'podamos, а не «puedamos»' },
-      },
-      {
-        heading: 'Глаголы на -ir: меняются и nosotros с vosotros',
-        body:
-          'Здесь ботинок ломается. Там, где -ar и -er возвращают исходную гласную, -ir подставляет ' +
-          'ту же, что в третьем лице индефинидо: e → i, o → u.',
-        table: { verbId: 'sentir', tense: 'subjuntivo', caption: 'sentir → sintamos, sintáis' },
-      },
-      {
-        table: { verbId: 'dormir', tense: 'subjuntivo', caption: 'dormir → durmamos, durmáis' },
-        body:
-          'У глаголов с чередованием e → i изменение идёт во всех шести формах сразу: ' +
-          'pedir даёт pida, pidas, pida, pidamos, pidáis, pidan — ломаться там уже нечему.',
-      },
-      {
-        heading: 'Как это запомнить',
-        body:
-          'Сравните два ряда: podamos и queramos против sintamos и durmamos. Разница только ' +
-          'в спряжении инфинитива — -er против -ir. Если глагол на -ir и в настоящем у него ' +
-          'чередование, оно достанет и nosotros с vosotros.',
-      },
-    ],
-    practice: {
-      tenses: ['subjuntivo'],
-      verbIds: ['sentir', 'dormir', 'pedir', 'morir', 'seguir', 'poder', 'querer', 'pensar', 'volver', 'servir', 'preferir', 'repetir'],
-      featured: ['sentir', 'dormir', 'pedir', 'poder', 'querer', 'morir'],
-    },
-  },
-  {
-    id: 'subjuntivo-uso',
-    block: 'subjuntivo',
-    title: 'Когда нужен subjuntivo',
-    summary: 'Не факт, а отношение к факту',
-    sections: [
-      {
-        body:
-          'Индикатив сообщает о том, что есть. Сослагательное — о том, чего человек хочет, боится, ' +
-          'в чём сомневается или что оценивает. Разница не во времени, а в модальности.',
-      },
-      {
-        heading: 'Желание и воля',
-        body:
-          'Quiero que vengas — «хочу, чтобы ты пришёл». Обратите внимание: в русском тоже появляется ' +
-          '«бы». Сюда же espero que, prefiero que, es necesario que.',
-      },
-      {
-        heading: 'Эмоция и оценка',
-        body:
-          'Me alegra que estés aquí — «рад, что ты здесь». Факт очевиден, но говорящий не сообщает его, ' +
-          'а реагирует на него. Es importante que estudies, es una pena que no puedas.',
-      },
-      {
-        heading: 'Сомнение и отрицание',
-        body:
-          'No creo que sea verdad — «не думаю, что это правда». Показательно, что утвердительное ' +
-          'creo que es verdad требует индикатива: уверенность возвращает обычную форму.',
-      },
-      {
-        heading: 'После некоторых союзов',
+        heading: 'Основные глаголы',
         bullets: [
-          'Всегда: para que, antes de que, sin que, a menos que',
-          'При отсылке к будущему: cuando, hasta que, en cuanto (Cuando llegues, llámame)',
-          'Aunque — по смыслу: с фактом индикатив, с уступкой сослагательное',
-        ],
-      },
-    ],
-    practice: {
-      tenses: ['subjuntivo'],
-      verbIds: ['ser', 'estar', 'tener', 'ir', 'poder', 'saber', 'venir', 'hacer', 'querer', 'hablar'],
-    },
-  },
-  {
-    id: 'subjuntivo-imperfecto',
-    block: 'subjuntivo',
-    title: 'Imperfecto de subjuntivo',
-    summary: 'Две равноправные формы: -ra и -se',
-    sections: [
-      {
-        body:
-          'Прошедшее сослагательное образуется от неожиданной основы — от третьего лица ' +
-          'множественного числа индефинидо.',
-      },
-      {
-        heading: 'Три шага',
-        bullets: [
-          'Возьмите форму ellos в индефинидо: hablaron, comieron, tuvieron',
-          'Уберите -ron: habla-, comie-, tuvie-',
-          'Добавьте -ra, -ras, -ra, -ramos, -rais, -ran',
+          'vouloir que, souhaiter que, désirer que',
+          'exiger que, demander que, proposer que',
+          'préférer que, accepter que, refuser que',
         ],
       },
       {
-        table: { verbId: 'hablar', tense: 'subjImperfectoRa', caption: 'hablaron → hablara' },
+        heading: 'Важное ограничение',
+        body:
+          'Если подлежащее в главном и придаточном совпадает, придаточное не строится: ' +
+          'вместо «je veux que je parte» говорят je veux partir.',
       },
       {
-        heading: 'Почему это удобно',
+        heading: 'espérer — исключение',
         body:
-          'Любая неправильность индефинидо переходит сюда сама собой. Tuvieron даёт tuviera, ' +
-          'dijeron даёт dijera, fueron даёт fuera. Отдельного списка исключений просто нет — ' +
-          'достаточно знать индефинидо.',
-        table: { verbId: 'tener', tense: 'subjImperfectoRa', caption: 'tuvieron → tuviera' },
-      },
-      {
-        heading: 'Форма на -se',
-        body:
-          'Существует вторая, полностью равноправная форма: hablase, hablases, hablase… ' +
-          'Значение то же самое, выбор — дело стиля и региона. В Испании -se звучит чуть книжнее, ' +
-          'в Латинской Америке преобладает -ra. В приложении обе формы даны отдельными вкладками.',
-        table: { verbId: 'hablar', tense: 'subjImperfectoSe', caption: 'вариант на -se' },
+          'Вопреки ожиданию, espérer que требует изъявительного наклонения: ' +
+          'j’espère qu’il vient.',
       },
     ],
     practice: {
-      tenses: ['subjImperfectoRa', 'subjImperfectoSe'],
-      verbIds: [...REGULAR_SAMPLE, 'tener', 'decir', 'ser', 'ir', 'hacer', 'poder'],
+      tenses: ['subjPresent'],
+      verbIds: [
+        'vouloir',
+        'souhaiter',
+        'désirer',
+        'demander',
+        'préférer',
+        'exiger',
+        'permettre',
+        'proposer',
+        'refuser',
+        'accepter',
+      ],
+      featured: ['vouloir', 'préférer', 'permettre'],
     },
   },
   {
-    id: 'subjuntivo-compuestos',
-    block: 'subjuntivo',
-    title: 'Составные сослагательного',
-    summary: 'haya hablado, hubiera hablado',
+    id: 'subj-emotion-doute',
+    block: 'subjonctif',
+    title: 'Эмоция и сомнение',
+    summary: 'Вторая большая группа контекстов',
     sections: [
       {
         body:
-          'Схема та же, что и в индикативе: haber плюс причастие. Разница только в том, ' +
-          'что сам haber ставится в сослагательное наклонение.',
+          'Subjonctif требуется после выражений чувства и неуверенности. ' +
+          'Событие в придаточном подаётся не как факт, а через отношение говорящего к нему.',
+        table: { verbId: 'craindre', tense: 'subjPresent', caption: 'que je craigne' },
       },
       {
-        heading: 'Pretérito perfecto de subjuntivo',
-        body:
-          'Presente de subjuntivo глагола haber (haya, hayas, haya, hayamos, hayáis, hayan) ' +
-          'плюс причастие. Нужен там же, где обычный perfecto, но в придаточном после выражений ' +
-          'эмоции или сомнения: Me alegro de que hayas venido — «рад, что ты пришёл».',
-        table: { verbId: 'hablar', tense: 'subjPerfecto', caption: 'haya hablado' },
+        heading: 'Эмоция',
+        bullets: [
+          'être content / triste / surpris que',
+          'avoir peur que, craindre que',
+          'il est dommage que, c’est bien que',
+        ],
       },
       {
-        heading: 'Pluscuamperfecto de subjuntivo',
+        heading: 'Сомнение и отрицание уверенности',
         body:
-          'Imperfecto de subjuntivo глагола haber плюс причастие. Как и у простого имперфекта, ' +
-          'здесь две равноправные формы — на -ra и на -se.',
-        table: { verbId: 'hablar', tense: 'subjPluscuamRa', caption: 'hubiera hablado' },
+          'Ключевая пара: je pense qu’il vient — изъявительное, уверенность. ' +
+          'Je ne pense pas qu’il vienne — сослагательное, уверенность снята отрицанием.',
+        table: { verbId: 'venir', tense: 'subjPresent', caption: 'venir — que je vienne' },
       },
       {
-        table: { verbId: 'hablar', tense: 'subjPluscuamSe', caption: 'hubiese hablado — вариант на -se' },
-        body:
-          'Это самая частая из составных форм сослагательного: именно она стоит в условных ' +
-          'предложениях о несбывшемся прошлом, к которым мы перейдём в следующем уроке.',
-      },
-      {
-        heading: 'Проверьте себя на неправильных',
-        body:
-          'Неправильность живёт только в причастии — haber уже неправильный сам по себе и всегда ' +
-          'одинаков. Hubiera hecho, hubiera dicho, hubiera visto: меняется вторая часть, не первая.',
-        table: { verbId: 'hacer', tense: 'subjPluscuamRa', caption: 'hubiera hecho' },
+        heading: 'Вопрос тоже переключает наклонение',
+        body: 'Pensez-vous qu’il vienne ? — в вопросительной форме уверенность так же ослаблена.',
       },
     ],
     practice: {
-      tenses: ['subjPerfecto', 'subjPluscuamRa', 'subjPluscuamSe'],
-      verbIds: [...REGULAR_SAMPLE, 'hacer', 'decir', 'ver', 'escribir', 'volver'],
+      tenses: ['subjPresent'],
+      verbIds: [
+        'craindre',
+        'venir',
+        'être',
+        'avoir',
+        'croire',
+        'penser',
+        'sembler',
+        'plaire',
+        'aimer',
+        'souhaiter',
+      ],
+      featured: ['craindre', 'venir', 'croire'],
     },
   },
   {
-    id: 'condicionales',
-    block: 'subjuntivo',
-    title: 'Условные предложения',
-    summary: 'Si tuviera dinero, viajaría',
+    id: 'subj-conjonctions',
+    block: 'subjonctif',
+    title: 'Союзы, требующие subjonctif',
+    summary: 'Закрытый список — учить как формулы',
     sections: [
       {
         body:
-          'Здесь сослагательное наклонение и условное время работают в паре. Конструкция зависит ' +
-          'от того, насколько условие реально.',
+          'Ряд союзов требует сослагательного автоматически, независимо от смысла. ' +
+          'Здесь думать не нужно — достаточно узнать союз.',
+        table: { verbId: 'pouvoir', tense: 'subjPresent', caption: 'pour que je puisse' },
       },
       {
-        heading: 'Реальное условие',
-        body:
-          'Обычный индикатив, никакого сослагательного: Si tengo tiempo, voy contigo — ' +
-          '«если будет время, пойду с тобой». Речь о том, что вполне может случиться.',
+        heading: 'Список',
+        bullets: [
+          'цель: pour que, afin que',
+          'время: avant que, jusqu’à ce que, en attendant que',
+          'уступка: bien que, quoique',
+          'условие: à condition que, à moins que, pourvu que',
+          'отрицание: sans que',
+        ],
       },
       {
-        heading: 'Маловероятное или нереальное',
+        heading: 'Опасная пара',
         body:
-          'Si + imperfecto de subjuntivo, а во второй части — condicional. ' +
-          'Si tuviera dinero, viajaría a España — «если бы у меня были деньги, я бы поехал». ' +
-          'Денег нет, поездки не будет.',
-      },
-      {
-        heading: 'Упущенное в прошлом',
-        body:
-          'Si + pluscuamperfecto de subjuntivo и condicional perfecto. ' +
-          'Si hubiera sabido, habría venido — «если бы я знал, я бы пришёл». Не знал и не пришёл.',
-      },
-      {
-        heading: 'Одно железное правило',
-        body:
-          'После si в значении «если» никогда не ставится presente de subjuntivo. ' +
-          'Si tengas — ошибка. Только индикатив или прошедшее сослагательное.',
+          'Avant que требует subjonctif, а après que — изъявительного: ' +
+          'avant qu’il parte, но après qu’il est parti.',
+        table: { verbId: 'partir', tense: 'subjPresent', caption: 'avant qu’il parte' },
       },
     ],
     practice: {
-      tenses: ['subjImperfectoRa', 'condicional', 'subjPluscuamRa', 'condicionalPerfecto'],
-      verbIds: ['tener', 'saber', 'poder', 'ser', 'estar', 'ir', 'hacer', 'venir', 'hablar', 'vivir'],
+      tenses: ['subjPresent'],
+      verbIds: [
+        'partir',
+        'finir',
+        'venir',
+        'faire',
+        'être',
+        'avoir',
+        'pouvoir',
+        'savoir',
+        'attendre',
+        'comprendre',
+      ],
+      featured: ['pouvoir', 'partir', 'faire'],
+    },
+  },
+  {
+    id: 'subj-passe',
+    block: 'subjonctif',
+    title: 'Subjonctif passé',
+    summary: 'Сослагательное для уже завершённого действия',
+    sections: [
+      {
+        body:
+          'Вспомогательный глагол ставится в subjonctif présent, дальше идёт причастие. ' +
+          'Употребляется там же, где и настоящее сослагательное, но для действия, которое уже произошло.',
+        table: { verbId: 'parler', tense: 'subjPasse', caption: 'que j’aie parlé' },
+      },
+      {
+        heading: 'Сравнение',
+        bullets: [
+          'je suis content qu’il vienne — рад, что придёт',
+          'je suis content qu’il soit venu — рад, что пришёл',
+        ],
+      },
+      {
+        heading: 'Вспомогательный выбирается по общему правилу',
+        body: 'Глаголы списка être и здесь берут être — с согласованием причастия.',
+        table: { verbId: 'partir', tense: 'subjPasse', caption: 'que je sois parti(e)' },
+      },
+    ],
+    practice: {
+      tenses: ['subjPasse'],
+      verbIds: [
+        'parler',
+        'finir',
+        'partir',
+        'venir',
+        'faire',
+        'arriver',
+        'sortir',
+        'prendre',
+        'dire',
+        'voir',
+      ],
+      featured: ['parler', 'partir', 'faire'],
     },
   },
 
   // ── Повелительное наклонение ─────────────────────────────────────────────
   {
-    id: 'imperativo-afirmativo',
-    block: 'imperativo',
-    title: 'Императив утвердительный',
-    summary: 'habla, hable, hablemos, hablad, hablen',
+    id: 'imperatif-present',
+    block: 'imperatif',
+    title: 'Impératif présent',
+    summary: 'Три формы, местоимение опускается',
     sections: [
       {
         body:
-          'Повелительное наклонение — единственное, где нет формы «я»: приказать самому себе нельзя. ' +
-          'Остальные пять форм собираются из того, что вы уже знаете.',
+          'Императив существует только для tu, nous и vous. Формы берутся из настоящего ' +
+          'времени, но подлежащее не пишется: parle, parlons, parlez.',
+        table: { verbId: 'parler', tense: 'imperatifPresent', caption: 'parler — первая группа' },
       },
       {
-        heading: 'Откуда берётся каждая форма',
-        bullets: [
-          'tú — третье лицо единственного числа настоящего времени: habla, come, vive',
-          'usted, ustedes, nosotros — из сослагательного: hable, hablen, hablemos',
-          'vosotros — инфинитив, где -r заменяется на -d: hablad, comed, vivid',
-        ],
-      },
-      {
-        table: { verbId: 'hablar', tense: 'imperativoAfirmativo', caption: 'hablar — говори' },
-      },
-      {
-        heading: 'Восемь коротких исключений',
+        heading: 'Первая группа теряет -s',
         body:
-          'Только у формы tú есть настоящие исключения, и все они односложные: ' +
-          'decir → di, hacer → haz, ir → ve, poner → pon, salir → sal, ser → sé, tener → ten, venir → ven.',
-        table: { verbId: 'tener', tense: 'imperativoAfirmativo', caption: 'tener — имей' },
+          'В форме tu у глаголов на -er конечное -s исчезает: tu parles, но parle ! ' +
+          'То же касается ouvrir и его семейства: ouvre !',
+        table: { verbId: 'finir', tense: 'imperatifPresent', caption: 'finir — -s сохраняется' },
       },
       {
+        heading: 'Отрицание отдельного спряжения не требует',
         body:
-          'Приставочные наследуют их с ударением: componer → compón, detener → detén, prevenir → prevén. ' +
-          'Форма vosotros при этом всегда правильная, без исключений вообще.',
-      },
-      {
-        heading: 'Про vosotros и ustedes',
-        body:
-          'В Испании командуют через vosotros: abrid las ventanas. В Латинской Америке эта форма ' +
-          'не используется — там во множественном числе всегда ustedes: abran las ventanas. ' +
-          'Строка ustedes в таблице совпадает с ellos.',
-      },
-      {
-        heading: '«Давайте» проще сказать иначе',
-        body:
-          'Форма nosotros (hablemos, cantemos) звучит книжно. В живой речи вместо неё говорят ' +
-          'vamos a + инфинитив: vamos a cantar — «давайте споём», vamos a comer — «пойдём поедим». ' +
-          'Отрицание тоже через неё: no vamos a discutir. Единственное исключение — сам глагол ir, ' +
-          'где утвердительное «пойдём» так и будет vamos.',
+          'В отличие от испанского, французский обходится теми же формами: ' +
+          'ne parle pas, ne parlons pas. Отдельного отрицательного императива нет.',
       },
     ],
     practice: {
-      tenses: ['imperativoAfirmativo'],
-      verbIds: [...REGULAR_SAMPLE, 'tener', 'hacer', 'decir', 'ir', 'poner', 'salir', 'ser', 'venir'],
+      tenses: ['imperatifPresent'],
+      verbIds: [
+        'parler',
+        'finir',
+        'prendre',
+        'venir',
+        'faire',
+        'aller',
+        'partir',
+        'écouter',
+        'regarder',
+        'manger',
+        'ouvrir',
+        'attendre',
+      ],
+      featured: ['parler', 'finir', 'prendre'],
     },
   },
   {
-    id: 'imperativo-negativo',
-    block: 'imperativo',
-    title: 'Императив отрицательный',
-    summary: 'no hables — здесь всё из сослагательного',
+    id: 'imperatif-irreguliers',
+    block: 'imperatif',
+    title: 'Неправильный императив',
+    summary: 'Четыре глагола берут формы из subjonctif',
     sections: [
       {
         body:
-          'Отрицательный императив проще утвердительного: у него нет ни одного исключения. ' +
-          'Все формы без остатка берутся из presente de subjuntivo, к которому спереди ставится no.',
+          'être, avoir, savoir и vouloir образуют повелительное наклонение не от настоящего ' +
+          'времени, а от сослагательного.',
+        table: { verbId: 'être', tense: 'imperatifPresent', caption: 'être — sois, soyons, soyez' },
       },
       {
-        table: { verbId: 'hablar', tense: 'imperativoNegativo', caption: 'no hables' },
+        table: { verbId: 'avoir', tense: 'imperatifPresent', caption: 'avoir — aie, ayons, ayez' },
       },
       {
-        heading: 'Главная ловушка',
+        heading: 'savoir и vouloir',
         body:
-          'Форма tú в утвердительном и отрицательном императиве — разная. Habla, но no hables. ' +
-          'Ven, но no vengas. Sal, но no salgas. Отрицание не просто добавляется к команде: ' +
-          'вся форма меняется на сослагательную.',
-        table: { verbId: 'tener', tense: 'imperativoNegativo', caption: 'no tengas' },
+          'savoir даёт sache, sachons, sachez. У vouloir практически употребима только ' +
+          'форма veuillez — вежливое «будьте добры».',
+        table: {
+          verbId: 'savoir',
+          tense: 'imperatifPresent',
+          caption: 'savoir — sache, sachons, sachez',
+        },
       },
       {
+        heading: 'aller',
         body:
-          'Зато исключений здесь нет вовсе: di превращается в no digas, haz — в no hagas, ' +
-          've — в no vayas, строго по общему правилу.',
+          'Форма va теряет -s как глагол первой группы, но перед наречиями y и en ' +
+          'оно возвращается для благозвучия: vas-y.',
       },
     ],
     practice: {
-      tenses: ['imperativoNegativo', 'imperativoAfirmativo'],
-      verbIds: [...REGULAR_SAMPLE, 'tener', 'hacer', 'decir', 'ir', 'poner', 'salir', 'venir'],
+      tenses: ['imperatifPresent'],
+      verbIds: [
+        'être',
+        'avoir',
+        'savoir',
+        'vouloir',
+        'aller',
+        'faire',
+        'dire',
+        'venir',
+        'prendre',
+        'ouvrir',
+        'sortir',
+        'voir',
+      ],
+      featured: ['être', 'avoir', 'savoir'],
     },
   },
   {
-    id: 'voseo',
-    block: 'imperativo',
-    title: 'Voseo: формы vos',
-    summary: 'vos hablás, hablá — Аргентина и Центральная Америка',
+    id: 'imperatif-passe',
+    block: 'imperatif',
+    title: 'Impératif passé',
+    summary: 'Редкая форма для действия, завершённого к сроку',
     sections: [
       {
         body:
-          'В Аргентине, Уругвае, Парагвае и большей части Центральной Америки вместо tú говорят ' +
-          'vos. Это не просторечие, а норма для десятков миллионов носителей, и глагол при vos ' +
-          'меняется — но только в двух местах.',
+          'Вспомогательный глагол ставится в императив, дальше идёт причастие: ' +
+          'aie fini avant midi — «закончи до полудня».',
+        table: {
+          verbId: 'parler',
+          tense: 'imperatifPasse',
+          caption: 'aie parlé, ayons parlé, ayez parlé',
+        },
       },
       {
-        heading: 'Настоящее время',
-        bullets: [
-          '-ar: vos hablás (вместо hablas) — ударение уходит на окончание',
-          '-er: vos comés (вместо comes)',
-          '-ir: vos vivís (совпадает с формой vosotros)',
-          'ser: vos sos — единственное по-настоящему особое',
-        ],
-      },
-      {
+        heading: 'Когда встречается',
         body:
-          'Главное следствие ударения: чередования корня исчезают. Tú puedes, но vos podés. ' +
-          'Tú quieres, но vos querés. Tú duermes, но vos dormís. Ударение на окончании — ' +
-          'корень его не получает и не меняется.',
-        table: { verbId: 'poder', tense: 'presente', caption: 'tú puedes · vos podés' },
+          'Форма книжная и редкая. Она подчёркивает не само действие, а срок, ' +
+          'к которому оно должно быть завершено.',
       },
       {
-        heading: 'Утвердительный императив',
-        bullets: [
-          'Инфинитив без -r, ударение на последнем слоге: hablá, comé, viví',
-          'Никаких исключений: decir → decí, poner → poné, tener → tené, venir → vení',
-          'Сравните с tú: di, pon, ten, ven — там коротко, здесь наоборот',
-          'Единственное особое: ir → andá (от andar)',
-        ],
-        table: { verbId: 'decir', tense: 'imperativoAfirmativo', caption: 'tú: di · vos: decí' },
-      },
-      {
-        heading: 'Всё остальное — как у tú',
-        body:
-          'Прошедшее, будущее, условное, отрицательный императив и сослагательное при vos ' +
-          'берут обычные формы второго лица: vos hablabas, vos hablarás, no hables. ' +
-          'В Río de la Plata встречается и hablés в отрицательном императиве, но это ' +
-          'разговорный вариант.',
-      },
-      {
-        heading: 'Чего нет в приложении',
-        body:
-          'Таблицы и тесты построены на шести лицах без vos, поэтому его формы здесь только ' +
-          'в тексте урока. Тренировка ниже прогоняет формы tú и императив тех же глаголов — ' +
-          'именно с ними vos и стоит сравнивать.',
+        heading: 'Вспомогательный по общему правилу',
+        body: 'Глаголы списка être берут être: sois parti avant huit heures.',
       },
     ],
     practice: {
-      tenses: ['presente', 'imperativoAfirmativo'],
-      verbIds: ['hablar', 'comer', 'vivir', 'poder', 'querer', 'dormir', 'decir', 'poner', 'tener', 'venir', 'ser', 'ir'],
-      featured: ['hablar', 'comer', 'vivir', 'decir', 'tener', 'venir'],
+      tenses: ['imperatifPasse'],
+      verbIds: [
+        'parler',
+        'finir',
+        'partir',
+        'faire',
+        'terminer',
+        'arriver',
+        'venir',
+        'sortir',
+        'prendre',
+        'rentrer',
+        'manger',
+        'écrire',
+      ],
+      featured: ['parler', 'finir', 'partir'],
     },
   },
 
   // ── Книжные времена ──────────────────────────────────────────────────────
   {
-    id: 'tiempos-literarios',
-    block: 'literario',
-    title: 'Три редких времени',
-    summary: 'hube hablado, hablare, hubiere hablado',
+    id: 'litt-passe-simple',
+    block: 'litteraire',
+    title: 'Passé simple и passé antérieur',
+    summary: 'Времена письменного повествования',
     sections: [
       {
         body:
-          'В приложении есть все двадцать времён, и три из них вы почти не встретите в разговоре. ' +
-          'Их стоит уметь узнавать при чтении, но не нужно заставлять себя употреблять.',
+          'Passé simple выполняет ту же работу, что passé composé, но только на письме: ' +
+          'в романах, исторических текстах, сказках. В разговоре он не встречается вообще.',
+        table: { verbId: 'parler', tense: 'passeSimple', caption: 'parler — первая группа' },
       },
       {
-        heading: 'Pretérito anterior',
-        body:
-          'Indefinido глагола haber плюс причастие. Означает действие, случившееся ' +
-          'непосредственно перед другим прошедшим, и появляется только после apenas, en cuanto, ' +
-          'cuando, después de que в книжном повествовании: Apenas hubo terminado, se marchó. ' +
-          'В живой речи вместо него говорят обычное индефинидо: apenas terminó, se marchó.',
-        table: { verbId: 'hablar', tense: 'anterior', caption: 'hube hablado' },
+        heading: 'Три набора окончаний',
+        bullets: [
+          'на -a: глаголы первой группы (je parlai, il parla)',
+          'на -i: вторая группа и часть третьей (je finis, il prit)',
+          'на -u: другая часть третьей (je fus, il eut, il connut)',
+        ],
       },
       {
-        heading: 'Futuro de subjuntivo',
+        heading: 'Что нужно уметь на практике',
         body:
-          'Образуется от той же основы, что и imperfecto de subjuntivo — третье лицо ' +
-          'множественного числа индефинидо без -ron, — но с окончаниями -re, -res, -re, -remos, ' +
-          '-reis, -ren. Hablaron даёт hablare.',
-        table: { verbId: 'hablar', tense: 'subjFuturo', caption: 'hablare' },
+          'Активно образовывать passé simple почти никогда не требуется. Достаточно уверенно ' +
+          'узнавать формы третьего лица — именно они несут повествование.',
+        table: { verbId: 'être', tense: 'passeSimple', caption: 'être — je fus, il fut' },
       },
+      { table: { verbId: 'prendre', tense: 'passeSimple', caption: 'prendre — il prit' } },
       {
+        heading: 'Passé antérieur',
         body:
-          'Живёт оно в двух местах: в юридическом языке («el que infringiere esta norma…») ' +
-          'и в застывших поговорках. Их полезно знать целиком: sea lo que fuere — «будь что будет», ' +
-          'adonde fueres, haz lo que vieres — «в чужой монастырь со своим уставом не ходят». ' +
-          'В обычной речи вместо него давно используется presente de subjuntivo.',
-      },
-      {
-        heading: 'Futuro perfecto de subjuntivo',
-        body:
-          'Самое редкое время языка: hubiere плюс причастие. Встречается почти исключительно ' +
-          'в текстах законов и договоров. Достаточно узнавать его в лицо.',
-        table: { verbId: 'hablar', tense: 'subjFuturoPerfecto', caption: 'hubiere hablado' },
-      },
-      {
-        heading: 'Что с этим делать',
-        body:
-          'Прогоните тренировку пару раз, чтобы формы перестали выглядеть незнакомыми, ' +
-          'и возвращайтесь к ним, когда встретите в тексте. Тратить на них силы наравне ' +
-          'с индефинидо или сослагательным настоящим смысла нет.',
+          'Составная пара к passé simple: вспомогательный глагол в passé simple плюс причастие. ' +
+          'Встречается после союзов quand и dès que в книжном повествовании.',
+        table: { verbId: 'parler', tense: 'passeAnterieur', caption: 'quand il eut parlé…' },
       },
     ],
     practice: {
-      tenses: ['anterior', 'subjFuturo', 'subjFuturoPerfecto'],
-      verbIds: [...REGULAR_SAMPLE, 'ser', 'ir', 'ver', 'hacer', 'tener'],
-      featured: ['ser', 'ir', 'ver', 'hacer', 'tener', 'hablar'],
+      tenses: ['passeSimple', 'passeAnterieur'],
+      verbIds: [
+        'être',
+        'avoir',
+        'faire',
+        'aller',
+        'venir',
+        'voir',
+        'prendre',
+        'dire',
+        'parler',
+        'finir',
+        'naître',
+        'mourir',
+      ],
+      featured: ['être', 'avoir', 'prendre'],
+    },
+  },
+  {
+    id: 'litt-subjonctif-imparfait',
+    block: 'litteraire',
+    title: 'Книжный subjonctif',
+    summary: 'Imparfait и plus-que-parfait сослагательного',
+    sections: [
+      {
+        body:
+          'Два последних времени системы. В современном языке они вытеснены настоящим и ' +
+          'прошедшим сослагательным и сохраняются только в литературе.',
+        table: { verbId: 'être', tense: 'subjImparfait', caption: 'être — que je fusse' },
+      },
+      {
+        heading: 'Образование',
+        body:
+          'Основа берётся от passé simple, к ней добавляются окончания с удвоенной -ss-. ' +
+          'Третье лицо единственного числа получает циркумфлекс вместо -ss-.',
+        table: { verbId: 'parler', tense: 'subjImparfait', caption: 'parler — qu’il parlât' },
+      },
+      {
+        heading: 'Зачем это знать',
+        body:
+          'Узнавание форм вроде qu’il fût или qu’il eût нужно при чтении классики. ' +
+          'В собственной речи их место занимают que je sois и que j’aie.',
+      },
+      {
+        heading: 'Plus-que-parfait сослагательного',
+        body:
+          'Вспомогательный глагол в subjonctif imparfait плюс причастие. В литературе ' +
+          'иногда заменяет conditionnel passé — так называемое второе условное.',
+        table: { verbId: 'parler', tense: 'subjPlusQueParfait', caption: 'qu’il eût parlé' },
+      },
+    ],
+    practice: {
+      tenses: ['subjImparfait', 'subjPlusQueParfait'],
+      verbIds: [
+        'être',
+        'avoir',
+        'faire',
+        'parler',
+        'finir',
+        'venir',
+        'prendre',
+        'voir',
+        'aller',
+        'savoir',
+      ],
+      featured: ['être', 'avoir', 'parler'],
     },
   },
 ];
 
-const LESSON_BY_ID = new Map(LESSONS.map(lesson => [lesson.id, lesson]));
-
 export function getLessonById(id: string): Lesson | undefined {
-  return LESSON_BY_ID.get(id);
+  return LESSONS.find(lesson => lesson.id === id);
 }
 
 export function lessonsByBlock(block: LessonBlock): Lesson[] {
   return LESSONS.filter(lesson => lesson.block === block);
 }
 
-/** Глаголы для тренировки по уроку: явный список либо подбор по признакам неправильности. */
 export function lessonPracticeVerbIds(lesson: Lesson): string[] {
   const { verbIds, types, limit, featured } = lesson.practice;
   if (verbIds?.length) return verbIds;
@@ -1792,8 +1796,7 @@ export function lessonPracticeVerbIds(lesson: Lesson): string[] {
     verb => verb.id,
   );
   // Ключевые глаголы идут первыми и входят в набор всегда — даже если их
-  // неправильность размечена своим типом (poder — классический o → ue, но
-  // в метаданных у него отдельный признак) или их отсекает limit.
+  // неправильность размечена своим типом или их отсекает limit.
   const keys = (featured ?? []).filter(id => getVerbById(id));
   const ordered = [...keys, ...matched.filter(id => !keys.includes(id))];
   return limit ? ordered.slice(0, Math.max(limit, keys.length)) : ordered;

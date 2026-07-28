@@ -64,7 +64,7 @@ export function searchVerbs(query: string): Verb[] {
   }
 
   matches.sort((left, right) =>
-    left.rank !== right.rank ? left.rank - right.rank : left.infinitive.localeCompare(right.infinitive, 'es'),
+    left.rank !== right.rank ? left.rank - right.rank : left.infinitive.localeCompare(right.infinitive, 'fr'),
   );
   return matches.map(match => match.verb);
 }

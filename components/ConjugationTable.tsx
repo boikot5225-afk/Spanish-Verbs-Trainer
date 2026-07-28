@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useColors } from '@/hooks/useColors';
 import type { Tense, Verb } from '../data/types';
-import { personLabels, PERSONS } from '../data/types';
+import { displayPronoun, PERSONS } from '../data/types';
 
 interface Props {
   verb: Verb;
@@ -12,8 +12,7 @@ interface Props {
 export default function ConjugationTable({ verb, tense }: Props) {
   const colors = useColors();
   const forms = verb.conjugations[tense];
-  const labels = personLabels(tense);
-  // Лица без формы (например, «yo» в императиве) в таблице не показываем.
+  // Лица без формы (например, «je» в императиве) в таблице не показываем.
   const visible = PERSONS.filter((_, idx) => !forms[idx]?.absent);
 
   return (
@@ -32,7 +31,7 @@ export default function ConjugationTable({ verb, tense }: Props) {
             ]}
           >
             <Text style={[styles.pronoun, { color: colors.mutedForeground }]}>
-              {labels[person]}
+              {displayPronoun(person, tense, form.form)}
             </Text>
             <View style={styles.formContainer}>
               <Text

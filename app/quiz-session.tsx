@@ -293,7 +293,7 @@ export default function QuizSession() {
         // Новое поле на каждый вопрос. Раньше EditText переиспользовался: React
         // затирал его текст в '', а composing-сессия клавиатуры оставалась от
         // прошлого вопроса — в подсказках висело «recibimos», когда на экране
-        // уже был vivir, и набранное до поля не доходило.
+        // уже был vivre, и набранное до поля не доходило.
         key={`answer-${currentIndex}`}
         ref={inputRef}
         autoFocus

@@ -1,1 +1,919 @@
-{"acer":{"indicative present":{"1s":"ago"},"indicative preterite":{"1s":"ice","1p":"icimos","2s":"iciste","2p":"icisteis","3s":"izo","3p":"icieron"},"indicative future":{"1s":"aré","1p":"aremos","2s":"arás","2p":"aréis","3s":"ará","3p":"arán"},"indicative conditional":{"1s":"aría","1p":"aríamos","2s":"arías","2p":"aríais","3s":"aría","3p":"arían"},"imperative affirmative":{"2s":"az"}},"caber":{"indicative present":{"1s":"quepo"}},"dar":{"indicative present":{"1s":"doy","2p":"dais"},"indicative preterite":{"1s":"di","1p":"dimos","2s":"diste","2p":"disteis","3s":"dio","3p":"dieron"},"subjunctive present":{"1s":"dé","2p":"deis","3s":"dé"}},"decir":{"indicative present":{"1s":"digo","2s":"dices","3s":"dice","3p":"dicen"},"indicative preterite":{"1s":"dije","1p":"dijimos","2s":"dijiste","2p":"dijisteis","3s":"dijo","3p":"dijeron"},"indicative future":{"1s":"diré","1p":"diremos","2s":"dirás","2p":"diréis","3s":"dirá","3p":"dirán"},"indicative conditional":{"1s":"diría","1p":"diríamos","2s":"dirías","2p":"diríais","3s":"diría","3p":"dirían"},"imperative affirmative":{"2s":"di"}},"ecir":{"indicative present":{"1s":"igo","2s":"ices","3s":"ice","3p":"icen"},"indicative preterite":{"1s":"ije","1p":"ijimos","2s":"ijiste","2p":"ijisteis","3s":"ijo","3p":"ijeron"}},"estar":{"indicative present":{"1s":"estoy","2s":"estás","3s":"está","3p":"están"},"subjunctive present":{"1s":"esté","2s":"estés","3s":"esté","3p":"estén"}},"ever":{"indicative present":{"1s":"eveo","2s":"evés","3s":"evé","3p":"evén"},"indicative imperfect":{"1s":"eveía","1p":"eveíamos","2s":"eveías","2p":"eveíais","3s":"eveía","3p":"eveían"}},"graduarse":{"imperative affirmative":{"2s":"gradúa","3s":"gradúe","3p":"gradúe"}},"haber":{"indicative present":{"1s":"he","1p":"hemos","2s":"has","3s":"ha","3p":"han"},"indicative preterite":{"1s":"hube","1p":"hubimos","2s":"hubiste","2p":"hubisteis","3s":"hubo","3p":"hubieron"},"subjunctive present":{"1s":"haya","1p":"hayamos","2s":"hayas","2p":"hayáis","3s":"haya","3p":"hayan"},"imperative affirmative":{"2s":"he","2p":"habed"}},"ir":{"indicative present":{"1s":"voy","1p":"vamos","2s":"vas","2p":"vais","3s":"va","3p":"van"},"indicative preterite":{"1s":"fui","1p":"fuimos","2s":"fuiste","2p":"fuisteis","3s":"fue","3p":"fueron"},"indicative imperfect":{"1s":"iba","1p":"íbamos","2s":"ibas","2p":"ibais","3s":"iba","3p":"iban"},"subjunctive present":{"1s":"vaya","1p":"vayamos","2s":"vayas","2p":"vayáis","3s":"vaya","3p":"vayan"},"imperative affirmative":{"1p":"vamos","2s":"ve","2p":"id"}},"irse":{"imperative affirmative":{"1p":"vámo","2s":"ve","2p":"id"}},"moverse":{"imperative affirmative":{"2p":"mo"}},"poder":{"indicative present":{"1s":"puedo","2s":"puedes","3s":"puede","3p":"pueden"},"indicative preterite":{"1s":"pude","1p":"pudimos","2s":"pudiste","2p":"pudisteis","3s":"pudo","3p":"pudieron"}},"poner":{"indicative preterite":{"1s":"puse","1p":"pusimos","2s":"pusiste","2p":"pusisteis","3s":"puso","3p":"pusieron"},"imperative affirmative":{"2s":"pon"}},"querer":{"indicative present":{"1s":"quiero","2s":"quieres","3s":"quiere","3p":"quieren"},"indicative preterite":{"1s":"quise","1p":"quisimos","2s":"quisiste","2p":"quisisteis","3s":"quiso","3p":"quisieron"}},"saber":{"indicative present":{"1s":"sé"},"subjunctive present":{"1s":"sepa","1p":"sepamos","2s":"sepas","2p":"sepáis","3s":"sepa","3p":"sepan"}},"salir":{"imperative affirmative":{"2s":"sal"}},"ser":{"indicative present":{"1s":"soy","1p":"somos","2s":"eres","2p":"sois","3s":"es","3p":"son"},"indicative preterite":{"1s":"fui","1p":"fuimos","2s":"fuiste","2p":"fuisteis","3s":"fue","3p":"fueron"},"indicative imperfect":{"1s":"era","1p":"éramos","2s":"eras","2p":"erais","3s":"era","3p":"eran"},"subjunctive present":{"1s":"sea","1p":"seamos","2s":"seas","2p":"seáis","3s":"sea","3p":"sean"},"imperative affirmative":{"2s":"sé"}},"tener":{"indicative present":{"2s":"tienes","3s":"tiene","3p":"tienen"},"imperative affirmative":{"2s":"ten"}},"venir":{"indicative present":{"2s":"vienes","3s":"viene","3p":"vienen"},"indicative preterite":{"1s":"vine","1p":"vinimos","2s":"viniste","2p":"vinisteis","3s":"vino","3p":"vinieron"},"imperative affirmative":{"2s":"ven"}},"ver":{"indicative present":{"1s":"veo","2p":"veis","3p":"ven"},"indicative preterite":{"1s":"vi","3s":"vio"},"indicative imperfect":{"1s":"veía","1p":"veíamos","2s":"veías","2p":"veíais","3s":"veía","3p":"veían"}},"reír":{"indicative present":{"1s":"río","1p":"reímos","2s":"ríes","3s":"ríe","3p":"ríen"},"indicative preterite":{"1p":"reímos","2s":"reíste","2p":"reísteis","3s":"rio","3p":"rieron"},"imperative affirmative":{"2p":"re"}},"eír":{"indicative present":{"1s":"ío","1p":"eímos","2s":"íes","3s":"íe","3p":"íen"},"indicative preterite":{"1p":"eímos","2s":"eíste","2p":"eísteis","3s":"ió","3p":"ieron"},"imperative affirmative":{"2p":"eí"}},"oír":{"indicative present":{"1p":"oímos"}}}
+{
+  "être": {
+    "presentOverride": [
+      "suis",
+      "es",
+      "est",
+      "sommes",
+      "êtes",
+      "sont"
+    ],
+    "imp": "ét",
+    "ps": "f",
+    "psType": "u",
+    "fut": "ser",
+    "subjOverride": [
+      "sois",
+      "sois",
+      "soit",
+      "soyons",
+      "soyez",
+      "soient"
+    ],
+    "imperativeOverride": [
+      "sois",
+      "soyons",
+      "soyez"
+    ],
+    "participePasse": "été",
+    "participePresent": "étant",
+    "note": "Полностью супплетивный: основы sui-, ét-, f-, ser-, soi- не выводятся друг из друга."
+  },
+  "avoir": {
+    "presentOverride": [
+      "ai",
+      "as",
+      "a",
+      "avons",
+      "avez",
+      "ont"
+    ],
+    "imp": "av",
+    "ps": "e",
+    "psType": "u",
+    "fut": "aur",
+    "subjOverride": [
+      "aie",
+      "aies",
+      "ait",
+      "ayons",
+      "ayez",
+      "aient"
+    ],
+    "imperativeOverride": [
+      "aie",
+      "ayons",
+      "ayez"
+    ],
+    "participePasse": "eu",
+    "participePresent": "ayant"
+  },
+  "aller": {
+    "presentOverride": [
+      "vais",
+      "vas",
+      "va",
+      "allons",
+      "allez",
+      "vont"
+    ],
+    "imp": "all",
+    "ps": "all",
+    "psType": "a",
+    "fut": "ir",
+    "subjOverride": [
+      "aille",
+      "ailles",
+      "aille",
+      "allions",
+      "alliez",
+      "aillent"
+    ],
+    "imperativeOverride": [
+      "va",
+      "allons",
+      "allez"
+    ],
+    "participePasse": "allé",
+    "participePresent": "allant",
+    "note": "Настоящее берёт основу v-, будущее — ir-, сослагательное — aill-."
+  },
+  "faire": {
+    "presentOverride": [
+      "fais",
+      "fais",
+      "fait",
+      "faisons",
+      "faites",
+      "font"
+    ],
+    "imp": "fais",
+    "ps": "f",
+    "psType": "i",
+    "fut": "fer",
+    "subjOverride": [
+      "fasse",
+      "fasses",
+      "fasse",
+      "fassions",
+      "fassiez",
+      "fassent"
+    ],
+    "participePasse": "fait",
+    "participePresent": "faisant",
+    "note": "vous faites — одна из трёх форм на -tes наряду с êtes и dites."
+  },
+  "dire": {
+    "presentOverride": [
+      "dis",
+      "dis",
+      "dit",
+      "disons",
+      "dites",
+      "disent"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      "t"
+    ],
+    "imp": "dis",
+    "ps": "d",
+    "psType": "i",
+    "fut": "dir",
+    "sub1": "dis",
+    "sub2": "dis",
+    "participePasse": "dit",
+    "participePresent": "disant"
+  },
+  "savoir": {
+    "presentOverride": [
+      "sais",
+      "sais",
+      "sait",
+      "savons",
+      "savez",
+      "savent"
+    ],
+    "imp": "sav",
+    "ps": "s",
+    "psType": "u",
+    "fut": "saur",
+    "subjOverride": [
+      "sache",
+      "saches",
+      "sache",
+      "sachions",
+      "sachiez",
+      "sachent"
+    ],
+    "imperativeOverride": [
+      "sache",
+      "sachons",
+      "sachez"
+    ],
+    "participePasse": "su",
+    "participePresent": "sachant"
+  },
+  "pouvoir": {
+    "presentOverride": [
+      "peux",
+      "peux",
+      "peut",
+      "pouvons",
+      "pouvez",
+      "peuvent"
+    ],
+    "imp": "pouv",
+    "ps": "p",
+    "psType": "u",
+    "fut": "pourr",
+    "subjOverride": [
+      "puisse",
+      "puisses",
+      "puisse",
+      "puissions",
+      "puissiez",
+      "puissent"
+    ],
+    "imperativeOverride": [
+      "",
+      "",
+      ""
+    ],
+    "participePasse": "pu",
+    "participePresent": "pouvant",
+    "note": "Императива нет. Единственное число оканчивается на -x: peux, peux, peut."
+  },
+  "vouloir": {
+    "presentOverride": [
+      "veux",
+      "veux",
+      "veut",
+      "voulons",
+      "voulez",
+      "veulent"
+    ],
+    "imp": "voul",
+    "ps": "voul",
+    "psType": "u",
+    "fut": "voudr",
+    "subjOverride": [
+      "veuille",
+      "veuilles",
+      "veuille",
+      "voulions",
+      "vouliez",
+      "veuillent"
+    ],
+    "imperativeOverride": [
+      "veuille",
+      "veuillons",
+      "veuillez"
+    ],
+    "participePasse": "voulu",
+    "participePresent": "voulant"
+  },
+  "valoir": {
+    "presentOverride": [
+      "vaux",
+      "vaux",
+      "vaut",
+      "valons",
+      "valez",
+      "valent"
+    ],
+    "imp": "val",
+    "ps": "val",
+    "psType": "u",
+    "fut": "vaudr",
+    "subjOverride": [
+      "vaille",
+      "vailles",
+      "vaille",
+      "valions",
+      "valiez",
+      "vaillent"
+    ],
+    "participePasse": "valu",
+    "participePresent": "valant"
+  },
+  "devoir": {
+    "presentOverride": [
+      "dois",
+      "dois",
+      "doit",
+      "devons",
+      "devez",
+      "doivent"
+    ],
+    "imp": "dev",
+    "ps": "d",
+    "psType": "u",
+    "fut": "devr",
+    "sub1": "doiv",
+    "sub2": "dev",
+    "participePasse": "dû",
+    "participePresent": "devant",
+    "note": "Причастие мужского рода пишется с циркумфлексом (dû), женского — без него (due)."
+  },
+  "voir": {
+    "presentOverride": [
+      "vois",
+      "vois",
+      "voit",
+      "voyons",
+      "voyez",
+      "voient"
+    ],
+    "imp": "voy",
+    "ps": "v",
+    "psType": "i",
+    "fut": "verr",
+    "sub1": "voi",
+    "sub2": "voy",
+    "participePasse": "vu",
+    "participePresent": "voyant"
+  },
+  "boire": {
+    "presentOverride": [
+      "bois",
+      "bois",
+      "boit",
+      "buvons",
+      "buvez",
+      "boivent"
+    ],
+    "imp": "buv",
+    "ps": "b",
+    "psType": "u",
+    "fut": "boir",
+    "sub1": "boiv",
+    "sub2": "buv",
+    "participePasse": "bu",
+    "participePresent": "buvant",
+    "note": "Три основы настоящего времени: boi-, buv-, boiv-."
+  },
+  "croire": {
+    "presentOverride": [
+      "crois",
+      "crois",
+      "croit",
+      "croyons",
+      "croyez",
+      "croient"
+    ],
+    "imp": "croy",
+    "ps": "cr",
+    "psType": "u",
+    "fut": "croir",
+    "sub1": "croi",
+    "sub2": "croy",
+    "participePasse": "cru",
+    "participePresent": "croyant"
+  },
+  "falloir": {
+    "presentOverride": [
+      "faut",
+      "faut",
+      "faut",
+      "faut",
+      "faut",
+      "faut"
+    ],
+    "imp": "fall",
+    "ps": "fall",
+    "psType": "u",
+    "fut": "faudr",
+    "subjOverride": [
+      "faille",
+      "faille",
+      "faille",
+      "faille",
+      "faille",
+      "faille"
+    ],
+    "participePasse": "fallu",
+    "participePresent": "—",
+    "impersonal": true,
+    "note": "Безличный: существует только форма 3-го лица единственного числа."
+  },
+  "pleuvoir": {
+    "presentOverride": [
+      "pleut",
+      "pleut",
+      "pleut",
+      "pleut",
+      "pleut",
+      "pleut"
+    ],
+    "imp": "pleuv",
+    "ps": "pl",
+    "psType": "u",
+    "fut": "pleuvr",
+    "subjOverride": [
+      "pleuve",
+      "pleuve",
+      "pleuve",
+      "pleuve",
+      "pleuve",
+      "pleuve"
+    ],
+    "participePasse": "plu",
+    "participePresent": "pleuvant",
+    "impersonal": true
+  },
+  "courir": {
+    "presentOverride": [
+      "cours",
+      "cours",
+      "court",
+      "courons",
+      "courez",
+      "courent"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      "t"
+    ],
+    "imp": "cour",
+    "ps": "cour",
+    "psType": "u",
+    "fut": "courr",
+    "sub1": "cour",
+    "sub2": "cour",
+    "participePasse": "couru",
+    "participePresent": "courant",
+    "note": "Будущее с удвоенным -rr-: je courrai."
+  },
+  "mourir": {
+    "presentOverride": [
+      "meurs",
+      "meurs",
+      "meurt",
+      "mourons",
+      "mourez",
+      "meurent"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      "t"
+    ],
+    "imp": "mour",
+    "ps": "mour",
+    "psType": "u",
+    "fut": "mourr",
+    "sub1": "meur",
+    "sub2": "mour",
+    "participePasse": "mort",
+    "participePresent": "mourant",
+    "note": "Спрягается с être: il est mort, elle est morte."
+  },
+  "cueillir": {
+    "presentOverride": [
+      "cueille",
+      "cueilles",
+      "cueille",
+      "cueillons",
+      "cueillez",
+      "cueillent"
+    ],
+    "presEndings": [
+      "e",
+      "es",
+      "e"
+    ],
+    "imp": "cueill",
+    "ps": "cueill",
+    "psType": "i",
+    "fut": "cueiller",
+    "sub1": "cueill",
+    "sub2": "cueill",
+    "participePasse": "cueilli",
+    "participePresent": "cueillant",
+    "note": "В настоящем времени ведёт себя как глагол первой группы."
+  },
+  "fuir": {
+    "presentOverride": [
+      "fuis",
+      "fuis",
+      "fuit",
+      "fuyons",
+      "fuyez",
+      "fuient"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      "t"
+    ],
+    "imp": "fuy",
+    "ps": "fu",
+    "psType": "i",
+    "fut": "fuir",
+    "sub1": "fui",
+    "sub2": "fuy",
+    "participePasse": "fui",
+    "participePresent": "fuyant"
+  },
+  "suivre": {
+    "presentOverride": [
+      "suis",
+      "suis",
+      "suit",
+      "suivons",
+      "suivez",
+      "suivent"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      "t"
+    ],
+    "imp": "suiv",
+    "ps": "suiv",
+    "psType": "i",
+    "fut": "suivr",
+    "sub1": "suiv",
+    "sub2": "suiv",
+    "participePasse": "suivi",
+    "participePresent": "suivant",
+    "note": "Форма je suis совпадает с глаголом être — различаются только по контексту."
+  },
+  "vivre": {
+    "presentOverride": [
+      "vis",
+      "vis",
+      "vit",
+      "vivons",
+      "vivez",
+      "vivent"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      "t"
+    ],
+    "imp": "viv",
+    "ps": "véc",
+    "psType": "u",
+    "fut": "vivr",
+    "sub1": "viv",
+    "sub2": "viv",
+    "participePasse": "vécu",
+    "participePresent": "vivant"
+  },
+  "écrire": {
+    "presentOverride": [
+      "écris",
+      "écris",
+      "écrit",
+      "écrivons",
+      "écrivez",
+      "écrivent"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      "t"
+    ],
+    "imp": "écriv",
+    "ps": "écriv",
+    "psType": "i",
+    "fut": "écrir",
+    "sub1": "écriv",
+    "sub2": "écriv",
+    "participePasse": "écrit",
+    "participePresent": "écrivant"
+  },
+  "décrire": {
+    "presentOverride": [
+      "décris",
+      "décris",
+      "décrit",
+      "décrivons",
+      "décrivez",
+      "décrivent"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      "t"
+    ],
+    "imp": "décriv",
+    "ps": "décriv",
+    "psType": "i",
+    "fut": "décrir",
+    "sub1": "décriv",
+    "sub2": "décriv",
+    "participePasse": "décrit",
+    "participePresent": "décrivant"
+  },
+  "inscrire": {
+    "presentOverride": [
+      "inscris",
+      "inscris",
+      "inscrit",
+      "inscrivons",
+      "inscrivez",
+      "inscrivent"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      "t"
+    ],
+    "imp": "inscriv",
+    "ps": "inscriv",
+    "psType": "i",
+    "fut": "inscrir",
+    "sub1": "inscriv",
+    "sub2": "inscriv",
+    "participePasse": "inscrit",
+    "participePresent": "inscrivant"
+  },
+  "lire": {
+    "presentOverride": [
+      "lis",
+      "lis",
+      "lit",
+      "lisons",
+      "lisez",
+      "lisent"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      "t"
+    ],
+    "imp": "lis",
+    "ps": "l",
+    "psType": "u",
+    "fut": "lir",
+    "sub1": "lis",
+    "sub2": "lis",
+    "participePasse": "lu",
+    "participePresent": "lisant"
+  },
+  "élire": {
+    "presentOverride": [
+      "élis",
+      "élis",
+      "élit",
+      "élisons",
+      "élisez",
+      "élisent"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      "t"
+    ],
+    "imp": "élis",
+    "ps": "él",
+    "psType": "u",
+    "fut": "élir",
+    "sub1": "élis",
+    "sub2": "élis",
+    "participePasse": "élu",
+    "participePresent": "élisant"
+  },
+  "rire": {
+    "presentOverride": [
+      "ris",
+      "ris",
+      "rit",
+      "rions",
+      "riez",
+      "rient"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      "t"
+    ],
+    "imp": "ri",
+    "ps": "r",
+    "psType": "i",
+    "fut": "rir",
+    "sub1": "ri",
+    "sub2": "ri",
+    "participePasse": "ri",
+    "participePresent": "riant"
+  },
+  "sourire": {
+    "presentOverride": [
+      "souris",
+      "souris",
+      "sourit",
+      "sourions",
+      "souriez",
+      "sourient"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      "t"
+    ],
+    "imp": "souri",
+    "ps": "sour",
+    "psType": "i",
+    "fut": "sourir",
+    "sub1": "souri",
+    "sub2": "souri",
+    "participePasse": "souri",
+    "participePresent": "souriant"
+  },
+  "plaire": {
+    "presentOverride": [
+      "plais",
+      "plais",
+      "plaît",
+      "plaisons",
+      "plaisez",
+      "plaisent"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      "t"
+    ],
+    "imp": "plais",
+    "ps": "pl",
+    "psType": "u",
+    "fut": "plair",
+    "sub1": "plais",
+    "sub2": "plais",
+    "participePasse": "plu",
+    "participePresent": "plaisant"
+  },
+  "taire": {
+    "presentOverride": [
+      "tais",
+      "tais",
+      "tait",
+      "taisons",
+      "taisez",
+      "taisent"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      "t"
+    ],
+    "imp": "tais",
+    "ps": "t",
+    "psType": "u",
+    "fut": "tair",
+    "sub1": "tais",
+    "sub2": "tais",
+    "participePasse": "tu",
+    "participePresent": "taisant"
+  },
+  "naître": {
+    "presentOverride": [
+      "nais",
+      "nais",
+      "naît",
+      "naissons",
+      "naissez",
+      "naissent"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      "t"
+    ],
+    "imp": "naiss",
+    "ps": "naqu",
+    "psType": "i",
+    "fut": "naîtr",
+    "sub1": "naiss",
+    "sub2": "naiss",
+    "participePasse": "né",
+    "participePresent": "naissant",
+    "note": "Спрягается с être: je suis né(e)."
+  },
+  "vaincre": {
+    "presentOverride": [
+      "vaincs",
+      "vaincs",
+      "vainc",
+      "vainquons",
+      "vainquez",
+      "vainquent"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      ""
+    ],
+    "imp": "vainqu",
+    "ps": "vainqu",
+    "psType": "i",
+    "fut": "vaincr",
+    "sub1": "vainqu",
+    "sub2": "vainqu",
+    "participePasse": "vaincu",
+    "participePresent": "vainquant",
+    "note": "Единственный глагол с окончанием -cs в 1-м и 2-м лице единственного числа."
+  },
+  "convaincre": {
+    "presentOverride": [
+      "convaincs",
+      "convaincs",
+      "convainc",
+      "convainquons",
+      "convainquez",
+      "convainquent"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      ""
+    ],
+    "imp": "convainqu",
+    "ps": "convainqu",
+    "psType": "i",
+    "fut": "convaincr",
+    "sub1": "convainqu",
+    "sub2": "convainqu",
+    "participePasse": "convaincu",
+    "participePresent": "convainquant"
+  },
+  "conclure": {
+    "presentOverride": [
+      "conclus",
+      "conclus",
+      "conclut",
+      "concluons",
+      "concluez",
+      "concluent"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      "t"
+    ],
+    "imp": "conclu",
+    "ps": "concl",
+    "psType": "u",
+    "fut": "conclur",
+    "sub1": "conclu",
+    "sub2": "conclu",
+    "participePasse": "conclu",
+    "participePresent": "concluant"
+  },
+  "résoudre": {
+    "presentOverride": [
+      "résous",
+      "résous",
+      "résout",
+      "résolvons",
+      "résolvez",
+      "résolvent"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      "t"
+    ],
+    "imp": "résolv",
+    "ps": "résol",
+    "psType": "u",
+    "fut": "résoudr",
+    "sub1": "résolv",
+    "sub2": "résolv",
+    "participePasse": "résolu",
+    "participePresent": "résolvant"
+  },
+  "coudre": {
+    "presentOverride": [
+      "couds",
+      "couds",
+      "coud",
+      "cousons",
+      "cousez",
+      "cousent"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      ""
+    ],
+    "imp": "cous",
+    "ps": "cous",
+    "psType": "i",
+    "fut": "coudr",
+    "sub1": "cous",
+    "sub2": "cous",
+    "participePasse": "cousu",
+    "participePresent": "cousant"
+  },
+  "moudre": {
+    "presentOverride": [
+      "mouds",
+      "mouds",
+      "moud",
+      "moulons",
+      "moulez",
+      "moulent"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      ""
+    ],
+    "imp": "moul",
+    "ps": "moul",
+    "psType": "u",
+    "fut": "moudr",
+    "sub1": "moul",
+    "sub2": "moul",
+    "participePasse": "moulu",
+    "participePresent": "moulant"
+  },
+  "envoyer": {
+    "fut": "enverr",
+    "note": "Правильный глагол первой группы, но основа будущего супплетивна: enverr-."
+  },
+  "renvoyer": {
+    "fut": "renverr"
+  },
+  "asseoir": {
+    "presentOverride": [
+      "assieds",
+      "assieds",
+      "assied",
+      "asseyons",
+      "asseyez",
+      "asseyent"
+    ],
+    "presEndings": [
+      "s",
+      "s",
+      ""
+    ],
+    "imp": "assey",
+    "ps": "ass",
+    "psType": "i",
+    "fut": "assiér",
+    "sub1": "assey",
+    "sub2": "assey",
+    "participePasse": "assis",
+    "participePresent": "asseyant",
+    "note": "Есть вторая допустимая парадигма на -oi- (je m'assois)."
+  }
+}

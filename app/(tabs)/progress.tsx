@@ -26,8 +26,9 @@ import {
 import { VERBS } from '../../data/verbs';
 
 const FREQUENT = [
-  'ser', 'estar', 'tener', 'hacer', 'ir', 'poder', 'decir', 'ver', 'dar', 'saber',
-  'querer', 'venir', 'poner', 'salir', 'hablar', 'comer', 'vivir', 'pensar', 'volver', 'pedir',
+  'être', 'avoir', 'faire', 'dire', 'aller', 'voir', 'savoir', 'pouvoir', 'vouloir', 'venir',
+  'devoir', 'prendre', 'trouver', 'donner', 'parler', 'mettre', 'passer', 'regarder', 'croire', 'aimer',
+  'penser', 'demander', 'rester', 'tenir', 'porter', 'laisser', 'comprendre', 'connaître', 'partir', 'sortir',
 ].filter(id => VERBS.some(verb => verb.id === id));
 
 function daysAgo(iso: string): string {

@@ -1,18 +1,18 @@
 {
   "expo": {
-    "name": "Spanish Verbs Trainer",
-    "slug": "spanish-verbs-trainer",
-    "version": "1.13.0",
+    "name": "French Verbs Trainer",
+    "slug": "french-verbs-trainer",
+    "version": "1.0.0",
     "orientation": "portrait",
-    "scheme": "spanishverbstrainer",
+    "scheme": "frenchverbstrainer",
     "userInterfaceStyle": "light",
     "newArchEnabled": false,
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.bulat.spanishverbstrainer"
+      "bundleIdentifier": "com.bulat.frenchverbstrainer"
     },
     "android": {
-      "package": "com.bulat.spanishverbstrainer",
+      "package": "com.bulat.frenchverbstrainer",
       "versionCode": 14
     },
     "web": {},
