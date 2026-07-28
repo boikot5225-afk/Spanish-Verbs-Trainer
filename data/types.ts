@@ -17,7 +17,7 @@ export type Tense =
   | 'imperativoAfirmativo'
   | 'imperativoNegativo';
 
-export type TenseMood = 'indicativo' | 'subjuntivo' | 'imperativo';
+export type TenseMood = 'indicativo' | 'perifrasis' | 'subjuntivo' | 'imperativo';
 export type Person = 'yo' | 'tu' | 'el' | 'nosotros' | 'vosotros' | 'ellos';
 
 export interface TenseDefinition {
@@ -38,7 +38,7 @@ export const TENSE_DEFINITIONS: TenseDefinition[] = [
   },
   {
     id: 'presenteContinuo',
-    mood: 'indicativo',
+    mood: 'perifrasis',
     label: 'Presente continuo',
     fullLabel: 'Настоящее длительное · Presente continuo',
     description: 'estoy hablando — сейчас говорю',
@@ -52,7 +52,7 @@ export const TENSE_DEFINITIONS: TenseDefinition[] = [
   },
   {
     id: 'futuroProximo',
-    mood: 'indicativo',
+    mood: 'perifrasis',
     label: 'Futuro próximo',
     fullLabel: 'Ближайшее будущее · Futuro próximo',
     description: 'voy a hablar — собираюсь говорить',
@@ -159,6 +159,11 @@ export const TENSE_GROUPS: Array<{ mood: TenseMood; label: string; tenses: Tense
     tenses: TENSE_DEFINITIONS.filter(item => item.mood === 'indicativo').map(item => item.id),
   },
   {
+    mood: 'perifrasis',
+    label: 'Глагольные перифразы',
+    tenses: TENSE_DEFINITIONS.filter(item => item.mood === 'perifrasis').map(item => item.id),
+  },
+  {
     mood: 'subjuntivo',
     label: 'Сослагательное наклонение',
     tenses: TENSE_DEFINITIONS.filter(item => item.mood === 'subjuntivo').map(item => item.id),
@@ -261,6 +266,7 @@ export interface QuizSession {
   answers: QuizAnswer[];
   mode: QuizMode;
   startedAt: string;
+  courseLessonId?: string;
 }
 
 export interface QuizHistoryItem {
