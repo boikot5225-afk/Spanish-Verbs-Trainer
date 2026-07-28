@@ -85,6 +85,18 @@ jobs:
           cp android/app/build/outputs/apk/release/*.apk \
             "dist/French-Verbs-Trainer-v${{ steps.app.outputs.version }}.apk"
 
+      # Universal APK везёт все четыре архитектуры и весит ~62 МиБ.
+      # Отдельная сборка под arm64-v8a — ~28 МиБ, а на телефонах нужна только она.
+      - name: Build arm64-only APK
+        shell: bash
+        run: |
+          cd android
+          ./gradlew assembleRelease --no-daemon --console=plain \
+            -PreactNativeArchitectures=arm64-v8a
+          cd ..
+          cp android/app/build/outputs/apk/release/*.apk \
+            "dist/French-Verbs-Trainer-v${{ steps.app.outputs.version }}-arm64.apk"
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
@@ -100,6 +112,7 @@ jobs:
         run: |
           gh release create "build-${{ github.run_number }}" \
             "dist/French-Verbs-Trainer-v${{ steps.app.outputs.version }}.apk" \
+            "dist/French-Verbs-Trainer-v${{ steps.app.outputs.version }}-arm64.apk" \
             --title "French Verbs Trainer v${{ steps.app.outputs.version }} (build ${{ github.run_number }})" \
             --target "${{ github.sha }}" \
             --notes "Автосборка из ветки ${{ github.ref_name }}, коммит ${{ github.sha }}." 
