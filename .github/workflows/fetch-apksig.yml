@@ -1,0 +1,30 @@
+name: Fetch Android APK signer
+
+on:
+  pull_request:
+    branches:
+      - claude/spanish-app-french-adaptation-hb231s
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fetch-apksig:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Download official Android apksig library
+        run: |
+          curl --fail --location --retry 3 \
+            --output apksig.jar \
+            https://dl.google.com/dl/android/maven2/com/android/tools/build/apksig/8.7.3/apksig-8.7.3.jar
+          test -s apksig.jar
+
+      - name: Upload apksig
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apksig-8.7.3
+          path: apksig.jar
+          if-no-files-found: error
+          retention-days: 1
