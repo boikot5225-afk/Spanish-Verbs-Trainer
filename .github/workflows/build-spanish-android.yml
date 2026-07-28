@@ -1,0 +1,52 @@
+name: Build Spanish Android
+
+on:
+  push:
+    branches:
+      - search-full-tenses
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Validate TypeScript and verb data
+        run: |
+          npm run typecheck
+          node --import tsx scripts/validate-verbs.ts
+
+      - name: Generate Android project
+        env:
+          EXPO_NO_TELEMETRY: "1"
+        run: npx expo prebuild --platform android --clean --no-install
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build release APK
+        working-directory: android
+        run: ./gradlew assembleRelease --no-daemon
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Spanish-Verbs-Trainer-v1.3.0
+          path: android/app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: error
