@@ -215,4 +215,3 @@ export function examplesFor(verbId: string, tense?: Tense): Example[] {
 export function hasExamples(verbId: string): boolean {
   return BY_VERB.has(verbId);
 }
-
