@@ -42,7 +42,21 @@ jobs:
         run: npm run typecheck
 
       - name: Validate verb database
-        run: npm run test:data
+        shell: bash
+        run: |
+          set +e
+          npm run test:data > verb-validation.log 2>&1
+          status=$?
+          cat verb-validation.log
+          exit "$status"
+
+      - name: Upload verb validation log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verb-validation-log
+          path: verb-validation.log
+          if-no-files-found: ignore
 
       - name: Generate Android project
         run: npx expo prebuild --platform android --clean
@@ -73,11 +87,11 @@ jobs:
         shell: bash
         run: |
           mkdir -p dist
-          cp android/app/build/outputs/apk/release/*.apk dist/Spanish-Verbs-Trainer-v1.1.0.apk
+          cp android/app/build/outputs/apk/release/*.apk dist/Spanish-Verbs-Trainer-v1.2.0.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Spanish-Verbs-Trainer-v1.1.0
-          path: dist/Spanish-Verbs-Trainer-v1.1.0.apk
+          name: Spanish-Verbs-Trainer-v1.2.0
+          path: dist/Spanish-Verbs-Trainer-v1.2.0.apk
           if-no-files-found: error

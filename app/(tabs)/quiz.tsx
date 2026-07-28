@@ -14,8 +14,16 @@ import * as Haptics from 'expo-haptics';
 import { useColors } from '@/hooks/useColors';
 import { useQuiz } from '../../context/QuizContext';
 import type { Person, QuizMode, Tense } from '../../data/types';
-import { PERSONS, PERSON_LABELS, TENSES, TENSE_LABELS } from '../../data/types';
-import { VERBS } from '../../data/verbs';
+import {
+  getPersonLabel,
+  isPersonAvailableForTense,
+  PERSONS,
+  PERSON_LABELS,
+  TENSE_DESCRIPTIONS,
+  TENSE_GROUPS,
+  TENSE_LABELS,
+} from '../../data/types';
+import { searchVerbResults, VERBS } from '../../data/verbs';
 
 const MODES: { id: QuizMode; label: string; description: string }[] = [
   { id: 'multiple-choice', label: 'Варианты ответа', description: 'Четыре формы на выбор' },
@@ -32,15 +40,7 @@ const FREQUENT_IDS = [
 
 function SelectionMark({ active, color, borderColor }: { active: boolean; color: string; borderColor: string }) {
   return (
-    <View
-      style={[
-        styles.checkbox,
-        {
-          backgroundColor: active ? color : 'transparent',
-          borderColor: active ? color : borderColor,
-        },
-      ]}
-    >
+    <View style={[styles.checkbox, { backgroundColor: active ? color : 'transparent', borderColor: active ? color : borderColor }]}> 
       {active ? <Text style={styles.checkmark}>✓</Text> : null}
     </View>
   );
@@ -60,28 +60,20 @@ export default function QuizTab() {
     [config.verbIds],
   );
 
-  const visibleVerbs = useMemo(() => {
-    const query = verbSearch.trim().toLowerCase();
-    if (!query) return VERBS;
-    return VERBS.filter(
-      verb =>
-        verb.infinitive.toLowerCase().includes(query) ||
-        verb.translation.toLowerCase().includes(query),
-    );
-  }, [verbSearch]);
-
-  const displayedVerbs = useMemo(
-    () => visibleVerbs.slice(0, verbSearch.trim() ? 100 : 40),
-    [verbSearch, visibleVerbs],
+  const verbResults = useMemo(() => searchVerbResults(verbSearch), [verbSearch]);
+  const displayedResults = useMemo(
+    () => verbResults.slice(0, verbSearch.trim() ? 100 : 40),
+    [verbSearch, verbResults],
   );
   const selectedVerbSet = useMemo(() => new Set(selectedVerbIds), [selectedVerbIds]);
 
-  const possibleQuestionCount = selectedVerbIds.length * config.tenses.length * config.persons.length;
+  const availablePersonCombinations = config.tenses.reduce(
+    (total, tense) => total + config.persons.filter(person => isPersonAvailableForTense(tense, person)).length,
+    0,
+  );
+  const possibleQuestionCount = selectedVerbIds.length * availablePersonCombinations;
   const actualQuestionCount = Math.min(config.maxQuestions, possibleQuestionCount);
-  const hasActiveSession =
-    session !== null &&
-    session.questions.length > 0 &&
-    session.answers.length < session.questions.length;
+  const hasActiveSession = session !== null && session.questions.length > 0 && session.answers.length < session.questions.length;
 
   const toggleTense = (tense: Tense) => {
     void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -111,10 +103,7 @@ export default function QuizTab() {
   const toggleVerb = (verbId: string) => {
     void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     const current = config.verbIds === 'all' ? VERBS.map(verb => verb.id) : config.verbIds;
-    const next = current.includes(verbId)
-      ? current.filter(id => id !== verbId)
-      : [...current, verbId];
-
+    const next = current.includes(verbId) ? current.filter(id => id !== verbId) : [...current, verbId];
     if (next.length === 0) return;
     setConfig({ verbIds: next.length === VERBS.length ? 'all' : next });
   };
@@ -133,71 +122,53 @@ export default function QuizTab() {
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}> 
-      <View
-        style={[
-          styles.header,
-          {
-            paddingTop: topPadding + 12,
-            backgroundColor: colors.background,
-            borderBottomColor: colors.border,
-          },
-        ]}
-      >
+      <View style={[styles.header, { paddingTop: topPadding + 12, backgroundColor: colors.background, borderBottomColor: colors.border }]}> 
         <Text style={[styles.title, { color: colors.foreground }]}>Свой тест</Text>
-        <Text style={[styles.subtitle, { color: colors.mutedForeground }]}>Настройте тренировку под слабые места</Text>
+        <Text style={[styles.subtitle, { color: colors.mutedForeground }]}>17 времён и форм наклонения</Text>
       </View>
 
-      <ScrollView
-        contentContainerStyle={[styles.scroll, { paddingBottom: bottomPadding }]}
-        keyboardShouldPersistTaps="handled"
-      >
+      <ScrollView contentContainerStyle={[styles.scroll, { paddingBottom: bottomPadding }]} keyboardShouldPersistTaps="handled">
         {hasActiveSession ? (
           <View style={[styles.resumeCard, { backgroundColor: colors.secondary, borderColor: colors.primary }]}> 
             <View style={styles.resumeTextWrap}>
               <Text style={[styles.resumeTitle, { color: colors.foreground }]}>Есть незаконченный тест</Text>
-              <Text style={[styles.resumeText, { color: colors.mutedForeground }]}> 
-                {session.answers.length} из {session.questions.length} вопросов пройдено
-              </Text>
+              <Text style={[styles.resumeText, { color: colors.mutedForeground }]}>{session.answers.length} из {session.questions.length} вопросов пройдено</Text>
             </View>
             <View style={styles.resumeActions}>
-              <Pressable
-                onPress={() => router.push('/quiz-session')}
-                style={[styles.smallButton, { backgroundColor: colors.primary }]}
-              >
+              <Pressable onPress={() => router.push('/quiz-session')} style={[styles.smallButton, { backgroundColor: colors.primary }]}> 
                 <Text style={[styles.smallButtonText, { color: colors.primaryForeground }]}>Продолжить</Text>
               </Pressable>
-              <Pressable
-                onPress={handleRestart}
-                style={[styles.smallButton, { backgroundColor: colors.card, borderColor: colors.border, borderWidth: 1 }]}
-              >
+              <Pressable onPress={handleRestart} style={[styles.smallButton, { backgroundColor: colors.card, borderColor: colors.border, borderWidth: 1 }]}> 
                 <Text style={[styles.smallButtonText, { color: colors.foreground }]}>Начать заново</Text>
               </Pressable>
             </View>
           </View>
         ) : null}
 
-        <Text style={[styles.sectionLabel, { color: colors.mutedForeground }]}>ВРЕМЕНА</Text>
-        <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}> 
-          {TENSES.map((tense, index) => {
-            const active = config.tenses.includes(tense);
-            return (
-              <Pressable
-                key={tense}
-                onPress={() => toggleTense(tense)}
-                style={({ pressed }) => [
-                  styles.row,
-                  index < TENSES.length - 1 && { borderBottomWidth: 1, borderBottomColor: colors.border },
-                  pressed && styles.pressed,
-                ]}
-              >
-                <Text style={[styles.rowLabel, { color: active ? colors.primary : colors.foreground }]}> 
-                  {TENSE_LABELS[tense]}
-                </Text>
-                <SelectionMark active={active} color={colors.primary} borderColor={colors.border} />
-              </Pressable>
-            );
-          })}
-        </View>
+        <Text style={[styles.sectionLabel, { color: colors.mutedForeground }]}>ВРЕМЕНА И НАКЛОНЕНИЯ</Text>
+        {TENSE_GROUPS.map(group => (
+          <View key={group.mood} style={styles.tenseGroup}>
+            <Text style={[styles.groupHeading, { color: colors.mutedForeground }]}>{group.label}</Text>
+            <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}> 
+              {group.tenses.map((tense, index) => {
+                const active = config.tenses.includes(tense);
+                return (
+                  <Pressable
+                    key={tense}
+                    onPress={() => toggleTense(tense)}
+                    style={({ pressed }) => [styles.row, index < group.tenses.length - 1 && { borderBottomWidth: 1, borderBottomColor: colors.border }, pressed && styles.pressed]}
+                  >
+                    <View style={styles.verbTextWrap}>
+                      <Text style={[styles.rowLabel, { color: active ? colors.primary : colors.foreground }]}>{TENSE_LABELS[tense]}</Text>
+                      <Text style={[styles.rowSub, { color: colors.mutedForeground }]}>{TENSE_DESCRIPTIONS[tense]}</Text>
+                    </View>
+                    <SelectionMark active={active} color={colors.primary} borderColor={colors.border} />
+                  </Pressable>
+                );
+              })}
+            </View>
+          </View>
+        ))}
 
         <Text style={[styles.sectionLabel, { color: colors.mutedForeground }]}>ЛИЦА</Text>
         <View style={[styles.chipWrap, styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}> 
@@ -209,51 +180,35 @@ export default function QuizTab() {
                 onPress={() => togglePerson(person)}
                 style={({ pressed }) => [
                   styles.chip,
-                  {
-                    backgroundColor: active ? colors.secondary : colors.background,
-                    borderColor: active ? colors.primary : colors.border,
-                  },
+                  { backgroundColor: active ? colors.secondary : colors.background, borderColor: active ? colors.primary : colors.border },
                   pressed && styles.pressed,
                 ]}
               >
-                <Text style={[styles.chipText, { color: active ? colors.primary : colors.foreground }]}> 
-                  {PERSON_LABELS[person]}
-                </Text>
+                <Text style={[styles.chipText, { color: active ? colors.primary : colors.foreground }]}>{PERSON_LABELS[person]}</Text>
               </Pressable>
             );
           })}
         </View>
+        {config.tenses.some(tense => tense.startsWith('imperativo')) ? (
+          <Text style={[styles.listHint, { color: colors.mutedForeground }]}>В повелительном наклонении yo автоматически пропускается; él/ella и ellos/ellas заменяются на usted и ustedes.</Text>
+        ) : null}
 
         <View style={styles.sectionTitleRow}>
-          <Text style={[styles.sectionLabel, { color: colors.mutedForeground, marginBottom: 0 }]}>ГЛАГОЛЫ</Text>
+          <Text style={[styles.sectionLabel, { color: colors.mutedForeground, marginBottom: 0, marginTop: 0 }]}>ГЛАГОЛЫ</Text>
           <Text style={[styles.selectedCount, { color: colors.primary }]}>{selectedVerbIds.length} выбрано</Text>
         </View>
 
         <View style={styles.quickGroups}>
-          <Pressable onPress={() => setVerbGroup('all')} style={[styles.groupButton, { borderColor: colors.border, backgroundColor: colors.card }]}>
-            <Text style={[styles.groupButtonText, { color: colors.foreground }]}>Все</Text>
-          </Pressable>
-          <Pressable onPress={() => setVerbGroup(FREQUENT_IDS)} style={[styles.groupButton, { borderColor: colors.border, backgroundColor: colors.card }]}>
-            <Text style={[styles.groupButtonText, { color: colors.foreground }]}>Частотные</Text>
-          </Pressable>
-          <Pressable
-            onPress={() => setVerbGroup(VERBS.filter(verb => verb.group === 'irregular').map(verb => verb.id))}
-            style={[styles.groupButton, { borderColor: colors.border, backgroundColor: colors.card }]}
-          >
-            <Text style={[styles.groupButtonText, { color: colors.foreground }]}>Неправильные</Text>
-          </Pressable>
-          <Pressable
-            onPress={() => setVerbGroup(VERBS.filter(verb => verb.group !== 'irregular').map(verb => verb.id))}
-            style={[styles.groupButton, { borderColor: colors.border, backgroundColor: colors.card }]}
-          >
-            <Text style={[styles.groupButtonText, { color: colors.foreground }]}>Правильные</Text>
-          </Pressable>
+          <Pressable onPress={() => setVerbGroup('all')} style={[styles.groupButton, { borderColor: colors.border, backgroundColor: colors.card }]}><Text style={[styles.groupButtonText, { color: colors.foreground }]}>Все</Text></Pressable>
+          <Pressable onPress={() => setVerbGroup(FREQUENT_IDS)} style={[styles.groupButton, { borderColor: colors.border, backgroundColor: colors.card }]}><Text style={[styles.groupButtonText, { color: colors.foreground }]}>Частотные</Text></Pressable>
+          <Pressable onPress={() => setVerbGroup(VERBS.filter(verb => verb.group === 'irregular').map(verb => verb.id))} style={[styles.groupButton, { borderColor: colors.border, backgroundColor: colors.card }]}><Text style={[styles.groupButtonText, { color: colors.foreground }]}>Неправильные</Text></Pressable>
+          <Pressable onPress={() => setVerbGroup(VERBS.filter(verb => verb.group !== 'irregular').map(verb => verb.id))} style={[styles.groupButton, { borderColor: colors.border, backgroundColor: colors.card }]}><Text style={[styles.groupButtonText, { color: colors.foreground }]}>Правильные</Text></Pressable>
         </View>
 
         <TextInput
           value={verbSearch}
           onChangeText={setVerbSearch}
-          placeholder="Найти глагол..."
+          placeholder="Инфинитив, перевод или форма..."
           placeholderTextColor={colors.mutedForeground}
           autoCapitalize="none"
           autoCorrect={false}
@@ -261,31 +216,31 @@ export default function QuizTab() {
         />
 
         <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}> 
-          {displayedVerbs.map((verb, index) => {
+          {displayedResults.map((result, index) => {
+            const verb = result.verb;
             const active = selectedVerbSet.has(verb.id);
             return (
               <Pressable
                 key={verb.id}
                 onPress={() => toggleVerb(verb.id)}
-                style={({ pressed }) => [
-                  styles.row,
-                  index < displayedVerbs.length - 1 && { borderBottomWidth: 1, borderBottomColor: colors.border },
-                  pressed && styles.pressed,
-                ]}
+                style={({ pressed }) => [styles.row, index < displayedResults.length - 1 && { borderBottomWidth: 1, borderBottomColor: colors.border }, pressed && styles.pressed]}
               >
                 <View style={styles.verbTextWrap}>
                   <Text style={[styles.rowLabel, { color: active ? colors.primary : colors.foreground }]}>{verb.infinitive}</Text>
                   <Text style={[styles.rowSub, { color: colors.mutedForeground }]}>{verb.translation}</Text>
+                  {result.matchType === 'form' && result.matchedForm ? (
+                    <Text style={[styles.rowMatch, { color: colors.primary }]}>форма: {result.matchedForm}</Text>
+                  ) : result.matchType === 'fuzzy' ? (
+                    <Text style={[styles.rowMatch, { color: colors.primary }]}>возможно, вы искали это</Text>
+                  ) : null}
                 </View>
                 <SelectionMark active={active} color={colors.primary} borderColor={colors.border} />
               </Pressable>
             );
           })}
         </View>
-        {visibleVerbs.length > displayedVerbs.length ? (
-          <Text style={[styles.listHint, { color: colors.mutedForeground }]}> 
-            Показаны первые {displayedVerbs.length} из {visibleVerbs.length}. Уточните поиск, чтобы выбрать нужный глагол.
-          </Text>
+        {verbResults.length > displayedResults.length ? (
+          <Text style={[styles.listHint, { color: colors.mutedForeground }]}>Показаны первые {displayedResults.length} из {verbResults.length}. Уточните запрос.</Text>
         ) : null}
 
         <Text style={[styles.sectionLabel, { color: colors.mutedForeground }]}>РЕЖИМ</Text>
@@ -293,22 +248,12 @@ export default function QuizTab() {
           {MODES.map((mode, index) => {
             const active = config.mode === mode.id;
             return (
-              <Pressable
-                key={mode.id}
-                onPress={() => setConfig({ mode: mode.id })}
-                style={({ pressed }) => [
-                  styles.row,
-                  index < MODES.length - 1 && { borderBottomWidth: 1, borderBottomColor: colors.border },
-                  pressed && styles.pressed,
-                ]}
-              >
+              <Pressable key={mode.id} onPress={() => setConfig({ mode: mode.id })} style={({ pressed }) => [styles.row, index < MODES.length - 1 && { borderBottomWidth: 1, borderBottomColor: colors.border }, pressed && styles.pressed]}>
                 <View style={styles.verbTextWrap}>
                   <Text style={[styles.rowLabel, { color: active ? colors.primary : colors.foreground }]}>{mode.label}</Text>
                   <Text style={[styles.rowSub, { color: colors.mutedForeground }]}>{mode.description}</Text>
                 </View>
-                <View style={[styles.radio, { borderColor: active ? colors.primary : colors.border }]}> 
-                  {active ? <View style={[styles.radioDot, { backgroundColor: colors.primary }]} /> : null}
-                </View>
+                <View style={[styles.radio, { borderColor: active ? colors.primary : colors.border }]}>{active ? <View style={[styles.radioDot, { backgroundColor: colors.primary }]} /> : null}</View>
               </Pressable>
             );
           })}
@@ -319,18 +264,7 @@ export default function QuizTab() {
           {QUESTION_LIMITS.map(limit => {
             const active = config.maxQuestions === limit;
             return (
-              <Pressable
-                key={limit}
-                onPress={() => setConfig({ maxQuestions: limit })}
-                style={({ pressed }) => [
-                  styles.limitButton,
-                  {
-                    backgroundColor: active ? colors.primary : colors.card,
-                    borderColor: active ? colors.primary : colors.border,
-                  },
-                  pressed && styles.pressed,
-                ]}
-              >
+              <Pressable key={limit} onPress={() => setConfig({ maxQuestions: limit })} style={({ pressed }) => [styles.limitButton, { backgroundColor: active ? colors.primary : colors.card, borderColor: active ? colors.primary : colors.border }, pressed && styles.pressed]}>
                 <Text style={[styles.limitText, { color: active ? colors.primaryForeground : colors.foreground }]}>{limit}</Text>
               </Pressable>
             );
@@ -338,18 +272,8 @@ export default function QuizTab() {
         </View>
 
         <View style={styles.startWrap}>
-          <Text style={[styles.countText, { color: colors.mutedForeground }]}> 
-            В тест попадёт {actualQuestionCount} из {possibleQuestionCount} доступных комбинаций
-          </Text>
-          <Pressable
-            onPress={handleStart}
-            disabled={actualQuestionCount === 0}
-            style={({ pressed }) => [
-              styles.startButton,
-              { backgroundColor: actualQuestionCount > 0 ? colors.primary : colors.muted },
-              pressed && styles.pressed,
-            ]}
-          >
+          <Text style={[styles.countText, { color: colors.mutedForeground }]}>В тест попадёт {actualQuestionCount} из {possibleQuestionCount} доступных комбинаций</Text>
+          <Pressable onPress={handleStart} disabled={actualQuestionCount === 0} style={({ pressed }) => [styles.startButton, { backgroundColor: actualQuestionCount > 0 ? colors.primary : colors.muted }, pressed && styles.pressed]}>
             <Text style={[styles.startButtonText, { color: colors.primaryForeground }]}>Начать тест</Text>
           </Pressable>
         </View>
@@ -361,10 +285,7 @@ export default function QuizTab() {
               const percent = item.total > 0 ? Math.round((item.correct / item.total) * 100) : 0;
               return (
                 <View key={item.id} style={[styles.historyRow, { backgroundColor: colors.card, borderColor: colors.border }]}> 
-                  <View>
-                    <Text style={[styles.historyScore, { color: colors.foreground }]}>{percent}%</Text>
-                    <Text style={[styles.rowSub, { color: colors.mutedForeground }]}>{new Date(item.completedAt).toLocaleDateString('ru-RU')}</Text>
-                  </View>
+                  <View><Text style={[styles.historyScore, { color: colors.foreground }]}>{percent}%</Text><Text style={[styles.rowSub, { color: colors.mutedForeground }]}>{new Date(item.completedAt).toLocaleDateString('ru-RU')}</Text></View>
                   <Text style={[styles.historyMeta, { color: colors.mutedForeground }]}>{item.correct}/{item.total} · ошибок {item.total - item.correct}</Text>
                 </View>
               );
@@ -385,10 +306,13 @@ const styles = StyleSheet.create({
   sectionLabel: { fontSize: 11, fontFamily: 'Inter_600SemiBold', letterSpacing: 0.8, marginTop: 18, marginBottom: 7, marginLeft: 4 },
   sectionTitleRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 18, marginBottom: 7 },
   selectedCount: { fontSize: 12, fontFamily: 'Inter_600SemiBold' },
+  tenseGroup: { marginBottom: 12 },
+  groupHeading: { fontSize: 12, fontFamily: 'Inter_600SemiBold', marginLeft: 4, marginBottom: 6 },
   card: { borderWidth: 1, borderRadius: 12, overflow: 'hidden' },
   row: { minHeight: 52, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 11, gap: 12 },
   rowLabel: { flex: 1, fontSize: 15, fontFamily: 'Inter_600SemiBold' },
   rowSub: { fontSize: 12, fontFamily: 'Inter_400Regular', marginTop: 2 },
+  rowMatch: { fontSize: 11, fontFamily: 'Inter_500Medium', marginTop: 3 },
   verbTextWrap: { flex: 1 },
   checkbox: { width: 23, height: 23, borderRadius: 7, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center' },
   checkmark: { color: '#FFFFFF', fontSize: 15, fontFamily: 'Inter_700Bold', lineHeight: 18 },

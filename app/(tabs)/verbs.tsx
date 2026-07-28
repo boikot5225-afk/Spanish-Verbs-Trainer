@@ -6,24 +6,31 @@ import { useColors } from '@/hooks/useColors';
 import SearchBar from '../../components/SearchBar';
 import VerbListItem from '../../components/VerbListItem';
 import { useVerbs } from '../../context/VerbsContext';
-import type { Verb } from '../../data/types';
+import type { VerbSearchResult } from '../../data/verbs';
 
 export default function VerbsTab() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
-  const { filteredVerbs, searchQuery, setSearchQuery } = useVerbs();
+  const { searchResults, searchQuery, setSearchQuery } = useVerbs();
 
   const topPadding = Platform.OS === 'web' ? 67 : insets.top;
   const bottomPadding = Platform.OS === 'web' ? 84 : insets.bottom + 64;
 
   const renderVerb = useCallback(
-    ({ item }: { item: Verb }) => (
+    ({ item }: { item: VerbSearchResult }) => (
       <View style={styles.itemWrap}>
-        <VerbListItem verb={item} onPress={() => router.push(`/verb/${item.id}`)} />
+        <VerbListItem
+          verb={item.verb}
+          matchedForm={item.matchType === 'form' ? item.matchedForm : undefined}
+          fuzzy={item.matchType === 'fuzzy'}
+          onPress={() => router.push(`/verb/${item.verb.id}`)}
+        />
       </View>
     ),
     [],
   );
+
+  const hasQuery = searchQuery.trim().length > 0;
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}> 
@@ -38,12 +45,17 @@ export default function VerbsTab() {
         ]}
       >
         <Text style={[styles.title, { color: colors.foreground }]}>Глаголы</Text>
-        <Text style={[styles.subtitle, { color: colors.mutedForeground }]}>{filteredVerbs.length} глаголов</Text>
+        <Text style={[styles.subtitle, { color: colors.mutedForeground }]}>
+          {hasQuery ? `${searchResults.length} результатов` : `${searchResults.length} глаголов`}
+        </Text>
         <SearchBar
           value={searchQuery}
           onChangeText={setSearchQuery}
-          placeholder="Buscar · Искать..."
+          placeholder="Инфинитив, перевод или форма..."
         />
+        <Text style={[styles.searchHint, { color: colors.mutedForeground }]}>
+          Например: oir, tuvieron, habría hecho, решать
+        </Text>
       </View>
 
       <View style={[styles.legend, { backgroundColor: colors.irregularBg, borderColor: colors.irregular }]}> 
@@ -51,9 +63,9 @@ export default function VerbsTab() {
       </View>
 
       <FlatList
-        data={filteredVerbs}
+        data={searchResults}
         renderItem={renderVerb}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.verb.id}
         contentContainerStyle={[styles.list, { paddingBottom: bottomPadding }]}
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
@@ -65,6 +77,7 @@ export default function VerbsTab() {
         ListEmptyComponent={
           <View style={styles.empty}>
             <Text style={[styles.emptyText, { color: colors.mutedForeground }]}>Ничего не найдено</Text>
+            <Text style={[styles.emptyHint, { color: colors.mutedForeground }]}>Попробуйте инфинитив, перевод или другую форму</Text>
           </View>
         }
       />
@@ -74,13 +87,15 @@ export default function VerbsTab() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  header: { paddingHorizontal: 16, paddingBottom: 12, borderBottomWidth: 1 },
+  header: { paddingHorizontal: 16, paddingBottom: 10, borderBottomWidth: 1 },
   title: { fontSize: 26, fontFamily: 'Inter_700Bold', marginBottom: 2 },
   subtitle: { fontSize: 13, fontFamily: 'Inter_400Regular', marginBottom: 12 },
+  searchHint: { fontSize: 11, fontFamily: 'Inter_400Regular', marginTop: 6 },
   legend: { marginHorizontal: 16, marginTop: 10, marginBottom: 2, paddingHorizontal: 10, paddingVertical: 6, borderRadius: 8, borderWidth: 1, alignSelf: 'flex-start' },
   legendText: { fontSize: 12, fontFamily: 'Inter_500Medium' },
   list: { padding: 16, paddingTop: 10, flexGrow: 1 },
   itemWrap: { marginBottom: 8 },
-  empty: { paddingTop: 60, alignItems: 'center' },
-  emptyText: { fontSize: 15, fontFamily: 'Inter_400Regular' },
+  empty: { paddingTop: 60, alignItems: 'center', paddingHorizontal: 24 },
+  emptyText: { fontSize: 15, fontFamily: 'Inter_600SemiBold' },
+  emptyHint: { fontSize: 13, fontFamily: 'Inter_400Regular', marginTop: 5, textAlign: 'center' },
 });

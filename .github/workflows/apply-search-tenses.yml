@@ -1,0 +1,49 @@
+name: Apply conjugator hotfixes
+
+on:
+  pull_request:
+    branches:
+      - ella-full-database
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  hotfix:
+    if: github.head_ref == 'search-full-tenses' || github.ref_name == 'search-full-tenses'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: search-full-tenses
+          fetch-depth: 0
+
+      - name: Fix decir-family gerunds
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('data/conjugator.ts')
+          text = path.read_text()
+          old = "function gerundForm(parsed: ParsedInfinitive, types: Set<string>): string {\n  if (parsed.base === 'ir') return 'yendo';"
+          new = "function gerundForm(parsed: ParsedInfinitive, types: Set<string>): string {\n  if (parsed.base === 'ir') return 'yendo';\n  if (parsed.base.endsWith('decir')) return parsed.base.slice(0, -5) + 'diciendo';"
+          if new in text:
+              print('Hotfix already applied')
+              raise SystemExit(0)
+          if old not in text:
+              raise SystemExit('Expected gerund function was not found')
+          path.write_text(text.replace(old, new, 1))
+          PY
+
+          if git diff --quiet -- data/conjugator.ts; then
+            echo "Nothing to commit"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/conjugator.ts
+          git commit -m "fix: conjugate decir-family gerunds"
+          git push origin HEAD:search-full-tenses

@@ -1,11 +1,12 @@
-import React, { createContext, useCallback, useContext, useState } from 'react';
+import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { Platform } from 'react-native';
 import type { Verb } from '../data/types';
-import { searchVerbs, VERBS } from '../data/verbs';
+import { searchVerbResults, VERBS, type VerbSearchResult } from '../data/verbs';
 
 interface VerbsContextValue {
   verbs: Verb[];
   filteredVerbs: Verb[];
+  searchResults: VerbSearchResult[];
   searchQuery: string;
   setSearchQuery: (q: string) => void;
   speak: (text: string) => void;
@@ -16,11 +17,11 @@ const VerbsContext = createContext<VerbsContextValue | null>(null);
 export function VerbsProvider({ children }: { children: React.ReactNode }) {
   const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredVerbs = searchVerbs(searchQuery);
+  const searchResults = useMemo(() => searchVerbResults(searchQuery), [searchQuery]);
+  const filteredVerbs = useMemo(() => searchResults.map(result => result.verb), [searchResults]);
 
   const speak = useCallback((text: string) => {
     if (Platform.OS === 'web') return;
-    // Dynamically import expo-speech to avoid web crashes
     import('expo-speech').then(Speech => {
       Speech.speak(text, { language: 'es-ES', rate: 0.85 });
     }).catch(() => {});
@@ -31,6 +32,7 @@ export function VerbsProvider({ children }: { children: React.ReactNode }) {
       value={{
         verbs: VERBS,
         filteredVerbs,
+        searchResults,
         searchQuery,
         setSearchQuery,
         speak,

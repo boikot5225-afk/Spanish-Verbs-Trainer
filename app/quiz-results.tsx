@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Platform,
   Pressable,
@@ -13,25 +13,36 @@ import * as Haptics from 'expo-haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useColors } from '@/hooks/useColors';
 import { useQuiz } from '../context/QuizContext';
-import { PERSON_LABELS, TENSE_LABELS } from '../data/types';
+import { getPersonLabel, TENSE_LABELS } from '../data/types';
 import { getVerbById } from '../data/verbs';
+import { getCourseLesson } from '../data/course';
+import { useCourse } from '../context/CourseContext';
 
 export default function QuizResults() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const { session, retryErrors, clearSession } = useQuiz();
+  const { recordLessonResult } = useCourse();
 
   const topPad = Platform.OS === 'web' ? 67 : insets.top;
   const bottomPad = Platform.OS === 'web' ? 34 : insets.bottom;
+  const total = session?.answers.length ?? 0;
+  const correct = session?.answers.filter(a => a.correct).length ?? 0;
+  const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
+  const courseLesson = session?.courseLessonId
+    ? getCourseLesson(session.courseLessonId)
+    : undefined;
+
+  useEffect(() => {
+    if (!courseLesson || total === 0) return;
+    recordLessonResult(courseLesson.id, pct);
+  }, [courseLesson?.id, pct, recordLessonResult, total]);
 
   if (!session) {
     router.replace('/(tabs)/quiz');
     return null;
   }
 
-  const total = session.answers.length;
-  const correct = session.answers.filter(a => a.correct).length;
-  const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
   const wrong = session.answers.filter(a => !a.correct);
 
   const getGrade = () => {
@@ -54,12 +65,16 @@ export default function QuizResults() {
   const handleNewTest = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     clearSession();
-    router.replace('/(tabs)/quiz');
+    if (courseLesson) {
+      router.replace(`/lesson/${courseLesson.id}`);
+    } else {
+      router.replace('/(tabs)/quiz');
+    }
   };
 
   const handleHome = () => {
     clearSession();
-    router.replace('/(tabs)/verbs');
+    router.replace(courseLesson ? '/(tabs)/learn' : '/(tabs)/verbs');
   };
 
   // Score ring
@@ -89,6 +104,32 @@ export default function QuizResults() {
       <ScrollView contentContainerStyle={[styles.content, { paddingBottom: bottomPad + 20 }]}>
         <ScoreRing />
 
+        {courseLesson ? (
+          <View
+            style={[
+              styles.courseBanner,
+              {
+                backgroundColor: pct >= 70 ? '#ECFDF5' : '#FFFBEB',
+                borderColor: pct >= 70 ? colors.success : colors.accent,
+              },
+            ]}
+          >
+            <Ionicons
+              name={pct >= 70 ? 'checkmark-circle' : 'alert-circle'}
+              size={25}
+              color={pct >= 70 ? colors.success : colors.accent}
+            />
+            <View style={styles.courseBannerText}>
+              <Text style={[styles.courseBannerTitle, { color: colors.foreground }]}>
+                {pct >= 70 ? 'Урок пройден' : 'Урок пока не засчитан'}
+              </Text>
+              <Text style={[styles.courseBannerBody, { color: colors.mutedForeground }]}>
+                {courseLesson.title} · для прохождения нужно 70%
+              </Text>
+            </View>
+          </View>
+        ) : null}
+
         {/* Action buttons */}
         <View style={styles.actions}>
           {wrong.length > 0 && (
@@ -116,7 +157,9 @@ export default function QuizResults() {
             ]}
           >
             <Ionicons name="create-outline" size={20} color={colors.primary} />
-            <Text style={[styles.actionBtnText, { color: colors.primary }]}>Новый тест</Text>
+            <Text style={[styles.actionBtnText, { color: colors.primary }]}>
+              {courseLesson ? 'Вернуться к уроку' : 'Новый тест'}
+            </Text>
           </Pressable>
 
           <Pressable
@@ -127,8 +170,10 @@ export default function QuizResults() {
               pressed && { opacity: 0.7 },
             ]}
           >
-            <Ionicons name="book-outline" size={20} color={colors.mutedForeground} />
-            <Text style={[styles.actionBtnText, { color: colors.mutedForeground }]}>Справочник</Text>
+            <Ionicons name={courseLesson ? 'school-outline' : 'book-outline'} size={20} color={colors.mutedForeground} />
+            <Text style={[styles.actionBtnText, { color: colors.mutedForeground }]}>
+              {courseLesson ? 'К курсу' : 'Справочник'}
+            </Text>
           </Pressable>
         </View>
 
@@ -155,7 +200,7 @@ export default function QuizResults() {
                         {verb?.infinitive ?? '?'}
                       </Text>
                       <Text style={[styles.mistakeMeta, { color: colors.mutedForeground }]}>
-                        {TENSE_LABELS[a.question.tense]} · {PERSON_LABELS[a.question.person]}
+                        {TENSE_LABELS[a.question.tense]} · {getPersonLabel(a.question.tense, a.question.person)}
                       </Text>
                     </View>
                     <View style={styles.mistakeRight}>
@@ -239,6 +284,17 @@ const styles = StyleSheet.create({
   actions: {
     gap: 10,
   },
+  courseBanner: {
+    borderWidth: 1,
+    borderRadius: 14,
+    padding: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 11,
+  },
+  courseBannerText: { flex: 1 },
+  courseBannerTitle: { fontSize: 15, fontFamily: 'Inter_700Bold' },
+  courseBannerBody: { fontSize: 12, lineHeight: 17, fontFamily: 'Inter_400Regular', marginTop: 2 },
   actionBtn: {
     flexDirection: 'row',
     alignItems: 'center',

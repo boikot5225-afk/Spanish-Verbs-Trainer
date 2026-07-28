@@ -15,7 +15,7 @@ import * as Haptics from 'expo-haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useColors } from '@/hooks/useColors';
 import { useQuiz } from '../context/QuizContext';
-import { PERSON_LABELS, TENSE_FULL_LABELS } from '../data/types';
+import { getPersonLabel, TENSE_FULL_LABELS } from '../data/types';
 import { getVerbById, normalizeAnswer } from '../data/verbs';
 import { KeyboardAwareScrollViewCompat } from '@/components/KeyboardAwareScrollViewCompat';
 
@@ -67,7 +67,8 @@ export default function QuizSession() {
   // ─── Handlers ──────────────────────────────────────────────────────────────
 
   const handleCheck = (answer: string) => {
-    const correct = normalizeAnswer(answer) === normalizeAnswer(question.correctAnswer);
+    const correct = [question.correctAnswer, ...(question.acceptedAnswers ?? [])]
+      .some(candidate => normalizeAnswer(answer) === normalizeAnswer(candidate));
     setIsChecked(true);
     setIsCorrect(correct);
     submitAnswer(answer);
@@ -132,7 +133,7 @@ export default function QuizSession() {
         </View>
         <View style={[styles.chip, { backgroundColor: colors.muted }]}>
           <Text style={[styles.chipText, { color: colors.mutedForeground }]}>
-            {PERSON_LABELS[question.person]}
+            {getPersonLabel(question.tense, question.person)}
           </Text>
         </View>
       </View>
@@ -340,7 +341,7 @@ export default function QuizSession() {
           pointerEvents={isFlipped ? 'none' : 'auto'}
         >
           <Text style={[styles.cardLabel, { color: colors.mutedForeground }]}>
-            {TENSE_FULL_LABELS[question.tense]} · {PERSON_LABELS[question.person]}
+            {TENSE_FULL_LABELS[question.tense]} · {getPersonLabel(question.tense, question.person)}
           </Text>
           <Text style={[styles.cardVerb, { color: colors.foreground }]}>
             {verb.infinitive}
@@ -363,7 +364,7 @@ export default function QuizSession() {
           pointerEvents={isFlipped ? 'auto' : 'none'}
         >
           <Text style={[styles.cardLabel, { color: colors.primary }]}>
-            {TENSE_FULL_LABELS[question.tense]} · {PERSON_LABELS[question.person]}
+            {TENSE_FULL_LABELS[question.tense]} · {getPersonLabel(question.tense, question.person)}
           </Text>
           <Text style={[styles.cardAnswer, { color: colors.foreground }]}>
             {question.correctAnswer}
