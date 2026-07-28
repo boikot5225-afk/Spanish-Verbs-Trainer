@@ -90,6 +90,18 @@ jobs:
       - name: Build arm64-only APK
         shell: bash
         run: |
+          # reactNativeArchitectures задаёт только то, что компилируется из
+          # исходников; готовые .so из зависимостей всё равно попадают в пакет.
+          # Отсечь их на упаковке умеет только abiFilters.
+          python3 - <<'PATCH'
+          from pathlib import Path
+          path = Path('android/app/build.gradle')
+          src = path.read_text()
+          marker = "ndk { abiFilters 'arm64-v8a' }"
+          assert marker not in src, 'abiFilters уже задан'
+          at = src.index('defaultConfig {') + len('defaultConfig {')
+          path.write_text(src[:at] + '\n        ' + marker + src[at:])
+          PATCH
           cd android
           ./gradlew assembleRelease --no-daemon --console=plain \
             -PreactNativeArchitectures=arm64-v8a
