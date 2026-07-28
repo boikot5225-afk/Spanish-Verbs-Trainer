@@ -14,6 +14,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { VerbsProvider } from '../context/VerbsContext';
 import { QuizProvider } from '../context/QuizContext';
+import { CourseProvider } from '../context/CourseContext';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -25,6 +26,7 @@ function RootLayoutNav() {
     <Stack screenOptions={{ headerBackTitle: 'Назад' }}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="verb/[id]" options={{ headerShown: false }} />
+      <Stack.Screen name="lesson/[id]" options={{ headerShown: false }} />
       <Stack.Screen name="quiz-session" options={{ headerShown: false }} />
       <Stack.Screen name="quiz-results" options={{ headerShown: false }} />
     </Stack>
@@ -53,9 +55,11 @@ export default function RootLayout() {
         <QueryClientProvider client={queryClient}>
           <GestureHandlerRootView style={{ flex: 1 }}>
             <VerbsProvider>
-              <QuizProvider>
-                <RootLayoutNav />
-              </QuizProvider>
+              <CourseProvider>
+                <QuizProvider>
+                  <RootLayoutNav />
+                </QuizProvider>
+              </CourseProvider>
             </VerbsProvider>
           </GestureHandlerRootView>
         </QueryClientProvider>
