@@ -32,7 +32,7 @@ interface QuizContextValue {
   session: QuizSession | null;
   history: QuizHistoryItem[];
   isHydrated: boolean;
-  buildAndStartSession: (cfg: QuizConfig) => QuizQuestion[];
+  buildAndStartSession: (cfg: QuizConfig, courseLessonId?: string) => QuizQuestion[];
   setSession: (s: QuizSession) => void;
   submitAnswer: (answer: string) => void;
   advanceQuestion: () => void;
@@ -144,7 +144,7 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const buildAndStartSession = useCallback(
-    (cfg: QuizConfig): QuizQuestion[] => {
+    (cfg: QuizConfig, courseLessonId?: string): QuizQuestion[] => {
       const questions = buildQuestions(cfg);
       const newSession: QuizSession = {
         questions,
@@ -152,6 +152,7 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
         answers: [],
         mode: cfg.mode,
         startedAt: new Date().toISOString(),
+        courseLessonId,
       };
       setSessionState(newSession);
       return questions;
@@ -211,6 +212,7 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
       answers: [],
       mode: session.mode,
       startedAt: new Date().toISOString(),
+      courseLessonId: session.courseLessonId,
     };
     setSessionState(retrySession);
     return retrySession.questions;
