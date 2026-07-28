@@ -42,3 +42,6 @@ const limit = Number(process.argv[3] ?? 40);
 for (const [tense, cell] of rows) {
   for (const line of cell.bad.slice(0, limit)) console.log(`  ${tense} ${line}`);
 }
+
+// Расхождение с эталоном — это регрессия генератора, сборка должна падать.
+if (bad > 0) process.exitCode = 1;

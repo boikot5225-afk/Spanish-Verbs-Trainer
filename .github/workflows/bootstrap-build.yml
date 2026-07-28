@@ -1,4 +1,4 @@
-name: Build Spanish Verbs Trainer APK
+name: Build French Verbs Trainer APK
 
 on:
   push:
@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: spanish-verbs-apk-${{ github.ref }}
+  group: french-verbs-apk-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -50,6 +50,9 @@ jobs:
       - name: Validate verb database
         run: npm run test:data
 
+      - name: Check forms against reference
+        run: npm run test:forms
+
       - name: Generate Android project
         run: npx expo prebuild --platform android --clean
 
@@ -80,11 +83,11 @@ jobs:
         run: |
           mkdir -p dist
           cp android/app/build/outputs/apk/release/*.apk \
-            "dist/Spanish-Verbs-Trainer-v${{ steps.app.outputs.version }}.apk"
+            "dist/French-Verbs-Trainer-v${{ steps.app.outputs.version }}.apk"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Spanish-Verbs-Trainer-v${{ steps.app.outputs.version }}
-          path: dist/Spanish-Verbs-Trainer-v${{ steps.app.outputs.version }}.apk
+          name: French-Verbs-Trainer-v${{ steps.app.outputs.version }}
+          path: dist/French-Verbs-Trainer-v${{ steps.app.outputs.version }}.apk
           if-no-files-found: error
