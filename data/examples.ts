@@ -80,7 +80,7 @@ export const EXAMPLES: Example[] = [
   { verbId: 'boire', tense: 'passeCompose', person: 'nous', fr: 'Nous avons bu un café ensemble.', ru: 'Мы выпили вместе кофе.' },
   { verbId: 'finir', tense: 'passeCompose', person: 'je', fr: "J'ai fini mon travail.", ru: 'Я закончил работу.' },
   { verbId: 'aller', tense: 'passeCompose', person: 'je', fr: 'Je suis allé au cinéma.', ru: 'Я ходил в кино.' },
-  { verbId: 'aller', tense: 'passeCompose', person: 'ils', fr: 'Ils sont allés très loin.', ru: 'Они зашли очень далеко.' },
+  { verbId: 'aller', tense: 'passeCompose', person: 'ils', fr: 'Ils sont allés très loin.', ru: 'Они ушли очень далеко.' },
   { verbId: 'venir', tense: 'passeCompose', person: 'il', fr: 'Il est venu sans prévenir.', ru: 'Он пришёл без предупреждения.' },
   { verbId: 'partir', tense: 'passeCompose', person: 'nous', fr: 'Nous sommes partis à l’aube.', ru: 'Мы уехали на рассвете.' },
   { verbId: 'sortir', tense: 'passeCompose', person: 'il', fr: 'Il est sorti sans rien dire.', ru: 'Он вышел, ничего не сказав.' },
@@ -126,7 +126,7 @@ export const EXAMPLES: Example[] = [
   { verbId: 'pouvoir', tense: 'conditionnel', person: 'vous', fr: 'Pourriez-vous répéter ?', ru: 'Не могли бы вы повторить?' },
   { verbId: 'aimer', tense: 'conditionnel', person: 'je', fr: 'J’aimerais vous poser une question.', ru: 'Я хотел бы задать вам вопрос.' },
   { verbId: 'être', tense: 'conditionnel', person: 'il', fr: 'Ce serait plus simple ainsi.', ru: 'Так было бы проще.' },
-  { verbId: 'avoir', tense: 'conditionnel', person: 'nous', fr: 'Nous aurions besoin de plus de temps.', ru: 'Нам понадобилось бы больше времени.' },
+  { verbId: 'avoir', tense: 'conditionnel', person: 'nous', fr: 'Nous aurions besoin de plus de temps.', ru: 'Нам нужно было бы больше времени.' },
   { verbId: 'venir', tense: 'conditionnel', person: 'il', fr: 'Si tu l’invitais, il viendrait.', ru: 'Если бы ты его позвал, он бы пришёл.' },
   { verbId: 'faire', tense: 'conditionnel', person: 'je', fr: 'À ta place, je ferais autrement.', ru: 'На твоём месте я поступил бы иначе.' },
   { verbId: 'devoir', tense: 'conditionnel', person: 'tu', fr: 'Tu devrais te reposer.', ru: 'Тебе стоило бы отдохнуть.' },
@@ -163,7 +163,7 @@ export const EXAMPLES: Example[] = [
   { verbId: 'venir', tense: 'subjPresent', person: 'il', fr: 'Je ne pense pas qu’il vienne.', ru: 'Не думаю, что он придёт.' },
   { verbId: 'pouvoir', tense: 'subjPresent', person: 'je', fr: 'Parle plus fort pour que je puisse entendre.', ru: 'Говори громче, чтобы я мог слышать.' },
   { verbId: 'savoir', tense: 'subjPresent', person: 'tu', fr: 'Je suis content que tu saches nager.', ru: 'Я рад, что ты умеешь плавать.' },
-  { verbId: 'partir', tense: 'subjPresent', person: 'il', fr: 'Partons avant qu’il parte.', ru: 'Уйдём, пока он не ушёл.' },
+  { verbId: 'partir', tense: 'subjPresent', person: 'il', fr: 'Partons avant qu’il parte.', ru: 'Уйдём до того, как он уйдёт.' },
   { verbId: 'prendre', tense: 'subjPresent', person: 'vous', fr: 'Il vaut mieux que vous preniez le train.', ru: 'Лучше вам поехать поездом.' },
   { verbId: 'vouloir', tense: 'subjPresent', person: 'il', fr: 'Bien qu’il veuille aider, il ne peut pas.', ru: 'Хотя он хочет помочь, он не может.' },
 
@@ -179,7 +179,7 @@ export const EXAMPLES: Example[] = [
   { verbId: 'parler', tense: 'subjImparfait', person: 'il', fr: 'Il attendait qu’elle parlât.', ru: 'Он ждал, когда она заговорит.' },
 
   // ── Subjonctif plus-que-parfait ──────────────────────────────────────────
-  { verbId: 'parler', tense: 'subjPlusQueParfait', person: 'il', fr: 'On eût dit qu’il eût parlé toute la nuit.', ru: 'Казалось, будто он проговорил всю ночь.' },
+  { verbId: 'parler', tense: 'subjPlusQueParfait', person: 'il', fr: 'Bien qu’il eût parlé toute la nuit, il ne semblait pas fatigué.', ru: 'Хотя он проговорил всю ночь, он не казался уставшим.' },
   { verbId: 'être', tense: 'subjPlusQueParfait', person: 'il', fr: 'Nul ne croyait qu’il eût été là.', ru: 'Никто не верил, что он там был.' },
 
   // ── Impératif présent ────────────────────────────────────────────────────
@@ -196,7 +196,7 @@ export const EXAMPLES: Example[] = [
 
   // ── Impératif passé ──────────────────────────────────────────────────────
   { verbId: 'finir', tense: 'imperatifPasse', person: 'tu', fr: 'Aie fini avant mon retour.', ru: 'Закончи до моего возвращения.' },
-  { verbId: 'partir', tense: 'imperatifPasse', person: 'vous', fr: 'Soyez partis avant huit heures.', ru: 'Уезжайте до восьми часов.' },
+  { verbId: 'partir', tense: 'imperatifPasse', person: 'vous', fr: 'Soyez partis avant huit heures.', ru: 'Успейте уехать до восьми.' },
 ];
 
 const BY_VERB = new Map<string, Example[]>();
@@ -215,3 +215,4 @@ export function examplesFor(verbId: string, tense?: Tense): Example[] {
 export function hasExamples(verbId: string): boolean {
   return BY_VERB.has(verbId);
 }
+
