@@ -17,9 +17,7 @@ import {
   lessonPracticeVerbIds,
 } from '../data/lessons';
 
-const EXPECTED_VERBS = 2129;
-// 20 времён × 6 лиц, минус отсутствующее «yo» в двух формах императива.
-const EXPECTED_FORMS = EXPECTED_VERBS * (TENSES.length * PERSONS.length - 2);
+const EXPECTED_VERBS = 2140;
 
 assert.equal(VERBS.length, EXPECTED_VERBS, `Expected ${EXPECTED_VERBS} verbs, got ${VERBS.length}`);
 assert.equal(TENSES.length, 20, `Expected 20 tenses, got ${TENSES.length}`);
@@ -28,10 +26,20 @@ const WORD = 'a-záéíóúüñ';
 const SIMPLE_RE = new RegExp(`^[${WORD}]+$`, 'u');
 const COMPOUND_RE = new RegExp(`^h[${WORD}]+ [${WORD}]+$`, 'u');
 const NEGATIVE_RE = new RegExp(`^no [${WORD}]+$`, 'u');
+const REFLEXIVE_RE = new RegExp(`^(?:me|te|se|nos|os) [${WORD}]+$`, 'u');
+const REFLEXIVE_COMPOUND_RE = new RegExp(
+  `^(?:me|te|se|nos|os) h[${WORD}]+ [${WORD}]+$`,
+  'u',
+);
+const REFLEXIVE_NEGATIVE_RE = new RegExp(
+  `^no (?:me|te|se|nos|os) [${WORD}]+$`,
+  'u',
+);
 
-function expectedShape(tense: Tense): RegExp {
-  if (COMPOUND_TENSES.has(tense)) return COMPOUND_RE;
-  if (tense === 'imperativoNegativo') return NEGATIVE_RE;
+function expectedShape(tense: Tense, reflexive: boolean): RegExp {
+  if (COMPOUND_TENSES.has(tense)) return reflexive ? REFLEXIVE_COMPOUND_RE : COMPOUND_RE;
+  if (tense === 'imperativoNegativo') return reflexive ? REFLEXIVE_NEGATIVE_RE : NEGATIVE_RE;
+  if (reflexive && tense !== 'imperativoAfirmativo') return REFLEXIVE_RE;
   return SIMPLE_RE;
 }
 
@@ -40,16 +48,21 @@ let formCount = 0;
 let absentCount = 0;
 
 for (const verb of VERBS) {
+  const reflexive = verb.infinitive.endsWith('se');
   assert(!ids.has(verb.id), `Duplicate verb id: ${verb.id}`);
   ids.add(verb.id);
   assert(verb.infinitive.trim(), `Empty infinitive for ${verb.id}`);
   assert(verb.translation.trim(), `Empty translation for ${verb.id}`);
+  assert(/[А-Яа-яЁё]/u.test(verb.translation), `${verb.id}: translation is not Russian`);
 
   for (const nonFinite of ['gerundio', 'participio'] as const) {
     const form = verb[nonFinite].form;
     assert(SIMPLE_RE.test(form), `${verb.id}/${nonFinite}: invalid form ${form}`);
   }
-  assert(verb.gerundio.form.endsWith('ndo'), `${verb.id}/gerundio: ${verb.gerundio.form}`);
+  assert(
+    verb.gerundio.form.endsWith(reflexive ? 'ndose' : 'ndo'),
+    `${verb.id}/gerundio: ${verb.gerundio.form}`,
+  );
 
   for (const tense of TENSES) {
     const forms = verb.conjugations[tense];
@@ -59,8 +72,22 @@ for (const verb of VERBS) {
       const where = `${verb.id}/${tense}/${PERSONS[index]}`;
 
       if (form.absent) {
+        const defectAllowed =
+          (verb.types.includes('defective no future conditional imperative') &&
+            [
+              'futuro',
+              'condicional',
+              'futuroPerfecto',
+              'condicionalPerfecto',
+              'imperativoAfirmativo',
+              'imperativoNegativo',
+            ].includes(tense)) ||
+          (verb.types.includes('defective third person') &&
+            (IMPERATIVE_TENSES.has(tense) || ![2, 5].includes(index))) ||
+          (verb.types.includes('impersonal third singular') &&
+            (IMPERATIVE_TENSES.has(tense) || index !== 2));
         assert(
-          IMPERATIVE_TENSES.has(tense) && index === 0,
+          (IMPERATIVE_TENSES.has(tense) && index === 0) || defectAllowed,
           `${where}: unexpected absent form`,
         );
         assert.equal(form.form, '', `${where}: absent form must be empty`);
@@ -69,19 +96,23 @@ for (const verb of VERBS) {
       }
 
       assert(form.form.trim(), `${where}: empty form`);
-      assert(expectedShape(tense).test(form.form), `${where}: invalid form ${form.form}`);
+      assert(expectedShape(tense, reflexive).test(form.form), `${where}: invalid form ${form.form}`);
       formCount += 1;
     }
   }
 
-  // Императив не имеет формы 1-го лица ед. ч.
+  // У обычного глагола императив не имеет формы 1-го лица ед. ч.;
+  // у недостаточного глагола могут отсутствовать и другие формы.
   for (const tense of IMPERATIVE_TENSES) {
     assert(verb.conjugations[tense][0]?.absent, `${verb.id}/${tense}: yo must be absent`);
   }
 }
 
-assert.equal(absentCount, EXPECTED_VERBS * 2, `Expected ${EXPECTED_VERBS * 2} absent slots, got ${absentCount}`);
-assert.equal(formCount, EXPECTED_FORMS, `Expected ${EXPECTED_FORMS} forms, got ${formCount}`);
+assert.equal(
+  formCount + absentCount,
+  EXPECTED_VERBS * TENSES.length * PERSONS.length,
+  'Every conjugation slot must be a form or explicitly absent',
+);
 
 type Check = [Tense | 'gerundio' | 'participio', number, string];
 
@@ -318,6 +349,91 @@ const expected: Record<string, Check[]> = {
     ['imperativoAfirmativo', 4, 'vivid'],
     ['subjFuturo', 3, 'viviéremos'],
   ],
+  levantarse: [
+    ['presente', 0, 'me levanto'],
+    ['perfecto', 3, 'nos hemos levantado'],
+    ['imperativoAfirmativo', 1, 'levántate'],
+    ['imperativoAfirmativo', 3, 'levantémonos'],
+    ['imperativoAfirmativo', 4, 'levantaos'],
+    ['imperativoNegativo', 1, 'no te levantes'],
+    ['gerundio', 0, 'levantándose'],
+  ],
+  dormirse: [
+    ['presente', 0, 'me duermo'],
+    ['imperativoAfirmativo', 4, 'dormíos'],
+    ['gerundio', 0, 'durmiéndose'],
+  ],
+  irse: [
+    ['presente', 0, 'me voy'],
+    ['imperativoAfirmativo', 1, 'vete'],
+    ['imperativoAfirmativo', 3, 'vámonos'],
+    ['imperativoAfirmativo', 4, 'idos'],
+    ['imperativoNegativo', 5, 'no se vayan'],
+  ],
+  soler: [
+    ['futuro', 0, ''],
+    ['condicional', 0, ''],
+    ['imperativoAfirmativo', 1, ''],
+  ],
+  sosegar: [
+    ['presente', 0, 'sosiego'],
+    ['subjuntivo', 0, 'sosiegue'],
+  ],
+  restregar: [
+    ['presente', 0, 'restriego'],
+    ['subjuntivo', 5, 'restrieguen'],
+  ],
+  cartografiar: [
+    ['presente', 0, 'cartografío'],
+    ['subjuntivo', 5, 'cartografíen'],
+  ],
+  rociar: [
+    ['presente', 0, 'rocío'],
+    ['subjuntivo', 2, 'rocíe'],
+  ],
+  rehacer: [
+    ['preteriteIndef', 0, 'rehíce'],
+    ['preteriteIndef', 2, 'rehízo'],
+  ],
+  desoír: [['presente', 3, 'desoímos']],
+  fluir: [
+    ['presente', 4, 'fluis'],
+    ['preteriteIndef', 0, 'flui'],
+  ],
+  rehuir: [
+    ['subjuntivo', 3, 'rehuyamos'],
+    ['subjuntivo', 4, 'rehuyáis'],
+  ],
+  podrir: [
+    ['presente', 0, 'pudro'],
+    ['preteriteImp', 3, 'pudríamos'],
+    ['preteriteIndef', 2, 'pudrió'],
+    ['futuro', 0, 'pudriré'],
+    ['subjuntivo', 4, 'pudráis'],
+    ['gerundio', 0, 'pudriendo'],
+    ['participio', 0, 'podrido'],
+  ],
+  acaecer: [
+    ['presente', 0, ''],
+    ['presente', 2, 'acaece'],
+    ['presente', 5, 'acaecen'],
+    ['imperativoAfirmativo', 2, ''],
+  ],
+  concernir: [
+    ['presente', 0, ''],
+    ['presente', 2, 'concierne'],
+    ['presente', 5, 'conciernen'],
+  ],
+  diluviar: [
+    ['presente', 0, ''],
+    ['presente', 2, 'diluvia'],
+    ['presente', 5, ''],
+  ],
+  lloviznar: [
+    ['preteriteImp', 0, ''],
+    ['preteriteImp', 2, 'lloviznaba'],
+    ['preteriteImp', 5, ''],
+  ],
 };
 
 for (const [verbId, checks] of Object.entries(expected)) {
@@ -424,7 +540,7 @@ for (const tense of TENSES) {
 
 const checkCount = Object.values(expected).reduce((total, checks) => total + checks.length, 0);
 console.log(
-  `Validated ${VERBS.length} verbs, ${formCount} forms across ${TENSES.length} tenses, ` +
+  `Validated ${VERBS.length} verbs, ${formCount} forms across ${TENSES.length} tense/mood forms, ` +
     `${checkCount} spot checks.`,
 );
 console.log(

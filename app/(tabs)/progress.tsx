@@ -143,7 +143,7 @@ export default function ProgressTab() {
       >
         <Text style={[styles.title, { color: colors.foreground }]}>Прогресс</Text>
         <Text style={[styles.subtitle, { color: colors.mutedForeground }]}>
-          Освоено {masteredCount} из {TENSES.length} времён
+          Отработано {masteredCount} из {TENSES.length} форм
         </Text>
       </View>
 
@@ -174,15 +174,15 @@ export default function ProgressTab() {
             })}
           </View>
           <Text style={[styles.levelHint, { color: colors.mutedForeground }]}>
-            Владение = точность на последних ответах × охват разных глаголов
-            (нужно {COVERAGE_TARGET}) × свежесть тренировки. Освоено — от{' '}
-            {MASTERY_THRESHOLD}% при {MIN_ANSWERS}+ ответах.
+            A1–C2 здесь — ориентир порядка изучения грамматики, а не оценка языкового уровня.
+            Прогресс = точность × охват разных глаголов (нужно {COVERAGE_TARGET}) × свежесть.
+            Отработано — от {MASTERY_THRESHOLD}% при {MIN_ANSWERS}+ ответах.
           </Text>
         </View>
 
         {started.length > 0 && (
           <>
-            <Text style={[styles.sectionLabel, { color: colors.mutedForeground }]}>ВРЕМЕНА В РАБОТЕ</Text>
+            <Text style={[styles.sectionLabel, { color: colors.mutedForeground }]}>ФОРМЫ В РАБОТЕ</Text>
             {started.map(renderTense)}
           </>
         )}

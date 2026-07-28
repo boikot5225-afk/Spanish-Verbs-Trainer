@@ -1,4 +1,5 @@
 import type { CompoundTense, ConjugationForm, Tense, Verb } from './types';
+import { IMPERATIVE_TENSES } from './types';
 import irregularData from './irregulars.json';
 
 export interface VerbMetadata {
@@ -93,6 +94,7 @@ const GERUND_OVERRIDES: Array<[string, string]> = [['ir', 'yendo']];
 
 const ACUTE: Record<string, string> = { a: 'á', e: 'é', i: 'í', o: 'ó', u: 'ú' };
 const ACCENTED = 'áéíóú';
+const REFLEXIVE_PRONOUNS = ['me', 'te', 'se', 'nos', 'os', 'se'] as const;
 
 /** Ставит острое ударение на последнюю гласную основы (habla → hablá, compon → compón). */
 function accentLastVowel(value: string): string {
@@ -101,6 +103,21 @@ function accentLastVowel(value: string): string {
     if (ACCENTED.includes(char)) return value; // ударение уже есть
     const accented = ACUTE[char];
     if (accented) return value.slice(0, index) + accented + value.slice(index + 1);
+  }
+  return value;
+}
+
+/** Сохраняет ударение глагольной формы после присоединения местоимения. */
+function accentSecondLastVowel(value: string): string {
+  if ([...value].some(char => ACCENTED.includes(char))) return value;
+  let seen = 0;
+  for (let index = value.length - 1; index >= 0; index -= 1) {
+    const char = value[index]!;
+    if (!(char in ACUTE)) continue;
+    seen += 1;
+    if (seen === 2) {
+      return value.slice(0, index) + ACUTE[char] + value.slice(index + 1);
+    }
   }
   return value;
 }
@@ -156,8 +173,9 @@ function patternOverride(
 }
 
 function shoeStem(stem: string, types: Set<string>, index: number): string {
-  if (!SHOE.has(index)) return stem;
   let value = stem;
+  if (types.has('o to u all')) value = replaceLast(value, 'o', 'u');
+  if (!SHOE.has(index)) return value;
   if (types.has('i before e')) value = replaceLast(value, 'e', 'ie');
   if (types.has('e after i')) value = replaceLast(value, 'i', 'ie');
   if (types.has('o to ue')) value = replaceLast(value, 'o', 'ue');
@@ -194,10 +212,18 @@ function presentForm(
   let stem = shoeStem(parsed.stem, types, index);
   if (types.has('add y') && ([1, 2, 5].includes(index) || (index === 0 && !types.has('add ig')))) stem += 'y';
   if (index === 0) stem = yoSubjunctiveTransform(stem, types);
-  return (
+  const form = (
     patternOverride(parsed.base, patterns, 'indicative present', PERSON_CODES[index]!) ??
     stem + PRESENT[parsed.type][index]
   );
+  if (index === 3 && types.has('add í')) return form.replace(/imos$/u, 'ímos');
+  if (
+    index === 4 &&
+    types.has('unaccented ui')
+  ) {
+    return stripMarks(form);
+  }
+  return form;
 }
 
 function irregularPreteriteStem(
@@ -205,6 +231,9 @@ function irregularPreteriteStem(
   types: Set<string>,
 ): { stem: string; kind?: 'irregular' | 'j' } {
   const { base, stem } = parsed;
+  if (types.has('o to u all')) {
+    return { stem: replaceLast(stem, 'o', 'u') };
+  }
   if (types.has('uv preterite')) {
     if (base === 'andar') return { stem: 'anduv', kind: 'irregular' };
     if (base.endsWith('estar')) return { stem: base.slice(0, -5) + 'estuv', kind: 'irregular' };
@@ -226,7 +255,11 @@ function preteriteForm(
   index: number,
 ): string {
   const overridden = patternOverride(parsed.base, patterns, 'indicative preterite', PERSON_CODES[index]!);
-  if (overridden !== undefined) return overridden;
+  if (overridden !== undefined) {
+    if (parsed.base === 'rehacer' && index === 0) return 'rehíce';
+    if (parsed.base === 'rehacer' && index === 2) return 'rehízo';
+    return overridden;
+  }
 
   let { stem, kind } = irregularPreteriteStem(parsed, types);
   if (kind) {
@@ -240,7 +273,14 @@ function preteriteForm(
   if (types.has('add y preterite') || types.has('add y')) {
     const endings = types.has('add í')
       ? ['í', 'íste', 'yó', 'ímos', 'ísteis', 'yeron']
-      : ['í', 'iste', 'yó', 'imos', 'isteis', 'yeron'];
+      : [
+          types.has('unaccented ui') ? 'i' : 'í',
+          'iste',
+          'yó',
+          'imos',
+          'isteis',
+          'yeron',
+        ];
     return stem + endings[index];
   }
   if (types.has('drop i') && (index === 2 || index === 5)) {
@@ -258,12 +298,14 @@ function preteriteForm(
 
 function imperfectForm(
   parsed: ParsedInfinitive,
+  types: Set<string>,
   patterns: PatternEntry[],
   index: number,
 ): string {
   return (
     patternOverride(parsed.base, patterns, 'indicative imperfect', PERSON_CODES[index]!) ??
-    parsed.stem + IMPERFECT[parsed.type][index]
+    (types.has('o to u all') ? replaceLast(parsed.stem, 'o', 'u') : parsed.stem) +
+      IMPERFECT[parsed.type][index]
   );
 }
 
@@ -274,7 +316,8 @@ function normalizedInfinitive(base: string): string {
 }
 
 function futureStem(base: string, types: Set<string>): string {
-  const clean = normalizedInfinitive(base);
+  const normalized = normalizedInfinitive(base);
+  const clean = types.has('o to u all') ? replaceLast(normalized, 'o', 'u') : normalized;
   if (types.has('d future')) return clean.slice(0, -2) + 'dr';
   if (types.has('drop vowel future')) return clean.slice(0, -2) + 'r';
   return clean;
@@ -317,6 +360,7 @@ function subjunctiveStem(
     } else if (types.has('o to u preterite') && types.has('o to ue')) {
       stem = replaceLast(stem, 'ue', 'u');
     } else if (
+      !types.has('add y') &&
       ['i before e', 'e after i', 'o to ue', 'o to üe', 'u to ue', 'i to í', 'u to ú', 'h before ue'].some(type => types.has(type))
     ) {
       stem = yoSubjunctiveTransform(parsed.stem, types);
@@ -339,6 +383,13 @@ function subjunctiveForm(
   const overridden = patternOverride(parsed.base, patterns, 'subjunctive present', PERSON_CODES[index]!);
   if (overridden !== undefined) return overridden;
   const form = subjunctiveStem(parsed, types, patterns, index) + SUBJUNCTIVE[parsed.type][index];
+  if (
+    (index === 3 || index === 4) &&
+    types.has('add y') &&
+    types.has('u to ú')
+  ) {
+    return form.replace(/ú/gu, 'u');
+  }
   return index === 4 && types.has('drop accent 2p subjunctive') ? stripMarks(form) : form;
 }
 
@@ -377,7 +428,9 @@ function gerundForm(parsed: ParsedInfinitive, types: Set<string>): string {
   ) {
     stem = replaceLast(stem, 'e', 'i');
   }
-  if (types.has('o to u preterite') || types.has('poder')) stem = replaceLast(stem, 'o', 'u');
+  if (types.has('o to u preterite') || types.has('o to u all') || types.has('poder')) {
+    stem = replaceLast(stem, 'o', 'u');
+  }
 
   if (type === 'ar') return stem + 'ando';
   if (stem.endsWith('i') || stem.endsWith('í')) return stem + 'endo'; // reír → riendo
@@ -436,6 +489,53 @@ interface BuiltForms {
   participio: string;
 }
 
+function reflexiveForms(built: BuiltForms, infinitive: string): BuiltForms {
+  const forms = {} as Record<Tense, string[]>;
+
+  (Object.keys(built.forms) as Tense[]).forEach(tense => {
+    if (tense === 'imperativoAfirmativo') {
+      if (infinitive === 'irse') {
+        forms[tense] = ['', 'vete', 'váyase', 'vámonos', 'idos', 'váyanse'];
+        return;
+      }
+      forms[tense] = built.forms[tense].map((form, index) => {
+        if (!form) return '';
+        const pronoun = REFLEXIVE_PRONOUNS[index]!;
+        if (index === 4) {
+          const withoutD = form.endsWith('d') ? form.slice(0, -1) : form;
+          const host = withoutD.endsWith('i') ? accentLastVowel(withoutD) : withoutD;
+          return `${host}${pronoun}`;
+        }
+        if (index === 3) {
+          const withoutS = form.endsWith('s') ? form.slice(0, -1) : form;
+          return `${accentSecondLastVowel(withoutS)}${pronoun}`;
+        }
+        return `${accentSecondLastVowel(form)}${pronoun}`;
+      });
+      return;
+    }
+
+    if (tense === 'imperativoNegativo') {
+      forms[tense] = built.forms[tense].map((form, index) => {
+        if (!form) return '';
+        return form.replace(/^no /u, `no ${REFLEXIVE_PRONOUNS[index]} `);
+      });
+      return;
+    }
+
+    forms[tense] = built.forms[tense].map(
+      (form, index) => `${REFLEXIVE_PRONOUNS[index]} ${form}`,
+    );
+  });
+
+  return {
+    forms,
+    gerundio: `${accentSecondLastVowel(built.gerundio)}se`,
+    // Причастие с haber остаётся неприсоединённой неличной формой: me he levantado.
+    participio: built.participio,
+  };
+}
+
 function buildForms(
   parsed: ParsedInfinitive,
   types: Set<string>,
@@ -452,7 +552,7 @@ function buildForms(
   const forms: Record<Tense, string[]> = {
     presente,
     preteriteIndef,
-    preteriteImp: PERSON_CODES.map((_, index) => imperfectForm(parsed, patterns, index)),
+    preteriteImp: PERSON_CODES.map((_, index) => imperfectForm(parsed, types, patterns, index)),
     futuro: PERSON_CODES.map((_, index) => futureForm(parsed, types, patterns, index, false)),
     condicional: PERSON_CODES.map((_, index) => futureForm(parsed, types, patterns, index, true)),
     perfecto: compound('perfecto'),
@@ -471,6 +571,32 @@ function buildForms(
     imperativoAfirmativo: imperativeAffirmativeForms(parsed, types, patterns, presente, subjuntivo),
     imperativoNegativo: imperativeNegativeForms(subjuntivo),
   };
+
+  if (types.has('defective no future conditional imperative')) {
+    for (const tense of [
+      'futuro',
+      'condicional',
+      'futuroPerfecto',
+      'condicionalPerfecto',
+      'imperativoAfirmativo',
+      'imperativoNegativo',
+    ] as const) {
+      forms[tense] = PERSON_CODES.map(() => '');
+    }
+  }
+
+  const allowedPersons = types.has('impersonal third singular')
+    ? new Set([2])
+    : types.has('defective third person')
+      ? new Set([2, 5])
+      : null;
+  if (allowedPersons) {
+    (Object.keys(forms) as Tense[]).forEach(tense => {
+      forms[tense] = forms[tense].map((form, index) =>
+        IMPERATIVE_TENSES.has(tense) || !allowedPersons.has(index) ? '' : form,
+      );
+    });
+  }
 
   return { forms, gerundio: gerundForm(parsed, types), participio };
 }
@@ -496,9 +622,14 @@ function resolveForms(metadata: VerbMetadata): ResolvedForms {
   const parsed = parseInfinitive(metadata.infinitive);
   const types = new Set(metadata.types);
   const patterns = applicablePatterns(parsed.base, types);
-  const built = buildForms(parsed, types, patterns);
+  const plainBuilt = buildForms(parsed, types, patterns);
   // Тот же генератор без признаков неправильности даёт эталон для подсветки ★.
-  const baseline = buildForms(parsed, new Set<string>(), []);
+  const plainBaseline = buildForms(parsed, new Set<string>(), []);
+  const isReflexive = metadata.infinitive.endsWith('se');
+  const built = isReflexive ? reflexiveForms(plainBuilt, metadata.infinitive) : plainBuilt;
+  const baseline = isReflexive
+    ? reflexiveForms(plainBaseline, metadata.infinitive)
+    : plainBaseline;
 
   return {
     conjugations: markForms(built, baseline),
@@ -516,7 +647,7 @@ export function conjugateMetadata(metadata: VerbMetadata): Verb {
     types: metadata.types,
   } as Verb;
 
-  // 2129 глаголов × 20 времён — это четверть миллиона форм. Списку и поиску нужны
+  // Более двух тысяч глаголов × 20 форм — это четверть миллиона результатов. Списку и поиску нужны
   // только инфинитив с переводом, поэтому спряжения считаются при первом обращении
   // к конкретному глаголу и дальше кешируются.
   let cached: ResolvedForms | undefined;

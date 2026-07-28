@@ -3,7 +3,26 @@ import { PERSONS } from './types';
 import metadata from './verbs.metadata.json';
 import { conjugateMetadata, type VerbMetadata } from './conjugator';
 
-export const VERBS: Verb[] = (metadata as VerbMetadata[]).map(conjugateMetadata);
+// Базовый словарь почти не содержит местоименных инфинитивов, хотя они нужны
+// и в справочнике, и в уже существующем уроке о возвратных глаголах.
+const REFLEXIVE_METADATA: VerbMetadata[] = [
+  { id: 'acostarse', infinitive: 'acostarse', translation: 'ложиться спать', group: 'irregular', types: ['o to ue'] },
+  { id: 'despertarse', infinitive: 'despertarse', translation: 'просыпаться', group: 'irregular', types: ['i before e'] },
+  { id: 'dormirse', infinitive: 'dormirse', translation: 'засыпать', group: 'irregular', types: ['o to ue', 'o to u preterite'] },
+  { id: 'ducharse', infinitive: 'ducharse', translation: 'принимать душ', group: 'ar', types: [] },
+  { id: 'irse', infinitive: 'irse', translation: 'уходить / уезжать', group: 'irregular', types: ['ir'] },
+  { id: 'levantarse', infinitive: 'levantarse', translation: 'вставать / подниматься', group: 'ar', types: [] },
+  { id: 'llamarse', infinitive: 'llamarse', translation: 'называться / зваться', group: 'ar', types: [] },
+  { id: 'ponerse', infinitive: 'ponerse', translation: 'надевать / становиться', group: 'irregular', types: ['poner', 'add g', 'd future'] },
+  { id: 'sentarse', infinitive: 'sentarse', translation: 'садиться', group: 'irregular', types: ['i before e'] },
+  { id: 'sentirse', infinitive: 'sentirse', translation: 'чувствовать себя', group: 'irregular', types: ['i before e', 'e to i preterite'] },
+  { id: 'vestirse', infinitive: 'vestirse', translation: 'одеваться', group: 'irregular', types: ['e to i'] },
+];
+
+export const VERBS: Verb[] = [
+  ...(metadata as VerbMetadata[]),
+  ...REFLEXIVE_METADATA,
+].map(conjugateMetadata);
 
 const VERB_BY_ID = new Map(VERBS.map(verb => [verb.id, verb]));
 
@@ -28,7 +47,7 @@ interface SearchEntry {
 }
 
 // Индекс строится один раз при загрузке, чтобы на каждое нажатие клавиши
-// не нормализовать 2129 инфинитивов и переводов заново.
+// не нормализовать весь словарь инфинитивов и переводов заново.
 const SEARCH_INDEX: SearchEntry[] = VERBS.map(verb => ({
   verb,
   infinitive: normalizeSearch(verb.infinitive),

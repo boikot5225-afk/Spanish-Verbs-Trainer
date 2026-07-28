@@ -222,7 +222,7 @@ export type Level = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
 
 export const LEVELS: Level[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
-/** Ориентировочный уровень, на котором время обычно вводится в курсе испанского. */
+/** Ориентир порядка введения формы, а не оценка общего уровня владения языком. */
 export const TENSE_LEVELS: Record<Tense, Level> = {
   presente: 'A1',
   imperativoAfirmativo: 'A1',

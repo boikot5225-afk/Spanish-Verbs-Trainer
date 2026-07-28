@@ -7,15 +7,15 @@ export default function NotFoundScreen() {
 
   return (
     <>
-      <Stack.Screen options={{ title: 'Oops!' }} />
+      <Stack.Screen options={{ title: 'Страница не найдена' }} />
       <View style={[styles.container, { backgroundColor: colors.background }]}>
         <Text style={[styles.title, { color: colors.foreground }]}>
-          This screen doesn&apos;t exist.
+          Такого экрана не существует.
         </Text>
 
         <Link href="/" style={styles.link}>
           <Text style={[styles.linkText, { color: colors.primary }]}>
-            Go to home screen!
+            Вернуться на главный экран
           </Text>
         </Link>
       </View>

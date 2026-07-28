@@ -42,7 +42,7 @@ export default function VerbsTab() {
         <SearchBar
           value={searchQuery}
           onChangeText={setSearchQuery}
-          placeholder="Buscar · Искать..."
+          placeholder="Искать глагол или перевод..."
         />
       </View>
 
