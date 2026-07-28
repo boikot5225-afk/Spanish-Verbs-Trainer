@@ -22,7 +22,7 @@ import {
 } from '../../data/lessons';
 import type { QuizMode } from '../../data/types';
 import { PERSONS, TENSE_FULL_LABELS } from '../../data/types';
-import { getVerbById } from '../../data/verbs';
+import { getVerbById, VERBS } from '../../data/verbs';
 
 const MEDAL_COLORS: Record<Exclude<Medal, null>, string> = {
   gold: '#D4A017',
@@ -45,6 +45,8 @@ export default function LessonDetail() {
   const { config, buildAndStartSession } = useQuiz();
   const { isAvailable, passed, unlock, drillScore, drillMedal } = useLessons();
   const [practiceMode, setPracticeMode] = useState<QuizMode>('input');
+  /** Расширить свободную тренировку на всю базу, а не только глаголы темы. */
+  const [allVerbs, setAllVerbs] = useState(false);
 
   const lesson = id ? getLessonById(id) : undefined;
 
@@ -109,7 +111,9 @@ export default function LessonDetail() {
       mode: practiceMode,
       tenses: lesson.practice.tenses,
       persons: PERSONS,
-      verbIds: practiceVerbIds,
+      // Зачёт и подходы всегда идут по глаголам темы; расширять можно только
+      // свободную тренировку — иначе порог зачёта потеряет смысл.
+      verbIds: allVerbs ? 'all' : practiceVerbIds,
       exam: undefined, // свободная тренировка ничего не открывает
       drill: undefined,
       lessonId: lesson.id,
@@ -283,8 +287,35 @@ export default function LessonDetail() {
             Тренировать тему
           </Text>
         </Pressable>
+        <Pressable
+          onPress={() => {
+            void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            setAllVerbs(previous => !previous);
+          }}
+          style={({ pressed }) => [
+            styles.allVerbsRow,
+            { borderColor: allVerbs ? colors.primary : colors.border, backgroundColor: colors.card },
+            pressed && { opacity: 0.7 },
+          ]}
+        >
+          <Ionicons
+            name={allVerbs ? 'checkbox' : 'square-outline'}
+            size={20}
+            color={allVerbs ? colors.primary : colors.mutedForeground}
+          />
+          <View style={{ flex: 1 }}>
+            <Text style={[styles.allVerbsLabel, { color: colors.foreground }]}>
+              Все глаголы базы
+            </Text>
+            <Text style={[styles.allVerbsHint, { color: colors.mutedForeground }]}>
+              Тренировка возьмёт времена темы, но глаголы — из всей базы.
+              Зачёт и подходы это не затрагивает.
+            </Text>
+          </View>
+        </Pressable>
+
         <Text style={[styles.practiceHint, { color: colors.mutedForeground }]}>
-          {practiceVerbIds.length} глаголов ·{' '}
+          {allVerbs ? `${VERBS.length} глаголов` : `${practiceVerbIds.length} глаголов`} ·{' '}
           {lesson.practice.tenses.map(tense => TENSE_FULL_LABELS[tense]).join(', ')}
         </Text>
 
@@ -404,6 +435,17 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   practiceBtnText: { fontSize: 15, fontFamily: 'Inter_600SemiBold' },
+  allVerbsRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 10,
+    borderWidth: 1,
+    borderRadius: 12,
+    padding: 12,
+    marginTop: 10,
+  },
+  allVerbsLabel: { fontSize: 14, fontFamily: 'Inter_500Medium' },
+  allVerbsHint: { fontSize: 12, lineHeight: 17, fontFamily: 'Inter_400Regular', marginTop: 2 },
   practiceHint: { fontSize: 12, fontFamily: 'Inter_400Regular', textAlign: 'center', marginTop: 8 },
   drillHeading: { fontSize: 16, fontFamily: 'Inter_600SemiBold', marginTop: 12 },
   drillHint: { fontSize: 12, lineHeight: 18, fontFamily: 'Inter_400Regular', marginTop: 4, marginBottom: 10 },

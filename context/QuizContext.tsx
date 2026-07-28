@@ -7,7 +7,8 @@ import type {
   QuizSession,
 } from '../data/types';
 import { PERSONS } from '../data/types';
-import { generateOptions, normalizeAnswer, shuffle, VERBS } from '../data/verbs';
+import { generateOptions, shuffle, VERBS } from '../data/verbs';
+import { checkAnswer } from '../data/answer';
 import {
   appendQuizHistory,
   clearActiveSession,
@@ -24,6 +25,7 @@ const DEFAULT_CONFIG: QuizConfig = {
   verbIds: 'all',
   mode: 'multiple-choice',
   maxQuestions: 20,
+  accentMode: 'warn',
 };
 
 interface QuizContextValue {
@@ -174,6 +176,8 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
     setSessionState(nextSession);
   }, []);
 
+  const accentMode = config.accentMode ?? 'warn';
+
   const submitAnswer = useCallback((userAnswer: string) => {
     setSessionState(previous => {
       if (!previous) return previous;
@@ -186,12 +190,12 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
       const answer: QuizAnswer = {
         question,
         userAnswer,
-        correct: normalizeAnswer(userAnswer) === normalizeAnswer(question.correctAnswer),
+        correct: checkAnswer(userAnswer, question.correctAnswer, accentMode).correct,
       };
 
       return { ...previous, answers: [...previous.answers, answer] };
     });
-  }, []);
+  }, [accentMode]);
 
   const advanceQuestion = useCallback(() => {
     setSessionState(previous => {

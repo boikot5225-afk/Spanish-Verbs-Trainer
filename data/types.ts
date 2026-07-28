@@ -299,6 +299,8 @@ export interface QuizDrill {
 }
 
 export interface QuizConfig {
+  /** Строгость к диакритике при проверке ввода. */
+  accentMode?: import('./answer').AccentMode;
   tenses: Tense[];
   persons: Person[];
   verbIds: string[] | 'all';

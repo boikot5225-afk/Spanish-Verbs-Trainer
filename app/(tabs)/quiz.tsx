@@ -23,6 +23,12 @@ import {
   tensesByMood,
 } from '../../data/types';
 import { VERBS } from '../../data/verbs';
+import {
+  ACCENT_MODES,
+  ACCENT_MODE_HINTS,
+  ACCENT_MODE_LABELS,
+  type AccentMode,
+} from '../../data/answer';
 
 const MODES: { id: QuizMode; label: string; description: string }[] = [
   { id: 'multiple-choice', label: 'Варианты ответа', description: 'Четыре формы на выбор' },
@@ -248,6 +254,40 @@ export default function QuizTab() {
           })}
         </View>
 
+        <Text style={[styles.sectionLabel, { color: colors.mutedForeground }]}>УДАРЕНИЯ</Text>
+        <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
+          {ACCENT_MODES.map((accentMode: AccentMode, index: number) => {
+            const active = (config.accentMode ?? 'warn') === accentMode;
+            return (
+              <Pressable
+                key={accentMode}
+                onPress={() => {
+                  void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                  setConfig({ accentMode });
+                }}
+                style={({ pressed }) => [
+                  styles.row,
+                  index < ACCENT_MODES.length - 1 && {
+                    borderBottomWidth: 1,
+                    borderBottomColor: colors.border,
+                  },
+                  pressed && styles.pressed,
+                ]}
+              >
+                <View style={{ flex: 1 }}>
+                  <Text style={[styles.rowLabel, { color: active ? colors.primary : colors.foreground }]}>
+                    {ACCENT_MODE_LABELS[accentMode]}
+                  </Text>
+                  <Text style={[styles.modeDescription, { color: colors.mutedForeground }]}>
+                    {ACCENT_MODE_HINTS[accentMode]}
+                  </Text>
+                </View>
+                <SelectionMark active={active} color={colors.primary} borderColor={colors.border} />
+              </Pressable>
+            );
+          })}
+        </View>
+
         <Text style={[styles.sectionLabel, { color: colors.mutedForeground }]}>ЛИЦА</Text>
         <View style={[styles.chipWrap, styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}> 
           {PERSONS.map(person => {
@@ -439,6 +479,7 @@ const styles = StyleSheet.create({
   moodHeaderText: { fontSize: 11, fontFamily: 'Inter_600SemiBold', letterSpacing: 0.6 },
   moodHeaderAction: { fontSize: 12, fontFamily: 'Inter_500Medium' },
   row: { minHeight: 52, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 11, gap: 12 },
+  modeDescription: { fontSize: 12, fontFamily: 'Inter_400Regular', marginTop: 2 },
   rowLabel: { flex: 1, fontSize: 15, fontFamily: 'Inter_600SemiBold' },
   rowSub: { fontSize: 12, fontFamily: 'Inter_400Regular', marginTop: 2 },
   verbTextWrap: { flex: 1 },
