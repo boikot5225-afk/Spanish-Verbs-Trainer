@@ -2,7 +2,7 @@
   "expo": {
     "name": "Spanish Verbs Trainer",
     "slug": "spanish-verbs-trainer",
-    "version": "1.12.0",
+    "version": "1.13.0",
     "orientation": "portrait",
     "scheme": "spanishverbstrainer",
     "userInterfaceStyle": "light",
@@ -13,7 +13,7 @@
     },
     "android": {
       "package": "com.bulat.spanishverbstrainer",
-      "versionCode": 13
+      "versionCode": 14
     },
     "web": {},
     "plugins": [

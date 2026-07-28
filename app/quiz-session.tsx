@@ -38,13 +38,9 @@ export default function QuizSession() {
   const topPad = Platform.OS === 'web' ? 67 : insets.top;
   const bottomPad = Platform.OS === 'web' ? 34 : insets.bottom;
 
-  // Сброс состояния строго при смене вопроса.
-  //
-  // Раньше здесь стоял ещё и отложенный inputRef.focus(). Любой лишний прогон
-  // эффекта пересоздавал таймер, focus() прилетал по уже сфокусированному полю
-  // и сбрасывал набираемую композицию — текст исчезал, а клавиатура оставалась
-  // с подсказками. Сторож по индексу гарантирует, что сброс случается только
-  // на новом вопросе и не может стереть то, что печатают прямо сейчас.
+  // Сброс состояния строго при смене вопроса. Сторож по индексу не даёт эффекту
+  // сработать посреди набора. Поле ввода очищать отсюда не нужно: оно
+  // пересоздаётся по key и фокусируется своим autoFocus.
   const lastIndexRef = useRef<number | null>(null);
   useEffect(() => {
     const index = session?.currentIndex ?? null;
@@ -57,18 +53,7 @@ export default function QuizSession() {
     setSelectedOption(null);
     setIsFlipped(false);
     flipAnim.setValue(0);
-
-    // После проверки поле становится нередактируемым и теряет фокус, поэтому на
-    // новом вопросе его возвращаем. focus() зовём только если поле не в фокусе —
-    // иначе он рвёт набираемую композицию.
-    if (session?.mode === 'input') {
-      const timer = setTimeout(() => {
-        if (!inputRef.current?.isFocused()) inputRef.current?.focus();
-      }, 50);
-      return () => clearTimeout(timer);
-    }
-    return undefined;
-  }, [session?.currentIndex, session?.mode, flipAnim]);
+  }, [session?.currentIndex, flipAnim]);
 
   // Навигация только из эффектов: переход в теле рендера конфликтует с теми,
   // что запускают обработчики.
@@ -305,8 +290,19 @@ export default function QuizSession() {
         Напишите форму глагола:
       </Text>
       <TextInput
+        // Новое поле на каждый вопрос. Раньше EditText переиспользовался: React
+        // затирал его текст в '', а composing-сессия клавиатуры оставалась от
+        // прошлого вопроса — в подсказках висело «recibimos», когда на экране
+        // уже был vivir, и набранное до поля не доходило.
+        key={`answer-${currentIndex}`}
         ref={inputRef}
         autoFocus
+        // Неконтролируемое поле: RN не переписывает набранное своим value, так
+        // что рассинхрону с клавиатурой взяться неоткуда.
+        defaultValue=""
+        autoComplete="off"
+        importantForAutofill="no"
+        spellCheck={false}
         style={[
           styles.textInput,
           {
@@ -319,7 +315,6 @@ export default function QuizSession() {
             color: colors.foreground,
           },
         ]}
-        value={inputValue}
         onChangeText={setInputValue}
         placeholder="Введите форму..."
         placeholderTextColor={colors.mutedForeground}
