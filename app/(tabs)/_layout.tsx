@@ -12,6 +12,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 function NativeTabLayout() {
   return (
     <NativeTabs>
+      <NativeTabs.Trigger name="learn">
+        <Icon sf={{ default: 'graduationcap', selected: 'graduationcap.fill' }} />
+        <Label>Обучение</Label>
+      </NativeTabs.Trigger>
       <NativeTabs.Trigger name="verbs">
         <Icon sf={{ default: 'book', selected: 'book.fill' }} />
         <Label>Глаголы</Label>
@@ -61,6 +65,18 @@ function ClassicTabLayout() {
           ) : null,
       }}
     >
+      <Tabs.Screen
+        name="learn"
+        options={{
+          title: 'Обучение',
+          tabBarIcon: ({ color }: { color: string }) =>
+            isIOS ? (
+              <SymbolView name="graduationcap" tintColor={color} size={24} />
+            ) : (
+              <Ionicons name="school-outline" size={22} color={color} />
+            ),
+        }}
+      />
       <Tabs.Screen
         name="verbs"
         options={{
