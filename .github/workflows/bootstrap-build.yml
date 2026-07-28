@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: french-verbs-apk-${{ github.ref }}
@@ -91,3 +91,15 @@ jobs:
           name: French-Verbs-Trainer-v${{ steps.app.outputs.version }}
           path: dist/French-Verbs-Trainer-v${{ steps.app.outputs.version }}.apk
           if-no-files-found: error
+
+      # Артефакты Actions лежат в хранилище, закрытом для части клиентов,
+      # поэтому APK дублируется релизом — оттуда его можно скачать напрямую.
+      - name: Publish APK as release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "build-${{ github.run_number }}" \
+            "dist/French-Verbs-Trainer-v${{ steps.app.outputs.version }}.apk" \
+            --title "French Verbs Trainer v${{ steps.app.outputs.version }} (build ${{ github.run_number }})" \
+            --target "${{ github.sha }}" \
+            --notes "Автосборка из ветки ${{ github.ref_name }}, коммит ${{ github.sha }}." 
