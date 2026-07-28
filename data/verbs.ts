@@ -2,8 +2,15 @@ import type { Tense, Verb } from './types';
 import { PERSONS, TENSES } from './types';
 import metadata from './verbs.metadata.json';
 import { conjugateMetadata, type VerbMetadata } from './conjugator';
+import { RUSSIAN_TRANSLATIONS } from './russianTranslations';
 
-export const VERBS: Verb[] = (metadata as VerbMetadata[]).map(conjugateMetadata);
+export const VERBS: Verb[] = (metadata as VerbMetadata[]).map(item => {
+  const verb = conjugateMetadata(item);
+  return {
+    ...verb,
+    translation: RUSSIAN_TRANSLATIONS[verb.id] ?? verb.translation,
+  };
+});
 
 const VERB_BY_ID = new Map(VERBS.map(verb => [verb.id, verb]));
 
