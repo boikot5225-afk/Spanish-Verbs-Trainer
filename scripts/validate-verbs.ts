@@ -4,6 +4,8 @@ import {
   IMPERATIVE_PERSONS,
   IMPERATIVE_TENSES,
   PERSONS,
+  speechParadigm,
+  speechText,
   TENSES,
   type Tense,
 } from '../data/types';
@@ -422,6 +424,45 @@ for (const tense of TENSES) {
   assert(tabledTenses.has(tense), `Tense ${tense} is never shown in a lesson table`);
 }
 
+// ── Озвучка ──────────────────────────────────────────────────────────────────
+{
+  // Местоимение обязано попадать в реплику: без него лицо на слух не различить
+  // (parle / parles / parlent звучат одинаково) и не возникает лиезон.
+  assert.equal(speechText('je', 'present', 'parle'), 'je parle');
+  assert.equal(speechText('nous', 'present', 'allons'), 'nous allons');
+  assert.equal(speechText('ils', 'present', 'ont'), 'ils ont');
+
+  // Перед гласной «je» стягивается в «j'», иначе синтезатор читает по слогам.
+  assert.equal(speechText('je', 'present', 'ai'), "j'ai");
+  assert.equal(speechText('je', 'passeCompose', 'ai parlé'), "j'ai parlé");
+  assert.equal(speechText('je', 'present', 'sais'), 'je sais');
+
+  // У местоименных глаголов возвратное местоимение уже внутри формы.
+  assert.equal(speechText('je', 'present', 'me lave'), 'je me lave');
+  assert.equal(speechText('je', 'present', "m'appelle"), "je m'appelle");
+
+  // Императив произносится без подлежащего.
+  assert.equal(speechText('tu', 'imperatifPresent', 'parle'), 'parle');
+  assert.equal(speechText('tu', 'imperatifPresent', 'lave-toi'), 'lave-toi');
+
+  // В подписях таблицы третье лицо выглядит как «il/elle», но синтезатору
+  // косая черта не нужна — в реплике должно быть одно слово.
+  for (const verb of [getVerbById('parler')!, getVerbById('avoir')!]) {
+    for (const tense of TENSES) {
+      const line = speechParadigm(tense, verb.conjugations[tense]);
+      assert(!line.includes('/'), `${verb.id}/${tense}: в озвучку попала косая черта`);
+      assert(!line.includes('—'), `${verb.id}/${tense}: в озвучку попал прочерк`);
+    }
+  }
+
+  // Отсутствующие формы в реплику не попадают.
+  const imperative = speechParadigm('imperatifPresent', getVerbById('parler')!.conjugations.imperatifPresent);
+  assert.equal(imperative, 'parle, parlons, parlez');
+
+  // Безличный глагол озвучивается одной формой.
+  assert.equal(speechParadigm('present', getVerbById('falloir')!.conjugations.present), 'il faut');
+}
+
 // ── Проверка ответа ──────────────────────────────────────────────────────────
 {
   const verdict = (input: string, expected: string, mode: 'strict' | 'warn' | 'ignore') =>
@@ -505,4 +546,4 @@ console.log(
     `and ${drillCount} drills.`,
 );
 console.log(`Validated ${EXAMPLES.length} usage examples across ${exampleTenses.size} tenses.`);
-console.log('Validated answer checking: accent modes, apostrophes, typo tolerance.');
+console.log('Validated answer checking and speech output with pronouns.');

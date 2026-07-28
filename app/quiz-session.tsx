@@ -16,7 +16,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useColors } from '@/hooks/useColors';
 import { useQuiz } from '../context/QuizContext';
 import { useVerbs } from '../context/VerbsContext';
-import { personLabels, TENSE_FULL_LABELS } from '../data/types';
+import { personLabels, speechText, TENSE_FULL_LABELS } from '../data/types';
 import { getVerbById } from '../data/verbs';
 import { ACCENT_MODE_HINTS, checkAnswer } from '../data/answer';
 import { KeyboardAwareScrollViewCompat } from '@/components/KeyboardAwareScrollViewCompat';
@@ -104,7 +104,7 @@ export default function QuizSession() {
     submitAnswer(answer);
     // Правильную форму проговариваем всегда: услышать её важнее всего именно
     // в момент, когда ответ уже дан.
-    if (speechEnabled) speak(question.correctAnswer);
+    if (speechEnabled) speak(speechText(question.person, question.tense, question.correctAnswer));
     if (verdict.correct) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     } else {
@@ -138,7 +138,7 @@ export default function QuizSession() {
   const handleFlip = () => {
     if (isFlipped) return;
     setIsFlipped(true);
-    if (speechEnabled) speak(question.correctAnswer);
+    if (speechEnabled) speak(speechText(question.person, question.tense, question.correctAnswer));
     Animated.timing(flipAnim, {
       toValue: 1,
       duration: 300,

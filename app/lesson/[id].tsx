@@ -21,7 +21,7 @@ import {
   type Medal,
 } from '../../data/lessons';
 import type { QuizMode } from '../../data/types';
-import { PERSONS, TENSE_FULL_LABELS } from '../../data/types';
+import { PERSONS, speechParadigm, TENSE_FULL_LABELS } from '../../data/types';
 import { getVerbById, VERBS } from '../../data/verbs';
 
 const MEDAL_COLORS: Record<Exclude<Medal, null>, string> = {
@@ -367,12 +367,7 @@ function LessonTable({
 
   const pronounce = () => {
     void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    speak(
-      verb.conjugations[table.tense]
-        .filter(form => !form.absent)
-        .map(form => form.form)
-        .join(', '),
-    );
+    speak(speechParadigm(table.tense, verb.conjugations[table.tense]));
   };
 
   return (

@@ -18,6 +18,7 @@ import type { Mood, Tense } from '../../data/types';
 import {
   MOODS,
   MOOD_LABELS,
+  speechParadigm,
   TENSE_FULL_LABELS,
   TENSE_LABELS,
   tensesByMood,
@@ -244,11 +245,9 @@ export default function VerbDetail() {
         {/* Pronounce button */}
         <Pressable
           onPress={() => {
-            const allForms = verb.conjugations[selectedTense]
-              .filter(f => !f.absent)
-              .map(f => f.form)
-              .join(', ');
-            speak(allForms);
+            // С местоимениями: без них лицо на слух не различить,
+            // а лиезон (nous allons, ils ont) вообще не возникает.
+            speak(speechParadigm(selectedTense, verb.conjugations[selectedTense]));
           }}
           style={({ pressed }) => [
             styles.pronounceBtn,

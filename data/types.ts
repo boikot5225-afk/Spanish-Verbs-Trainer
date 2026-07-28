@@ -204,6 +204,11 @@ export function personLabels(tense: Tense): Record<Person, string> {
   return IMPERATIVE_TENSES.has(tense) ? IMPERATIVE_PERSON_LABELS : PERSON_LABELS;
 }
 
+/** Форма начинается с гласной или немого h — перед ней «je» превращается в «j'». */
+function takesElision(form: string): boolean {
+  return /^[aeiouyàâéèêëîïôûùüh]/iu.test(form);
+}
+
 /**
  * Местоимение с элизией перед гласной: j'ai, j'habite — но je sais.
  *
@@ -214,7 +219,48 @@ export function personLabels(tense: Tense): Record<Person, string> {
 export function displayPronoun(person: Person, tense: Tense, form: string): string {
   const label = personLabels(tense)[person];
   if (person !== 'je' || IMPERATIVE_TENSES.has(tense)) return label;
-  return /^[aeiouyàâéèêëîïôûùüh]/iu.test(form) ? "j'" : label;
+  return takesElision(form) ? "j'" : label;
+}
+
+/**
+ * Местоимения для синтезатора речи. От подписей в таблице отличаются тем, что
+ * это одно слово: «il/elle» синтезатор прочитал бы вместе с косой чертой.
+ */
+const SPEECH_PRONOUNS: Record<Person, string> = {
+  je: 'je',
+  tu: 'tu',
+  il: 'il',
+  nous: 'nous',
+  vous: 'vous',
+  ils: 'ils',
+};
+
+/**
+ * Текст для озвучки: местоимение и форма одной фразой.
+ *
+ * Без местоимения французская форма озвучивается неверно и неинформативно.
+ * Во-первых, четыре формы из шести звучат одинаково — parle, parles, parlent
+ * не различить на слух, и лицо несёт только местоимение. Во-вторых, «ai», «as»,
+ * «a» сами по себе не значат ничего. В-третьих и главное — не возникает лиезон:
+ * «nous allons» читается /nu.za.lɔ̃/, «ils ont» /il.zɔ̃/, но лишь когда
+ * местоимение и форма произносятся как одна фраза.
+ *
+ * Императив местоимения не имеет: он и произносится без него.
+ */
+export function speechText(person: Person, tense: Tense, form: string): string {
+  if (IMPERATIVE_TENSES.has(tense)) return form;
+  if (person === 'je' && takesElision(form)) return `j'${form}`;
+  return `${SPEECH_PRONOUNS[person]} ${form}`;
+}
+
+/** Вся парадигма времени одной репликой — для кнопки «прослушать таблицу». */
+export function speechParadigm(tense: Tense, forms: ConjugationForm[]): string {
+  return PERSONS.map((person, index) => {
+    const form = forms[index];
+    return form && !form.absent ? speechText(person, tense, form.form) : null;
+  })
+    .filter((line): line is string => line !== null)
+    .join(', ');
 }
 
 export type Level = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
