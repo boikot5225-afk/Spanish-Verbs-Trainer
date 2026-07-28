@@ -980,8 +980,9 @@ export const LESSONS: Lesson[] = [
     sections: [
       {
         body:
-          'Условное наклонение собирается из двух уже знакомых деталей: основа берётся ' +
-          'от futur simple, окончания — от imparfait. Ничего нового учить не нужно.',
+          'Conditionnel présent собирается из двух уже знакомых деталей: основа берётся ' +
+          'от futur simple, окончания — от imparfait. Новых основ и окончаний нет; отдельно ' +
+          'нужно освоить значения этой формы.',
         table: { verbId: 'être', tense: 'conditionnel', caption: 'ser- + -ais = je serais' },
       },
       {
@@ -1416,8 +1417,9 @@ export const LESSONS: Lesson[] = [
     sections: [
       {
         body:
-          'Subjonctif требуется после выражений чувства и неуверенности. ' +
-          'Событие в придаточном подаётся не как факт, а через отношение говорящего к нему.',
+          'Subjonctif требуется после выражений чувства и неуверенности. При эмоции событие ' +
+          'может быть вполне реальным: je suis content qu’il soit là. Наклонение здесь ' +
+          'показывает оценку говорящего, а не объявляет событие вымышленным.',
         table: { verbId: 'craindre', tense: 'subjPresent', caption: 'que je craigne' },
       },
       {
