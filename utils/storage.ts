@@ -4,6 +4,12 @@ import type { QuizConfig, QuizHistoryItem, QuizSession } from '../data/types';
 const QUIZ_CONFIG_KEY = '@svt/quiz_config';
 const ACTIVE_SESSION_KEY = '@svt/active_session';
 const QUIZ_HISTORY_KEY = '@svt/quiz_history';
+const COURSE_PROGRESS_KEY = '@svt/course_progress';
+
+export interface CourseProgress {
+  completedLessonIds: string[];
+  bestScores: Record<string, number>;
+}
 
 async function saveJson<T>(key: string, value: T): Promise<void> {
   try {
@@ -54,4 +60,12 @@ export async function appendQuizHistory(item: QuizHistoryItem): Promise<void> {
   const history = (await loadQuizHistory()) ?? [];
   const withoutDuplicate = history.filter(existing => existing.id !== item.id);
   await saveJson(QUIZ_HISTORY_KEY, [item, ...withoutDuplicate].slice(0, 50));
+}
+
+export function loadCourseProgress(): Promise<CourseProgress | null> {
+  return loadJson<CourseProgress>(COURSE_PROGRESS_KEY);
+}
+
+export function saveCourseProgress(progress: CourseProgress): Promise<void> {
+  return saveJson(COURSE_PROGRESS_KEY, progress);
 }
