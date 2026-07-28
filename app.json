@@ -2,7 +2,7 @@
   "expo": {
     "name": "French Verbs Trainer",
     "slug": "french-verbs-trainer",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "scheme": "frenchverbstrainer",
     "userInterfaceStyle": "light",
@@ -13,9 +13,15 @@
     },
     "android": {
       "package": "com.bulat.frenchverbstrainer",
-      "versionCode": 14
+      "versionCode": 15,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#2563EB"
+      }
     },
-    "web": {},
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
     "plugins": [
       "expo-router",
       "expo-font",
@@ -23,6 +29,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#2563EB"
     }
   }
 }

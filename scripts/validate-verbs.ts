@@ -9,6 +9,7 @@ import {
 } from '../data/types';
 import { getVerbById, VERBS } from '../data/verbs';
 import { EXAMPLES } from '../data/examples';
+import { checkAnswer, editDistance } from '../data/answer';
 import {
   DRILL_QUESTIONS,
   EXAM_QUESTIONS,
@@ -421,6 +422,44 @@ for (const tense of TENSES) {
   assert(tabledTenses.has(tense), `Tense ${tense} is never shown in a lesson table`);
 }
 
+// ── Проверка ответа ──────────────────────────────────────────────────────────
+{
+  const verdict = (input: string, expected: string, mode: 'strict' | 'warn' | 'ignore') =>
+    checkAnswer(input, expected, mode);
+
+  // Точное совпадение и нечувствительность к регистру и пробелам.
+  assert(verdict('parle', 'parle', 'strict').correct, 'точное совпадение');
+  assert(verdict('  PARLE ', 'parle', 'strict').correct, 'регистр и пробелы');
+
+  // Минимальная пара внутри самой базы: il fut (passé simple) против
+  // il fût (subjonctif imparfait) — различаются только циркумфлексом.
+  assert(!verdict('fut', 'fût', 'strict').correct, 'строгий режим ловит fut/fût');
+  assert(verdict('fut', 'fût', 'warn').correct, 'мягкий режим засчитывает fut/fût');
+  assert(verdict('fut', 'fût', 'warn').accentMismatch, 'мягкий режим отмечает диакритику');
+  assert(verdict('fut', 'fût', 'ignore').correct, 'режим «не важна» засчитывает');
+  assert(!verdict('fut', 'fût', 'ignore').accentMismatch, 'режим «не важна» молчит');
+
+  // Седиль — такая же диакритика, как аксан.
+  assert(verdict('recois', 'reçois', 'warn').accentMismatch, 'седиль считается диакритикой');
+  assert(!verdict('recois', 'reçois', 'strict').correct, 'строгий режим требует седиль');
+
+  // Апостроф с телефонной клавиатуры приходит то прямой, то типографский.
+  assert(verdict('m’appelle', "m'appelle", 'strict').correct, 'типографский апостроф');
+  assert(verdict("m'appelle", 'm’appelle', 'strict').correct, 'обратное направление');
+
+  // Опечатка в один символ предлагается к исправлению, а не считается ошибкой.
+  assert(verdict('parlon', 'parlons', 'warn').looksLikeTypo, 'пропущенный символ');
+  assert(verdict('parlonss', 'parlons', 'warn').looksLikeTypo, 'лишний символ');
+  assert(!verdict('parl', 'parlons', 'warn').looksLikeTypo, 'два символа — уже не опечатка');
+  assert(!verdict('', 'parlons', 'warn').looksLikeTypo, 'пустой ввод не опечатка');
+  assert(!verdict('fut', 'fût', 'strict').looksLikeTypo, 'диакритика не выдаётся за опечатку');
+
+  // Ранний выход не должен искажать результат в пределах лимита.
+  assert.equal(editDistance('parlons', 'parlons'), 0);
+  assert.equal(editDistance('parlon', 'parlons'), 1);
+  assert.equal(editDistance('parl', 'parlons'), 3, 'за пределом лимита возвращается limit + 1');
+}
+
 // ── Примеры употребления ─────────────────────────────────────────────────────
 const seenPhrases = new Set<string>();
 const exampleTenses = new Set<Tense>();
@@ -466,3 +505,4 @@ console.log(
     `and ${drillCount} drills.`,
 );
 console.log(`Validated ${EXAMPLES.length} usage examples across ${exampleTenses.size} tenses.`);
+console.log('Validated answer checking: accent modes, apostrophes, typo tolerance.');

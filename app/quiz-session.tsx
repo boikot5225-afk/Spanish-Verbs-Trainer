@@ -17,13 +17,14 @@ import { useColors } from '@/hooks/useColors';
 import { useQuiz } from '../context/QuizContext';
 import { useVerbs } from '../context/VerbsContext';
 import { personLabels, TENSE_FULL_LABELS } from '../data/types';
-import { getVerbById, normalizeAnswer } from '../data/verbs';
+import { getVerbById } from '../data/verbs';
+import { ACCENT_MODE_HINTS, checkAnswer } from '../data/answer';
 import { KeyboardAwareScrollViewCompat } from '@/components/KeyboardAwareScrollViewCompat';
 
 export default function QuizSession() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
-  const { session, submitAnswer, advanceQuestion } = useQuiz();
+  const { session, submitAnswer, advanceQuestion, config } = useQuiz();
   const { speak, speechEnabled, toggleSpeech } = useVerbs();
 
   const [inputValue, setInputValue] = useState('');
@@ -31,6 +32,10 @@ export default function QuizSession() {
   const [isCorrect, setIsCorrect] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isFlipped, setIsFlipped] = useState(false);
+  /** Ответ похож на опечатку — даём поправить, ошибку пока не засчитываем. */
+  const [typoHint, setTypoHint] = useState(false);
+  /** Верно, но с промахом по диакритике. */
+  const [accentNote, setAccentNote] = useState(false);
 
   const flipAnim = useRef(new Animated.Value(0)).current;
   const inputRef = useRef<TextInput>(null);
@@ -52,6 +57,8 @@ export default function QuizSession() {
     setIsCorrect(false);
     setSelectedOption(null);
     setIsFlipped(false);
+    setTypoHint(false);
+    setAccentNote(false);
     flipAnim.setValue(0);
   }, [session?.currentIndex, flipAnim]);
 
@@ -80,14 +87,25 @@ export default function QuizSession() {
   // ─── Handlers ──────────────────────────────────────────────────────────────
 
   const handleCheck = (answer: string) => {
-    const correct = normalizeAnswer(answer) === normalizeAnswer(question.correctAnswer);
+    const verdict = checkAnswer(answer, question.correctAnswer, config.accentMode ?? 'warn');
+
+    // Ответ разошёлся с правильным ровно на один символ — скорее всего промах
+    // по клавише, а не незнание формы. Один раз предлагаем поправить.
+    if (!verdict.correct && verdict.looksLikeTypo && !typoHint) {
+      setTypoHint(true);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+      return;
+    }
+
+    setTypoHint(false);
+    setAccentNote(verdict.accentMismatch);
     setIsChecked(true);
-    setIsCorrect(correct);
+    setIsCorrect(verdict.correct);
     submitAnswer(answer);
     // Правильную форму проговариваем всегда: услышать её важнее всего именно
     // в момент, когда ответ уже дан.
     if (speechEnabled) speak(question.correctAnswer);
-    if (correct) {
+    if (verdict.correct) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     } else {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
@@ -175,8 +193,13 @@ export default function QuizSession() {
       ]}
     >
       <Text style={[styles.feedbackTitle, { color: isCorrect ? colors.success : colors.destructive }]}>
-        {isCorrect ? 'Верно!' : 'Неверно'}
+        {isCorrect ? (accentNote ? 'Верно, но следите за диакритикой' : 'Верно!') : 'Неверно'}
       </Text>
+      {isCorrect && accentNote && (
+        <Text style={[styles.correctAnswer, { color: colors.foreground }]}>
+          {question.correctAnswer}
+        </Text>
+      )}
       {!isCorrect && (
         <View style={styles.correctAnswerRow}>
           <Text style={[styles.correctLabel, { color: colors.mutedForeground }]}>
@@ -327,8 +350,18 @@ export default function QuizSession() {
         }}
       />
       <Text style={[styles.hintText, { color: colors.mutedForeground }]}>
-        Ударения при проверке учитываются нестрого
+        {ACCENT_MODE_HINTS[config.accentMode ?? 'warn']}
       </Text>
+
+      {typoHint && (
+        <View style={[styles.typoHint, { backgroundColor: colors.irregularBg, borderColor: colors.irregular }]}>
+          <Ionicons name="alert-circle-outline" size={18} color={colors.irregular} />
+          <Text style={[styles.typoHintText, { color: colors.irregular }]}>
+            Похоже на опечатку — не хватает или лишний один символ. Поправьте
+            и нажмите «Проверить» ещё раз; ошибка пока не засчитана.
+          </Text>
+        </View>
+      )}
       {!isChecked && (
         <Pressable
           onPress={() => {
@@ -572,6 +605,15 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter_500Medium',
     textAlign: 'center',
   },
+  typoHint: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 8,
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 10,
+  },
+  typoHintText: { flex: 1, fontSize: 13, lineHeight: 18, fontFamily: 'Inter_400Regular' },
   hintText: {
     fontSize: 12,
     fontFamily: 'Inter_400Regular',
