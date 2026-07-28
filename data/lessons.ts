@@ -35,7 +35,7 @@ export const LESSON_BLOCK_LABELS: Record<LessonBlock, string> = {
   composes: 'Составные времена',
   subjonctif: 'Сослагательное наклонение',
   imperatif: 'Повелительное наклонение',
-  litteraire: 'Книжные времена',
+  litteraire: 'Книжные времена · для чтения',
 };
 
 export interface LessonSection {
@@ -113,9 +113,9 @@ export const LESSONS: Lesson[] = [
       {
         heading: 'Первая группа: -er',
         body:
-          'Самая большая и самая правильная группа — около 90% всех глаголов языка. ' +
-          'Отбросьте -er, к оставшейся основе добавьте окончания -e, -es, -e, -ons, -ez, -ent. ' +
-          'Четыре формы из шести звучат одинаково, различаясь только на письме.',
+          'Первая группа — самая многочисленная и продуктивная. Отбросьте -er, к оставшейся ' +
+          'основе добавьте окончания -e, -es, -e, -ons, -ez, -ent. У parler формы je, tu, ' +
+          'il/elle и ils/elles звучат одинаково, хотя пишутся по-разному.',
         table: { verbId: 'parler', tense: 'present', caption: 'parler — говорить' },
       },
       {
@@ -130,16 +130,17 @@ export const LESSONS: Lesson[] = [
         heading: 'Третья группа: всё остальное',
         body:
           'Сюда попадают глаголы на -re, на -oir и та часть глаголов на -ir, которая ' +
-          'обходится без -iss-. Их около 350, они самые частотные в языке, и учить их ' +
-          'приходится по семействам.',
+          'обходится без -iss-. Среди них много самых частотных глаголов языка; удобнее ' +
+          'учить не абстрактную «третью группу», а отдельные семейства и образцы.',
         table: { verbId: 'prendre', tense: 'present', caption: 'prendre — брать' },
       },
       {
-        heading: 'Местоимение обязательно',
+        heading: 'Подлежащее обычно обязательно',
         body:
-          'В отличие от испанского или итальянского, французский не опускает подлежащее: ' +
-          'нельзя сказать просто «parle», нужно «je parle». Причина простая — окончания ' +
-          'на слух совпадают, и без местоимения лицо не восстановить.',
+          'В обычной личной фразе французский не опускает подлежащее так, как испанский ' +
+          'или итальянский: говорят je parle, а не просто «parle». Подлежащим может быть ' +
+          'местоимение или существительное. Главные исключения — impératif (Parle !) и ' +
+          'неличные формы вроде parler.',
       },
     ],
     practice: {
@@ -202,9 +203,9 @@ export const LESSONS: Lesson[] = [
     sections: [
       {
         body:
-          'Часть глаголов первой группы меняет основу в тех формах, где окончание немое, ' +
-          'то есть в единственном числе и в третьем лице множественного. Причина ' +
-          'фонетическая: без изменения основы гласная оказалась бы в безударном слоге и ослабла.',
+          'Часть глаголов первой группы меняет основу перед немыми окончаниями: в ' +
+          'единственном числе и в третьем лице множественного. Чередование отражает ' +
+          'произношение: j’achète, но nous achetons.',
       },
       {
         heading: 'e → è',
@@ -216,16 +217,17 @@ export const LESSONS: Lesson[] = [
       {
         heading: 'Удвоение согласной',
         body:
-          'Другая часть глаголов на -eler и -eter вместо грависа удваивает согласную: ' +
-          'appeler → j’appelle, jeter → je jette. Список закрытый, его проще запомнить целиком.',
+          'В традиционном написании часть глаголов на -eler и -eter удваивает согласную: ' +
+          'appeler → j’appelle, jeter → je jette; у других появляется è. Реформа 1990 года ' +
+          'разрешила написание с è для многих таких глаголов, но appeler и jeter сохраняют удвоение.',
         table: { verbId: 'appeler', tense: 'present', caption: 'appeler — звать' },
       },
       {
         heading: 'é → è',
         body:
-          'Глаголы с é в основе (espérer, préférer, répéter) ведут себя похоже, но с важной ' +
-          'оговоркой: в будущем времени по традиционной норме é сохраняется — j’espérerai, ' +
-          'хотя в настоящем j’espère.',
+          'Глаголы с é в основе (espérer, préférer, répéter) в настоящем получают è перед ' +
+          'немым окончанием: j’espère. В будущем приложение использует традиционное ' +
+          'написание j’espérerai; вариант j’espèrerai также допускается реформой 1990 года.',
         table: { verbId: 'espérer', tense: 'present', caption: 'espérer — надеяться' },
       },
     ],
@@ -294,8 +296,9 @@ export const LESSONS: Lesson[] = [
     sections: [
       {
         body:
-          'Вторая группа полностью регулярна: единственное число даёт -is, -is, -it, ' +
-          'множественное — -issons, -issez, -issent. Никаких чередований в основе не бывает.',
+          'Вторая группа в настоящем времени регулярна: единственное число даёт -is, -is, -it, ' +
+          'множественное — -issons, -issez, -issent. Редкие орфографические особенности ' +
+          'отдельных глаголов не меняют эту схему.',
         table: { verbId: 'finir', tense: 'present', caption: 'finir — заканчивать' },
       },
       {
@@ -389,8 +392,9 @@ export const LESSONS: Lesson[] = [
       {
         heading: 'Формы на -tes',
         body:
-          'Во всём языке только три глагола дают в форме vous окончание -tes: ' +
-          'vous êtes, vous faites, vous dites. Все остальные без исключения оканчиваются на -ez.',
+          'Три частотные формы нужно запомнить отдельно: vous êtes, vous faites, vous dites. ' +
+          'Глагол redire повторяет vous redites, тогда как большинство производных от dire ' +
+          'имеют -disez: vous contredisez, vous interdisez.',
         table: { verbId: 'faire', tense: 'present', caption: 'faire — делать' },
       },
       {
@@ -439,9 +443,10 @@ export const LESSONS: Lesson[] = [
       {
         heading: 'Чем отличается от futur simple',
         bullets: [
-          'futur proche — ближайшее, запланированное, связанное с настоящим',
-          'futur simple — отдалённое, нейтральное, книжное',
-          'в устной речи futur proche вытесняет futur simple почти полностью',
+          'futur proche часто показывает намерение, план или событие, связанное с настоящей ситуацией',
+          'futur simple нейтрально сообщает о будущем, обещании, прогнозе или результате',
+          'дистанция не решает всё: оба варианта встречаются и в близком, и в далёком будущем',
+          'в устной речи futur proche очень частотен, но futur simple никуда не исчез',
         ],
       },
       {
@@ -508,15 +513,18 @@ export const LESSONS: Lesson[] = [
         },
       },
       {
-        heading: 'Когда без неё не обойтись',
+        heading: 'Когда она полезна',
         body:
-          'Обычное настоящее время двусмысленно: je travaille значит и «я работаю сейчас», ' +
-          'и «я работаю вообще». Конструкция снимает эту двусмысленность.',
+          'Обычное настоящее время je travaille может означать и «я сейчас работаю», и ' +
+          '«я работаю вообще». Être en train de нужна, когда важно специально подчеркнуть ' +
+          'процесс; во многих фразах контекста и présent вполне достаточно.',
       },
       {
-        heading: 'Только для длящихся действий',
+        heading: 'Действие рассматривается как процесс',
         body:
-          'С мгновенными глаголами она не сочетается: действие должно быть растянуто во времени.',
+          'Конструкция естественнее всего с действием, которое можно увидеть в развитии. ' +
+          'Даже краткое событие возможно, если говорящий представляет его как процесс; ' +
+          'поэтому механического запрета на «мгновенные» глаголы нет.',
       },
     ],
     practice: {
@@ -606,8 +614,8 @@ export const LESSONS: Lesson[] = [
       {
         heading: 'connaître — быть знакомым',
         body:
-          'Всегда с прямым дополнением-существительным: je connais Paris, je connais cette femme. ' +
-          'Придаточное после него невозможно.',
+          'Обычно присоединяет существительное или местоимение: je connais Paris, je connais ' +
+          'cette femme. Для сообщения факта через придаточное с que употребляют savoir, а не connaître.',
         table: { verbId: 'connaître', tense: 'present', caption: 'connaître — быть знакомым' },
       },
       {
@@ -648,10 +656,11 @@ export const LESSONS: Lesson[] = [
         body: 'me, te и se теряют гласную: je m’appelle, tu t’habilles, il s’arrête.',
       },
       {
-        heading: 'Всегда être в составных временах',
+        heading: 'В составных временах — être',
         body:
-          'Независимо от значения местоименные глаголы образуют сложные времена только ' +
-          'с être — и, соответственно, требуют согласования причастия: elle s’est levée.',
+          'Местоименные глаголы образуют сложные времена с être: elle s’est levée. Но ' +
+          'согласование не автоматическое: elle s’est lavé les mains, потому что прямое ' +
+          'дополнение les mains стоит после причастия.',
       },
       {
         heading: 'В императиве местоимение уходит вправо',
@@ -700,10 +709,11 @@ export const LESSONS: Lesson[] = [
         ],
       },
       {
-        heading: 'С avoir согласования нет',
+        heading: 'С avoir причастие обычно неизменно',
         body:
-          'Причастие остаётся неизменным: elles ont parlé, а не «parlées». ' +
-          'Согласование появляется только при être — об этом отдельный урок.',
+          'Если прямого дополнения перед причастием нет, форма не меняется: elles ont parlé. ' +
+          'Но предшествующее прямое дополнение вызывает согласование: les lettres qu’elles ' +
+          'ont écrites. В изолированной таблице тренажёр показывает базовую форму.',
         table: { verbId: 'prendre', tense: 'passeCompose', caption: 'prendre — брать' },
       },
     ],
@@ -728,12 +738,13 @@ export const LESSONS: Lesson[] = [
     id: 'passe-compose-etre',
     block: 'passe',
     title: 'Passé composé с être',
-    summary: 'Закрытый список глаголов движения и состояния',
+    summary: 'Глаголы, которые обычно образуют passé composé с être',
     sections: [
       {
         body:
-          'Небольшая группа глаголов образует составные времена не с avoir, а с être. ' +
-          'Список закрытый, и его придётся выучить — логика в нём есть, но неполная.',
+          'Небольшая группа непереходных глаголов образует составные времена с être. ' +
+          'Список лучше запомнить: одного значения движения недостаточно — marcher, courir ' +
+          'и voyager, например, употребляются с avoir.',
         table: { verbId: 'aller', tense: 'passeCompose', caption: 'aller — идти' },
       },
       {
@@ -781,16 +792,16 @@ export const LESSONS: Lesson[] = [
     sections: [
       {
         body:
-          'Imparfait образуется по единому правилу вообще для всех глаголов: возьмите форму nous ' +
-          'в настоящем времени, отбросьте -ons и добавьте -ais, -ais, -ait, -ions, -iez, -aient.',
+          'Для большинства глаголов imparfait образуется так: возьмите форму nous в настоящем ' +
+          'времени, отбросьте -ons и добавьте -ais, -ais, -ait, -ions, -iez, -aient.',
         table: { verbId: 'parler', tense: 'imparfait', caption: 'nous parlons → je parlais' },
       },
       {
-        heading: 'Единственное исключение',
+        heading: 'Главное исключение',
         body:
-          'Только être не подчиняется правилу: у него основа ét-, потому что форма «nous sommes» ' +
-          'для вывода не годится.',
-        table: { verbId: 'être', tense: 'imparfait', caption: 'être — единственное исключение' },
+          'У être основа ét-, её нельзя вывести из nous sommes. У безличных falloir и pleuvoir ' +
+          'формы nous нет, поэтому их основы fall- и pleuv- тоже запоминают отдельно.',
+        table: { verbId: 'être', tense: 'imparfait', caption: 'être — особая основа ét-' },
       },
       {
         heading: 'Орфография догоняет',
@@ -843,7 +854,7 @@ export const LESSONS: Lesson[] = [
         table: { verbId: 'parler', tense: 'imparfait', caption: 'фон и привычка' },
       },
       {
-        heading: 'Маркеры',
+        heading: 'Подсказки, а не переключатели',
         bullets: [
           'passé composé: soudain, hier, une fois, trois fois',
           'imparfait: toujours, souvent, chaque jour, pendant que',
@@ -1030,8 +1041,8 @@ export const LESSONS: Lesson[] = [
       {
         heading: 'В условных предложениях',
         body:
-          'После si в нереальном условии прошлого стоит именно plus-que-parfait: ' +
-          'si j’avais su, je serais venu.',
+          'После si в нереальном условии прошлого ставят plus-que-parfait, а в главной части — ' +
+          'conditionnel passé: si j’avais su, je serais venu.',
       },
     ],
     practice: {
@@ -1066,8 +1077,9 @@ export const LESSONS: Lesson[] = [
       {
         heading: 'После временных союзов',
         body:
-          'Quand, dès que, après que требуют futur antérieur там, где русский обходится ' +
-          'совершенным видом: «когда закончу» → quand j’aurai fini.',
+          'Quand, dès que и après que могут вводить futur antérieur, когда одно будущее ' +
+          'действие должно завершиться раньше другого: «когда закончу» → quand j’aurai fini. ' +
+          'Сам по себе союз это время не требует.',
       },
       {
         heading: 'Предположение о прошлом',
@@ -1101,7 +1113,8 @@ export const LESSONS: Lesson[] = [
       {
         body:
           'Вспомогательный глагол в conditionnel présent плюс причастие. ' +
-          'Обозначает действие, которое могло произойти, но не произошло.',
+          'Чаще всего обозначает нереализованное действие: оно могло произойти, но не ' +
+          'произошло. Также форма встречается в сообщениях с оговоркой и предположениях о прошлом.',
         table: { verbId: 'faire', tense: 'conditionnelPasse', caption: 'j’aurais fait' },
       },
       {
@@ -1155,8 +1168,9 @@ export const LESSONS: Lesson[] = [
       {
         heading: 'Кого это касается',
         body:
-          'monter, descendre, sortir, rentrer, retourner, passer. У остальных глаголов ' +
-          'из списка être переходного значения нет.',
+          'Чаще всего это monter, descendre, sortir, rentrer, retourner и passer. У entrer ' +
+          'тоже бывает переходное употребление (entrer des données). Поэтому надёжнее смотреть ' +
+          'на конструкцию конкретного значения, а не на один заученный список.',
         table: {
           verbId: 'descendre',
           tense: 'passeCompose',
@@ -1166,8 +1180,8 @@ export const LESSONS: Lesson[] = [
       {
         heading: 'Смысл меняется вместе с вспомогательным',
         body:
-          'Il a passé l’examen — «он сдавал экзамен». Il est passé — «он зашёл». ' +
-          'Это разные значения, а не стилистические варианты.',
+          'Il a passé l’examen — «он сдавал / сдал экзамен». Il est passé par ici — ' +
+          '«он прошёл здесь». Это разные конструкции, а не стилистические варианты.',
       },
     ],
     practice: {
@@ -1220,11 +1234,14 @@ export const LESSONS: Lesson[] = [
       },
       {
         heading: 'Местоименные глаголы',
-        body: 'Всегда être, значит всегда согласование: elle s’est levée, elles se sont levées.',
+        body:
+          'Они спрягаются с être, но согласование зависит от роли se и прямого дополнения: ' +
+          'elle s’est levée; elle s’est lavé les mains; elles se sont parlé. Простого правила ' +
+          '«être — значит согласовать с подлежащим» здесь недостаточно.',
         table: {
           verbId: 'se laver',
           tense: 'passeCompose',
-          caption: 'se laver — согласование обязательно',
+          caption: 'se laver — согласование зависит от конструкции',
         },
       },
     ],
@@ -1263,15 +1280,17 @@ export const LESSONS: Lesson[] = [
       {
         heading: 'Формы nous и vous особые',
         body:
-          'Они совпадают с imparfait, а не строятся от основы ils. У глаголов с двумя основами ' +
-          'это сразу заметно: que je prenne, но que nous prenions.',
+          'Обычно они строятся от основы формы nous présent: nous prenons → que nous prenions. ' +
+          'У регулярных глаголов результат совпадает по написанию с imparfait, но у être, avoir, ' +
+          'faire, savoir и других неправильных глаголов это совпадение не работает.',
         table: { verbId: 'prendre', tense: 'subjPresent', caption: 'prendre — две основы' },
       },
       {
         heading: 'Совпадения с настоящим временем',
         body:
-          'У глаголов первой группы subjonctif в единственном числе внешне не отличается от ' +
-          'présent. Различие проявляется только у глаголов с чередованием основы.',
+          'У регулярных глаголов первой группы формы je, tu, il/elle и ils/elles в subjonctif ' +
+          'présent совпадают по написанию с indicatif présent. Формы nous и vous отличаются: ' +
+          'nous parlons, но que nous parlions.',
       },
     ],
     practice: {
@@ -1295,12 +1314,13 @@ export const LESSONS: Lesson[] = [
     id: 'subj-present-irreguliers',
     block: 'subjonctif',
     title: 'Неправильный subjonctif',
-    summary: 'Девять глаголов со своей основой',
+    summary: 'Основные частотные глаголы с особыми основами',
     sections: [
       {
         body:
-          'У небольшой группы глаголов основа сослагательного не выводится из формы ils. ' +
-          'Их немного, но все они очень частотные.',
+          'У нескольких частотных глаголов стандартная схема по форме ils не работает ' +
+          'полностью или даёт только часть парадигмы. Ниже — основные формы, которые стоит ' +
+          'запомнить отдельно.',
         table: { verbId: 'être', tense: 'subjPresent', caption: 'être — soi-' },
       },
       { table: { verbId: 'aller', tense: 'subjPresent', caption: 'aller — aill- / all-' } },
@@ -1366,8 +1386,9 @@ export const LESSONS: Lesson[] = [
       {
         heading: 'espérer — исключение',
         body:
-          'Вопреки ожиданию, espérer que требует изъявительного наклонения: ' +
-          'j’espère qu’il vient.',
+          'В утвердительной фразе espérer que обычно требует изъявительного наклонения, ' +
+          'часто futur simple: j’espère qu’il viendra. В отрицании или вопросе subjonctif ' +
+          'возможен, если говорящий подчёркивает сомнение.',
       },
     ],
     practice: {
@@ -1410,13 +1431,17 @@ export const LESSONS: Lesson[] = [
       {
         heading: 'Сомнение и отрицание уверенности',
         body:
-          'Ключевая пара: je pense qu’il vient — изъявительное, уверенность. ' +
-          'Je ne pense pas qu’il vienne — сослагательное, уверенность снята отрицанием.',
+          'Ключевая пара: je pense qu’il viendra — изъявительное, мнение подаётся как вероятное. ' +
+          'Je ne pense pas qu’il vienne — subjonctif, говорящий подчёркивает сомнение. После ' +
+          'отрицания indicatif тоже возможен, если факт всё же утверждается.',
         table: { verbId: 'venir', tense: 'subjPresent', caption: 'venir — que je vienne' },
       },
       {
-        heading: 'Вопрос тоже переключает наклонение',
-        body: 'Pensez-vous qu’il vienne ? — в вопросительной форме уверенность так же ослаблена.',
+        heading: 'Вопрос не переключает наклонение автоматически',
+        body:
+          'Pensez-vous qu’il vienne ? подчёркивает сомнение; Pensez-vous qu’il viendra ? ' +
+          'нейтральнее спрашивает о прогнозе. Выбор зависит от того, представляет ли говорящий ' +
+          'событие как вероятное или ставит его под сомнение.',
       },
     ],
     practice: {
@@ -1440,12 +1465,12 @@ export const LESSONS: Lesson[] = [
     id: 'subj-conjonctions',
     block: 'subjonctif',
     title: 'Союзы, требующие subjonctif',
-    summary: 'Закрытый список — учить как формулы',
+    summary: 'Частотные связки, после которых нужен subjonctif',
     sections: [
       {
         body:
-          'Ряд союзов требует сослагательного автоматически, независимо от смысла. ' +
-          'Здесь думать не нужно — достаточно узнать союз.',
+          'Некоторые устойчивые союзы надёжно требуют subjonctif. Их полезно учить целиком, ' +
+          'но не переносить правило на любую конструкцию с que.',
         table: { verbId: 'pouvoir', tense: 'subjPresent', caption: 'pour que je puisse' },
       },
       {
@@ -1498,8 +1523,8 @@ export const LESSONS: Lesson[] = [
       {
         heading: 'Сравнение',
         bullets: [
-          'je suis content qu’il vienne — рад, что придёт',
-          'je suis content qu’il soit venu — рад, что пришёл',
+          'je suis content qu’il vienne — рад, что он приходит / придёт; действие не представлено как завершённое',
+          'je suis content qu’il soit venu — рад, что он пришёл; действие завершилось раньше',
         ],
       },
       {
@@ -1680,8 +1705,9 @@ export const LESSONS: Lesson[] = [
     sections: [
       {
         body:
-          'Passé simple выполняет ту же работу, что passé composé, но только на письме: ' +
-          'в романах, исторических текстах, сказках. В разговоре он не встречается вообще.',
+          'Passé simple выполняет в повествовании примерно ту же работу, что passé composé, ' +
+          'и употребляется главным образом в романах, исторических текстах и сказках. В обычной ' +
+          'разговорной речи он редок, но возможен как цитата, шутка или нарочито высокий стиль.',
         table: { verbId: 'parler', tense: 'passeSimple', caption: 'parler — первая группа' },
       },
       {
@@ -1731,12 +1757,13 @@ export const LESSONS: Lesson[] = [
     id: 'litt-subjonctif-imparfait',
     block: 'litteraire',
     title: 'Книжный subjonctif',
-    summary: 'Imparfait и plus-que-parfait сослагательного',
+    summary: 'Распознавание imparfait и plus-que-parfait сослагательного',
     sections: [
       {
         body:
-          'Два последних времени системы. В современном языке они вытеснены настоящим и ' +
-          'прошедшим сослагательным и сохраняются только в литературе.',
+          'Эти формы нужны прежде всего для чтения классической и нарочито высокой прозы. ' +
+          'Subjonctif imparfait изредка появляется в очень формальной речи; plus-que-parfait ' +
+          'сослагательного ещё реже. Для повседневной активной речи их заучивать не обязательно.',
         table: { verbId: 'être', tense: 'subjImparfait', caption: 'être — que je fusse' },
       },
       {
@@ -1749,14 +1776,16 @@ export const LESSONS: Lesson[] = [
       {
         heading: 'Зачем это знать',
         body:
-          'Узнавание форм вроде qu’il fût или qu’il eût нужно при чтении классики. ' +
-          'В собственной речи их место занимают que je sois и que j’aie.',
+          'Узнавание форм вроде qu’il fût или qu’il eût полезно при чтении классики. ' +
+          'В современной речи обычно выбирают subjonctif présent или passé в зависимости ' +
+          'от того, завершилось действие или нет.',
       },
       {
         heading: 'Plus-que-parfait сослагательного',
         body:
-          'Вспомогательный глагол в subjonctif imparfait плюс причастие. В литературе ' +
-          'иногда заменяет conditionnel passé — так называемое второе условное.',
+          'Вспомогательный глагол в subjonctif imparfait плюс причастие. Та же форма может ' +
+          'выступать в главной части условия как conditionnel passé deuxième forme; различие ' +
+          'определяется синтаксисом, а не окончанием.',
         table: { verbId: 'parler', tense: 'subjPlusQueParfait', caption: 'qu’il eût parlé' },
       },
     ],
