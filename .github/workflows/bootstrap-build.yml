@@ -56,16 +56,33 @@ jobs:
       - name: Generate Android project
         run: npx expo prebuild --platform android --clean
 
-      # prebuild --clean каждый раз кладёт свой debug.keystore из шаблона Expo,
-      # а релиз подписывается именно им. Ставим собственную копию того же ключа:
-      # сменится версия шаблона — подпись не поедет, и APK по-прежнему встанет
-      # поверх установленного приложения, не стирая прогресс.
-      - name: Pin signing key
+      # Expo prebuild creates the same template debug key that signed v1.15.0.
+      # Verify its certificate before building so an incompatible APK is never published.
+      - name: Verify signing key
         shell: bash
         run: |
-          cp android-signing/debug.keystore android/app/debug.keystore
-          keytool -list -keystore android/app/debug.keystore -storepass android \
-            | grep -i 'SHA-256'
+          key="android/app/debug.keystore"
+          expected="FAC61745DC0903786FB9EDE62A962B399F7348F0BB6F899B8332667591033B9C"
+
+          if [ ! -f "$key" ]; then
+            echo "Signing key was not generated: $key"
+            exit 1
+          fi
+
+          actual="$(keytool -exportcert \
+            -keystore "$key" \
+            -storepass android \
+            -alias androiddebugkey 2>/dev/null \
+            | sha256sum | awk '{print toupper($1)}')"
+
+          if [ "$actual" != "$expected" ]; then
+            echo "Signing certificate mismatch"
+            echo "Expected: $expected"
+            echo "Actual:   $actual"
+            exit 1
+          fi
+
+          echo "Signing certificate matches v1.15.0"
 
       - name: Build release APK
         shell: bash
