@@ -54,6 +54,21 @@ for (const verb of VERBS) {
   assert(verb.infinitive.trim(), `Empty infinitive for ${verb.id}`);
   assert(verb.translation.trim(), `Empty translation for ${verb.id}`);
   assert(/[А-Яа-яЁё]/u.test(verb.translation), `${verb.id}: translation is not Russian`);
+  // Следы машинного перевода английской глоссы: латиница в переводе и одно
+  // и то же значение, перечисленное дважды («платить, платить (за что-л.)»).
+  assert(
+    !/[A-Za-z]/u.test(verb.translation),
+    `${verb.id}: latin letters left in translation "${verb.translation}"`,
+  );
+  const senses = verb.translation
+    .split(/[,;/]/u)
+    .map(sense => sense.replace(/\s*\(.*?\)/gu, '').trim())
+    .filter(Boolean);
+  assert.equal(
+    new Set(senses).size,
+    senses.length,
+    `${verb.id}: repeated sense in translation "${verb.translation}"`,
+  );
 
   for (const nonFinite of ['gerundio', 'participio'] as const) {
     const form = verb[nonFinite].form;

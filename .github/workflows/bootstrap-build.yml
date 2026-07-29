@@ -53,6 +53,17 @@ jobs:
       - name: Generate Android project
         run: npx expo prebuild --platform android --clean
 
+      # prebuild --clean каждый раз кладёт свой debug.keystore из шаблона Expo,
+      # а релиз подписывается именно им. Ставим собственную копию того же ключа:
+      # сменится версия шаблона — подпись не поедет, и APK по-прежнему встанет
+      # поверх установленного приложения, не стирая прогресс.
+      - name: Pin signing key
+        shell: bash
+        run: |
+          cp android-signing/debug.keystore android/app/debug.keystore
+          keytool -list -keystore android/app/debug.keystore -storepass android \
+            | grep -i 'SHA-256'
+
       - name: Build release APK
         shell: bash
         run: |

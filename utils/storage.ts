@@ -65,8 +65,41 @@ export function saveLessonProgress(progress: LessonProgress): Promise<void> {
   return saveJson(LESSON_PROGRESS_KEY, progress);
 }
 
-export function loadLessonProgress(): Promise<LessonProgress | null> {
-  return loadJson<LessonProgress>(LESSON_PROGRESS_KEY);
+/**
+ * Урок о возвратных глаголах раньше тренировал levantar, а теперь levantarse.
+ * Медали лежат под ключом-идентификатором глагола, поэтому без переноса
+ * заработанное на старых подходах просто пропало бы из виду.
+ */
+const RENAMED_DRILL_KEYS: Record<string, string> = {
+  levantar: 'levantarse',
+  llamar: 'llamarse',
+  despertar: 'despertarse',
+  acostar: 'acostarse',
+  duchar: 'ducharse',
+  sentar: 'sentarse',
+  vestir: 'vestirse',
+  dormir: 'dormirse',
+  ir: 'irse',
+  poner: 'ponerse',
+};
+
+function migrateDrills(progress: LessonProgress): LessonProgress {
+  const lessonDrills = progress.drills?.['reflexivos'];
+  if (!lessonDrills) return progress;
+
+  const migrated: Record<string, number> = {};
+  for (const [key, percent] of Object.entries(lessonDrills)) {
+    const renamed = RENAMED_DRILL_KEYS[key] ?? key;
+    // Лучший результат побеждает: вдруг новый подход уже проходили.
+    migrated[renamed] = Math.max(percent, migrated[renamed] ?? 0);
+  }
+
+  return { ...progress, drills: { ...progress.drills, reflexivos: migrated } };
+}
+
+export async function loadLessonProgress(): Promise<LessonProgress | null> {
+  const saved = await loadJson<LessonProgress>(LESSON_PROGRESS_KEY);
+  return saved ? migrateDrills(saved) : saved;
 }
 
 export function saveSpeechEnabled(enabled: boolean): Promise<void> {
