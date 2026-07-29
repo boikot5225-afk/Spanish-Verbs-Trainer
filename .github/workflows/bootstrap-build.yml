@@ -14,7 +14,10 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
+    env:
+      ANDROID_HOME: /home/bulat/Android/Sdk
+      ANDROID_SDK_ROOT: /home/bulat/Android/Sdk
 
     steps:
       - name: Checkout branch
