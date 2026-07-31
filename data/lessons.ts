@@ -348,49 +348,6 @@ export const LESSONS: Lesson[] = [
       featured: ['hacer', 'poner', 'salir', 'tener', 'conocer', 'traer'],
     },
   },
-  {
-    id: 'presente-ortografia',
-    block: 'presente',
-    title: 'Орфографические изменения',
-    summary: 'busqué, llegué, crucé — звук важнее буквы',
-    sections: [
-      {
-        body:
-          'Часть глаголов выглядит неправильными, хотя на самом деле они правильные. ' +
-          'Написание меняется только чтобы сохранить звучание основы — в испанском буквы c, g и z ' +
-          'читаются по-разному перед разными гласными.',
-      },
-      {
-        heading: 'Что и когда меняется',
-        bullets: [
-          'c → qu перед e: buscar → busqué (так сохраняется звук /k/)',
-          'g → gu перед e: llegar → llegué',
-          'z → c перед e: cruzar → crucé (в испанском z перед e почти не пишется)',
-          'g → j перед a и o: coger → cojo',
-        ],
-      },
-      {
-        table: { verbId: 'buscar', tense: 'preteriteIndef', caption: 'buscar — искать' },
-      },
-      {
-        body:
-          'В индефинидо это затрагивает только форму yo — единственную с окончанием на -é. ' +
-          'Зато в сослагательном наклонении, где все окончания начинаются на -e, изменение проходит ' +
-          'через всю таблицу: busque, busques, busquemos…',
-      },
-      {
-        body:
-          'Таких глаголов много — почти триста, — но правило одно и запоминать отдельные слова не нужно. ' +
-          'Достаточно услышать, что звук должен остаться прежним.',
-      },
-    ],
-    practice: {
-      tenses: ['preteriteIndef', 'subjuntivo'],
-      types: ['c to qu', 'g to gu', 'z to c', 'g to j'],
-      limit: 60,
-      featured: ['buscar', 'llegar', 'cruzar', 'tocar', 'pagar', 'empezar'],
-    },
-  },
 
   // ── Глагольные конструкции ───────────────────────────────────────────────
   {
@@ -435,8 +392,12 @@ export const LESSONS: Lesson[] = [
       },
     ],
     practice: {
-      tenses: ['presente', 'preteriteIndef', 'preteriteImp'],
-      verbIds: ['ser', 'estar'],
+      // Прошедшие времена тема показывает в тексте, но тренирует только настоящее:
+      // indefinido и imperfecto разбираются много позже, в блоке о прошедшем.
+      // Ради полноразмерного зачёта выборка дополнена другими связочными глаголами —
+      // подходы по ключевым остаются на самих ser и estar.
+      tenses: ['presente'],
+      verbIds: ['ser', 'estar', 'parecer', 'quedar', 'andar', 'permanecer'],
       featured: ['ser', 'estar'],
     },
   },
@@ -485,8 +446,8 @@ export const LESSONS: Lesson[] = [
       },
     ],
     practice: {
-      tenses: ['presente', 'preteriteIndef', 'preteriteImp', 'futuro'],
-      verbIds: ['haber', 'estar'],
+      tenses: ['presente'],
+      verbIds: ['haber', 'estar', 'existir', 'quedar', 'faltar', 'sobrar'],
       featured: ['haber', 'estar'],
     },
   },
@@ -535,7 +496,7 @@ export const LESSONS: Lesson[] = [
       },
     ],
     practice: {
-      tenses: ['presente', 'preteriteIndef', 'subjuntivo'],
+      tenses: ['presente'],
       verbIds: ['gustar', 'encantar', 'interesar', 'importar', 'doler', 'faltar', 'quedar', 'parecer'],
       featured: ['gustar', 'encantar', 'doler', 'parecer', 'quedar', 'faltar'],
     },
@@ -581,8 +542,8 @@ export const LESSONS: Lesson[] = [
       },
     ],
     practice: {
-      tenses: ['presente', 'preteriteIndef', 'preteriteImp'],
-      verbIds: ['saber', 'conocer'],
+      tenses: ['presente'],
+      verbIds: ['saber', 'conocer', 'entender', 'comprender', 'reconocer', 'recordar'],
       featured: ['saber', 'conocer'],
     },
   },
@@ -629,7 +590,7 @@ export const LESSONS: Lesson[] = [
       },
     ],
     practice: {
-      tenses: ['presente', 'preteriteIndef', 'subjuntivo'],
+      tenses: ['presente'],
       verbIds: ['poner', 'volver', 'hacer', 'quedar', 'llegar', 'convertir'],
       featured: ['poner', 'volver', 'hacer', 'quedar', 'llegar', 'convertir'],
     },
@@ -694,7 +655,7 @@ export const LESSONS: Lesson[] = [
       },
     ],
     practice: {
-      tenses: ['presente', 'imperativoAfirmativo', 'imperativoNegativo'],
+      tenses: ['presente'],
       verbIds: ['levantarse', 'llamarse', 'despertarse', 'acostarse', 'ducharse', 'sentarse', 'vestirse', 'irse', 'dormirse', 'ponerse', 'sentirse'],
       featured: ['levantarse', 'llamarse', 'despertarse', 'acostarse', 'vestirse', 'irse'],
     },
@@ -738,7 +699,7 @@ export const LESSONS: Lesson[] = [
       },
     ],
     practice: {
-      tenses: ['presente', 'preteriteImp', 'preteriteIndef'],
+      tenses: ['presente'],
       verbIds: ['ir', 'acabar', 'tener', 'deber', 'volver', 'seguir', 'empezar', 'terminar'],
       featured: ['ir', 'tener', 'acabar', 'volver', 'seguir', 'empezar'],
     },
@@ -789,7 +750,7 @@ export const LESSONS: Lesson[] = [
       },
     ],
     practice: {
-      tenses: ['presente', 'preteriteImp', 'preteriteIndef', 'futuro'],
+      tenses: ['presente'],
       verbIds: ['estar', 'seguir', 'andar', 'llevar', 'ir', 'venir'],
       featured: ['estar', 'seguir', 'ir', 'venir', 'andar', 'llevar'],
     },
@@ -826,6 +787,51 @@ export const LESSONS: Lesson[] = [
       },
     ],
     practice: { tenses: ['preteriteIndef'], verbIds: REGULAR_SAMPLE },
+  },
+  {
+    id: 'presente-ortografia',
+    block: 'pasado',
+    title: 'Орфографические изменения',
+    summary: 'busqué, llegué, crucé — звук важнее буквы',
+    sections: [
+      {
+        body:
+          'Часть глаголов выглядит неправильными, хотя на самом деле они правильные. ' +
+          'Написание меняется только чтобы сохранить звучание основы — в испанском буквы c, g и z ' +
+          'читаются по-разному перед разными гласными.',
+      },
+      {
+        heading: 'Что и когда меняется',
+        bullets: [
+          'c → qu перед e: buscar → busqué (так сохраняется звук /k/)',
+          'g → gu перед e: llegar → llegué',
+          'z → c перед e: cruzar → crucé (в испанском z перед e почти не пишется)',
+          'g → j перед a и o: coger → cojo',
+        ],
+      },
+      {
+        table: { verbId: 'buscar', tense: 'preteriteIndef', caption: 'buscar — искать' },
+      },
+      {
+        body:
+          'В индефинидо это затрагивает только форму yo — единственную с окончанием на -é. ' +
+          'Зато в сослагательном наклонении, где все окончания начинаются на -e, изменение проходит ' +
+          'через всю таблицу: busque, busques, busquemos…',
+      },
+      {
+        body:
+          'Таких глаголов много — почти триста, — но правило одно и запоминать отдельные слова не нужно. ' +
+          'Достаточно услышать, что звук должен остаться прежним.',
+      },
+    ],
+    practice: {
+      // Сослагательное здесь только упоминается: его образование разбирается
+      // в своём блоке много позже, тренировать его на этом месте курса рано.
+      tenses: ['preteriteIndef'],
+      types: ['c to qu', 'g to gu', 'z to c', 'g to j'],
+      limit: 60,
+      featured: ['buscar', 'llegar', 'cruzar', 'tocar', 'pagar', 'empezar'],
+    },
   },
   {
     id: 'indefinido-fuerte',
@@ -1079,7 +1085,7 @@ export const LESSONS: Lesson[] = [
       },
     ],
     practice: {
-      tenses: ['futuro', 'condicional', 'futuroPerfecto', 'condicionalPerfecto'],
+      tenses: ['futuro', 'condicional'],
       verbIds: ['ser', 'estar', 'tener', 'ir', 'hacer', 'salir', 'venir', 'saber'],
       featured: ['ser', 'estar', 'tener', 'ir', 'hacer', 'salir'],
     },
@@ -1262,7 +1268,7 @@ export const LESSONS: Lesson[] = [
       },
     ],
     practice: {
-      tenses: ['preteriteImp', 'pluscuamperfecto', 'condicional', 'subjImperfectoRa'],
+      tenses: ['preteriteImp', 'pluscuamperfecto', 'condicional'],
       verbIds: ['venir', 'ir', 'ser', 'estar', 'tener', 'hacer', 'decir', 'hablar', 'comer', 'vivir'],
       featured: ['venir', 'decir', 'ir', 'ser', 'tener', 'hacer'],
     },

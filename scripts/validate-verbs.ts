@@ -468,6 +468,34 @@ const lessonIds = new Set<string>();
 let tableCount = 0;
 let drillCount = 0;
 
+/**
+ * Время считается введённым тем уроком, который его и показывает таблицей,
+ * и тренирует: попутная таблица в чужой теме объяснением не является.
+ */
+const introducedAt = new Map<Tense, number>();
+LESSONS.forEach((lesson, index) => {
+  for (const section of lesson.sections) {
+    const tense = section.table?.tense;
+    if (!tense || introducedAt.has(tense)) continue;
+    if (lesson.practice.tenses.includes(tense)) introducedAt.set(tense, index);
+  }
+});
+
+for (const [index, lesson] of LESSONS.entries()) {
+  // Курс проходится по порядку, поэтому тема не имеет права спрашивать форму
+  // времени, которое разбирается позже: зачёт открывает следующую тему, а
+  // ученик такого ещё не видел. Так «Estar + герундий» гонял futuro за пять
+  // уроков до того, как его объяснят.
+  for (const tense of lesson.practice.tenses) {
+    const at = introducedAt.get(tense);
+    assert(
+      at !== undefined && at <= index,
+      `${lesson.id} (#${index}): practices ${tense}, introduced ` +
+        (at === undefined ? 'nowhere' : `only at #${at} ${LESSONS[at]!.id}`),
+    );
+  }
+}
+
 for (const lesson of LESSONS) {
   assert(!lessonIds.has(lesson.id), `Duplicate lesson id: ${lesson.id}`);
   lessonIds.add(lesson.id);
