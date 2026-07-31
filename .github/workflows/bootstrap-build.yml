@@ -98,13 +98,19 @@ jobs:
             exit "$status"
           fi
 
+      # Лог нужен только когда сборка сломалась. Раньше он выгружался всегда и
+      # стоял перед сбором APK: когда кончилось место под артефакты, упал именно
+      # он — и утащил за собой выгрузку самого APK, хотя тот собрался нормально.
+      # Теперь шаг не выполняется на успешной сборке и не может её завалить.
       - name: Upload Gradle diagnostic log
-        if: always()
+        if: failure()
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
           name: gradle-build-log
           path: gradle-build.log
           if-no-files-found: ignore
+          retention-days: 7
 
       - name: Collect APK
         shell: bash
@@ -113,9 +119,13 @@ jobs:
           cp android/app/build/outputs/apk/release/*.apk \
             "dist/Spanish-Verbs-Trainer-v${{ steps.app.outputs.version }}.apk"
 
+      # APK весит около 33 МБ, а бесплатного места под артефакты 500 МБ — при
+      # хранении по умолчанию (90 дней) полутора десятков сборок хватает, чтобы
+      # квота кончилась и выгрузка начала падать.
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: Spanish-Verbs-Trainer-v${{ steps.app.outputs.version }}
           path: dist/Spanish-Verbs-Trainer-v${{ steps.app.outputs.version }}.apk
           if-no-files-found: error
+          retention-days: 14
