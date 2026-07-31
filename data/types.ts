@@ -302,6 +302,8 @@ export interface QuizConfig {
   /** Строгость к диакритике при проверке ввода. */
   accentMode?: import('./answer').AccentMode;
   tenses: Tense[];
+  /** Неличные формы темы — спрашиваются без лица. */
+  forms?: NonFinite[];
   persons: Person[];
   verbIds: string[] | 'all';
   mode: QuizMode;
@@ -313,10 +315,37 @@ export interface QuizConfig {
   lessonId?: string;
 }
 
+/**
+ * Неличные формы. Лица у них нет, поэтому в вопросе они занимают место времени,
+ * а не дополняют его: спросить «герундий, tú» бессмысленно.
+ */
+export type NonFinite = 'gerundio' | 'participio';
+
+export const NON_FINITE_FORMS: NonFinite[] = ['gerundio', 'participio'];
+
+export const NON_FINITE_LABELS: Record<NonFinite, string> = {
+  gerundio: 'Герундий (Gerundio)',
+  participio: 'Причастие (Participio)',
+};
+
+export const NON_FINITE_SHORT_LABELS: Record<NonFinite, string> = {
+  gerundio: 'Герундий',
+  participio: 'Причастие',
+};
+
+export const NON_FINITE_PROMPTS: Record<NonFinite, string> = {
+  gerundio: 'Напишите герундий:',
+  participio: 'Напишите причастие:',
+};
+
 export interface QuizQuestion {
   verbId: string;
-  tense: Tense;
-  person: Person;
+  /** У неличной формы времени нет. */
+  tense?: Tense;
+  /** У неличной формы лица нет. */
+  person?: Person;
+  /** Задан вместо пары «время + лицо». */
+  nonFinite?: NonFinite;
   correctAnswer: string;
   options?: string[];
 }
@@ -345,4 +374,28 @@ export interface QuizHistoryItem {
   total: number;
   correct: number;
   wrongAnswers: QuizAnswer[];
+}
+
+/**
+ * Подпись к вопросу. Неличная форма занимает место времени и лица не имеет,
+ * поэтому разбирать вопрос по полям на каждом экране отдельно нельзя — иначе
+ * «герундий, tú» рано или поздно где-нибудь да напечатается.
+ */
+export function questionLabels(question: QuizQuestion): { form: string; person?: string } {
+  if (question.nonFinite) return { form: NON_FINITE_LABELS[question.nonFinite] };
+  return {
+    form: TENSE_FULL_LABELS[question.tense!],
+    person: personLabels(question.tense!)[question.person!],
+  };
+}
+
+/** Что просят ввести: у неличной формы своя формулировка. */
+export function questionPrompt(question: QuizQuestion): string {
+  return question.nonFinite ? NON_FINITE_PROMPTS[question.nonFinite] : 'Напишите форму глагола:';
+}
+
+/** Короткая подпись для разбора ошибок: «Indefinido · tú» или «Герундий». */
+export function questionShortLabel(question: QuizQuestion): string {
+  if (question.nonFinite) return NON_FINITE_SHORT_LABELS[question.nonFinite];
+  return `${tenseQualifiedLabel(question.tense!)} · ${personLabels(question.tense!)[question.person!]}`;
 }

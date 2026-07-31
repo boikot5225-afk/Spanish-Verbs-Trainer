@@ -2,6 +2,7 @@ import { strict as assert } from 'node:assert';
 import {
   COMPOUND_TENSES,
   IMPERATIVE_TENSES,
+  NON_FINITE_FORMS,
   PERSONS,
   TENSES,
   type Tense,
@@ -579,6 +580,16 @@ const tabledTenses = new Set(
 for (const tense of TENSES) {
   assert(practicedTenses.has(tense), `Tense ${tense} has no lesson practice`);
   assert(tabledTenses.has(tense), `Tense ${tense} is never shown in a lesson table`);
+}
+
+// Герундий и причастие приложение строит и проверяет наравне со спряжениями, но
+// спросить их было нечем: вопрос описывался парой «время + лицо», а у неличной
+// формы лица нет. Тема «Estar + герундий» из-за этого гоняла презенс estar и ни
+// разу сам герундий. Требуем того же, что и от времён, — иначе форма снова
+// окажется сгенерированной, оттестированной и никому не заданной.
+const practicedForms = new Set(LESSONS.flatMap(lesson => lesson.practice.forms ?? []));
+for (const form of NON_FINITE_FORMS) {
+  assert(practicedForms.has(form), `Non-finite form ${form} has no lesson practice`);
 }
 
 const checkCount = Object.values(expected).reduce((total, checks) => total + checks.length, 0);

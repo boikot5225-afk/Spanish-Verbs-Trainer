@@ -1,4 +1,4 @@
-import type { Tense } from './types';
+import type { NonFinite, Tense } from './types';
 import { PERSONS } from './types';
 import { getVerbById, VERBS } from './verbs';
 
@@ -55,6 +55,12 @@ export interface Lesson {
   /** Настройки тренировки по теме урока. */
   practice: {
     tenses: Tense[];
+    /**
+     * Неличные формы темы. Тема о герундии спрашивала спряжение estar в презенте
+     * и ни разу сам герундий — лица у него нет, поэтому через `tenses` он
+     * невыразим и нужен отдельный список.
+     */
+    forms?: NonFinite[];
     /** Явный список глаголов; если не задан — берётся по признакам неправильности. */
     verbIds?: string[];
     /** Признаки из метаданных: урок соберёт все глаголы с любым из них. */
@@ -751,8 +757,12 @@ export const LESSONS: Lesson[] = [
     ],
     practice: {
       tenses: ['presente'],
-      verbIds: ['estar', 'seguir', 'andar', 'llevar', 'ir', 'venir'],
-      featured: ['estar', 'seguir', 'ir', 'venir', 'andar', 'llevar'],
+      forms: ['gerundio'],
+      // Вспомогательные глаголы перифраз плюс глаголы с показательным герундием:
+      // на estando и llevando правило не видно, а durmiendo, pidiendo и leyendo
+      // — как раз то, ради чего тему проходят.
+      verbIds: ['estar', 'seguir', 'andar', 'llevar', 'ir', 'venir', 'dormir', 'pedir', 'leer', 'decir'],
+      featured: ['estar', 'seguir', 'ir', 'venir', 'dormir', 'leer'],
     },
   },
 
@@ -1132,7 +1142,14 @@ export const LESSONS: Lesson[] = [
         table: { verbId: 'hacer', tense: 'perfecto', caption: 'hacer — делать' },
       },
     ],
-    practice: { tenses: ['perfecto'], verbIds: [...REGULAR_SAMPLE, 'hacer', 'decir', 'ver', 'escribir'] },
+    practice: {
+      tenses: ['perfecto'],
+      // Причастие спрашивается и отдельно: внутри perfecto оно всегда идёт
+      // с haber, и неправильные формы (hecho, dicho, visto, escrito) легко
+      // выучить как часть связки, ни разу не назвав саму форму.
+      forms: ['participio'],
+      verbIds: [...REGULAR_SAMPLE, 'hacer', 'decir', 'ver', 'escribir'],
+    },
   },
   {
     id: 'compuestos-resto',
@@ -1850,16 +1867,24 @@ export function lessonDrills(lesson: Lesson): LessonDrill[] {
   return drills;
 }
 
+/**
+ * Сколько форм даёт набор глаголов. У времени шесть лиц, у неличной формы —
+ * одна на глагол, поэтому складывать их напрямую нельзя.
+ */
+export function practiceCombinations(lesson: Lesson, verbCount: number): number {
+  const finite = lesson.practice.tenses.length * PERSONS.length;
+  const nonFinite = (lesson.practice.forms ?? []).length;
+  return verbCount * (finite + nonFinite);
+}
+
 export function drillSize(lesson: Lesson, drill: LessonDrill): number {
-  const combinations = drill.verbIds.length * lesson.practice.tenses.length * PERSONS.length;
+  const combinations = practiceCombinations(lesson, drill.verbIds.length);
   return Math.min(drill.isAll ? EXAM_QUESTIONS : DRILL_QUESTIONS, combinations);
 }
 
 /** Сколько вопросов в зачёте: 30 или меньше, если у темы просто нет столько форм. */
 export function lessonExamSize(lesson: Lesson): number {
-  const combinations =
-    lessonPracticeVerbIds(lesson).length * lesson.practice.tenses.length * PERSONS.length;
-  return Math.min(EXAM_QUESTIONS, combinations);
+  return Math.min(EXAM_QUESTIONS, practiceCombinations(lesson, lessonPracticeVerbIds(lesson).length));
 }
 
 /** Порядок прохождения курса — тот же, в котором уроки объявлены. */

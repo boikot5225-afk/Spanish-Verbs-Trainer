@@ -16,7 +16,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useColors } from '@/hooks/useColors';
 import { useQuiz } from '../context/QuizContext';
 import { useVerbs } from '../context/VerbsContext';
-import { personLabels, TENSE_FULL_LABELS } from '../data/types';
+import { questionLabels, questionPrompt } from '../data/types';
 import { getVerbById } from '../data/verbs';
 import { ACCENT_MODE_HINTS, checkAnswer } from '../data/answer';
 import { KeyboardAwareScrollViewCompat } from '@/components/KeyboardAwareScrollViewCompat';
@@ -170,14 +170,16 @@ export default function QuizSession() {
       <View style={styles.tensePersonRow}>
         <View style={[styles.chip, { backgroundColor: colors.secondary }]}>
           <Text style={[styles.chipText, { color: colors.primary }]}>
-            {TENSE_FULL_LABELS[question.tense]}
+            {questionLabels(question).form}
           </Text>
         </View>
-        <View style={[styles.chip, { backgroundColor: colors.muted }]}>
-          <Text style={[styles.chipText, { color: colors.mutedForeground }]}>
-            {personLabels(question.tense)[question.person]}
-          </Text>
-        </View>
+        {questionLabels(question).person !== undefined && (
+          <View style={[styles.chip, { backgroundColor: colors.muted }]}>
+            <Text style={[styles.chipText, { color: colors.mutedForeground }]}>
+              {questionLabels(question).person}
+            </Text>
+          </View>
+        )}
       </View>
     </View>
   );
@@ -310,7 +312,7 @@ export default function QuizSession() {
     >
       {questionHeader}
       <Text style={[styles.prompt, { color: colors.mutedForeground }]}>
-        Напишите форму глагола:
+        {questionPrompt(question)}
       </Text>
       <TextInput
         // Новое поле на каждый вопрос. Раньше EditText переиспользовался: React
@@ -410,7 +412,7 @@ export default function QuizSession() {
           pointerEvents={isFlipped ? 'none' : 'auto'}
         >
           <Text style={[styles.cardLabel, { color: colors.mutedForeground }]}>
-            {TENSE_FULL_LABELS[question.tense]} · {personLabels(question.tense)[question.person]}
+            {[questionLabels(question).form, questionLabels(question).person].filter(Boolean).join(' · ')}
           </Text>
           <Text style={[styles.cardVerb, { color: colors.foreground }]}>
             {verb.infinitive}
@@ -433,7 +435,7 @@ export default function QuizSession() {
           pointerEvents={isFlipped ? 'auto' : 'none'}
         >
           <Text style={[styles.cardLabel, { color: colors.primary }]}>
-            {TENSE_FULL_LABELS[question.tense]} · {personLabels(question.tense)[question.person]}
+            {[questionLabels(question).form, questionLabels(question).person].filter(Boolean).join(' · ')}
           </Text>
           <Text style={[styles.cardAnswer, { color: colors.foreground }]}>
             {question.correctAnswer}

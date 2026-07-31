@@ -1,4 +1,4 @@
-import type { Tense, Verb } from './types';
+import type { NonFinite, Tense, Verb } from './types';
 import { PERSONS } from './types';
 import metadata from './verbs.metadata.json';
 import { conjugateMetadata, type VerbMetadata } from './conjugator';
@@ -153,6 +153,28 @@ export function shuffle<T>(arr: T[]): T[] {
     [copy[index], copy[other]] = [copy[other]!, copy[index]!];
   }
   return copy;
+}
+
+/**
+ * Отвлекающие варианты для неличной формы. Внутри одного глагола их взять негде —
+ * форма ровно одна, лиц у неё нет, — поэтому берём ту же форму у других глаголов.
+ */
+export function generateNonFiniteOptions(
+  verbId: string,
+  form: NonFinite,
+  correct: string,
+): string[] {
+  const distractors = new Set<string>();
+  const maxAttempts = Math.min(VERBS.length * 2, 500);
+
+  for (let attempt = 0; distractors.size < 3 && attempt < maxAttempts; attempt += 1) {
+    const candidate = VERBS[Math.floor(Math.random() * VERBS.length)];
+    if (!candidate || candidate.id === verbId) continue;
+    const value = candidate[form].form;
+    if (value && value !== correct) distractors.add(value);
+  }
+
+  return shuffle([...Array.from(distractors).slice(0, 3), correct]);
 }
 
 export function generateOptions(

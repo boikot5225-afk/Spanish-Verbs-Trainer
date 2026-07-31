@@ -130,6 +130,10 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
       const now = new Date().toISOString();
       for (const answer of session.answers) {
         const { tense, verbId } = answer.question;
+        // Герундий и причастие временами не являются и своей шкалы не имеют:
+        // прогресс считается по двадцати временам, добавлять к ним неличные
+        // формы значило бы менять смысл «отработано N из 20».
+        if (!tense) continue;
         next[tense] = recordAnswer(next[tense], verbId, answer.correct, now);
       }
       void saveTenseStats(next);

@@ -7,7 +7,7 @@ import type {
   QuizSession,
 } from '../data/types';
 import { PERSONS } from '../data/types';
-import { generateOptions, shuffle, VERBS } from '../data/verbs';
+import { generateNonFiniteOptions, generateOptions, shuffle, VERBS } from '../data/verbs';
 import { checkAnswer } from '../data/answer';
 import {
   appendQuizHistory,
@@ -113,7 +113,12 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
         ? VERBS
         : VERBS.filter(verb => cfg.verbIds.includes(verb.id));
 
-    const combinations = targetVerbs.length * cfg.tenses.length * cfg.persons.length;
+    // Неличные формы идут отдельной осью: лица у них нет, поэтому каждая даёт
+    // по одной комбинации на глагол, а не по шесть.
+    const forms = cfg.forms ?? [];
+    const finite = targetVerbs.length * cfg.tenses.length * cfg.persons.length;
+    const nonFinite = targetVerbs.length * forms.length;
+    const combinations = finite + nonFinite;
     if (combinations === 0) return [];
 
     // Комбинаций может быть больше четверти миллиона, поэтому берём случайную
@@ -127,6 +132,25 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
       const pick = Math.floor(Math.random() * combinations);
       if (picked.has(pick)) continue;
       picked.add(pick);
+
+      if (pick >= finite) {
+        const slot = pick - finite;
+        const nonFiniteForm = forms[slot % forms.length]!;
+        const verb = targetVerbs[Math.floor(slot / forms.length)]!;
+        const value = verb[nonFiniteForm].form;
+        if (!value) continue;
+
+        questions.push({
+          verbId: verb.id,
+          nonFinite: nonFiniteForm,
+          correctAnswer: value,
+          options:
+            cfg.mode === 'multiple-choice'
+              ? generateNonFiniteOptions(verb.id, nonFiniteForm, value)
+              : undefined,
+        });
+        continue;
+      }
 
       const personSlot = pick % cfg.persons.length;
       const remainder = Math.floor(pick / cfg.persons.length);
@@ -211,11 +235,16 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
       .filter(answer => !answer.correct)
       .map(answer => {
         const question = answer.question;
-        const personIndex = PERSONS.indexOf(question.person);
-        const options =
-          session.mode === 'multiple-choice'
-            ? generateOptions(question.verbId, question.tense, personIndex, question.correctAnswer)
-            : undefined;
+        if (session.mode !== 'multiple-choice') return { ...question, options: undefined };
+
+        const options = question.nonFinite
+          ? generateNonFiniteOptions(question.verbId, question.nonFinite, question.correctAnswer)
+          : generateOptions(
+              question.verbId,
+              question.tense!,
+              PERSONS.indexOf(question.person!),
+              question.correctAnswer,
+            );
         return { ...question, options };
       });
 
