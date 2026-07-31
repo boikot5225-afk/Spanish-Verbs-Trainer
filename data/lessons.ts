@@ -1,4 +1,4 @@
-import type { NonFinite, Tense } from './types';
+import type { NonFinite, Periphrasis, Tense } from './types';
 import { PERSONS } from './types';
 import { getVerbById, VERBS } from './verbs';
 
@@ -42,8 +42,12 @@ export interface LessonSection {
   heading?: string;
   body?: string;
   bullets?: string[];
-  /** Встроенная таблица спряжения реального глагола из базы. */
-  table?: { verbId: string; tense: Tense; caption?: string };
+  /**
+   * Встроенная таблица спряжения реального глагола из базы. С `periphrasis`
+   * показывает конструкцию целиком: подпись «estar + герундий» обещала
+   * estoy comiendo, а таблица выводила голое estoy.
+   */
+  table?: { verbId: string; tense: Tense; caption?: string; periphrasis?: Periphrasis };
 }
 
 export interface Lesson {
@@ -61,6 +65,13 @@ export interface Lesson {
      * невыразим и нужен отдельный список.
      */
     forms?: NonFinite[];
+    /**
+     * Конструкция «вспомогательный + неличная форма» со своим списком времён:
+     * спрашивается целиком (estoy comiendo), а не по частям. Тема о герундии
+     * иначе тренирует либо спряжение estar, либо голый герундий — но не то,
+     * чему учит.
+     */
+    periphrasis?: Periphrasis & { tenses: Tense[] };
     /** Явный список глаголов; если не задан — берётся по признакам неправильности. */
     verbIds?: string[];
     /** Признаки из метаданных: урок соберёт все глаголы с любым из них. */
@@ -720,7 +731,12 @@ export const LESSONS: Lesson[] = [
         body:
           'Продолженное время строится из estar в нужном времени и герундия: estoy comiendo — ' +
           '«я (сейчас) ем». Герундий не меняется, спрягается только estar.',
-        table: { verbId: 'estar', tense: 'presente', caption: 'estar + герундий' },
+        table: {
+          verbId: 'comer',
+          tense: 'presente',
+          caption: 'estar + герундий',
+          periphrasis: { auxiliary: 'estar', form: 'gerundio' },
+        },
       },
       {
         heading: 'Работает в любом времени',
@@ -756,13 +772,15 @@ export const LESSONS: Lesson[] = [
       },
     ],
     practice: {
-      tenses: ['presente'],
+      // Спрягать сами содержательные глаголы теме не нужно — она про конструкцию.
+      tenses: [],
+      // Герундий отдельно: не зная diciendo, не построишь estoy diciendo.
       forms: ['gerundio'],
-      // Вспомогательные глаголы перифраз плюс глаголы с показательным герундием:
-      // на estando и llevando правило не видно, а durmiendo, pidiendo и leyendo
-      // — как раз то, ради чего тему проходят.
-      verbIds: ['estar', 'seguir', 'andar', 'llevar', 'ir', 'venir', 'dormir', 'pedir', 'leer', 'decir'],
-      featured: ['estar', 'seguir', 'ir', 'venir', 'dormir', 'leer'],
+      periphrasis: { auxiliary: 'estar', form: 'gerundio', tenses: ['presente'] },
+      // Глаголы теперь смысловые, а не вспомогательные: estar стоит в конструкции.
+      // Взяты те, у которых герундий показателен — durmiendo, pidiendo, leyendo.
+      verbIds: ['hablar', 'comer', 'vivir', 'decir', 'dormir', 'pedir', 'leer', 'escribir'],
+      featured: ['comer', 'decir', 'dormir', 'pedir', 'leer', 'escribir'],
     },
   },
 
@@ -1874,7 +1892,8 @@ export function lessonDrills(lesson: Lesson): LessonDrill[] {
 export function practiceCombinations(lesson: Lesson, verbCount: number): number {
   const finite = lesson.practice.tenses.length * PERSONS.length;
   const nonFinite = (lesson.practice.forms ?? []).length;
-  return verbCount * (finite + nonFinite);
+  const periphrastic = (lesson.practice.periphrasis?.tenses.length ?? 0) * PERSONS.length;
+  return verbCount * (finite + nonFinite + periphrastic);
 }
 
 export function drillSize(lesson: Lesson, drill: LessonDrill): number {

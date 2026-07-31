@@ -75,6 +75,7 @@ export default function LessonDetail() {
       mode: practiceMode,
       tenses: lesson.practice.tenses,
       forms: lesson.practice.forms,
+      periphrasis: lesson.practice.periphrasis,
       persons: PERSONS,
       verbIds: practiceVerbIds,
       maxQuestions: examSize,
@@ -92,6 +93,7 @@ export default function LessonDetail() {
       mode: practiceMode,
       tenses: lesson.practice.tenses,
       forms: lesson.practice.forms,
+      periphrasis: lesson.practice.periphrasis,
       persons: PERSONS,
       verbIds: drill.verbIds,
       maxQuestions: drillSize(lesson, drill),
@@ -113,6 +115,7 @@ export default function LessonDetail() {
       mode: practiceMode,
       tenses: lesson.practice.tenses,
       forms: lesson.practice.forms,
+      periphrasis: lesson.practice.periphrasis,
       persons: PERSONS,
       // Зачёт и подходы всегда идут по глаголам темы; расширять можно только
       // свободную тренировку — иначе порог зачёта потеряет смысл.
@@ -361,7 +364,7 @@ export default function LessonDetail() {
 function LessonTable({
   table,
 }: {
-  table: { verbId: string; tense: import('../../data/types').Tense; caption?: string };
+  table: NonNullable<import('../../data/lessons').LessonSection['table']>;
 }) {
   const colors = useColors();
   const { speak } = useVerbs();
@@ -370,10 +373,12 @@ function LessonTable({
 
   const pronounce = () => {
     void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    const auxiliary = table.periphrasis ? getVerbById(table.periphrasis.auxiliary) : undefined;
+    const nonFinite = table.periphrasis ? verb[table.periphrasis.form].form : '';
     speak(
-      verb.conjugations[table.tense]
+      (auxiliary ?? verb).conjugations[table.tense]
         .filter(form => !form.absent)
-        .map(form => form.form)
+        .map(form => (nonFinite ? `${form.form} ${nonFinite}` : form.form))
         .join(', '),
     );
   };
@@ -388,7 +393,7 @@ function LessonTable({
           <Ionicons name="volume-medium" size={18} color={colors.primary} />
         </Pressable>
       </View>
-      <ConjugationTable verb={verb} tense={table.tense} />
+      <ConjugationTable verb={verb} tense={table.tense} periphrasis={table.periphrasis} />
     </View>
   );
 }

@@ -7,7 +7,7 @@ import {
   TENSES,
   type Tense,
 } from '../data/types';
-import { getVerbById, VERBS } from '../data/verbs';
+import { getVerbById, periphrasisForm, VERBS } from '../data/verbs';
 import {
   DRILL_QUESTIONS,
   EXAM_QUESTIONS,
@@ -487,7 +487,7 @@ for (const [index, lesson] of LESSONS.entries()) {
   // времени, которое разбирается позже: зачёт открывает следующую тему, а
   // ученик такого ещё не видел. Так «Estar + герундий» гонял futuro за пять
   // уроков до того, как его объяснят.
-  for (const tense of lesson.practice.tenses) {
+  for (const tense of [...lesson.practice.tenses, ...(lesson.practice.periphrasis?.tenses ?? [])]) {
     const at = introducedAt.get(tense);
     assert(
       at !== undefined && at <= index,
@@ -520,7 +520,14 @@ for (const lesson of LESSONS) {
     }
   }
 
-  assert(lesson.practice.tenses.length > 0, `${lesson.id}: practice without tenses`);
+  // Тема обязана что-то спрашивать, но не обязательно спряжение: тема
+  // о конструкции тренирует estoy comiendo, а голый презенс comer ей ни к чему.
+  assert(
+    lesson.practice.tenses.length > 0 ||
+      (lesson.practice.forms?.length ?? 0) > 0 ||
+      (lesson.practice.periphrasis?.tenses.length ?? 0) > 0,
+    `${lesson.id}: practice asks for nothing`,
+  );
   for (const tense of lesson.practice.tenses) {
     assert(TENSES.includes(tense), `${lesson.id}: practice tense ${tense} is unknown`);
   }
@@ -587,6 +594,26 @@ for (const tense of TENSES) {
 // формы лица нет. Тема «Estar + герундий» из-за этого гоняла презенс estar и ни
 // разу сам герундий. Требуем того же, что и от времён, — иначе форма снова
 // окажется сгенерированной, оттестированной и никому не заданной.
+// Конструкция должна быть построима на всей выборке темы: если вспомогательного
+// нет в базе или у него нет нужной формы, вопрос молча выпадет из зачёта, а тема
+// снова начнёт спрашивать не то, чему учит.
+for (const lesson of LESSONS) {
+  const periphrasis = lesson.practice.periphrasis;
+  if (!periphrasis) continue;
+  const auxiliary = getVerbById(periphrasis.auxiliary);
+  assert(auxiliary, `${lesson.id}: periphrasis auxiliary ${periphrasis.auxiliary} is not in the database`);
+  for (const tense of periphrasis.tenses) {
+    for (const verbId of lessonPracticeVerbIds(lesson)) {
+      const verb = getVerbById(verbId)!;
+      const built = periphrasisForm(periphrasis, verb, tense, 0);
+      assert(
+        built.includes(' '),
+        `${lesson.id}: periphrasis ${periphrasis.auxiliary}+${periphrasis.form} is empty for ${verbId}/${tense}`,
+      );
+    }
+  }
+}
+
 const practicedForms = new Set(LESSONS.flatMap(lesson => lesson.practice.forms ?? []));
 for (const form of NON_FINITE_FORMS) {
   assert(practicedForms.has(form), `Non-finite form ${form} has no lesson practice`);

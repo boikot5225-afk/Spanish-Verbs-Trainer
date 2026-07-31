@@ -1,17 +1,23 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useColors } from '@/hooks/useColors';
-import type { Tense, Verb } from '../data/types';
+import type { Periphrasis, Tense, Verb } from '../data/types';
 import { personLabels, PERSONS } from '../data/types';
+import { getVerbById } from '../data/verbs';
 
 interface Props {
   verb: Verb;
   tense: Tense;
+  /** С конструкцией показывает estoy comiendo, а не голое estoy. */
+  periphrasis?: Periphrasis;
 }
 
-export default function ConjugationTable({ verb, tense }: Props) {
+export default function ConjugationTable({ verb, tense, periphrasis }: Props) {
   const colors = useColors();
-  const forms = verb.conjugations[tense];
+  const auxiliary = periphrasis ? getVerbById(periphrasis.auxiliary) : undefined;
+  // У конструкции спрягается вспомогательный — от него же и неправильность формы.
+  const forms = (auxiliary ?? verb).conjugations[tense];
+  const nonFinite = periphrasis ? verb[periphrasis.form].form : '';
   const labels = personLabels(tense);
   // Лица без формы (например, «yo» в императиве) в таблице не показываем.
   const visible = PERSONS.filter((_, idx) => !forms[idx]?.absent);
@@ -43,7 +49,7 @@ export default function ConjugationTable({ verb, tense }: Props) {
                     : { color: colors.foreground, fontFamily: 'Inter_500Medium' },
                 ]}
               >
-                {form.form}
+                {nonFinite ? `${form.form} ${nonFinite}` : form.form}
               </Text>
               {form.irregular && (
                 <View style={[styles.irregTag, { backgroundColor: colors.irregularBg }]}>

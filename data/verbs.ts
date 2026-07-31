@@ -1,4 +1,4 @@
-import type { NonFinite, Tense, Verb } from './types';
+import type { NonFinite, Periphrasis, Tense, Verb } from './types';
 import { PERSONS } from './types';
 import metadata from './verbs.metadata.json';
 import { conjugateMetadata, type VerbMetadata } from './conjugator';
@@ -153,6 +153,45 @@ export function shuffle<T>(arr: T[]): T[] {
     [copy[index], copy[other]] = [copy[other]!, copy[index]!];
   }
   return copy;
+}
+
+/**
+ * Форма перифразы: вспомогательный глагол в нужном времени и лице плюс неличная
+ * форма смыслового. Спрягается только вспомогательный — estoy comiendo,
+ * estabas comiendo. Пусто, если у вспомогательного этой формы нет («yo» в императиве).
+ */
+export function periphrasisForm(
+  periphrasis: Periphrasis,
+  verb: Verb,
+  tense: Tense,
+  personIndex: number,
+): string {
+  const auxiliary = getVerbById(periphrasis.auxiliary);
+  const auxForm = auxiliary?.conjugations[tense]?.[personIndex];
+  if (!auxForm || auxForm.absent) return '';
+  const nonFinite = verb[periphrasis.form].form;
+  if (!nonFinite) return '';
+  return `${auxForm.form} ${nonFinite}`;
+}
+
+/**
+ * Отвлекающие варианты для перифразы: та же неличная форма, но вспомогательный
+ * в других лицах — ошибка тут именно в нём, а не в герундии.
+ */
+export function generatePeriphrasisOptions(
+  periphrasis: Periphrasis,
+  verb: Verb,
+  tense: Tense,
+  personIndex: number,
+  correct: string,
+): string[] {
+  const distractors = new Set<string>();
+  PERSONS.forEach((_, index) => {
+    if (index === personIndex) return;
+    const value = periphrasisForm(periphrasis, verb, tense, index);
+    if (value && value !== correct) distractors.add(value);
+  });
+  return shuffle([...Array.from(distractors).slice(0, 3), correct]);
 }
 
 /**

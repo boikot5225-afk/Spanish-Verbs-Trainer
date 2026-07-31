@@ -7,7 +7,14 @@ import type {
   QuizSession,
 } from '../data/types';
 import { PERSONS } from '../data/types';
-import { generateNonFiniteOptions, generateOptions, shuffle, VERBS } from '../data/verbs';
+import {
+  generateNonFiniteOptions,
+  generateOptions,
+  generatePeriphrasisOptions,
+  periphrasisForm,
+  shuffle,
+  VERBS,
+} from '../data/verbs';
 import { checkAnswer } from '../data/answer';
 import {
   appendQuizHistory,
@@ -116,9 +123,12 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
     // Неличные формы идут отдельной осью: лица у них нет, поэтому каждая даёт
     // по одной комбинации на глагол, а не по шесть.
     const forms = cfg.forms ?? [];
+    const periphrasis = cfg.periphrasis;
+    const periphrasisTenses = periphrasis?.tenses ?? [];
     const finite = targetVerbs.length * cfg.tenses.length * cfg.persons.length;
     const nonFinite = targetVerbs.length * forms.length;
-    const combinations = finite + nonFinite;
+    const periphrastic = targetVerbs.length * periphrasisTenses.length * cfg.persons.length;
+    const combinations = finite + nonFinite + periphrastic;
     if (combinations === 0) return [];
 
     // Комбинаций может быть больше четверти миллиона, поэтому берём случайную
@@ -132,6 +142,31 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
       const pick = Math.floor(Math.random() * combinations);
       if (picked.has(pick)) continue;
       picked.add(pick);
+
+      if (pick >= finite + nonFinite) {
+        const slot = pick - finite - nonFinite;
+        const personSlot = slot % cfg.persons.length;
+        const rest = Math.floor(slot / cfg.persons.length);
+        const tense = periphrasisTenses[rest % periphrasisTenses.length]!;
+        const verb = targetVerbs[Math.floor(rest / periphrasisTenses.length)]!;
+        const person = cfg.persons[personSlot]!;
+        const personIndex = PERSONS.indexOf(person);
+        const value = periphrasisForm(periphrasis!, verb, tense, personIndex);
+        if (!value) continue;
+
+        questions.push({
+          verbId: verb.id,
+          tense,
+          person,
+          periphrasis: { auxiliary: periphrasis!.auxiliary, form: periphrasis!.form },
+          correctAnswer: value,
+          options:
+            cfg.mode === 'multiple-choice'
+              ? generatePeriphrasisOptions(periphrasis!, verb, tense, personIndex, value)
+              : undefined,
+        });
+        continue;
+      }
 
       if (pick >= finite) {
         const slot = pick - finite;
@@ -237,7 +272,16 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
         const question = answer.question;
         if (session.mode !== 'multiple-choice') return { ...question, options: undefined };
 
-        const options = question.nonFinite
+        const verb = VERBS.find(v => v.id === question.verbId);
+        const options = question.periphrasis && verb
+          ? generatePeriphrasisOptions(
+              question.periphrasis,
+              verb,
+              question.tense!,
+              PERSONS.indexOf(question.person!),
+              question.correctAnswer,
+            )
+          : question.nonFinite
           ? generateNonFiniteOptions(question.verbId, question.nonFinite, question.correctAnswer)
           : generateOptions(
               question.verbId,

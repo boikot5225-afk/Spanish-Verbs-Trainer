@@ -304,6 +304,8 @@ export interface QuizConfig {
   tenses: Tense[];
   /** Неличные формы темы — спрашиваются без лица. */
   forms?: NonFinite[];
+  /** Конструкция целиком со своим списком времён. */
+  periphrasis?: Periphrasis & { tenses: Tense[] };
   persons: Person[];
   verbIds: string[] | 'all';
   mode: QuizMode;
@@ -338,14 +340,27 @@ export const NON_FINITE_PROMPTS: Record<NonFinite, string> = {
   participio: 'Напишите причастие:',
 };
 
+/**
+ * Перифраза: вспомогательный глагол спрягается, смысловой стоит в неличной форме
+ * и не меняется — estoy comiendo, estás comiendo. Время и лицо в вопросе относятся
+ * к вспомогательному.
+ */
+export interface Periphrasis {
+  /** id вспомогательного глагола: estar, ir, seguir… */
+  auxiliary: string;
+  form: NonFinite;
+}
+
 export interface QuizQuestion {
   verbId: string;
-  /** У неличной формы времени нет. */
+  /** У неличной формы времени нет; у перифразы описывает вспомогательный глагол. */
   tense?: Tense;
-  /** У неличной формы лица нет. */
+  /** У неличной формы лица нет; у перифразы описывает вспомогательный глагол. */
   person?: Person;
   /** Задан вместо пары «время + лицо». */
   nonFinite?: NonFinite;
+  /** Спрашивается вся конструкция целиком, а не одна её часть. */
+  periphrasis?: Periphrasis;
   correctAnswer: string;
   options?: string[];
 }
@@ -383,19 +398,40 @@ export interface QuizHistoryItem {
  */
 export function questionLabels(question: QuizQuestion): { form: string; person?: string } {
   if (question.nonFinite) return { form: NON_FINITE_LABELS[question.nonFinite] };
+  if (question.periphrasis) {
+    return {
+      form: `${periphrasisLabel(question.periphrasis)} · ${TENSE_FULL_LABELS[question.tense!]}`,
+      person: personLabels(question.tense!)[question.person!],
+    };
+  }
   return {
     form: TENSE_FULL_LABELS[question.tense!],
     person: personLabels(question.tense!)[question.person!],
   };
 }
 
+const PERIPHRASIS_FORM_WORD: Record<NonFinite, string> = {
+  gerundio: 'герундий',
+  participio: 'причастие',
+};
+
+/** «estar + герундий» — так конструкция названа и в тексте урока. */
+export function periphrasisLabel(periphrasis: Periphrasis): string {
+  return `${periphrasis.auxiliary} + ${PERIPHRASIS_FORM_WORD[periphrasis.form]}`;
+}
+
 /** Что просят ввести: у неличной формы своя формулировка. */
 export function questionPrompt(question: QuizQuestion): string {
-  return question.nonFinite ? NON_FINITE_PROMPTS[question.nonFinite] : 'Напишите форму глагола:';
+  if (question.nonFinite) return NON_FINITE_PROMPTS[question.nonFinite];
+  if (question.periphrasis) return `Напишите форму «${periphrasisLabel(question.periphrasis)}»:`;
+  return 'Напишите форму глагола:';
 }
 
 /** Короткая подпись для разбора ошибок: «Indefinido · tú» или «Герундий». */
 export function questionShortLabel(question: QuizQuestion): string {
   if (question.nonFinite) return NON_FINITE_SHORT_LABELS[question.nonFinite];
-  return `${tenseQualifiedLabel(question.tense!)} · ${personLabels(question.tense!)[question.person!]}`;
+  const person = personLabels(question.tense!)[question.person!];
+  const tense = tenseQualifiedLabel(question.tense!);
+  if (question.periphrasis) return `${periphrasisLabel(question.periphrasis)} · ${tense} · ${person}`;
+  return `${tense} · ${person}`;
 }
