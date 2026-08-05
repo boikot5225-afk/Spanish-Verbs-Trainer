@@ -7,7 +7,7 @@ import type {
   QuizSession,
 } from '../data/types';
 import { PERSONS } from '../data/types';
-import { generateOptions, shuffle, VERBS } from '../data/verbs';
+import { countAvailableQuestions, generateOptions, shuffle, VERBS } from '../data/verbs';
 import { checkAnswer } from '../data/answer';
 import {
   appendQuizHistory,
@@ -27,6 +27,29 @@ const DEFAULT_CONFIG: QuizConfig = {
   maxQuestions: 20,
   accentMode: 'warn',
 };
+
+const VALID_VERB_IDS = new Set(VERBS.map(verb => verb.id));
+
+function sanitizeConfig(saved: QuizConfig): QuizConfig {
+  const verbIds = saved.verbIds === 'all'
+    ? 'all'
+    : saved.verbIds.filter(id => VALID_VERB_IDS.has(id));
+
+  return {
+    ...DEFAULT_CONFIG,
+    ...saved,
+    verbIds: verbIds === 'all' || verbIds.length > 0 ? verbIds : 'all',
+    maxQuestions: saved.maxQuestions ?? 20,
+  };
+}
+
+function isValidSavedSession(session: QuizSession): boolean {
+  return (
+    session.questions.length > 0 &&
+    session.answers.length < session.questions.length &&
+    session.questions.every(question => VALID_VERB_IDS.has(question.verbId))
+  );
+}
 
 interface QuizContextValue {
   config: QuizConfig;
@@ -53,19 +76,11 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     Promise.all([loadQuizConfig(), loadActiveSession(), loadQuizHistory()])
       .then(([savedConfig, savedSession, savedHistory]) => {
-        if (savedConfig) {
-          setConfigState({
-            ...DEFAULT_CONFIG,
-            ...savedConfig,
-            maxQuestions: savedConfig.maxQuestions ?? 20,
-          });
-        }
-        if (
-          savedSession &&
-          savedSession.questions.length > 0 &&
-          savedSession.answers.length < savedSession.questions.length
-        ) {
+        if (savedConfig) setConfigState(sanitizeConfig(savedConfig));
+        if (savedSession && isValidSavedSession(savedSession)) {
           setSessionState(savedSession);
+        } else if (savedSession) {
+          void clearActiveSession();
         }
         if (savedHistory) setHistory(savedHistory);
       })
@@ -101,7 +116,7 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
 
   const setConfig = useCallback((partial: Partial<QuizConfig>) => {
     setConfigState(previous => {
-      const next = { ...previous, ...partial };
+      const next = sanitizeConfig({ ...previous, ...partial });
       void saveQuizConfig(next);
       return next;
     });
@@ -114,12 +129,14 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
         : VERBS.filter(verb => cfg.verbIds.includes(verb.id));
 
     const combinations = targetVerbs.length * cfg.tenses.length * cfg.persons.length;
-    if (combinations === 0) return [];
+    const available = countAvailableQuestions(cfg.verbIds, cfg.tenses, cfg.persons);
+    if (combinations === 0 || available === 0) return [];
 
-    // Комбинаций может быть больше четверти миллиона, поэтому берём случайную
-    // выборку нужного размера вместо построения и перемешивания всего списка.
-    const target = Math.min(cfg.maxQuestions, combinations);
-    const maxAttempts = target * 50 + 500;
+    // Комбинаций много, поэтому берём случайную выборку нужного размера вместо
+    // построения и перемешивания всей таблицы. target считается только по
+    // существующим формам: отсутствующие лица императива его не раздувают.
+    const target = Math.min(cfg.maxQuestions, available);
+    const maxAttempts = target * 100 + 1000;
     const picked = new Set<number>();
     const questions: QuizQuestion[] = [];
 
@@ -136,7 +153,7 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
       const personIndex = PERSONS.indexOf(person);
 
       const form = verb.conjugations[tense]?.[personIndex];
-      if (!form || form.absent) continue; // «yo» в императиве формы не имеет
+      if (!form || form.absent) continue;
 
       questions.push({
         verbId: verb.id,
@@ -156,6 +173,12 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
   const buildAndStartSession = useCallback(
     (cfg: QuizConfig): QuizQuestion[] => {
       const questions = buildQuestions(cfg);
+      if (questions.length === 0) {
+        setSessionState(null);
+        void clearActiveSession();
+        return [];
+      }
+
       const newSession: QuizSession = {
         questions,
         currentIndex: 0,
@@ -208,7 +231,7 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
     if (!session) return [];
 
     const wrongQuestions = session.answers
-      .filter(answer => !answer.correct)
+      .filter(answer => !answer.correct && VALID_VERB_IDS.has(answer.question.verbId))
       .map(answer => {
         const question = answer.question;
         const personIndex = PERSONS.indexOf(question.person);
@@ -218,6 +241,8 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
             : undefined;
         return { ...question, options };
       });
+
+    if (wrongQuestions.length === 0) return [];
 
     const retrySession: QuizSession = {
       questions: shuffle(wrongQuestions),
