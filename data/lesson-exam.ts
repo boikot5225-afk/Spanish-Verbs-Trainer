@@ -11,16 +11,20 @@ export const LESSON_EXAM_MODE = 'input' as const;
 export const LESSON_EXAM_ACCENT_MODE = 'strict' as const;
 
 /**
- * Зачёт проверяет ключевые глаголы, показанные в уроке и вынесенные в отдельные
- * мини-тренировки. Если у старого урока ключевые глаголы не указаны, используем
- * весь тренировочный набор как безопасный запасной вариант.
+ * У отдельных уроков тренировочный набор шире того, что фактически объяснено
+ * в тексте. Для них область зачёта задаётся явно, а не угадывается по featured:
+ * featured нужен мини-подходам и не должен незаметно ослаблять все зачёты курса.
  */
+const EXPLICIT_EXAM_VERBS: Partial<Record<string, string[]>> = {
+  'present-etre-avoir': ['être', 'avoir', 'aller', 'faire'],
+};
+
 export function lessonExamVerbIds(lesson: Lesson): string[] {
   const practiceIds = lessonPracticeVerbIds(lesson);
-  const featured = (lesson.practice.featured ?? []).filter(
+  const explicit = (EXPLICIT_EXAM_VERBS[lesson.id] ?? []).filter(
     id => practiceIds.includes(id) && getVerbById(id) !== undefined,
   );
-  return featured.length > 0 ? featured : practiceIds;
+  return explicit.length > 0 ? explicit : practiceIds;
 }
 
 /** Реальное число существующих форм с учётом безличных глаголов и impératif. */
