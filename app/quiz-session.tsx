@@ -83,11 +83,12 @@ export default function QuizSession() {
 
   const progress = (currentIndex / questions.length) * 100;
   const isLast = currentIndex === questions.length - 1;
+  const accentMode = session.accentMode ?? config.accentMode ?? 'warn';
 
   // ─── Handlers ──────────────────────────────────────────────────────────────
 
   const handleCheck = (answer: string) => {
-    const verdict = checkAnswer(answer, question.correctAnswer, config.accentMode ?? 'warn');
+    const verdict = checkAnswer(answer, question.correctAnswer, accentMode);
 
     // Ответ разошёлся с правильным ровно на один символ — скорее всего промах
     // по клавише, а не незнание формы. Один раз предлагаем поправить.
@@ -350,7 +351,7 @@ export default function QuizSession() {
         }}
       />
       <Text style={[styles.hintText, { color: colors.mutedForeground }]}>
-        {ACCENT_MODE_HINTS[config.accentMode ?? 'warn']}
+        {ACCENT_MODE_HINTS[accentMode]}
       </Text>
 
       {typoHint && (
