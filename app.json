@@ -1,19 +1,19 @@
 {
   "expo": {
-    "name": "French Verbs Trainer",
-    "slug": "french-verbs-trainer",
-    "version": "1.1.4",
+    "name": "French Verbs Trainer 2",
+    "slug": "french-verbs-trainer-v2",
+    "version": "1.1.5",
     "orientation": "portrait",
-    "scheme": "frenchverbstrainer",
+    "scheme": "frenchverbstrainer2",
     "userInterfaceStyle": "light",
     "newArchEnabled": false,
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.bulat.frenchverbstrainer"
+      "bundleIdentifier": "com.bulat.frenchverbstrainer2"
     },
     "android": {
-      "package": "com.bulat.frenchverbstrainer",
-      "versionCode": 19,
+      "package": "com.bulat.frenchverbstrainer2",
+      "versionCode": 1,
       "blockedPermissions": [
         "android.permission.SYSTEM_ALERT_WINDOW",
         "android.permission.READ_EXTERNAL_STORAGE",
