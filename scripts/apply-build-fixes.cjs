@@ -34,7 +34,7 @@ replaceOnce(
 replaceOnce(
   'app/quiz-session.tsx',
   `  }, [session?.currentIndex, flipAnim]);\n\n  // Навигация только из эффектов:`,
-  `  }, [session?.currentIndex, flipAnim]);\n\n  useEffect(() => {\n    if (session?.mode !== 'input') return;\n\n    let timer;\n    const task = InteractionManager.runAfterInteractions(() => {\n      timer = setTimeout(() => inputRef.current?.focus(), 150);\n    });\n\n    return () => {\n      task.cancel();\n      if (timer) clearTimeout(timer);\n    };\n  }, [session?.currentIndex, session?.mode]);\n\n  // Навигация только из эффектов:`,
+  `  }, [session?.currentIndex, flipAnim]);\n\n  useEffect(() => {\n    if (session?.mode !== 'input') return;\n\n    let timer: ReturnType<typeof setTimeout> | undefined;\n    const task = InteractionManager.runAfterInteractions(() => {\n      timer = setTimeout(() => inputRef.current?.focus(), 150);\n    });\n\n    return () => {\n      task.cancel();\n      if (timer) clearTimeout(timer);\n    };\n  }, [session?.currentIndex, session?.mode]);\n\n  // Навигация только из эффектов:`,
 );
 replaceOnce(
   'app/quiz-session.tsx',
