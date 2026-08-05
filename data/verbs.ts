@@ -12,6 +12,10 @@ function normalizeMetadata(entry: VerbMetadata): VerbMetadata | null {
   // значением и вспомогательным avoir.
   if (entry.id === 'souvenir') return null;
 
+  // meure — форма mourir (que je meure), а не инфинитив «двигать».
+  // Настоящий инфинитив mouvoir требует отдельной неправильной парадигмы.
+  if (entry.id === 'meure') return null;
+
   // asservir — правильный глагол второй группы: nous asservissons.
   if (entry.id === 'asservir') return { ...entry, group: '2' };
 
