@@ -61,5 +61,10 @@ replaceOnce(
   `  // Зачёт должен быть полноразмерным: тема без 30 доступных форм не даёт\n  // осмысленного порога «не более двух ошибок».\n  assert.equal(\n    lessonExamSize(lesson),\n    EXAM_QUESTIONS,\n    \`${'${lesson.id}'}: exam is only ${'${lessonExamSize(lesson)}'} questions, need ${'${EXAM_QUESTIONS}'}\`,\n  );`,
   `  // Обычно зачёт содержит 30 вопросов. Для темы по четырём главным глаголам\n  // полный набор — это все 24 уникальные формы Présent, без подмешивания чужих глаголов.\n  const expectedExamQuestions = lesson.id === 'present-etre-avoir' ? 24 : EXAM_QUESTIONS;\n  assert.equal(\n    lessonExamSize(lesson),\n    expectedExamQuestions,\n    \`${'${lesson.id}'}: exam is ${'${lessonExamSize(lesson)}'} questions, expected ${'${expectedExamQuestions}'}\`,\n  );`,
 );
+replaceOnce(
+  'scripts/validate-verbs.ts',
+  `      assert.equal(size, EXAM_QUESTIONS, \`${'${lesson.id}'}: full-set drill is only ${'${size}'} questions\`);`,
+  `      assert.equal(size, expectedExamQuestions, \`${'${lesson.id}'}: full-set drill is ${'${size}'} questions, expected ${'${expectedExamQuestions}'}\`);`,
+);
 
 console.log('Applied French Trainer build fixes.');
