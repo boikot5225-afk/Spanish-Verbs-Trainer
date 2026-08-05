@@ -13,7 +13,7 @@
     "build:apk": "cd android && ./gradlew assembleRelease",
     "test:corpus": "tsx scripts/check-corpus.ts scripts/fixtures/forms.json",
     "test:forms": "tsx scripts/check-forms.ts scripts/fixtures/reference-forms.json",
-    "gen:verbs": "python3 scripts/generate-verbs.py",
+    "gen:verbs": "python3 scripts/generate-verbs.py && python3 scripts/fix-generated-verbs.py",
     "gen:icons": "python3 scripts/generate-icons.py"
   },
   "dependencies": {
