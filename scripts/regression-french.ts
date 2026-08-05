@@ -20,6 +20,9 @@ function form(verbId: string, tense: Parameters<typeof countAvailableQuestions>[
 assert.equal(getVerbById('souvenir'), undefined);
 assert(getVerbById('se souvenir'));
 
+// meure — форма mourir, а не инфинитив «двигать».
+assert.equal(getVerbById('meure'), undefined);
+
 // Вторая группа: asservir → nous asservissons, participe présent asservissant.
 const asservir = getVerbById('asservir');
 assert(asservir);
