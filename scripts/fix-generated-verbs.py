@@ -22,6 +22,12 @@ for verb in verbs:
     if verb_id == "souvenir":
         continue
 
+    # meure — форма subjonctif présent глагола mourir (que je meure), а не
+    # инфинитив «двигать». Нужный редкий глагол mouvoir требует отдельной
+    # неправильной парадигмы, поэтому ложную статью безопасно удаляем.
+    if verb_id == "meure":
+        continue
+
     if verb_id == "asservir":
         verb["group"] = "2"
 
