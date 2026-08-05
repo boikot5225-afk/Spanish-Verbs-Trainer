@@ -22,7 +22,7 @@ import {
   TENSE_LABELS,
   tensesByMood,
 } from '../../data/types';
-import { VERBS } from '../../data/verbs';
+import { countAvailableQuestions, VERBS } from '../../data/verbs';
 import {
   ACCENT_MODES,
   ACCENT_MODE_HINTS,
@@ -89,7 +89,10 @@ export default function QuizTab() {
   );
   const selectedVerbSet = useMemo(() => new Set(selectedVerbIds), [selectedVerbIds]);
 
-  const possibleQuestionCount = selectedVerbIds.length * config.tenses.length * config.persons.length;
+  const possibleQuestionCount = useMemo(
+    () => countAvailableQuestions(config.verbIds, config.tenses, config.persons),
+    [config.verbIds, config.tenses, config.persons],
+  );
   const actualQuestionCount = Math.min(config.maxQuestions, possibleQuestionCount);
   const hasActiveSession =
     session !== null &&
@@ -112,7 +115,7 @@ export default function QuizTab() {
     const allSelected = moodTenses.every(tense => config.tenses.includes(tense));
     if (allSelected) {
       const rest = config.tenses.filter(tense => !moodTenses.includes(tense));
-      if (rest.length === 0) return; // хотя бы одно время должно остаться
+      if (rest.length === 0) return;
       setConfig({ tenses: rest });
     } else {
       const merged = [...config.tenses];
@@ -150,7 +153,8 @@ export default function QuizTab() {
   const handleStart = () => {
     if (actualQuestionCount === 0) return;
     void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    buildAndStartSession(config);
+    const questions = buildAndStartSession(config);
+    if (questions.length === 0) return;
     router.push('/quiz-session');
   };
 
@@ -428,7 +432,7 @@ export default function QuizTab() {
 
         <View style={styles.startWrap}>
           <Text style={[styles.countText, { color: colors.mutedForeground }]}> 
-            В тест попадёт {actualQuestionCount} из {possibleQuestionCount} доступных комбинаций
+            В тест попадёт {actualQuestionCount} из {possibleQuestionCount} доступных форм
           </Text>
           <Pressable
             onPress={handleStart}
