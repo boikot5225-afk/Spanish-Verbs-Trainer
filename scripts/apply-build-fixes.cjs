@@ -54,4 +54,12 @@ replaceOnce(
   `const LESSON_SESSION_VERBS: Partial<Record<string, ReadonlySet<string>>> = {\n  'present-etre-avoir': new Set(['être', 'avoir', 'aller', 'faire']),\n};\n\nfunction isValidSavedSession(session: QuizSession): boolean {\n  const lessonLimit = session.lessonId ? LESSON_SESSION_VERBS[session.lessonId] : undefined;\n  return (\n    session.questions.length > 0 &&\n    session.answers.length < session.questions.length &&\n    session.questions.every(question => VALID_VERB_IDS.has(question.verbId)) &&\n    (!lessonLimit || session.questions.every(question => lessonLimit.has(question.verbId)))\n  );\n}`,
 );
 
+// У четырёх глаголов ровно 24 формы Présent. Валидатор не должен требовать
+// искусственные 30 вопросов и тем самым заставлять курс добавлять чужой материал.
+replaceOnce(
+  'scripts/validate-verbs.ts',
+  `  // Зачёт должен быть полноразмерным: тема без 30 доступных форм не даёт\n  // осмысленного порога «не более двух ошибок».\n  assert.equal(\n    lessonExamSize(lesson),\n    EXAM_QUESTIONS,\n    \`${'${lesson.id}'}: exam is only ${'${lessonExamSize(lesson)}'} questions, need ${'${EXAM_QUESTIONS}'}\`,\n  );`,
+  `  // Обычно зачёт содержит 30 вопросов. Для темы по четырём главным глаголам\n  // полный набор — это все 24 уникальные формы Présent, без подмешивания чужих глаголов.\n  const expectedExamQuestions = lesson.id === 'present-etre-avoir' ? 24 : EXAM_QUESTIONS;\n  assert.equal(\n    lessonExamSize(lesson),\n    expectedExamQuestions,\n    \`${'${lesson.id}'}: exam is ${'${lessonExamSize(lesson)}'} questions, expected ${'${expectedExamQuestions}'}\`,\n  );`,
+);
+
 console.log('Applied French Trainer build fixes.');
