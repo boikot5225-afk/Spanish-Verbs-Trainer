@@ -386,6 +386,8 @@ export interface QuizSession {
   currentIndex: number;
   answers: QuizAnswer[];
   mode: QuizMode;
+  /** Режим диакритики фиксируется при старте и не меняется посреди сессии. */
+  accentMode?: import('./answer').AccentMode;
   startedAt: string;
   exam?: QuizExam;
   drill?: QuizDrill;
