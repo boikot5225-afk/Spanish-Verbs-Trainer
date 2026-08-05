@@ -1,4 +1,10 @@
 import { strict as assert } from 'node:assert';
+import {
+  lessonExamAvailableCount,
+  lessonExamQuestionCount,
+  lessonExamVerbIds,
+} from '../data/lesson-exam';
+import { getLessonById } from '../data/lessons';
 import { PERSONS } from '../data/types';
 import { countAvailableQuestions, getVerbById } from '../data/verbs';
 
@@ -50,5 +56,13 @@ assert.equal(
   countAvailableQuestions(['parler'], ['imperatifPresent'], PERSONS),
   3,
 );
+
+// Зачёт «Четыре главных глагола» проверяет именно четыре показанных глагола,
+// а не весь расширенный тренировочный список из десяти статей.
+const coreLesson = getLessonById('present-etre-avoir');
+assert(coreLesson);
+assert.deepEqual(lessonExamVerbIds(coreLesson), ['être', 'avoir', 'aller', 'faire']);
+assert.equal(lessonExamAvailableCount(coreLesson), 24);
+assert.equal(lessonExamQuestionCount(coreLesson), 24);
 
 console.log('French regression checks passed');
