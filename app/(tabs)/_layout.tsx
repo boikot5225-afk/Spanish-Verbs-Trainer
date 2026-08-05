@@ -29,6 +29,10 @@ function NativeTabLayout() {
         <Icon sf={{ default: 'pencil', selected: 'pencil.circle.fill' }} />
         <Label>Свой тест</Label>
       </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="backup">
+        <Icon sf={{ default: 'externaldrive', selected: 'externaldrive.fill' }} />
+        <Label>Данные</Label>
+      </NativeTabs.Trigger>
     </NativeTabs>
   );
 }
@@ -117,6 +121,18 @@ function ClassicTabLayout() {
               <SymbolView name="pencil" tintColor={color} size={24} />
             ) : (
               <Ionicons name="create-outline" size={22} color={color} />
+            ),
+        }}
+      />
+      <Tabs.Screen
+        name="backup"
+        options={{
+          title: 'Данные',
+          tabBarIcon: ({ color }: { color: string }) =>
+            isIOS ? (
+              <SymbolView name="externaldrive" tintColor={color} size={24} />
+            ) : (
+              <Ionicons name="save-outline" size={22} color={color} />
             ),
         }}
       />
