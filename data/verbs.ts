@@ -90,7 +90,7 @@ function conjugateSenfuir(entry: VerbMetadata): Verb {
     pronominal: true,
     types: Array.from(new Set([...entry.types, '-fuir'])),
     conjugations,
-    participePresent: { form: "s'enfuyant", irregular: true },
+    participePresent: { form: 'enfuyant', irregular: true },
     participePasse: { form: 'enfui', irregular: true },
   };
 }
@@ -114,9 +114,11 @@ function fixPronominalForms(verb: Verb): Verb {
   });
 
   const participle = verb.participePresent.form;
-  const pronominalParticiple = /^[aeiouyàâéèêëîïôûùüh]/iu.test(participle)
-    ? `s'${participle}`
-    : `se ${participle}`;
+  const pronominalParticiple = /^(?:se |s')/u.test(participle)
+    ? participle
+    : /^[aeiouyàâéèêëîïôûùüh]/iu.test(participle)
+      ? `s'${participle}`
+      : `se ${participle}`;
 
   return {
     ...verb,
