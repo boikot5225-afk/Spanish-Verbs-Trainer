@@ -40,6 +40,36 @@ export function stripAccents(value: string): string {
     .replace(/[\u0300-\u036f]/gu, '');
 }
 
+/**
+ * В карточке лицо уже показано отдельно, поэтому основной эталон хранится без
+ * подлежащего. Для многословных форм принимаем оба естественных варианта:
+ * «va partir» и «il va partir», «ai parlé» и «j'ai parlé».
+ *
+ * Для одиночных форм правило не применяется: в обычном спряжении по-прежнему
+ * требуется только сама форма, а не «je vais» вместо «vais».
+ */
+function acceptedInputShapes(input: string, expected: string): string[] {
+  const normalizedInput = normalizeShape(input);
+  const normalizedExpected = normalizeShape(expected);
+  const candidates = [normalizedInput];
+
+  const acceptsOptionalSubject = /[ '\u2019]/u.test(normalizedExpected);
+  if (!acceptsOptionalSubject) return candidates;
+
+  const withoutSpacedSubject = normalizedInput.replace(
+    /^(?:je|tu|il|elle|on|nous|vous|ils|elles)\s+/u,
+    '',
+  );
+  if (withoutSpacedSubject !== normalizedInput) candidates.push(withoutSpacedSubject);
+
+  if (normalizedInput.startsWith("j'")) {
+    const withoutElidedSubject = normalizedInput.slice(2);
+    if (withoutElidedSubject) candidates.push(withoutElidedSubject);
+  }
+
+  return [...new Set(candidates)];
+}
+
 /** Расстояние Левенштейна, но считаем только до предела — дальше не интересно. */
 export function editDistance(left: string, right: string, limit = 2): number {
   if (Math.abs(left.length - right.length) > limit) return limit + 1;
@@ -81,10 +111,12 @@ export function checkAnswer(
   expected: string,
   mode: AccentMode,
 ): AnswerVerdict {
-  const exactMatch = normalizeShape(input) === normalizeShape(expected);
-  const plainInput = stripAccents(input);
-  const plainExpected = stripAccents(expected);
-  const plainMatch = plainInput === plainExpected;
+  const expectedShape = normalizeShape(expected);
+  const inputShapes = acceptedInputShapes(input, expected);
+  const exactMatch = inputShapes.some(candidate => candidate === expectedShape);
+  const plainExpected = stripAccents(expectedShape);
+  const plainInputs = inputShapes.map(stripAccents);
+  const plainMatch = plainInputs.some(candidate => candidate === plainExpected);
 
   // Буквы совпали, а диакритика — нет.
   const accentMismatch = plainMatch && !exactMatch;
@@ -100,10 +132,10 @@ export function checkAnswer(
   }
 
   // Ни с диакритикой, ни без неё не совпало — но, возможно, это опечатка.
-  const distance = editDistance(plainInput, plainExpected);
+  const distance = Math.min(...plainInputs.map(candidate => editDistance(candidate, plainExpected)));
   return {
     correct: false,
     accentMismatch: false,
-    looksLikeTypo: plainInput.length > 0 && distance === 1,
+    looksLikeTypo: plainInputs.some(candidate => candidate.length > 0) && distance === 1,
   };
 }

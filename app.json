@@ -2,7 +2,7 @@
   "expo": {
     "name": "French Verbs Trainer 2",
     "slug": "french-verbs-trainer-v2",
-    "version": "1.1.7",
+    "version": "1.1.8",
     "orientation": "portrait",
     "scheme": "frenchverbstrainer2",
     "userInterfaceStyle": "light",

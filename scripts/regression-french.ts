@@ -1,4 +1,5 @@
 import { strict as assert } from 'node:assert';
+import { checkAnswer } from '../data/answer';
 import {
   lessonExamAvailableCount,
   lessonExamQuestionCount,
@@ -67,5 +68,23 @@ assert(coreLesson);
 assert.deepEqual(lessonExamVerbIds(coreLesson), ['être', 'avoir', 'aller', 'faire']);
 assert.equal(lessonExamAvailableCount(coreLesson), 24);
 assert.equal(lessonExamQuestionCount(coreLesson), 24);
+
+// В тематических конструкциях пользователь может ввести ответ и без
+// подлежащего, и с ним. Оба варианта должны засчитываться одинаково.
+assert.equal(checkAnswer('va partir', 'va partir', 'strict').correct, true);
+assert.equal(checkAnswer('il va partir', 'va partir', 'strict').correct, true);
+assert.equal(checkAnswer('elle va partir', 'va partir', 'strict').correct, true);
+assert.equal(checkAnswer('nous allons partir', 'allons partir', 'strict').correct, true);
+assert.equal(checkAnswer("j'ai parlé", 'ai parlé', 'strict').correct, true);
+assert.deepEqual(checkAnswer('il va etudier', 'va étudier', 'warn'), {
+  correct: true,
+  accentMismatch: true,
+  looksLikeTypo: false,
+});
+assert.equal(checkAnswer('il va etudier', 'va étudier', 'strict').correct, false);
+
+// Для одиночной формы подлежащее не подмешивается автоматически: карточка
+// по-прежнему проверяет именно спряжённую форму.
+assert.equal(checkAnswer('je vais', 'vais', 'strict').correct, false);
 
 console.log('French regression checks passed');
