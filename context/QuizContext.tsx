@@ -184,6 +184,7 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
         currentIndex: 0,
         answers: [],
         mode: cfg.mode,
+        accentMode: cfg.accentMode ?? 'warn',
         startedAt: new Date().toISOString(),
         exam: cfg.exam,
         drill: cfg.drill,
@@ -199,7 +200,7 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
     setSessionState(nextSession);
   }, []);
 
-  const accentMode = config.accentMode ?? 'warn';
+  const fallbackAccentMode = config.accentMode ?? 'warn';
 
   const submitAnswer = useCallback((userAnswer: string) => {
     setSessionState(previous => {
@@ -213,12 +214,16 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
       const answer: QuizAnswer = {
         question,
         userAnswer,
-        correct: checkAnswer(userAnswer, question.correctAnswer, accentMode).correct,
+        correct: checkAnswer(
+          userAnswer,
+          question.correctAnswer,
+          previous.accentMode ?? fallbackAccentMode,
+        ).correct,
       };
 
       return { ...previous, answers: [...previous.answers, answer] };
     });
-  }, [accentMode]);
+  }, [fallbackAccentMode]);
 
   const advanceQuestion = useCallback(() => {
     setSessionState(previous => {
@@ -249,6 +254,7 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
       currentIndex: 0,
       answers: [],
       mode: session.mode,
+      accentMode: session.accentMode ?? fallbackAccentMode,
       startedAt: new Date().toISOString(),
       // Повтор ошибок не зачёт и не подход — медаль и открытие темы он не даёт,
       // но вернуться должен туда же, откуда пришли.
@@ -256,7 +262,7 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
     };
     setSessionState(retrySession);
     return retrySession.questions;
-  }, [session]);
+  }, [session, fallbackAccentMode]);
 
   const clearSession = useCallback(() => {
     setSessionState(null);
