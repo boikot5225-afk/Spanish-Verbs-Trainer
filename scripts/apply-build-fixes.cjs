@@ -137,4 +137,12 @@ replaceOnce(
 
 require('./apply-lesson-alignment.bundle.cjs');
 
+// В сжатом шаблоне валидатора регулярные выражения получили двойное
+// экранирование. Это проверяло буквальную строку "\\s", а не пробел.
+{
+  const path = 'scripts/validate-lesson-alignment.ts';
+  const source = fs.readFileSync(path, 'utf8');
+  fs.writeFileSync(path, source.replace(/\\\\s/g, '\\s').replace(/\\\\S/g, '\\S'), 'utf8');
+}
+
 console.log('Applied French Trainer build fixes.');
