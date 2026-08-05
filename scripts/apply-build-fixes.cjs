@@ -13,8 +13,21 @@ function replaceOnce(path, from, to) {
 // мини-подходы и зачёт не должны внезапно подмешивать ещё шесть глаголов.
 replaceOnce(
   'data/lessons.ts',
-  `      verbIds: [\n        'être',\n        'avoir',\n        'aller',\n        'faire',\n        'dire',\n        'pouvoir',\n        'vouloir',\n        'devoir',\n        'savoir',\n        'voir',\n      ],\n      featured: ['être', 'avoir', 'aller', 'faire'],`,
-  `      verbIds: ['être', 'avoir', 'aller', 'faire'],\n      featured: ['être', 'avoir', 'aller', 'faire'],`,
+  `      verbIds: [
+        'être',
+        'avoir',
+        'aller',
+        'faire',
+        'dire',
+        'pouvoir',
+        'vouloir',
+        'devoir',
+        'savoir',
+        'voir',
+      ],
+      featured: ['être', 'avoir', 'aller', 'faire'],`,
+  `      verbIds: ['être', 'avoir', 'aller', 'faire'],
+      featured: ['être', 'avoir', 'aller', 'faire'],`,
 );
 
 // На экране должно быть невозможно принять свободную тренировку за зачёт.
@@ -28,18 +41,42 @@ replaceOnce(
 // focus после завершения анимации стабильно открывает клавиатуру.
 replaceOnce(
   'app/quiz-session.tsx',
-  `  Animated,\n  Platform,`,
-  `  Animated,\n  InteractionManager,\n  Platform,`,
+  `  Animated,
+  Platform,`,
+  `  Animated,
+  InteractionManager,
+  Platform,`,
 );
 replaceOnce(
   'app/quiz-session.tsx',
-  `  }, [session?.currentIndex, flipAnim]);\n\n  // Навигация только из эффектов:`,
-  `  }, [session?.currentIndex, flipAnim]);\n\n  useEffect(() => {\n    if (session?.mode !== 'input') return;\n\n    let timer: ReturnType<typeof setTimeout> | undefined;\n    const task = InteractionManager.runAfterInteractions(() => {\n      timer = setTimeout(() => inputRef.current?.focus(), 150);\n    });\n\n    return () => {\n      task.cancel();\n      if (timer) clearTimeout(timer);\n    };\n  }, [session?.currentIndex, session?.mode]);\n\n  // Навигация только из эффектов:`,
+  `  }, [session?.currentIndex, flipAnim]);
+
+  // Навигация только из эффектов:`,
+  `  }, [session?.currentIndex, flipAnim]);
+
+  useEffect(() => {
+    if (session?.mode !== 'input') return;
+
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const task = InteractionManager.runAfterInteractions(() => {
+      timer = setTimeout(() => inputRef.current?.focus(), 150);
+    });
+
+    return () => {
+      task.cancel();
+      if (timer) clearTimeout(timer);
+    };
+  }, [session?.currentIndex, session?.mode]);
+
+  // Навигация только из эффектов:`,
 );
 replaceOnce(
   'app/quiz-session.tsx',
-  `        autoFocus\n        // Неконтролируемое поле:`,
-  `        autoFocus\n        showSoftInputOnFocus\n        // Неконтролируемое поле:`,
+  `        autoFocus
+        // Неконтролируемое поле:`,
+  `        autoFocus
+        showSoftInputOnFocus
+        // Неконтролируемое поле:`,
 );
 replaceOnce(
   'app/quiz-session.tsx',
@@ -50,21 +87,54 @@ replaceOnce(
 // Уже начатая неправильная сессия 1.1.5 не должна продолжиться после обновления.
 replaceOnce(
   'context/QuizContext.tsx',
-  `function isValidSavedSession(session: QuizSession): boolean {\n  return (\n    session.questions.length > 0 &&\n    session.answers.length < session.questions.length &&\n    session.questions.every(question => VALID_VERB_IDS.has(question.verbId))\n  );\n}`,
-  `const LESSON_SESSION_VERBS: Partial<Record<string, ReadonlySet<string>>> = {\n  'present-etre-avoir': new Set(['être', 'avoir', 'aller', 'faire']),\n};\n\nfunction isValidSavedSession(session: QuizSession): boolean {\n  const lessonLimit = session.lessonId ? LESSON_SESSION_VERBS[session.lessonId] : undefined;\n  return (\n    session.questions.length > 0 &&\n    session.answers.length < session.questions.length &&\n    session.questions.every(question => VALID_VERB_IDS.has(question.verbId)) &&\n    (!lessonLimit || session.questions.every(question => lessonLimit.has(question.verbId)))\n  );\n}`,
+  `function isValidSavedSession(session: QuizSession): boolean {
+  return (
+    session.questions.length > 0 &&
+    session.answers.length < session.questions.length &&
+    session.questions.every(question => VALID_VERB_IDS.has(question.verbId))
+  );
+}`,
+  `const LESSON_SESSION_VERBS: Partial<Record<string, ReadonlySet<string>>> = {
+  'present-etre-avoir': new Set(['être', 'avoir', 'aller', 'faire']),
+};
+
+function isValidSavedSession(session: QuizSession): boolean {
+  const lessonLimit = session.lessonId ? LESSON_SESSION_VERBS[session.lessonId] : undefined;
+  return (
+    session.questions.length > 0 &&
+    session.answers.length < session.questions.length &&
+    session.questions.every(question => VALID_VERB_IDS.has(question.verbId)) &&
+    (!lessonLimit || session.questions.every(question => lessonLimit.has(question.verbId)))
+  );
+}`,
 );
 
 // У четырёх глаголов ровно 24 формы Présent. Валидатор не должен требовать
 // искусственные 30 вопросов и тем самым заставлять курс добавлять чужой материал.
 replaceOnce(
   'scripts/validate-verbs.ts',
-  `  // Зачёт должен быть полноразмерным: тема без 30 доступных форм не даёт\n  // осмысленного порога «не более двух ошибок».\n  assert.equal(\n    lessonExamSize(lesson),\n    EXAM_QUESTIONS,\n    \`${'${lesson.id}'}: exam is only ${'${lessonExamSize(lesson)}'} questions, need ${'${EXAM_QUESTIONS}'}\`,\n  );`,
-  `  // Обычно зачёт содержит 30 вопросов. Для темы по четырём главным глаголам\n  // полный набор — это все 24 уникальные формы Présent, без подмешивания чужих глаголов.\n  const expectedExamQuestions = lesson.id === 'present-etre-avoir' ? 24 : EXAM_QUESTIONS;\n  assert.equal(\n    lessonExamSize(lesson),\n    expectedExamQuestions,\n    \`${'${lesson.id}'}: exam is ${'${lessonExamSize(lesson)}'} questions, expected ${'${expectedExamQuestions}'}\`,\n  );`,
+  `  // Зачёт должен быть полноразмерным: тема без 30 доступных форм не даёт
+  // осмысленного порога «не более двух ошибок».
+  assert.equal(
+    lessonExamSize(lesson),
+    EXAM_QUESTIONS,
+    \`${'${lesson.id}'}: exam is only ${'${lessonExamSize(lesson)}'} questions, need ${'${EXAM_QUESTIONS}'}\`,
+  );`,
+  `  // Обычно зачёт содержит 30 вопросов. Для темы по четырём главным глаголам
+  // полный набор — это все 24 уникальные формы Présent, без подмешивания чужих глаголов.
+  const expectedExamQuestions = lesson.id === 'present-etre-avoir' ? 24 : EXAM_QUESTIONS;
+  assert.equal(
+    lessonExamSize(lesson),
+    expectedExamQuestions,
+    \`${'${lesson.id}'}: exam is ${'${lessonExamSize(lesson)}'} questions, expected ${'${expectedExamQuestions}'}\`,
+  );`,
 );
 replaceOnce(
   'scripts/validate-verbs.ts',
   `      assert.equal(size, EXAM_QUESTIONS, \`${'${lesson.id}'}: full-set drill is only ${'${size}'} questions\`);`,
   `      assert.equal(size, expectedExamQuestions, \`${'${lesson.id}'}: full-set drill is ${'${size}'} questions, expected ${'${expectedExamQuestions}'}\`);`,
 );
+
+require('./apply-lesson-alignment.bundle.cjs');
 
 console.log('Applied French Trainer build fixes.');
