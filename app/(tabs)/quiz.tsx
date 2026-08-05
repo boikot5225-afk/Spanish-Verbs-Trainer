@@ -333,13 +333,13 @@ export default function QuizTab() {
             onPress={() => setVerbGroup(VERBS.filter(verb => verb.group === '3').map(verb => verb.id))}
             style={[styles.groupButton, { borderColor: colors.border, backgroundColor: colors.card }]}
           >
-            <Text style={[styles.groupButtonText, { color: colors.foreground }]}>Неправильные</Text>
+            <Text style={[styles.groupButtonText, { color: colors.foreground }]}>3-я группа</Text>
           </Pressable>
           <Pressable
             onPress={() => setVerbGroup(VERBS.filter(verb => verb.group !== '3').map(verb => verb.id))}
             style={[styles.groupButton, { borderColor: colors.border, backgroundColor: colors.card }]}
           >
-            <Text style={[styles.groupButtonText, { color: colors.foreground }]}>Правильные</Text>
+            <Text style={[styles.groupButtonText, { color: colors.foreground }]}>1–2-я группы</Text>
           </Pressable>
         </View>
 
