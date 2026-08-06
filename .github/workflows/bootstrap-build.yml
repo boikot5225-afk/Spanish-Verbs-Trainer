@@ -14,10 +14,11 @@ concurrency:
 
 jobs:
   build:
-    runs-on: [self-hosted, linux, x64]
-    env:
-      ANDROID_HOME: /home/bulat/Android/Sdk
-      ANDROID_SDK_ROOT: /home/bulat/Android/Sdk
+    # Раннер GitHub, а не свой: репозиторий публичный, а свой раннер на публичном
+    # репозитории — это чужой код из форкнутого pull request, выполняемый на твоей
+    # машине. Минуты и хранилище артефактов для публичных репозиториев бесплатны,
+    # так что причина переезжать на свой отпала. ANDROID_HOME образ задаёт сам.
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout branch
@@ -56,8 +57,15 @@ jobs:
       - name: Generate Android project
         run: npx expo prebuild --platform android --clean
 
-      # Expo prebuild creates the same template debug key that signed v1.15.0.
-      # Verify its certificate before building so an incompatible APK is never published.
+      # prebuild --clean каждый раз кладёт debug.keystore из шаблона Expo, и им же
+      # подписывается релиз. Версия шаблона плавающая, поэтому ключ не оставляем
+      # на его усмотрение: подставляем собственную копию того же ключа, а потом
+      # всё равно сверяем отпечаток. Подставить без сверки — не заметить подмены,
+      # сверять без подстановки — упереться в красную сборку вместо APK.
+      - name: Pin signing key
+        shell: bash
+        run: cp android-signing/debug.keystore android/app/debug.keystore
+
       - name: Verify signing key
         shell: bash
         run: |
@@ -65,7 +73,7 @@ jobs:
           expected="FAC61745DC0903786FB9EDE62A962B399F7348F0BB6F899B8332667591033B9C"
 
           if [ ! -f "$key" ]; then
-            echo "Signing key was not generated: $key"
+            echo "Signing key is missing: $key"
             exit 1
           fi
 
