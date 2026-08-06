@@ -105,7 +105,6 @@
 
 ```ts
 tenses: [],
-forms: ['gerundio'],
 periphrasis: { auxiliary: 'estar', form: 'gerundio', tenses: ['presente'] },
 ```
 
