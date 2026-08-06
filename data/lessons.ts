@@ -772,10 +772,10 @@ export const LESSONS: Lesson[] = [
       },
     ],
     practice: {
-      // Спрягать сами содержательные глаголы теме не нужно — она про конструкцию.
+      // Спрягать сами содержательные глаголы теме не нужно — она про конструкцию,
+      // и голый герундий тут спрашивать тоже нельзя: diciendo — такая же её
+      // половина, как estoy. Знание герундия проверяется внутри estoy diciendo.
       tenses: [],
-      // Герундий отдельно: не зная diciendo, не построишь estoy diciendo.
-      forms: ['gerundio'],
       periphrasis: { auxiliary: 'estar', form: 'gerundio', tenses: ['presente'] },
       // Глаголы теперь смысловые, а не вспомогательные: estar стоит в конструкции.
       // Взяты те, у которых герундий показателен — durmiendo, pidiendo, leyendo.
@@ -1161,11 +1161,11 @@ export const LESSONS: Lesson[] = [
       },
     ],
     practice: {
+      // perfecto в модели и есть конструкция haber + причастие, поэтому тема
+      // тренирует he hablado целиком. Голое причастие тут спрашивать нельзя:
+      // предмет темы — связка, а hablado сам по себе такая же её половина,
+      // какой был estoy без герундия.
       tenses: ['perfecto'],
-      // Причастие спрашивается и отдельно: внутри perfecto оно всегда идёт
-      // с haber, и неправильные формы (hecho, dicho, visto, escrito) легко
-      // выучить как часть связки, ни разу не назвав саму форму.
-      forms: ['participio'],
       verbIds: [...REGULAR_SAMPLE, 'hacer', 'decir', 'ver', 'escribir'],
     },
   },

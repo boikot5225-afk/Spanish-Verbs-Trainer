@@ -614,9 +614,21 @@ for (const lesson of LESSONS) {
   }
 }
 
-const practicedForms = new Set(LESSONS.flatMap(lesson => lesson.practice.forms ?? []));
+// Форма считается отработанной и внутри конструкции, а не только отдельным
+// вопросом: причастие живёт в каждом составном времени (he hablado), герундий —
+// в перифразе (estoy comiendo). Требовать голого вопроса значило бы толкать темы
+// спрашивать половину связки вместо связки — ровно ту ошибку, из-за которой
+// правило и появилось.
+const practicedForms = new Set(
+  LESSONS.flatMap(lesson => {
+    const forms = [...(lesson.practice.forms ?? [])];
+    if (lesson.practice.periphrasis) forms.push(lesson.practice.periphrasis.form);
+    if (lesson.practice.tenses.some(tense => COMPOUND_TENSES.has(tense))) forms.push('participio');
+    return forms;
+  }),
+);
 for (const form of NON_FINITE_FORMS) {
-  assert(practicedForms.has(form), `Non-finite form ${form} has no lesson practice`);
+  assert(practicedForms.has(form), `Non-finite form ${form} is never exercised by a lesson`);
 }
 
 const checkCount = Object.values(expected).reduce((total, checks) => total + checks.length, 0);
