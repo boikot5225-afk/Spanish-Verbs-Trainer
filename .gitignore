@@ -6,5 +6,8 @@ android/.gradle/
 android/app/build/
 *.jks
 *.keystore
+# Кроме зафиксированного ключа подписи: без него сборка не может
+# гарантировать ту же подпись, а обновление поверх стирает прогресс.
+!android-signing/debug.keystore
 .env
 .DS_Store
