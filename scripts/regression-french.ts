@@ -134,7 +134,7 @@ assert.equal(checkAnswer('il va etudier', 'va étudier', 'strict').correct, fals
 // по-прежнему проверяет именно спряжённую форму.
 assert.equal(checkAnswer('je vais', 'vais', 'strict').correct, false);
 
-// В составных временах с être форма карточки il/elle допускает оба рода.
+// В составных временах с être форма карточки допускает оба рода.
 const allerIlPc = {
   verbId: 'aller',
   tense: 'passeCompose' as const,
@@ -155,8 +155,7 @@ const allerIlsPc = {
 };
 assert.deepEqual(quizAnswerVariants(allerIlsPc), ['sont allés', 'sont allées']);
 
-// С avoir и у местоименных глаголов нельзя механически добавлять женское
-// согласование: там действуют другие правила.
+// С avoir согласование с субъектом не добавляется автоматически.
 const parlerIlPc = {
   verbId: 'parler',
   tense: 'passeCompose' as const,
@@ -164,12 +163,30 @@ const parlerIlPc = {
   correctAnswer: form('parler', 'passeCompose', 2),
 };
 assert.deepEqual(quizAnswerVariants(parlerIlPc), ['a parlé']);
+
+// Для обычной карточки местоименного глагола лицо il/elle тоже допускает
+// естественный женский вариант. Контекстные задания фильтруются отдельно.
 const seLaverIlPc = {
   verbId: 'se laver',
   tense: 'passeCompose' as const,
   person: 'il' as const,
   correctAnswer: form('se laver', 'passeCompose', 2),
 };
-assert.deepEqual(quizAnswerVariants(seLaverIlPc), ["s'est lavé"]);
+assert.deepEqual(quizAnswerVariants(seLaverIlPc), ["s'est lavé", "s'est lavée"]);
+assert(
+  quizAnswerVariants(seLaverIlPc).some(expected =>
+    checkAnswer("elle s'est lavée", expected, 'strict').correct,
+  ),
+);
+
+// Если специальное контекстное задание имеет ответ, отличный от обычной
+// парадигмы глагола, общая логика рода не должна менять его смысл.
+const contextualQuestion = {
+  verbId: 'aller',
+  tense: 'passeCompose' as const,
+  person: 'il' as const,
+  correctAnswer: 'a monté la valise',
+};
+assert.deepEqual(quizAnswerVariants(contextualQuestion), ['a monté la valise']);
 
 console.log('French regression checks passed');
