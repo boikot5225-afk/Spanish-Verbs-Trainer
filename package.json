@@ -7,7 +7,7 @@
     "start": "expo start",
     "android": "expo start --android",
     "web": "expo start --web",
-    "typecheck": "node scripts/apply-build-fixes.cjs && node scripts/apply-course-audit.cjs && tsc --noEmit",
+    "typecheck": "node scripts/apply-build-fixes.cjs && node scripts/apply-course-audit.cjs && node scripts/fix-course-validator.cjs && tsc --noEmit",
     "test:data": "tsx scripts/validate-verbs.ts && tsx scripts/regression-french.ts && tsx scripts/validate-lesson-alignment.ts",
     "prebuild:android": "expo prebuild --platform android --clean",
     "build:apk": "cd android && ./gradlew assembleRelease",
