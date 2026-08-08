@@ -1,77 +1,107 @@
 const fs = require('node:fs');
 
-function edit(path, fn) {
-  const src = fs.readFileSync(path, 'utf8');
-  const out = fn(src);
-  if (out !== src) fs.writeFileSync(path, out, 'utf8');
+function edit(path, transform) {
+  const source = fs.readFileSync(path, 'utf8');
+  const next = transform(source);
+  if (next !== source) fs.writeFileSync(path, next, 'utf8');
 }
 
-function replace(path, from, to) {
-  edit(path, src => {
-    if (src.includes(to)) return src;
-    if (!src.includes(from)) throw new Error(`Missing fragment in ${path}`);
-    return src.replace(from, to);
+function replaceExact(path, from, to) {
+  edit(path, source => {
+    if (source.includes(to)) return source;
+    if (!source.includes(from)) throw new Error(`Missing fragment in ${path}`);
+    return source.replace(from, to);
   });
 }
 
-function lessonPractice(id, verbIds, featured) {
-  edit('data/lessons.ts', src => {
-    const start = src.indexOf(`id: '${id}'`);
-    if (start < 0) throw new Error(`Missing lesson ${id}`);
-    const next = src.indexOf("\n  {\n    id: '", start + 1);
-    const end = next >= 0 ? next : src.indexOf('\n];', start);
-    const segment = src.slice(start, end);
+function patchLessonPractice(lessonId, verbIds, featured) {
+  edit('data/lessons.ts', source => {
+    const marker = `id: '${lessonId}'`;
+    const start = source.indexOf(marker);
+    if (start < 0) throw new Error(`Missing lesson ${lessonId}`);
+    const nextLesson = source.indexOf("\n  {\n    id: '", start + marker.length);
+    const end = nextLesson >= 0 ? nextLesson : source.indexOf('\n];', start);
+    if (end < 0) throw new Error(`Missing end of lesson ${lessonId}`);
+
+    const segment = source.slice(start, end);
     const practiceAt = segment.indexOf('practice: {');
-    if (practiceAt < 0) throw new Error(`Missing practice for ${id}`);
+    if (practiceAt < 0) throw new Error(`Missing practice for ${lessonId}`);
+
     const head = segment.slice(0, practiceAt);
     let practice = segment.slice(practiceAt);
-    practice = practice.replace(
-      /verbIds:\s*\[[\s\S]*?\],/,
-      `verbIds: [${verbIds.map(JSON.stringify).join(', ')}],`,
-    );
-    practice = practice.replace(
-      /featured:\s*\[[\s\S]*?\],/,
-      `featured: [${featured.map(JSON.stringify).join(', ')}],`,
-    );
-    return src.slice(0, start) + head + practice + src.slice(end);
+    const idsText = verbIds.map(id => JSON.stringify(id)).join(', ');
+    const featuredText = featured.map(id => JSON.stringify(id)).join(', ');
+    practice = practice.replace(/verbIds:\s*\[[\s\S]*?\],/, `verbIds: [${idsText}],`);
+    practice = practice.replace(/featured:\s*\[[\s\S]*?\],/, `featured: [${featuredText}],`);
+    return source.slice(0, start) + head + practice + source.slice(end);
   });
 }
 
-lessonPractice(
+// 1. Тренировка должна соответствовать именно тому, что объяснено в уроке.
+patchLessonPractice(
   'present-g3-ir',
   ['partir', 'sortir', 'dormir', 'servir', 'ouvrir', 'offrir', 'venir', 'tenir'],
   ['partir', 'ouvrir', 'venir'],
 );
-lessonPractice(
+patchLessonPractice(
   'imperatif-irreguliers',
   ['être', 'avoir', 'savoir', 'vouloir', 'aller'],
   ['être', 'avoir', 'savoir', 'vouloir', 'aller'],
 );
 
-edit('data/lessons.ts', src => {
-  if (!src.includes("import { countAvailableQuestions, getVerbById, VERBS } from './verbs';")) {
-    src = src.replace(
+// 2. Счётчики вопросов должны учитывать реально существующие лица.
+edit('data/lessons.ts', source => {
+  if (!source.includes("import { countAvailableQuestions, getVerbById, VERBS } from './verbs';")) {
+    source = source.replace(
       "import { getVerbById, VERBS } from './verbs';",
       "import { countAvailableQuestions, getVerbById, VERBS } from './verbs';",
     );
   }
-  const drill = `export function drillSize(lesson: Lesson, drill: LessonDrill): number {\n  if (lesson.block === 'imperatif' || lesson.block === 'litteraire') {\n    const persons = lesson.block === 'litteraire'\n      ? PERSONS.filter(person => person === 'il' || person === 'ils')\n      : PERSONS;\n    const available = countAvailableQuestions(drill.verbIds, lesson.practice.tenses, persons);\n    return Math.min(drill.isAll ? EXAM_QUESTIONS : DRILL_QUESTIONS, available);\n  }`;
-  if (!src.includes(drill)) {
-    src = src.replace(
-      'export function drillSize(lesson: Lesson, drill: LessonDrill): number {',
-      drill,
-    );
+
+  const drillPatch = [
+    'export function drillSize(lesson: Lesson, drill: LessonDrill): number {',
+    "  if (lesson.block === 'imperatif' || lesson.block === 'litteraire') {",
+    "    const persons = lesson.block === 'litteraire'",
+    "      ? PERSONS.filter(person => person === 'il' || person === 'ils')",
+    '      : PERSONS;',
+    '    const available = countAvailableQuestions(drill.verbIds, lesson.practice.tenses, persons);',
+    '    return Math.min(drill.isAll ? EXAM_QUESTIONS : DRILL_QUESTIONS, available);',
+    '  }',
+  ].join('\n');
+  if (!source.includes(drillPatch)) {
+    const anchor = 'export function drillSize(lesson: Lesson, drill: LessonDrill): number {';
+    if (!source.includes(anchor)) throw new Error('Missing drillSize');
+    source = source.replace(anchor, drillPatch);
   }
-  const exam = `export function lessonExamSize(lesson: Lesson): number {\n  if (lesson.block === 'imperatif' || lesson.block === 'litteraire') {\n    const persons = lesson.block === 'litteraire'\n      ? PERSONS.filter(person => person === 'il' || person === 'ils')\n      : PERSONS;\n    const available = countAvailableQuestions(\n      lessonPracticeVerbIds(lesson),\n      lesson.practice.tenses,\n      persons,\n    );\n    return Math.min(EXAM_QUESTIONS, available);\n  }`;
-  if (!src.includes(exam)) {
-    src = src.replace('export function lessonExamSize(lesson: Lesson): number {', exam);
+
+  const examPatch = [
+    'export function lessonExamSize(lesson: Lesson): number {',
+    "  if (lesson.block === 'imperatif' || lesson.block === 'litteraire') {",
+    "    const persons = lesson.block === 'litteraire'",
+    "      ? PERSONS.filter(person => person === 'il' || person === 'ils')",
+    '      : PERSONS;',
+    '    const available = countAvailableQuestions(',
+    '      lessonPracticeVerbIds(lesson),',
+    '      lesson.practice.tenses,',
+    '      persons,',
+    '    );',
+    '    return Math.min(EXAM_QUESTIONS, available);',
+    '  }',
+  ].join('\n');
+  if (!source.includes(examPatch)) {
+    const anchor = 'export function lessonExamSize(lesson: Lesson): number {';
+    if (!source.includes(anchor)) throw new Error('Missing lessonExamSize');
+    source = source.replace(anchor, examPatch);
   }
-  return src;
+  return source;
 });
 
-edit('data/verbs.ts', src => {
-  if (src.includes('quizAnswerVariants')) return src;
-  src = src
+// 3. В составных временах с être обычная карточка должна принимать мужской и
+// женский вариант. Специальные контекстные задания не расширяем автоматически.
+edit('data/verbs.ts', source => {
+  if (source.includes('export function quizAnswerVariants(')) return source;
+
+  source = source
     .replace(
       "import type { ConjugationForm, Person, Tense, Verb } from './types';",
       "import type { ConjugationForm, Person, QuizQuestion, Tense, Verb } from './types';",
@@ -84,87 +114,222 @@ edit('data/verbs.ts', src => {
       "import { conjugateMetadata, type VerbMetadata } from './conjugator';",
       "import { conjugateMetadata, feminineCompound, type VerbMetadata } from './conjugator';",
     );
-  const anchor = `export function getVerbById(id: string): Verb | undefined {\n  return VERB_BY_ID.get(id);\n}`;
-  if (!src.includes(anchor)) throw new Error('Missing getVerbById');
-  return src.replace(
+
+  const anchor = [
+    'export function getVerbById(id: string): Verb | undefined {',
+    '  return VERB_BY_ID.get(id);',
+    '}',
+  ].join('\n');
+  if (!source.includes(anchor)) throw new Error('Missing getVerbById');
+
+  const helper = [
     anchor,
-    `${anchor}\n\nexport function quizAnswerVariants(question: QuizQuestion): string[] {\n  const verb = getVerbById(question.verbId);\n  if (!verb || verb.pronominal || verb.aux !== 'etre' || !COMPOUND_TENSES.has(question.tense)) {\n    return [question.correctAnswer];\n  }\n  const feminine = feminineCompound(\n    question.tense,\n    verb.aux,\n    verb.participePasse.form,\n    PERSONS.indexOf(question.person),\n  );\n  return feminine && feminine !== question.correctAnswer\n    ? [question.correctAnswer, feminine]\n    : [question.correctAnswer];\n}`,
-  );
+    '',
+    '/** Допустимые варианты для обычной карточки спряжения. */',
+    'export function quizAnswerVariants(question: QuizQuestion): string[] {',
+    '  const verb = getVerbById(question.verbId);',
+    '  if (!verb || verb.aux !== \'etre\' || !COMPOUND_TENSES.has(question.tense)) {',
+    '    return [question.correctAnswer];',
+    '  }',
+    '',
+    '  const personIndex = PERSONS.indexOf(question.person);',
+    '  const baseForm = verb.conjugations[question.tense]?.[personIndex];',
+    '  if (!baseForm || baseForm.absent || baseForm.form !== question.correctAnswer) {',
+    '    return [question.correctAnswer];',
+    '  }',
+    '',
+    '  const feminine = feminineCompound(',
+    '    question.tense,',
+    '    verb.aux,',
+    '    verb.participePasse.form,',
+    '    personIndex,',
+    '  );',
+    '  if (!feminine) return [question.correctAnswer];',
+    '',
+    '  let feminineAnswer = feminine;',
+    '  if (verb.pronominal) {',
+    "    const feminineParticiple = feminine.split(' ').at(-1);",
+    '    if (!feminineParticiple) return [question.correctAnswer];',
+    "    feminineAnswer = question.correctAnswer.replace(/\\S+$/u, feminineParticiple);",
+    '  }',
+    '',
+    '  return feminineAnswer !== question.correctAnswer',
+    '    ? [question.correctAnswer, feminineAnswer]',
+    '    : [question.correctAnswer];',
+    '}',
+  ].join('\n');
+
+  return source.replace(anchor, helper);
 });
 
-edit('context/QuizContext.tsx', src => {
-  if (src.includes('quizAnswerVariants')) return src;
-  src = src.replace(
+edit('context/QuizContext.tsx', source => {
+  if (source.includes('quizAnswerVariants')) return source;
+  source = source.replace(
     /import \{\s*countAvailableQuestions, generateOptions, shuffle, VERBS\s*\} from '\.\.\/data\/verbs';/u,
     "import { quizAnswerVariants, countAvailableQuestions, generateOptions, shuffle, VERBS } from '../data/verbs';",
   );
-  const from = `        correct: checkAnswer(\n          userAnswer,\n          question.correctAnswer,\n          previous.accentMode ?? fallbackAccentMode,\n        ).correct,`;
-  const to = `        correct: quizAnswerVariants(question).some(expected =>\n          checkAnswer(userAnswer, expected, previous.accentMode ?? fallbackAccentMode).correct,\n        ),`;
-  if (!src.includes(from)) throw new Error('Missing submitAnswer check');
-  return src.replace(from, to);
+
+  const from = [
+    '        correct: checkAnswer(',
+    '          userAnswer,',
+    '          question.correctAnswer,',
+    '          previous.accentMode ?? fallbackAccentMode,',
+    '        ).correct,',
+  ].join('\n');
+  const to = [
+    '        correct: quizAnswerVariants(question).some(expected =>',
+    '          checkAnswer(userAnswer, expected, previous.accentMode ?? fallbackAccentMode).correct,',
+    '        ),',
+  ].join('\n');
+  if (!source.includes(from)) throw new Error('Missing submitAnswer check');
+  return source.replace(from, to);
 });
 
-edit('app/lesson/[id].tsx', src => {
-  const hasPersons = /import\s*\{[\s\S]*?\bPERSONS\b[\s\S]*?\}\s*from '\.\.\/\.\.\/data\/types';/u.test(src);
-  if (!hasPersons) {
-    src = src.replace(
-      `import type { QuizMode } from '../../data/types';`,
-      `import type { QuizMode } from '../../data/types';\nimport { PERSONS } from '../../data/types';`,
+// 4. Книжные времена учатся на распознавание, как и обещает теория.
+edit('app/lesson/[id].tsx', source => {
+  const personsImported = /import\s*\{[\s\S]*?\bPERSONS\b[\s\S]*?\}\s*from '\.\.\/\.\.\/data\/types';/u.test(source);
+  if (!personsImported) {
+    source = source.replace(
+      "import type { QuizMode } from '../../data/types';",
+      "import type { QuizMode } from '../../data/types';\nimport { PERSONS } from '../../data/types';",
     );
   }
-  if (src.includes("const recognitionOnly = lesson.block === 'litteraire';")) return src;
-  const anchor = `  const practiceVerbIds = lessonPracticeVerbIds(lesson);`;
-  src = src.replace(
-    anchor,
-    `  const recognitionOnly = lesson.block === 'litteraire';\n  const lessonPersons = recognitionOnly\n    ? PERSONS.filter(person => person === 'il' || person === 'ils')\n    : PERSONS;\n\n${anchor}`,
+  if (source.includes("const recognitionOnly = lesson.block === 'litteraire';")) return source;
+
+  const practiceAnchor = '  const practiceVerbIds = lessonPracticeVerbIds(lesson);';
+  if (!source.includes(practiceAnchor)) throw new Error('Missing lesson practice anchor');
+  source = source.replace(
+    practiceAnchor,
+    [
+      "  const recognitionOnly = lesson.block === 'litteraire';",
+      '  const lessonPersons = recognitionOnly',
+      "    ? PERSONS.filter(person => person === 'il' || person === 'ils')",
+      '    : PERSONS;',
+      '',
+      practiceAnchor,
+    ].join('\n'),
   );
-  src = src.replace(
-    `  const examAvailable = lessonExamAvailableCount(lesson);`,
-    `  const examAvailable = recognitionOnly\n    ? countAvailableQuestions(examVerbIds, lesson.practice.tenses, lessonPersons)\n    : lessonExamAvailableCount(lesson);`,
+
+  source = source.replace(
+    '  const examAvailable = lessonExamAvailableCount(lesson);',
+    [
+      '  const examAvailable = recognitionOnly',
+      '    ? countAvailableQuestions(examVerbIds, lesson.practice.tenses, lessonPersons)',
+      '    : lessonExamAvailableCount(lesson);',
+    ].join('\n'),
   );
-  src = src.replace(
-    `import { getVerbById, VERBS } from '../../data/verbs';`,
-    `import { countAvailableQuestions, getVerbById, VERBS } from '../../data/verbs';`,
+  source = source.replace(
+    "import { getVerbById, VERBS } from '../../data/verbs';",
+    "import { countAvailableQuestions, getVerbById, VERBS } from '../../data/verbs';",
   );
-  src = src.replace(
-    `  const examPersons = onlyImperative\n    ? 'tu, nous, vous'\n    : includesImperative\n      ? 'все доступные лица'\n      : 'все 6 лиц';`,
-    `  const examPersons = recognitionOnly\n    ? 'il/elle, ils/elles'\n    : onlyImperative\n      ? 'tu, nous, vous'\n      : includesImperative\n        ? 'все доступные лица'\n        : 'все 6 лиц';`,
+  source = source.replace(
+    [
+      '  const examPersons = onlyImperative',
+      "    ? 'tu, nous, vous'",
+      '    : includesImperative',
+      "      ? 'все доступные лица'",
+      "      : 'все 6 лиц';",
+    ].join('\n'),
+    [
+      '  const examPersons = recognitionOnly',
+      "    ? 'il/elle, ils/elles'",
+      '    : onlyImperative',
+      "      ? 'tu, nous, vous'",
+      '      : includesImperative',
+      "        ? 'все доступные лица'",
+      "        : 'все 6 лиц';",
+    ].join('\n'),
   );
-  src = src.replace(`      mode: LESSON_EXAM_MODE,`, `      mode: recognitionOnly ? 'multiple-choice' : LESSON_EXAM_MODE,`);
-  src = src.replaceAll(`      mode: practiceMode,`, `      mode: recognitionOnly ? 'multiple-choice' : practiceMode,`);
-  src = src.replaceAll(`      persons: PERSONS,`, `      persons: lessonPersons,`);
-  src = src.replace(
-    `          <View style={styles.modeRow}>`,
-    `          {!recognitionOnly ? (\n          <View style={styles.modeRow}>`,
+
+  source = source.replace(
+    '      mode: LESSON_EXAM_MODE,',
+    "      mode: recognitionOnly ? 'multiple-choice' : LESSON_EXAM_MODE,",
   );
-  src = src.replace(
-    `            })}\n          </View>\n\n          <Pressable\n            onPress={startPractice}`,
-    `            })}\n          </View>\n          ) : (\n            <Text style={[styles.drillHint, { color: colors.mutedForeground }]}>\n              Режим распознавания · варианты ответа · il/elle и ils/elles.\n            </Text>\n          )}\n\n          <Pressable\n            onPress={startPractice}`,
+  source = source.replaceAll(
+    '      mode: practiceMode,',
+    "      mode: recognitionOnly ? 'multiple-choice' : practiceMode,",
   );
-  src = src.replace(
-    `              Проверяет, можете ли вы воспроизвести ключевые формы без вариантов ответа и самооценки.`,
-    `              {recognitionOnly\n                ? 'Проверяет, узнаёте ли вы книжные формы в третьем лице — как при чтении текста.'\n                : 'Проверяет, можете ли вы воспроизвести ключевые формы без вариантов ответа и самооценки.'}`,
+  source = source.replaceAll('      persons: PERSONS,', '      persons: lessonPersons,');
+
+  source = source.replace(
+    '          <View style={styles.modeRow}>',
+    '          {!recognitionOnly ? (\n          <View style={styles.modeRow}>',
   );
-  return src.replace(
-    `                ['Формат', 'ручной ввод · диакритика обязательна'],`,
-    `                ['Формат', recognitionOnly ? 'варианты ответа · распознавание' : 'ручной ввод · диакритика обязательна'],`,
+  source = source.replace(
+    '            })}\n          </View>\n\n          <Pressable\n            onPress={startPractice}',
+    "            })}\n          </View>\n          ) : (\n            <Text style={[styles.drillHint, { color: colors.mutedForeground }]}>\n              Режим распознавания · варианты ответа · il/elle и ils/elles.\n            </Text>\n          )}\n\n          <Pressable\n            onPress={startPractice}",
   );
+  source = source.replace(
+    '              Проверяет, можете ли вы воспроизвести ключевые формы без вариантов ответа и самооценки.',
+    "              {recognitionOnly\n                ? 'Проверяет, узнаёте ли вы книжные формы в третьем лице — как при чтении текста.'\n                : 'Проверяет, можете ли вы воспроизвести ключевые формы без вариантов ответа и самооценки.'}",
+  );
+  source = source.replace(
+    "                ['Формат', 'ручной ввод · диакритика обязательна'],",
+    "                ['Формат', recognitionOnly ? 'варианты ответа · распознавание' : 'ручной ввод · диакритика обязательна'],",
+  );
+  return source;
 });
 
-replace(
+// 5. Валидатор проверяет фактические размеры, а не абстрактные шесть лиц.
+replaceExact(
   'scripts/validate-verbs.ts',
-  `  const expectedExamQuestions = lesson.id === 'present-etre-avoir' ? 24 : EXAM_QUESTIONS;`,
-  `  const expectedExamQuestions =\n    lesson.id === 'present-etre-avoir'\n      ? 24\n      : lesson.id === 'imperatif-irreguliers'\n        ? 15\n        : EXAM_QUESTIONS;`,
+  "  const expectedExamQuestions = lesson.id === 'present-etre-avoir' ? 24 : EXAM_QUESTIONS;",
+  [
+    '  const expectedExamQuestions =',
+    "    lesson.id === 'present-etre-avoir'",
+    '      ? 24',
+    "      : lesson.id === 'imperatif-irreguliers'",
+    '        ? 15',
+    '        : EXAM_QUESTIONS;',
+  ].join('\n'),
 );
-replace(
+
+replaceExact(
   'scripts/validate-verbs.ts',
-  `    assert(\n      real >= EXAM_QUESTIONS,\n      \`${lesson.id}: only ${real} real imperative forms, need ${EXAM_QUESTIONS}\`,\n    );`,
-  `    const expectedImperativeForms = lesson.id === 'imperatif-irreguliers' ? 15 : EXAM_QUESTIONS;\n    assert(\n      real >= expectedImperativeForms,\n      \`${lesson.id}: only ${real} real imperative forms, need ${expectedImperativeForms}\`,\n    );`,
+  [
+    '    assert(',
+    '      real >= EXAM_QUESTIONS,',
+    '      `${lesson.id}: only ${real} real imperative forms, need ${EXAM_QUESTIONS}`,',
+    '    );',
+  ].join('\n'),
+  [
+    "    const expectedImperativeForms = lesson.id === 'imperatif-irreguliers' ? 15 : EXAM_QUESTIONS;",
+    '    assert(',
+    '      real >= expectedImperativeForms,',
+    '      `${lesson.id}: only ${real} real imperative forms, need ${expectedImperativeForms}`,',
+    '    );',
+  ].join('\n'),
 );
-replace(
+
+replaceExact(
   'scripts/validate-verbs.ts',
-  `      assert(\n        size >= PERSONS.length && size <= DRILL_QUESTIONS,\n        \`${lesson.id}/${drill.key}: drill of ${size} questions is out of range\`,\n      );`,
-  `      const minimumDrillQuestions =\n        lesson.block === 'imperatif' ? 3 : lesson.block === 'litteraire' ? 4 : PERSONS.length;\n      assert(\n        size >= minimumDrillQuestions && size <= DRILL_QUESTIONS,\n        \`${lesson.id}/${drill.key}: drill of ${size} questions is out of range\`,\n      );`,
+  [
+    '      assert(',
+    '        size >= PERSONS.length && size <= DRILL_QUESTIONS,',
+    '        `${lesson.id}/${drill.key}: drill of ${size} questions is out of range`,',
+    '      );',
+  ].join('\n'),
+  [
+    '      const minimumDrillQuestions =',
+    "        lesson.block === 'imperatif' ? 3 : lesson.block === 'litteraire' ? 4 : PERSONS.length;",
+    '      assert(',
+    '        size >= minimumDrillQuestions && size <= DRILL_QUESTIONS,',
+    '        `${lesson.id}/${drill.key}: drill of ${size} questions is out of range`,',
+    '      );',
+  ].join('\n'),
+);
+
+replaceExact(
+  'scripts/validate-verbs.ts',
+  "      assert.equal(size, EXAM_QUESTIONS, `${lesson.id}: full-set drill is only ${size} questions`);",
+  [
+    "      const expectedFullDrill = lesson.id === 'imperatif-irreguliers' ? 15 : EXAM_QUESTIONS;",
+    '      assert.equal(',
+    '        size,',
+    '        expectedFullDrill,',
+    '        `${lesson.id}: full-set drill is only ${size} questions`,',
+    '      );',
+  ].join('\n'),
 );
 
 console.log('Applied course audit fixes.');
