@@ -31,38 +31,21 @@ edit('data/types.ts', source => {
   );
 
   if (!source.includes('contextTranslation?: string;')) {
-    source = replaceRequired(
-      source,
-      [
-        'export interface QuizQuestion {',
-        '  verbId: string;',
-        '  tense: Tense;',
-        '  person: Person;',
-        '  correctAnswer: string;',
-        '  options?: string[];',
-        '}',
-      ].join('\n'),
-      [
-        'export interface QuizQuestion {',
-        '  verbId: string;',
-        '  tense: Tense;',
-        '  person: Person;',
-        '  /** Ответ, который реально проверяется. В порядке слов это целое предложение. */',
-        '  correctAnswer: string;',
-        '  options?: string[];',
-        '  /** Предложение с пропуском или намеренной ошибкой. */',
-        '  context?: string;',
-        '  contextTranslation?: string;',
-        '  /** Правильное предложение целиком — для обратной связи и озвучки. */',
-        '  solutionText?: string;',
-        '  /** Намеренно неверная форма в режиме исправления ошибки. */',
-        '  wrongAnswer?: string;',
-        '  /** Перемешанные блоки для сборки предложения. */',
-        '  tokens?: string[];',
-        '}',
-      ].join('\n'),
-      'QuizQuestion',
-    );
+    const match = source.match(/export interface QuizQuestion \{[\s\S]*?\n\}/u);
+    if (!match) throw new Error('Question types patch: missing QuizQuestion interface');
+    const additions = [
+      '  /** Предложение с пропуском или намеренной ошибкой. */',
+      '  context?: string;',
+      '  contextTranslation?: string;',
+      '  /** Правильное предложение целиком — для обратной связи и озвучки. */',
+      '  solutionText?: string;',
+      '  /** Намеренно неверная форма в режиме исправления ошибки. */',
+      '  wrongAnswer?: string;',
+      '  /** Перемешанные блоки для сборки предложения. */',
+      '  tokens?: string[];',
+    ].join('\n');
+    const patched = match[0].replace(/\n\}/u, `\n${additions}\n}`);
+    source = source.replace(match[0], patched);
   }
   return source;
 });
