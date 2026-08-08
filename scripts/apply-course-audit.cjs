@@ -6,14 +6,6 @@ function edit(path, transform) {
   if (next !== source) fs.writeFileSync(path, next, 'utf8');
 }
 
-function replaceExact(path, from, to) {
-  edit(path, source => {
-    if (source.includes(to)) return source;
-    if (!source.includes(from)) throw new Error(`Missing fragment in ${path}`);
-    return source.replace(from, to);
-  });
-}
-
 function patchLessonPractice(lessonId, verbIds, featured) {
   edit('data/lessons.ts', source => {
     const marker = `id: '${lessonId}'`;
@@ -37,7 +29,7 @@ function patchLessonPractice(lessonId, verbIds, featured) {
   });
 }
 
-// 1. Тренировка должна соответствовать именно тому, что объяснено в уроке.
+// ── 1. Наборы глаголов соответствуют объяснённому материалу ────────────────
 patchLessonPractice(
   'present-g3-ir',
   ['partir', 'sortir', 'dormir', 'servir', 'ouvrir', 'offrir', 'venir', 'tenir'],
@@ -49,7 +41,7 @@ patchLessonPractice(
   ['être', 'avoir', 'savoir', 'vouloir', 'aller'],
 );
 
-// 2. Счётчики вопросов должны учитывать реально существующие лица.
+// ── 2. Реальные размеры тренировок ─────────────────────────────────────────
 edit('data/lessons.ts', source => {
   if (!source.includes("import { countAvailableQuestions, getVerbById, VERBS } from './verbs';")) {
     source = source.replace(
@@ -58,46 +50,50 @@ edit('data/lessons.ts', source => {
     );
   }
 
-  const drillPatch = [
-    'export function drillSize(lesson: Lesson, drill: LessonDrill): number {',
-    "  if (lesson.block === 'imperatif' || lesson.block === 'litteraire') {",
-    "    const persons = lesson.block === 'litteraire'",
-    "      ? PERSONS.filter(person => person === 'il' || person === 'ils')",
-    '      : PERSONS;',
-    '    const available = countAvailableQuestions(drill.verbIds, lesson.practice.tenses, persons);',
-    '    return Math.min(drill.isAll ? EXAM_QUESTIONS : DRILL_QUESTIONS, available);',
-    '  }',
-  ].join('\n');
-  if (!source.includes(drillPatch)) {
-    const anchor = 'export function drillSize(lesson: Lesson, drill: LessonDrill): number {';
-    if (!source.includes(anchor)) throw new Error('Missing drillSize');
-    source = source.replace(anchor, drillPatch);
+  const drillAnchor = 'export function drillSize(lesson: Lesson, drill: LessonDrill): number {';
+  if (!source.includes("lesson.block === 'imperatif' || lesson.block === 'litteraire'")) {
+    if (!source.includes(drillAnchor)) throw new Error('Missing drillSize');
+    source = source.replace(
+      drillAnchor,
+      [
+        drillAnchor,
+        "  if (lesson.block === 'imperatif' || lesson.block === 'litteraire') {",
+        "    const persons = lesson.block === 'litteraire'",
+        "      ? PERSONS.filter(person => person === 'il' || person === 'ils')",
+        '      : PERSONS;',
+        '    const available = countAvailableQuestions(drill.verbIds, lesson.practice.tenses, persons);',
+        '    return Math.min(drill.isAll ? EXAM_QUESTIONS : DRILL_QUESTIONS, available);',
+        '  }',
+      ].join('\n'),
+    );
   }
 
-  const examPatch = [
-    'export function lessonExamSize(lesson: Lesson): number {',
-    "  if (lesson.block === 'imperatif' || lesson.block === 'litteraire') {",
-    "    const persons = lesson.block === 'litteraire'",
-    "      ? PERSONS.filter(person => person === 'il' || person === 'ils')",
-    '      : PERSONS;',
-    '    const available = countAvailableQuestions(',
-    '      lessonPracticeVerbIds(lesson),',
-    '      lesson.practice.tenses,',
-    '      persons,',
-    '    );',
-    '    return Math.min(EXAM_QUESTIONS, available);',
-    '  }',
-  ].join('\n');
-  if (!source.includes(examPatch)) {
-    const anchor = 'export function lessonExamSize(lesson: Lesson): number {';
-    if (!source.includes(anchor)) throw new Error('Missing lessonExamSize');
-    source = source.replace(anchor, examPatch);
+  const examAnchor = 'export function lessonExamSize(lesson: Lesson): number {';
+  const examMarker = "const persons = lesson.block === 'litteraire'";
+  const examAt = source.indexOf(examAnchor);
+  if (examAt >= 0 && !source.slice(examAt, examAt + 650).includes(examMarker)) {
+    source = source.replace(
+      examAnchor,
+      [
+        examAnchor,
+        "  if (lesson.block === 'imperatif' || lesson.block === 'litteraire') {",
+        "    const persons = lesson.block === 'litteraire'",
+        "      ? PERSONS.filter(person => person === 'il' || person === 'ils')",
+        '      : PERSONS;',
+        '    const available = countAvailableQuestions(',
+        '      lessonPracticeVerbIds(lesson),',
+        '      lesson.practice.tenses,',
+        '      persons,',
+        '    );',
+        '    return Math.min(EXAM_QUESTIONS, available);',
+        '  }',
+      ].join('\n'),
+    );
   }
   return source;
 });
 
-// 3. В составных временах с être обычная карточка должна принимать мужской и
-// женский вариант. Специальные контекстные задания не расширяем автоматически.
+// ── 3. Мужской/женский вариант в обычных карточках с être ──────────────────
 edit('data/verbs.ts', source => {
   if (source.includes('export function quizAnswerVariants(')) return source;
 
@@ -128,7 +124,7 @@ edit('data/verbs.ts', source => {
     '/** Допустимые варианты для обычной карточки спряжения. */',
     'export function quizAnswerVariants(question: QuizQuestion): string[] {',
     '  const verb = getVerbById(question.verbId);',
-    '  if (!verb || verb.aux !== \'etre\' || !COMPOUND_TENSES.has(question.tense)) {',
+    "  if (!verb || verb.aux !== 'etre' || !COMPOUND_TENSES.has(question.tense)) {",
     '    return [question.correctAnswer];',
     '  }',
     '',
@@ -148,7 +144,8 @@ edit('data/verbs.ts', source => {
     '',
     '  let feminineAnswer = feminine;',
     '  if (verb.pronominal) {',
-    "    const feminineParticiple = feminine.split(' ').at(-1);",
+    "    const feminineParts = feminine.split(' ');",
+    '    const feminineParticiple = feminineParts[feminineParts.length - 1];',
     '    if (!feminineParticiple) return [question.correctAnswer];',
     "    feminineAnswer = question.correctAnswer.replace(/\\S+$/u, feminineParticiple);",
     '  }',
@@ -185,7 +182,7 @@ edit('context/QuizContext.tsx', source => {
   return source.replace(from, to);
 });
 
-// 4. Книжные времена учатся на распознавание, как и обещает теория.
+// ── 4. Книжные времена: распознавание, а не производство шести лиц ─────────
 edit('app/lesson/[id].tsx', source => {
   const personsImported = /import\s*\{[\s\S]*?\bPERSONS\b[\s\S]*?\}\s*from '\.\.\/\.\.\/data\/types';/u.test(source);
   if (!personsImported) {
@@ -223,13 +220,7 @@ edit('app/lesson/[id].tsx', source => {
     "import { countAvailableQuestions, getVerbById, VERBS } from '../../data/verbs';",
   );
   source = source.replace(
-    [
-      '  const examPersons = onlyImperative',
-      "    ? 'tu, nous, vous'",
-      '    : includesImperative',
-      "      ? 'все доступные лица'",
-      "      : 'все 6 лиц';",
-    ].join('\n'),
+    /  const examPersons = onlyImperative[\s\S]*?: 'все 6 лиц';/u,
     [
       '  const examPersons = recognitionOnly',
       "    ? 'il/elle, ils/elles'",
@@ -270,66 +261,77 @@ edit('app/lesson/[id].tsx', source => {
   return source;
 });
 
-// 5. Валидатор проверяет фактические размеры, а не абстрактные шесть лиц.
-replaceExact(
-  'scripts/validate-verbs.ts',
-  "  const expectedExamQuestions = lesson.id === 'present-etre-avoir' ? 24 : EXAM_QUESTIONS;",
-  [
-    '  const expectedExamQuestions =',
-    "    lesson.id === 'present-etre-avoir'",
-    '      ? 24',
-    "      : lesson.id === 'imperatif-irreguliers'",
-    '        ? 15',
-    '        : EXAM_QUESTIONS;',
-  ].join('\n'),
-);
+// ── 5. Старый валидатор переводим на фактические размеры ───────────────────
+edit('scripts/validate-verbs.ts', source => {
+  // build-fixes в некоторых версиях уже вводит expectedExamQuestions.
+  source = source.replace(
+    /const expectedExamQuestions\s*=\s*lesson\.id === 'present-etre-avoir' \? 24 : EXAM_QUESTIONS;/u,
+    [
+      'const expectedExamQuestions =',
+      "    lesson.id === 'present-etre-avoir'",
+      '      ? 24',
+      "      : lesson.id === 'imperatif-irreguliers'",
+      '        ? 15',
+      '        : EXAM_QUESTIONS;',
+    ].join('\n'),
+  );
 
-replaceExact(
-  'scripts/validate-verbs.ts',
-  [
-    '    assert(',
-    '      real >= EXAM_QUESTIONS,',
-    '      `${lesson.id}: only ${real} real imperative forms, need ${EXAM_QUESTIONS}`,',
-    '    );',
-  ].join('\n'),
-  [
-    "    const expectedImperativeForms = lesson.id === 'imperatif-irreguliers' ? 15 : EXAM_QUESTIONS;",
-    '    assert(',
-    '      real >= expectedImperativeForms,',
-    '      `${lesson.id}: only ${real} real imperative forms, need ${expectedImperativeForms}`,',
-    '    );',
-  ].join('\n'),
-);
+  // Если осталась прямая проверка на 30, тоже делаем её динамической.
+  if (!source.includes('const expectedExamQuestions =')) {
+    source = source.replace(
+      /(\s*)assert\.equal\(\s*lessonExamSize\(lesson\),\s*EXAM_QUESTIONS,\s*`\$\{lesson\.id\}: exam is only \$\{lessonExamSize\(lesson\)\} questions, need \$\{EXAM_QUESTIONS\}`,\s*\);/u,
+      (_match, indent) => [
+        `${indent}const expectedExamQuestions =`,
+        `${indent}  lesson.id === 'present-etre-avoir'`,
+        `${indent}    ? 24`,
+        `${indent}    : lesson.id === 'imperatif-irreguliers'`,
+        `${indent}      ? 15`,
+        `${indent}      : EXAM_QUESTIONS;`,
+        `${indent}assert.equal(`,
+        `${indent}  lessonExamSize(lesson),`,
+        `${indent}  expectedExamQuestions,`,
+        `${indent}  \`${'${lesson.id}'}: exam is only ${'${lessonExamSize(lesson)}'} questions, need ${'${expectedExamQuestions}'}\`,`,
+        `${indent});`,
+      ].join('\n'),
+    );
+  }
 
-replaceExact(
-  'scripts/validate-verbs.ts',
-  [
-    '      assert(',
-    '        size >= PERSONS.length && size <= DRILL_QUESTIONS,',
-    '        `${lesson.id}/${drill.key}: drill of ${size} questions is out of range`,',
-    '      );',
-  ].join('\n'),
-  [
-    '      const minimumDrillQuestions =',
-    "        lesson.block === 'imperatif' ? 3 : lesson.block === 'litteraire' ? 4 : PERSONS.length;",
-    '      assert(',
-    '        size >= minimumDrillQuestions && size <= DRILL_QUESTIONS,',
-    '        `${lesson.id}/${drill.key}: drill of ${size} questions is out of range`,',
-    '      );',
-  ].join('\n'),
-);
+  source = source.replace(
+    /(\s*)assert\(\s*real >= EXAM_QUESTIONS,\s*`\$\{lesson\.id\}: only \$\{real\} real imperative forms, need \$\{EXAM_QUESTIONS\}`,\s*\);/u,
+    (_match, indent) => [
+      `${indent}const expectedImperativeForms = lesson.id === 'imperatif-irreguliers' ? 15 : EXAM_QUESTIONS;`,
+      `${indent}assert(`,
+      `${indent}  real >= expectedImperativeForms,`,
+      `${indent}  \`${'${lesson.id}'}: only ${'${real}'} real imperative forms, need ${'${expectedImperativeForms}'}\`,`,
+      `${indent});`,
+    ].join('\n'),
+  );
 
-replaceExact(
-  'scripts/validate-verbs.ts',
-  "      assert.equal(size, EXAM_QUESTIONS, `${lesson.id}: full-set drill is only ${size} questions`);",
-  [
-    "      const expectedFullDrill = lesson.id === 'imperatif-irreguliers' ? 15 : EXAM_QUESTIONS;",
-    '      assert.equal(',
-    '        size,',
-    '        expectedFullDrill,',
-    '        `${lesson.id}: full-set drill is only ${size} questions`,',
-    '      );',
-  ].join('\n'),
-);
+  source = source.replace(
+    /(\s*)assert\(\s*size >= PERSONS\.length && size <= DRILL_QUESTIONS,\s*`\$\{lesson\.id\}\/\$\{drill\.key\}: drill of \$\{size\} questions is out of range`,\s*\);/u,
+    (_match, indent) => [
+      `${indent}const minimumDrillQuestions =`,
+      `${indent}  lesson.block === 'imperatif' ? 3 : lesson.block === 'litteraire' ? 4 : PERSONS.length;`,
+      `${indent}assert(`,
+      `${indent}  size >= minimumDrillQuestions && size <= DRILL_QUESTIONS,`,
+      `${indent}  \`${'${lesson.id}'}/${'${drill.key}'}: drill of ${'${size}'} questions is out of range\`,`,
+      `${indent});`,
+    ].join('\n'),
+  );
+
+  source = source.replace(
+    /(\s*)assert\.equal\(size, EXAM_QUESTIONS, `\$\{lesson\.id\}: full-set drill is only \$\{size\} questions`\);/u,
+    (_match, indent) => [
+      `${indent}const expectedFullDrill = lesson.id === 'imperatif-irreguliers' ? 15 : EXAM_QUESTIONS;`,
+      `${indent}assert.equal(`,
+      `${indent}  size,`,
+      `${indent}  expectedFullDrill,`,
+      `${indent}  \`${'${lesson.id}'}: full-set drill is only ${'${size}'} questions\`,`,
+      `${indent});`,
+    ].join('\n'),
+  );
+
+  return source;
+});
 
 console.log('Applied course audit fixes.');
