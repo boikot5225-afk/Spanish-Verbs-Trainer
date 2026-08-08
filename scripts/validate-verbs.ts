@@ -549,8 +549,14 @@ for (const lesson of LESSONS) {
       lesson.practice.verbIds?.includes(item.verbId),
       `${where}: ${item.verbId} is outside the topic's verbs, so its drill would never show it`,
     );
+    // Ответ либо задан явно (безличное hay), либо берётся из таблицы лиц.
     const form = verb!.conjugations[tense][PERSONS.indexOf(item.person)];
-    assert(form && !form.absent && form.form, `${where} has no form for ${item.person}`);
+    const answer = item.answer ?? (form && !form.absent ? form.form : '');
+    assert(answer, `${where} has no answer for ${item.person}`);
+    assert(
+      !item.answer || item.answer !== form?.form,
+      `${where} overrides the answer with the form the conjugator already gives`,
+    );
   }
   for (const tense of lesson.practice.tenses) {
     assert(TENSES.includes(tense), `${lesson.id}: practice tense ${tense} is unknown`);

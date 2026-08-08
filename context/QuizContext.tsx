@@ -154,22 +154,31 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
         const tense = item.tense ?? 'presente';
         const personIndex = PERSONS.indexOf(item.person);
         const verb = VERBS.find(candidate => candidate.id === item.verbId);
-        const value = verb?.conjugations[tense]?.[personIndex];
-        if (!value || value.absent) continue;
+        const conjugated = verb?.conjugations[tense]?.[personIndex];
+        const answer = item.answer ?? (conjugated && !conjugated.absent ? conjugated.form : '');
+        if (!answer) continue;
 
         // Соперник — второй глагол темы: именно между ними и надо выбрать.
-        const rivalId =
-          (cfg.cloze ?? []).find(other => other.verbId !== item.verbId)?.verbId ?? item.verbId;
+        // Если у соперника форма безличная (hay), она одна на все лица, поэтому
+        // берём её как есть, а не спрягаем по лицу этого предложения.
+        const rival = (cfg.cloze ?? []).find(other => other.verbId !== item.verbId);
+        const rivalForm = rival?.answer
+          ? rival.answer
+          : rival
+          ? VERBS.find(candidate => candidate.id === rival.verbId)?.conjugations[tense]?.[
+              personIndex
+            ]?.form ?? ''
+          : '';
 
         questions.push({
           verbId: item.verbId,
           tense,
           person: item.person,
           cloze: { text: item.text, translation: item.translation, reason: item.reason },
-          correctAnswer: value.form,
+          correctAnswer: answer,
           options:
             cfg.mode === 'multiple-choice'
-              ? generateClozeOptions(item.verbId, rivalId, tense, personIndex, value.form)
+              ? generateClozeOptions(item.verbId, rivalForm, tense, personIndex, answer)
               : undefined,
         });
         continue;

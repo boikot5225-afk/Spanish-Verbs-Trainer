@@ -162,15 +162,14 @@ export function shuffle<T>(arr: T[]): T[] {
  */
 export function generateClozeOptions(
   verbId: string,
-  rivalId: string,
+  rivalForm: string,
   tense: Tense,
   personIndex: number,
   correct: string,
 ): string[] {
   const distractors = new Set<string>();
 
-  const rival = getVerbById(rivalId)?.conjugations[tense]?.[personIndex];
-  if (rival && !rival.absent && rival.form !== correct) distractors.add(rival.form);
+  if (rivalForm && rivalForm !== correct) distractors.add(rivalForm);
 
   const verb = getVerbById(verbId);
   if (verb) {
