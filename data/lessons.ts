@@ -1,5 +1,5 @@
 import type { Cloze, NonFinite, Periphrasis, Person, Tense } from './types';
-import { PERSONS } from './types';
+import { PERSONS, TENSE_LABELS, TENSE_MOODS, tenseQualifiedLabel } from './types';
 import { getVerbById, VERBS } from './verbs';
 
 /** Зачёт по теме: столько вопросов и не больше стольких ошибок, чтобы открыть следующую. */
@@ -98,6 +98,12 @@ export interface LessonDrill {
   key: string;
   label: string;
   verbIds: string[];
+  /**
+   * Ограничение по времени. Задано только у подходов по временам: в теме
+   * с тремя составными различать нужно как раз их, а подход по глаголу
+   * подсовывает все три вперемешку и отработать одно не даёт.
+   */
+  tenses?: Tense[];
   isAll: boolean;
 }
 
@@ -1998,6 +2004,26 @@ export function lessonDrills(lesson: Lesson): LessonDrill[] {
       isAll: false,
     }));
 
+  // Тема с несколькими временами получает ещё и подходы по временам. Разбивка
+  // по глаголам осмысленна, когда время одно и меняется только глагол; здесь
+  // наоборот — глаголы однотипные, а различать нужно времена. Ключ с префиксом,
+  // чтобы не столкнуться с идентификатором глагола и не задеть прежние медали.
+  if (lesson.practice.tenses.length > 1) {
+    // В теме из одного наклонения короткого названия хватает, а где их
+    // несколько — оно обманывает: «Futuro» у книжных времён это сослагательное
+    // будущее, а не то, которому учили в блоке о будущем.
+    const mixedMoods = new Set(lesson.practice.tenses.map(tense => TENSE_MOODS[tense])).size > 1;
+    for (const tense of lesson.practice.tenses) {
+      drills.push({
+        key: `tense:${tense}`,
+        label: mixedMoods ? tenseQualifiedLabel(tense) : TENSE_LABELS[tense],
+        verbIds: all,
+        tenses: [tense],
+        isAll: false,
+      });
+    }
+  }
+
   drills.push({ key: '__all__', label: 'Все глаголы', verbIds: all, isAll: true });
   return drills;
 }
@@ -2016,7 +2042,9 @@ export function practiceCombinations(lesson: Lesson, verbCount: number): number 
 }
 
 export function drillSize(lesson: Lesson, drill: LessonDrill): number {
-  const combinations = practiceCombinations(lesson, drill.verbIds.length);
+  const combinations = drill.tenses
+    ? drill.verbIds.length * drill.tenses.length * PERSONS.length
+    : practiceCombinations(lesson, drill.verbIds.length);
   return Math.min(drill.isAll ? EXAM_QUESTIONS : DRILL_QUESTIONS, combinations);
 }
 

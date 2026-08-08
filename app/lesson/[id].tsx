@@ -92,10 +92,12 @@ export default function LessonDetail() {
     buildAndStartSession({
       ...config,
       mode: practiceMode,
-      tenses: lesson.practice.tenses,
-      forms: lesson.practice.forms,
-      periphrasis: lesson.practice.periphrasis,
-      cloze: lesson.practice.cloze,
+      // Подход по времени — чистое спряжение именно его: неличные формы,
+      // конструкции и предложения с пропуском к одному времени не сводятся.
+      tenses: drill.tenses ?? lesson.practice.tenses,
+      forms: drill.tenses ? undefined : lesson.practice.forms,
+      periphrasis: drill.tenses ? undefined : lesson.practice.periphrasis,
+      cloze: drill.tenses ? undefined : lesson.practice.cloze,
       persons: PERSONS,
       verbIds: drill.verbIds,
       maxQuestions: drillSize(lesson, drill),
