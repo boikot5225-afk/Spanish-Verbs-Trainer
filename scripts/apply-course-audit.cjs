@@ -136,6 +136,14 @@ writeIfChanged('context/QuizContext.tsx', source => {
 // повествования лицах il/elle и ils/elles, а не требуют активного производства
 // всей парадигмы.
 writeIfChanged('app/lesson/[id].tsx', source => {
+  const personsImported = /import\s*\{[\s\S]*?\bPERSONS\b[\s\S]*?\}\s*from '\.\.\/\.\.\/data\/types';/u.test(source);
+  if (!personsImported) {
+    source = source.replace(
+      `import type { QuizMode } from '../../data/types';`,
+      `import type { QuizMode } from '../../data/types';\nimport { PERSONS } from '../../data/types';`,
+    );
+  }
+
   if (!source.includes("const recognitionOnly = lesson.block === 'litteraire';")) {
     const anchor = `  const practiceVerbIds = lessonPracticeVerbIds(lesson);`;
     const insert = `  const recognitionOnly = lesson.block === 'litteraire';\n  const lessonPersons = recognitionOnly\n    ? PERSONS.filter(person => person === 'il' || person === 'ils')\n    : PERSONS;\n\n${anchor}`;
