@@ -306,6 +306,8 @@ export interface QuizConfig {
   forms?: NonFinite[];
   /** Конструкция целиком со своим списком времён. */
   periphrasis?: Periphrasis & { tenses: Tense[] };
+  /** Предложения с пропуском — тема про выбор глагола. */
+  cloze?: Array<Cloze & { verbId: string; person: Person; tense?: Tense }>;
   persons: Person[];
   verbIds: string[] | 'all';
   mode: QuizMode;
@@ -351,6 +353,20 @@ export interface Periphrasis {
   form: NonFinite;
 }
 
+/**
+ * Предложение с пропуском. Нужно, когда тема — про выбор между глаголами,
+ * а не про парадигму: спрягать ser и estar по отдельности можно безошибочно
+ * и при этом не понимать, какой из них тут нужен.
+ */
+export interface Cloze {
+  /** Текст с «___» на месте пропуска: «Mi hermano ___ médico.» */
+  text: string;
+  /** Перевод — иначе выбор превращается в угадывание по знакомым словам. */
+  translation: string;
+  /** Почему именно этот глагол: «профессия», «состояние». Показывается после ответа. */
+  reason: string;
+}
+
 export interface QuizQuestion {
   verbId: string;
   /** У неличной формы времени нет; у перифразы описывает вспомогательный глагол. */
@@ -361,6 +377,8 @@ export interface QuizQuestion {
   nonFinite?: NonFinite;
   /** Спрашивается вся конструкция целиком, а не одна её часть. */
   periphrasis?: Periphrasis;
+  /** Вопрос-пропуск: глагол не показывается, его надо выбрать самому. */
+  cloze?: Cloze;
   correctAnswer: string;
   options?: string[];
 }
@@ -397,6 +415,8 @@ export interface QuizHistoryItem {
  * «герундий, tú» рано или поздно где-нибудь да напечатается.
  */
 export function questionLabels(question: QuizQuestion): { form: string; person?: string } {
+  // У пропуска лицо не показываем: его подсказывает подлежащее, и это часть задачи.
+  if (question.cloze) return { form: TENSE_FULL_LABELS[question.tense!] };
   if (question.nonFinite) return { form: NON_FINITE_LABELS[question.nonFinite] };
   if (question.periphrasis) {
     return {
@@ -422,6 +442,7 @@ export function periphrasisLabel(periphrasis: Periphrasis): string {
 
 /** Что просят ввести: у неличной формы своя формулировка. */
 export function questionPrompt(question: QuizQuestion): string {
+  if (question.cloze) return 'Вставьте нужный глагол в нужной форме:';
   if (question.nonFinite) return NON_FINITE_PROMPTS[question.nonFinite];
   if (question.periphrasis) return `Напишите форму «${periphrasisLabel(question.periphrasis)}»:`;
   return 'Напишите форму глагола:';
@@ -429,6 +450,7 @@ export function questionPrompt(question: QuizQuestion): string {
 
 /** Короткая подпись для разбора ошибок: «Indefinido · tú» или «Герундий». */
 export function questionShortLabel(question: QuizQuestion): string {
+  if (question.cloze) return question.cloze.text;
   if (question.nonFinite) return NON_FINITE_SHORT_LABELS[question.nonFinite];
   const person = personLabels(question.tense!)[question.person!];
   const tense = tenseQualifiedLabel(question.tense!);

@@ -76,6 +76,7 @@ export default function LessonDetail() {
       tenses: lesson.practice.tenses,
       forms: lesson.practice.forms,
       periphrasis: lesson.practice.periphrasis,
+      cloze: lesson.practice.cloze,
       persons: PERSONS,
       verbIds: practiceVerbIds,
       maxQuestions: examSize,
@@ -94,6 +95,7 @@ export default function LessonDetail() {
       tenses: lesson.practice.tenses,
       forms: lesson.practice.forms,
       periphrasis: lesson.practice.periphrasis,
+      cloze: lesson.practice.cloze,
       persons: PERSONS,
       verbIds: drill.verbIds,
       maxQuestions: drillSize(lesson, drill),
@@ -116,6 +118,7 @@ export default function LessonDetail() {
       tenses: lesson.practice.tenses,
       forms: lesson.practice.forms,
       periphrasis: lesson.practice.periphrasis,
+      cloze: lesson.practice.cloze,
       persons: PERSONS,
       // Зачёт и подходы всегда идут по глаголам темы; расширять можно только
       // свободную тренировку — иначе порог зачёта потеряет смысл.

@@ -8,6 +8,7 @@ import type {
 } from '../data/types';
 import { PERSONS } from '../data/types';
 import {
+  generateClozeOptions,
   generateNonFiniteOptions,
   generateOptions,
   generatePeriphrasisOptions,
@@ -128,7 +129,12 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
     const finite = targetVerbs.length * cfg.tenses.length * cfg.persons.length;
     const nonFinite = targetVerbs.length * forms.length;
     const periphrastic = targetVerbs.length * periphrasisTenses.length * cfg.persons.length;
-    const combinations = finite + nonFinite + periphrastic;
+    // Пропуски перечислены поимённо: каждый — ровно один вопрос. Подход по глаголу
+    // берёт только свои предложения, иначе тренировка ser показывала бы estar.
+    const clozeItems = (cfg.cloze ?? []).filter(
+      item => cfg.verbIds === 'all' || cfg.verbIds.includes(item.verbId),
+    );
+    const combinations = finite + nonFinite + periphrastic + clozeItems.length;
     if (combinations === 0) return [];
 
     // Комбинаций может быть больше четверти миллиона, поэтому берём случайную
@@ -142,6 +148,32 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
       const pick = Math.floor(Math.random() * combinations);
       if (picked.has(pick)) continue;
       picked.add(pick);
+
+      if (pick >= finite + nonFinite + periphrastic) {
+        const item = clozeItems[pick - finite - nonFinite - periphrastic]!;
+        const tense = item.tense ?? 'presente';
+        const personIndex = PERSONS.indexOf(item.person);
+        const verb = VERBS.find(candidate => candidate.id === item.verbId);
+        const value = verb?.conjugations[tense]?.[personIndex];
+        if (!value || value.absent) continue;
+
+        // Соперник — второй глагол темы: именно между ними и надо выбрать.
+        const rivalId =
+          (cfg.cloze ?? []).find(other => other.verbId !== item.verbId)?.verbId ?? item.verbId;
+
+        questions.push({
+          verbId: item.verbId,
+          tense,
+          person: item.person,
+          cloze: { text: item.text, translation: item.translation, reason: item.reason },
+          correctAnswer: value.form,
+          options:
+            cfg.mode === 'multiple-choice'
+              ? generateClozeOptions(item.verbId, rivalId, tense, personIndex, value.form)
+              : undefined,
+        });
+        continue;
+      }
 
       if (pick >= finite + nonFinite) {
         const slot = pick - finite - nonFinite;

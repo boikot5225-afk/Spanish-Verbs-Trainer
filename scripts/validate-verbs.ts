@@ -487,7 +487,12 @@ for (const [index, lesson] of LESSONS.entries()) {
   // времени, которое разбирается позже: зачёт открывает следующую тему, а
   // ученик такого ещё не видел. Так «Estar + герундий» гонял futuro за пять
   // уроков до того, как его объяснят.
-  for (const tense of [...lesson.practice.tenses, ...(lesson.practice.periphrasis?.tenses ?? [])]) {
+  const clozeTenses = (lesson.practice.cloze ?? []).map(item => item.tense ?? 'presente');
+  for (const tense of [
+    ...lesson.practice.tenses,
+    ...(lesson.practice.periphrasis?.tenses ?? []),
+    ...clozeTenses,
+  ]) {
     const at = introducedAt.get(tense);
     assert(
       at !== undefined && at <= index,
@@ -525,9 +530,28 @@ for (const lesson of LESSONS) {
   assert(
     lesson.practice.tenses.length > 0 ||
       (lesson.practice.forms?.length ?? 0) > 0 ||
-      (lesson.practice.periphrasis?.tenses.length ?? 0) > 0,
+      (lesson.practice.periphrasis?.tenses.length ?? 0) > 0 ||
+      (lesson.practice.cloze?.length ?? 0) > 0,
     `${lesson.id}: practice asks for nothing`,
   );
+
+  // Пропуск обязан быть решаемым: пропуск на месте, глагол в базе, форма
+  // непустая, а перевод и пояснение есть — без них ошибка ничему не учит.
+  for (const item of lesson.practice.cloze ?? []) {
+    const where = `${lesson.id}: cloze "${item.text}"`;
+    assert(item.text.includes('___'), `${where} has no gap`);
+    assert(item.translation.trim(), `${where} has no translation`);
+    assert(item.reason.trim(), `${where} has no reason`);
+    const verb = getVerbById(item.verbId);
+    assert(verb, `${where} refers to unknown verb ${item.verbId}`);
+    const tense = item.tense ?? 'presente';
+    assert(
+      lesson.practice.verbIds?.includes(item.verbId),
+      `${where}: ${item.verbId} is outside the topic's verbs, so its drill would never show it`,
+    );
+    const form = verb!.conjugations[tense][PERSONS.indexOf(item.person)];
+    assert(form && !form.absent && form.form, `${where} has no form for ${item.person}`);
+  }
   for (const tense of lesson.practice.tenses) {
     assert(TENSES.includes(tense), `${lesson.id}: practice tense ${tense} is unknown`);
   }

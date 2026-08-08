@@ -2,7 +2,7 @@
   "expo": {
     "name": "Spanish Verbs Trainer",
     "slug": "spanish-verbs-trainer",
-    "version": "1.20.1",
+    "version": "1.21.0",
     "orientation": "portrait",
     "scheme": "spanishverbstrainer",
     "userInterfaceStyle": "light",
@@ -13,7 +13,7 @@
     },
     "android": {
       "package": "com.bulat.spanishverbstrainer",
-      "versionCode": 22,
+      "versionCode": 23,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#2563EB"

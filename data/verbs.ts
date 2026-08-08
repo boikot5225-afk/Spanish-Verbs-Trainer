@@ -156,6 +156,35 @@ export function shuffle<T>(arr: T[]): T[] {
 }
 
 /**
+ * Варианты для пропуска. Первым делом — та же форма у глагола-соперника
+ * (es против está), иначе выбор между ними не проверяется вовсе; остальное
+ * добираем другими лицами правильного глагола.
+ */
+export function generateClozeOptions(
+  verbId: string,
+  rivalId: string,
+  tense: Tense,
+  personIndex: number,
+  correct: string,
+): string[] {
+  const distractors = new Set<string>();
+
+  const rival = getVerbById(rivalId)?.conjugations[tense]?.[personIndex];
+  if (rival && !rival.absent && rival.form !== correct) distractors.add(rival.form);
+
+  const verb = getVerbById(verbId);
+  if (verb) {
+    PERSONS.forEach((_, index) => {
+      if (index === personIndex || distractors.size >= 3) return;
+      const form = verb.conjugations[tense][index];
+      if (form && !form.absent && form.form !== correct) distractors.add(form.form);
+    });
+  }
+
+  return shuffle([...Array.from(distractors).slice(0, 3), correct]);
+}
+
+/**
  * Форма перифразы: вспомогательный глагол в нужном времени и лице плюс неличная
  * форма смыслового. Спрягается только вспомогательный — estoy comiendo,
  * estabas comiendo. Пусто, если у вспомогательного этой формы нет («yo» в императиве).

@@ -1,4 +1,4 @@
-import type { NonFinite, Periphrasis, Tense } from './types';
+import type { Cloze, NonFinite, Periphrasis, Person, Tense } from './types';
 import { PERSONS } from './types';
 import { getVerbById, VERBS } from './verbs';
 
@@ -72,6 +72,12 @@ export interface Lesson {
      * чему учит.
      */
     periphrasis?: Periphrasis & { tenses: Tense[] };
+    /**
+     * Предложения с пропуском для тем про выбор глагола. Спрягать ser и estar
+     * по отдельности можно безошибочно и всё равно не знать, какой нужен здесь,
+     * поэтому такая тема проверяет выбор, а форму — заодно.
+     */
+    cloze?: Array<Cloze & { verbId: string; person: Person; tense?: Tense }>;
     /** Явный список глаголов; если не задан — берётся по признакам неправильности. */
     verbIds?: string[];
     /** Признаки из метаданных: урок соберёт все глаголы с любым из них. */
@@ -409,13 +415,52 @@ export const LESSONS: Lesson[] = [
       },
     ],
     practice: {
-      // Прошедшие времена тема показывает в тексте, но тренирует только настоящее:
-      // indefinido и imperfecto разбираются много позже, в блоке о прошедшем.
-      // Ради полноразмерного зачёта выборка дополнена другими связочными глаголами —
-      // подходы по ключевым остаются на самих ser и estar.
-      tenses: ['presente'],
-      verbIds: ['ser', 'estar', 'parecer', 'quedar', 'andar', 'permanecer'],
+      // Тема не про парадигму, а про выбор: спрягать ser и estar по отдельности
+      // можно безошибочно и при этом писать «la sopa es fría». Поэтому тренировка —
+      // предложения с пропуском, а форма проверяется внутри выбора. Связочные
+      // глаголы-наполнители, которые раньше добирали зачёт до тридцати вопросов,
+      // больше не нужны.
+      tenses: [],
+      verbIds: ['ser', 'estar'],
       featured: ['ser', 'estar'],
+      cloze: [
+      { verbId: 'ser', person: 'el', text: 'Mi hermano ___ médico.', translation: 'Мой брат — врач.', reason: 'профессия' },
+      { verbId: 'ser', person: 'yo', text: 'Yo ___ de Rusia.', translation: 'Я из России.', reason: 'происхождение' },
+      { verbId: 'ser', person: 'nosotros', text: 'Nosotros ___ estudiantes.', translation: 'Мы студенты.', reason: 'род занятий' },
+      { verbId: 'ser', person: 'el', text: 'La mesa ___ de madera.', translation: 'Стол деревянный.', reason: 'материал' },
+      { verbId: 'ser', person: 'ellos', text: '___ las tres de la tarde.', translation: 'Три часа дня.', reason: 'время' },
+      { verbId: 'ser', person: 'el', text: 'Hoy ___ martes.', translation: 'Сегодня вторник.', reason: 'дата' },
+      { verbId: 'ser', person: 'tu', text: 'Tú ___ muy alto.', translation: 'Ты очень высокий.', reason: 'постоянный признак' },
+      { verbId: 'ser', person: 'el', text: 'Este libro ___ de mi padre.', translation: 'Эта книга моего отца.', reason: 'принадлежность' },
+      { verbId: 'ser', person: 'ellos', text: 'Ellos ___ mexicanos.', translation: 'Они мексиканцы.', reason: 'национальность' },
+      { verbId: 'ser', person: 'vosotros', text: 'Vosotros ___ mis amigos.', translation: 'Вы мои друзья.', reason: 'определение' },
+      { verbId: 'ser', person: 'el', text: 'La fiesta ___ en mi casa.', translation: 'Праздник у меня дома.', reason: 'место события' },
+      { verbId: 'ser', person: 'yo', text: 'Yo ___ una persona tranquila.', translation: 'Я спокойный человек.', reason: 'характер' },
+      { verbId: 'ser', person: 'el', text: 'El examen ___ difícil.', translation: 'Экзамен трудный.', reason: 'свойство' },
+      { verbId: 'ser', person: 'ellos', text: 'Las ventanas ___ grandes.', translation: 'Окна большие.', reason: 'признак предмета' },
+      { verbId: 'ser', person: 'nosotros', text: 'Nosotros ___ hermanos.', translation: 'Мы братья.', reason: 'родство' },
+      { verbId: 'ser', person: 'tu', text: '¿Tú ___ el nuevo profesor?', translation: 'Ты новый преподаватель?', reason: 'роль' },
+      { verbId: 'estar', person: 'el', text: 'La sopa ___ fría.', translation: 'Суп холодный.', reason: 'состояние сейчас' },
+      { verbId: 'estar', person: 'yo', text: 'Yo ___ cansado hoy.', translation: 'Я сегодня устал.', reason: 'самочувствие' },
+      { verbId: 'estar', person: 'ellos', text: 'Los niños ___ en el parque.', translation: 'Дети в парке.', reason: 'местоположение' },
+      { verbId: 'estar', person: 'nosotros', text: 'Nosotros ___ muy contentos.', translation: 'Мы очень довольны.', reason: 'эмоция' },
+      { verbId: 'estar', person: 'el', text: 'Madrid ___ en España.', translation: 'Мадрид в Испании.', reason: 'местоположение' },
+      { verbId: 'estar', person: 'tu', text: '¿Cómo ___ tú?', translation: 'Как ты?', reason: 'самочувствие' },
+      { verbId: 'estar', person: 'el', text: 'La puerta ___ abierta.', translation: 'Дверь открыта.', reason: 'результат действия' },
+      { verbId: 'estar', person: 'ellos', text: 'Mis padres ___ de viaje.', translation: 'Мои родители в поездке.', reason: 'временное положение' },
+      { verbId: 'estar', person: 'vosotros', text: 'Vosotros ___ nerviosos.', translation: 'Вы нервничаете.', reason: 'временное состояние' },
+      { verbId: 'estar', person: 'yo', text: 'Yo ___ en casa ahora.', translation: 'Я сейчас дома.', reason: 'местоположение' },
+      { verbId: 'estar', person: 'el', text: 'El café ___ caliente.', translation: 'Кофе горячий.', reason: 'состояние сейчас' },
+      { verbId: 'estar', person: 'nosotros', text: 'Nosotros ___ ocupados.', translation: 'Мы заняты.', reason: 'временное состояние' },
+      { verbId: 'ser', person: 'el', text: 'Mi primo ___ listo, saca buenas notas.', translation: 'Мой двоюродный брат умный, у него хорошие оценки.', reason: 'listo при ser — умный' },
+      { verbId: 'estar', person: 'yo', text: 'Ya ___ listo, podemos salir.', translation: 'Я уже готов, можем выходить.', reason: 'listo при estar — готов' },
+      { verbId: 'ser', person: 'el', text: 'Este libro ___ aburrido.', translation: 'Эта книга скучная.', reason: 'aburrido при ser — скучный сам по себе' },
+      { verbId: 'estar', person: 'ellos', text: 'Los alumnos ___ aburridos.', translation: 'Ученикам скучно.', reason: 'aburrido при estar — которому скучно' },
+      { verbId: 'ser', person: 'el', text: 'El plátano ___ verde por fuera.', translation: 'Банан зелёный снаружи.', reason: 'verde при ser — цвет' },
+      { verbId: 'estar', person: 'el', text: 'El plátano ___ verde, no se puede comer.', translation: 'Банан неспелый, есть нельзя.', reason: 'verde при estar — незрелый' },
+      { verbId: 'ser', person: 'el', text: 'Mi vecino ___ rico.', translation: 'Мой сосед богатый.', reason: 'rico при ser — богатый' },
+      { verbId: 'estar', person: 'el', text: 'El pastel ___ muy rico.', translation: 'Торт очень вкусный.', reason: 'rico при estar — вкусный' },
+      ],
     },
   },
   {
@@ -1893,7 +1938,9 @@ export function practiceCombinations(lesson: Lesson, verbCount: number): number 
   const finite = lesson.practice.tenses.length * PERSONS.length;
   const nonFinite = (lesson.practice.forms ?? []).length;
   const periphrastic = (lesson.practice.periphrasis?.tenses.length ?? 0) * PERSONS.length;
-  return verbCount * (finite + nonFinite + periphrastic);
+  // Пропуски перечислены поимённо, поэтому на число глаголов не умножаются.
+  const cloze = lesson.practice.cloze?.length ?? 0;
+  return verbCount * (finite + nonFinite + periphrastic) + cloze;
 }
 
 export function drillSize(lesson: Lesson, drill: LessonDrill): number {

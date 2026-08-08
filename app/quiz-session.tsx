@@ -159,14 +159,28 @@ export default function QuizSession() {
 
   // ─── Shared UI elements ────────────────────────────────────────────────────
 
+  // У вопроса-пропуска инфинитив не показываем: выбрать глагол — и есть задача.
   const questionHeader = (
     <View style={[styles.questionHeader, { backgroundColor: colors.card, borderColor: colors.border }]}>
-      <Text style={[styles.verbInfinitive, { color: colors.foreground }]}>
-        {verb.infinitive}
-      </Text>
-      <Text style={[styles.verbTranslation, { color: colors.mutedForeground }]}>
-        {verb.translation}
-      </Text>
+      {question.cloze ? (
+        <>
+          <Text style={[styles.clozeSentence, { color: colors.foreground }]}>
+            {question.cloze.text}
+          </Text>
+          <Text style={[styles.verbTranslation, { color: colors.mutedForeground }]}>
+            {question.cloze.translation}
+          </Text>
+        </>
+      ) : (
+        <>
+          <Text style={[styles.verbInfinitive, { color: colors.foreground }]}>
+            {verb.infinitive}
+          </Text>
+          <Text style={[styles.verbTranslation, { color: colors.mutedForeground }]}>
+            {verb.translation}
+          </Text>
+        </>
+      )}
       <View style={styles.tensePersonRow}>
         <View style={[styles.chip, { backgroundColor: colors.secondary }]}>
           <Text style={[styles.chipText, { color: colors.primary }]}>
@@ -211,6 +225,12 @@ export default function QuizSession() {
             {question.correctAnswer}
           </Text>
         </View>
+      )}
+      {/* Почему именно этот глагол — иначе ошибка ничему не учит. */}
+      {question.cloze && (
+        <Text style={[styles.clozeReason, { color: colors.mutedForeground }]}>
+          {getVerbById(question.verbId)?.infinitive} — {question.cloze.reason}
+        </Text>
       )}
     </View>
   );
@@ -551,6 +571,19 @@ const styles = StyleSheet.create({
     padding: 18,
     alignItems: 'center',
     gap: 6,
+  },
+  clozeReason: {
+    fontSize: 13,
+    fontFamily: 'Inter_400Regular',
+    textAlign: 'center',
+    marginTop: 8,
+  },
+  clozeSentence: {
+    fontSize: 21,
+    lineHeight: 29,
+    fontFamily: 'Inter_600SemiBold',
+    textAlign: 'center',
+    marginBottom: 6,
   },
   verbInfinitive: {
     fontSize: 28,
