@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { LESSONS, lessonIndex, medalFor, type Medal } from '../data/lessons';
+import { LESSONS, medalFor, type Medal } from '../data/lessons';
 import { recordAnswer } from '../data/fluency';
 import type { TenseStats } from '../data/types';
 import {
@@ -25,7 +25,7 @@ interface LessonsContextValue {
   markPassed: (lessonId: string) => void;
   unlock: (lessonId: string) => void;
   resetProgress: () => void;
-  /** Первая несданная тема — на ней стоит продолжить курс. */
+  /** Первая несданная тема глагольного курса. */
   currentLessonId: string | undefined;
   /** Накопленная статистика по временам для экрана прогресса. */
   tenseStats: TenseStats;
@@ -90,7 +90,7 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
       update(previous => {
         const drills = previous.drills ?? {};
         const best = drills[lessonId]?.[drillKey] ?? -1;
-        if (percent <= best) return previous; // храним только лучший результат
+        if (percent <= best) return previous;
         return {
           ...previous,
           drills: { ...drills, [lessonId]: { ...drills[lessonId], [drillKey]: percent } },
@@ -107,8 +107,8 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
     void saveTenseStats({});
   }, []);
 
-  // Итоги подводятся один раз, когда сессия дошла до конца: зачёт открывает
-  // следующую тему, мини-тренировка обновляет медаль.
+  // Итоги подводятся один раз, когда сессия дошла до конца: зачёт отмечает
+  // тему пройденной, мини-тренировка обновляет медаль.
   useEffect(() => {
     if (!isHydrated || !session) return;
     if (session.questions.length === 0) return;
@@ -124,38 +124,53 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
       recordDrill(session.drill.lessonId, session.drill.key, percent);
     }
 
-    // Владение временем считаем по всем ответам — и в уроках, и в своём тесте.
+    // Грамматические банки используют техническое поле tense для общей инфраструктуры,
+    // но не должны искажать статистику владения временами основного тренажёра.
     setTenseStats(previous => {
       const next: TenseStats = { ...previous };
       const now = new Date().toISOString();
+      let changed = false;
       for (const answer of session.answers) {
+        if (answer.question.headerTitle) continue;
         const { tense, verbId } = answer.question;
         next[tense] = recordAnswer(next[tense], verbId, answer.correct, now);
+        changed = true;
       }
-      void saveTenseStats(next);
-      return next;
+      if (changed) void saveTenseStats(next);
+      return changed ? next : previous;
     });
   }, [isHydrated, session, markPassed, recordDrill]);
 
   const passed = useMemo(() => new Set(progress.passed), [progress.passed]);
   const unlockedSet = useMemo(() => new Set(progress.unlocked), [progress.unlocked]);
+  const coreLessons = useMemo(() => LESSONS.filter(lesson => lesson.block !== 'syntax'), []);
+  const grammarLessonIds = useMemo(
+    () => new Set(LESSONS.filter(lesson => lesson.block === 'syntax').map(lesson => lesson.id)),
+    [],
+  );
 
-  // Самая дальняя сданная тема. По ней и открывается следующая — так вставка
-  // новых уроков в середину курса не закрывает то, что уже пройдено дальше.
+  // Самая дальняя сданная тема считается только внутри глагольного курса.
+  // Грамматика живёт отдельно и не может перескочить или заблокировать его прогрессию.
   const furthestPassed = useMemo(() => {
     let furthest = -1;
-    for (const lessonId of passed) furthest = Math.max(furthest, lessonIndex(lessonId));
+    for (const lessonId of passed) {
+      const index = coreLessons.findIndex(lesson => lesson.id === lessonId);
+      if (index >= 0) furthest = Math.max(furthest, index);
+    }
     return furthest;
-  }, [passed]);
+  }, [passed, coreLessons]);
 
   const isAvailable = useCallback(
     (lessonId: string) => {
-      const index = lessonIndex(lessonId);
-      if (index <= 0) return true; // первая тема всегда открыта
+      if (grammarLessonIds.has(lessonId)) return true;
+
+      const index = coreLessons.findIndex(lesson => lesson.id === lessonId);
+      if (index < 0) return false;
+      if (index === 0) return true;
       if (passed.has(lessonId) || unlockedSet.has(lessonId)) return true;
       return index <= furthestPassed + 1;
     },
-    [passed, unlockedSet, furthestPassed],
+    [passed, unlockedSet, furthestPassed, coreLessons, grammarLessonIds],
   );
 
   const drillScore = useCallback(
@@ -172,8 +187,8 @@ export function LessonsProvider({ children }: { children: React.ReactNode }) {
   );
 
   const currentLessonId = useMemo(
-    () => LESSONS.find(lesson => !passed.has(lesson.id))?.id,
-    [passed],
+    () => coreLessons.find(lesson => !passed.has(lesson.id))?.id,
+    [passed, coreLessons],
   );
 
   const value = useMemo<LessonsContextValue>(
