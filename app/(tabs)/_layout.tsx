@@ -17,6 +17,10 @@ function NativeTabLayout() {
         <Icon sf={{ default: 'graduationcap', selected: 'graduationcap.fill' }} />
         <Label>Уроки</Label>
       </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="grammar">
+        <Icon sf={{ default: 'list.bullet', selected: 'list.bullet' }} />
+        <Label>Грамматика</Label>
+      </NativeTabs.Trigger>
       <NativeTabs.Trigger name="verbs">
         <Icon sf={{ default: 'book', selected: 'book.fill' }} />
         <Label>Глаголы</Label>
@@ -85,6 +89,18 @@ function ClassicTabLayout() {
               <SymbolView name="graduationcap" tintColor={color} size={24} />
             ) : (
               <Ionicons name="school-outline" size={22} color={color} />
+            ),
+        }}
+      />
+      <Tabs.Screen
+        name="grammar"
+        options={{
+          title: 'Грамматика',
+          tabBarIcon: ({ color }: { color: string }) =>
+            isIOS ? (
+              <SymbolView name="list.bullet" tintColor={color} size={24} />
+            ) : (
+              <Ionicons name="git-branch-outline" size={22} color={color} />
             ),
         }}
       />
