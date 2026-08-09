@@ -27,7 +27,7 @@ const banned = [
 
 // Названия французских времён и наклонений оставляем по-французски: это нормальная
 // учебная терминология, а не непереведённый метатекст.
-const frenchGrammarTitle = /^(?:Imparfait|Passé|Futur|Conditionnel|Subjonctif|Impératif|Être|Savoir|Pouvoir|Y, en)/u;
+const frenchGrammarTitle = /^(?:Imparfait|Plus-que-parfait|Passé|Futur|Conditionnel|Subjonctif|Impératif|Être|Savoir|Pouvoir|Y, en)/u;
 
 let sectionCount = 0;
 for (const lesson of LESSONS) {
