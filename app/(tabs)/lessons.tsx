@@ -17,6 +17,10 @@ export default function LessonsTab() {
   const insets = useSafeAreaInsets();
   const { passed, isAvailable, currentLessonId } = useLessons();
 
+  const coreLessons = LESSONS.filter(lesson => lesson.block !== 'syntax');
+  const coreBlocks = LESSON_BLOCKS.filter(block => block !== 'syntax');
+  const corePassedCount = coreLessons.filter(lesson => passed.has(lesson.id)).length;
+
   const topPadding = Platform.OS === 'web' ? 67 : insets.top;
   const bottomPadding = Platform.OS === 'web' ? 84 : insets.bottom + 64;
 
@@ -34,14 +38,12 @@ export default function LessonsTab() {
           },
         ]}
       >
-        <Text style={[styles.title, { color: colors.foreground }]}>Уроки</Text>
-        <Text style={[styles.subtitle, { color: colors.mutedForeground }]}>
-          Сдано {passed.size} из {LESSONS.length}
-        </Text>
+        <Text style={[styles.title, { color: colors.foreground }]}>Глагольный курс</Text>
+        <Text style={[styles.subtitle, { color: colors.mutedForeground }]}>Сдано {corePassedCount} из {coreLessons.length}</Text>
       </View>
 
       <ScrollView contentContainerStyle={[styles.list, { paddingBottom: bottomPadding }]}>
-        {LESSON_BLOCKS.map(block => {
+        {coreBlocks.map(block => {
           const blockLessons = lessonsByBlock(block);
           if (blockLessons.length === 0) return null;
 
