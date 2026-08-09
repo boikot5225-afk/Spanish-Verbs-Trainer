@@ -25,9 +25,9 @@ const banned = [
   'Отработка по глаголам',
 ] as const;
 
-// Названия французских времён и наклонений оставляем по-французски: это нормальная
-// учебная терминология, а не непереведённый метатекст.
-const frenchGrammarTitle = /^(?:Imparfait|Plus-que-parfait|Passé|Futur|Conditionnel|Subjonctif|Impératif|Être|Savoir|Pouvoir|Y, en)/u;
+// Названия французских времён, наклонений и коротких грамматических маркеров
+// можно оставлять по-французски: это термины темы, а не непереведённый метатекст.
+const frenchGrammarTitle = /^(?:Imparfait|Plus-que-parfait|Passé|Futur|Conditionnel|Subjonctif|Impératif|Être|Savoir|Pouvoir|Y, en|Depuis)/u;
 
 let sectionCount = 0;
 for (const lesson of LESSONS) {
