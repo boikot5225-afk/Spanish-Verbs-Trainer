@@ -40,15 +40,20 @@ for (const id of GRAMMAR_LESSON_IDS) {
 }
 
 const pronouns = bank('syntax-pronoms-y-en');
-for (const required of ['Je le lui donne.', 'Il leur en parle.', 'Vas-y !', 'Ne m’en parle pas !']) {
+for (const required of ['Je le lui donne.', 'Il leur en parle.', 'Je la lui donne.', 'Nous leur en parlons.']) {
   assert.ok(pronouns.some(item => item.correctAnswer === required), `pronouns: missing ${required}`);
 }
+assert.ok(
+  pronouns.every(item => !/impératif|Vas-y|Donne-le|Parle-lui-en|Prends-en|N’y va|Ne m’en parle/iu.test(item.prompt)),
+  'pronouns: premature impératif question leaked back into y/en lesson',
+);
 
 const prepositions = bank('syntax-prepositions');
 const prepAnswers = new Set(prepositions.map(item => item.correctAnswer));
 for (const required of ['à', 'de', '—']) {
   assert.ok(prepAnswers.has(required), `prepositions: missing answer class ${required}`);
 }
+assert.ok(!prepositions.some(item => item.prompt.includes('continuons ___ travailler')), 'prepositions: ambiguous continuer à/de item returned');
 
 const agreement = bank('syntax-participe-cod');
 for (const required of ['écrites', 'vue', 'lavé', 'parlé', 'rencontrées', 'fait']) {
