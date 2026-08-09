@@ -39,7 +39,7 @@ edit('data/types.ts', source => {
       '  contextTranslation?: string;',
       '  /** Правильное предложение целиком — для обратной связи и озвучки. */',
       '  solutionText?: string;',
-      '  /** Намеренно неверная форма в режиме исправления ошибки. */',
+      '  /** Намеренно неверная форма/конструкция в режиме исправления ошибки. */',
       '  wrongAnswer?: string;',
       '  /** Перемешанные блоки для сборки предложения. */',
       '  tokens?: string[];',
@@ -50,19 +50,68 @@ edit('data/types.ts', source => {
   return source;
 });
 
-// ── 2. Генерация вопросов и повтор ошибок ──────────────────────────────────
+// ── 2. Генерация вопросов, тематические уроки и сохранённые сессии ─────────
 edit('context/QuizContext.tsx', source => {
   if (!source.includes("from '../data/exercise-questions'")) {
     source = replaceRequired(
       source,
       "import { checkAnswer } from '../data/answer';",
-      "import { checkAnswer } from '../data/answer';\nimport { buildExerciseQuestion } from '../data/exercise-questions';",
-      'QuizContext exercise import',
+      [
+        "import { checkAnswer } from '../data/answer';",
+        'import {',
+        '  buildExerciseQuestion,',
+        '  buildThematicExerciseQuestions,',
+        '  isContextualQuizMode,',
+        '  isValidExerciseQuestion,',
+        "} from '../data/exercise-questions';",
+      ].join('\n'),
+      'QuizContext exercise imports',
     );
   }
 
-  if (!source.includes('buildExerciseQuestion(baseQuestion, cfg.mode, cfg.tenses, verb)')) {
-    const from = [
+  // Старые build 160-сессии с одним вариантом в contrast не должны оживать
+  // после обновления и снова показывать сломанный вопрос.
+  if (!source.includes('isValidExerciseQuestion(question, session.mode)')) {
+    source = replaceRequired(
+      source,
+      '    session.questions.every(question => VALID_VERB_IDS.has(question.verbId)) &&',
+      [
+        '    session.questions.every(question => VALID_VERB_IDS.has(question.verbId)) &&',
+        '    session.questions.every(question => isValidExerciseQuestion(question, session.mode)) &&',
+      ].join('\n'),
+      'saved contextual session validation',
+    );
+  }
+
+  // Тематический генератор создаёт правильное учебное содержание (venir de,
+  // aller + infinitif, être/avoir, subjonctif...). Новые режимы обязаны
+  // преобразовывать ЕГО вопросы, а не обходить их.
+  if (!source.includes('buildThematicExerciseQuestions(thematic, cfg.mode, thematicLessonId)')) {
+    source = replaceRequired(
+      source,
+      [
+        '    const thematic = buildThematicQuestions(cfg);',
+        '    if (thematic !== null) return thematic;',
+      ].join('\n'),
+      [
+        '    const thematicLessonId = cfg.lessonId ?? cfg.exam?.lessonId ?? cfg.drill?.lessonId;',
+        '    const thematicConfig = isContextualQuizMode(cfg.mode)',
+        "      ? { ...cfg, mode: 'multiple-choice' as const }",
+        '      : cfg;',
+        '    const thematic = buildThematicQuestions(thematicConfig);',
+        '    if (thematic !== null) {',
+        '      return thematicLessonId',
+        '        ? buildThematicExerciseQuestions(thematic, cfg.mode, thematicLessonId)',
+        '        : thematic;',
+        '    }',
+      ].join('\n'),
+      'thematic contextual adaptation',
+    );
+  }
+
+  if (!source.includes('const exerciseQuestion = buildExerciseQuestion(')) {
+    const directPush = '      questions.push(buildExerciseQuestion(baseQuestion, cfg.mode, cfg.tenses, verb));';
+    const oldPush = [
       '      questions.push({',
       '        verbId: verb.id,',
       '        tense,',
@@ -74,35 +123,67 @@ edit('context/QuizContext.tsx', source => {
       '            : undefined,',
       '      });',
     ].join('\n');
-    const to = [
-      '      const baseQuestion: QuizQuestion = {',
-      '        verbId: verb.id,',
-      '        tense,',
-      '        person,',
-      '        correctAnswer: form.form,',
-      '        options:',
-      "          cfg.mode === 'multiple-choice'",
-      '            ? generateOptions(verb.id, tense, personIndex, form.form)',
-      '            : undefined,',
-      '      };',
-      '      questions.push(buildExerciseQuestion(baseQuestion, cfg.mode, cfg.tenses, verb));',
-    ].join('\n');
-    source = replaceRequired(source, from, to, 'QuizContext question builder');
+
+    if (source.includes(directPush)) {
+      source = source.replace(
+        directPush,
+        [
+          '      const exerciseQuestion = buildExerciseQuestion(baseQuestion, cfg.mode, cfg.tenses, verb);',
+          '      if (exerciseQuestion) questions.push(exerciseQuestion);',
+        ].join('\n'),
+      );
+    } else if (source.includes(oldPush)) {
+      source = source.replace(
+        oldPush,
+        [
+          '      const baseQuestion: QuizQuestion = {',
+          '        verbId: verb.id,',
+          '        tense,',
+          '        person,',
+          '        correctAnswer: form.form,',
+          '        options:',
+          "          cfg.mode === 'multiple-choice'",
+          '            ? generateOptions(verb.id, tense, personIndex, form.form)',
+          '            : undefined,',
+          '      };',
+          '      const exerciseQuestion = buildExerciseQuestion(baseQuestion, cfg.mode, cfg.tenses, verb);',
+          '      if (exerciseQuestion) questions.push(exerciseQuestion);',
+        ].join('\n'),
+      );
+    } else {
+      throw new Error('Question types patch: missing QuizContext question builder');
+    }
   }
 
-  const oldRetry = [
+  // Повтор ошибок обязан сохранять две contrast-опции. В build 160 они
+  // стирались, поэтому повтор превращался в очередной вопрос с одной кнопкой.
+  const auditedRetry = [
     '        const options =',
     "          session.mode === 'multiple-choice'",
+    '            ? question.options',
+    '              ? shuffle(question.options)',
+    '              : generateOptions(question.verbId, question.tense, personIndex, question.correctAnswer)',
+    '            : undefined;',
+  ].join('\n');
+  const robustRetry = [
+    '        const options = question.options',
+    '          ? shuffle(question.options)',
+    "          : session.mode === 'multiple-choice'",
     '            ? generateOptions(question.verbId, question.tense, personIndex, question.correctAnswer)',
     '            : undefined;',
   ].join('\n');
-  const newRetry = [
-    '        const options =',
-    "          session.mode === 'multiple-choice'",
-    '            ? generateOptions(question.verbId, question.tense, personIndex, question.correctAnswer)',
-    '            : question.options;',
-  ].join('\n');
-  if (source.includes(oldRetry)) source = source.replace(oldRetry, newRetry);
+  if (source.includes(auditedRetry)) {
+    source = source.replace(auditedRetry, robustRetry);
+  } else {
+    const originalRetry = [
+      '        const options =',
+      "          session.mode === 'multiple-choice'",
+      '            ? generateOptions(question.verbId, question.tense, personIndex, question.correctAnswer)',
+      '            : undefined;',
+    ].join('\n');
+    if (source.includes(originalRetry)) source = source.replace(originalRetry, robustRetry);
+  }
+
   return source;
 });
 
@@ -130,19 +211,6 @@ edit('app/quiz-session.tsx', source => {
         '    if (!verdict.correct && verdict.looksLikeTypo && !typoHint && allowTypoHint) {',
       ].join('\n'),
       'typed-mode typo handling',
-    );
-  }
-
-  if (!source.includes('question.solutionText ?? speechText(')) {
-    source = replaceRequired(
-      source,
-      '    if (speechEnabled) speak(speechText(question.person, question.tense, question.correctAnswer));',
-      [
-        '    if (speechEnabled) {',
-        '      speak(question.solutionText ?? speechText(question.person, question.tense, question.correctAnswer));',
-        '    }',
-      ].join('\n'),
-      'context speech feedback',
     );
   }
 
@@ -188,10 +256,10 @@ edit('app/(tabs)/quiz.tsx', source => {
     'const MODES: { id: QuizMode; label: string; description: string }[] = [',
     "  { id: 'multiple-choice', label: 'Варианты ответа', description: 'Четыре формы на выбор' },",
     "  { id: 'input', label: 'Ввод ответа', description: 'Напечатайте форму самостоятельно' },",
-    "  { id: 'fill-blank', label: 'Заполнить пропуск', description: 'Вставьте форму в живое предложение' },",
-    "  { id: 'error-correction', label: 'Исправить ошибку', description: 'Найдите неверную форму и исправьте её' },",
-    "  { id: 'contrast', label: 'Выбор по контексту', description: 'Две конкурирующие формы — выберите подходящую' },",
-    "  { id: 'word-order', label: 'Порядок слов', description: 'Соберите французское предложение из блоков' },",
+    "  { id: 'fill-blank', label: 'Заполнить пропуск', description: 'Вставьте форму или конструкцию в контекст' },",
+    "  { id: 'error-correction', label: 'Исправить ошибку', description: 'Найдите неверную форму или конструкцию' },",
+    "  { id: 'contrast', label: 'Выбор по контексту', description: 'Два правдоподобных варианта — выберите подходящий' },",
+    "  { id: 'word-order', label: 'Порядок слов', description: 'Соберите полноценное французское предложение' },",
     "  { id: 'flashcard', label: 'Карточки', description: 'Оцените, знали вы ответ или нет' },",
     '];',
   ].join('\n');
@@ -244,4 +312,4 @@ edit('app/lesson/[id].tsx', source => {
   return source;
 });
 
-console.log('Applied Dr French-style question types.');
+console.log('Applied audited contextual question types.');
