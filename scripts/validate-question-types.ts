@@ -1,9 +1,9 @@
 import {
   buildExerciseQuestion,
-  buildThematicExerciseQuestions,
   isValidExerciseQuestion,
   type ContextQuizMode,
 } from '../data/exercise-questions';
+import { adaptThematicExerciseQuestions } from '../data/thematic-exercise-adapter';
 import {
   PERSONS,
   TENSES,
@@ -40,10 +40,8 @@ function validateShape(question: QuizQuestion, mode: ContextQuizMode, label: str
     if (blanks !== 1) fail(`${label}: fill-blank must have exactly one blank, got ${blanks}`);
   }
 
-  if (mode === 'error-correction') {
-    if (question.context === question.solutionText) {
-      fail(`${label}: error-correction contains no actual error`);
-    }
+  if (mode === 'error-correction' && question.context === question.solutionText) {
+    fail(`${label}: error-correction contains no actual error`);
   }
 
   if (mode === 'contrast') {
@@ -52,9 +50,7 @@ function validateShape(question: QuizQuestion, mode: ContextQuizMode, label: str
     if (options.length !== 2 || distinct.size !== 2) {
       fail(`${label}: contrast must have exactly two distinct options: ${JSON.stringify(options)}`);
     }
-    if (!distinct.has(question.correctAnswer)) {
-      fail(`${label}: contrast lost the correct answer`);
-    }
+    if (!distinct.has(question.correctAnswer)) fail(`${label}: contrast lost the correct answer`);
   }
 
   if (mode === 'word-order') {
@@ -66,8 +62,8 @@ function validateShape(question: QuizQuestion, mode: ContextQuizMode, label: str
   }
 }
 
-// 1. Перебираем всю глагольную базу: никакой новый режим не имеет права
-// создавать структурно сломанный вопрос на редком лице/времени.
+// 1. Вся глагольная база: ни редкое лицо, ни книжное время не должно породить
+// структурно сломанный новый вопрос.
 const genericCounts: Record<ContextQuizMode, number> = {
   'fill-blank': 0,
   'error-correction': 0,
@@ -103,7 +99,8 @@ for (const mode of MODES) {
   if (genericCounts[mode] === 0) fail(`generic ${mode}: zero usable questions`);
 }
 
-// 2. Все тематические уроки: именно здесь build 160 обходил новый движок.
+// 2. Все тематические уроки. Это главный регрессионный барьер против build 160:
+// тематический контент обязан пройти через адаптер каждого нового режима.
 for (const lessonId of THEMATIC_LESSON_IDS) {
   const sourceConfig: QuizConfig = {
     lessonId,
@@ -121,7 +118,7 @@ for (const lessonId of THEMATIC_LESSON_IDS) {
   }
 
   for (const mode of MODES) {
-    const questions = buildThematicExerciseQuestions(source, mode, lessonId);
+    const questions = adaptThematicExerciseQuestions(source, mode, lessonId);
     if (questions.length === 0) {
       fail(`${lessonId}/${mode}: zero usable questions after adaptation`);
       continue;
@@ -138,7 +135,8 @@ for (const lessonId of THEMATIC_LESSON_IDS) {
   }
 }
 
-// 3. Регрессия по реальному багу со скриншота пользователя.
+// 3. Реальный баг: Passé récent → rentrer → vous никогда больше не должен
+// превращаться в «venez de rentrer» как единственную кнопку.
 const recentConfig: QuizConfig = {
   lessonId: 'constr-passe-recent',
   verbIds: ['rentrer'],
@@ -158,7 +156,7 @@ if (!recentQuestion) {
   if (recentQuestion.correctAnswer !== 'venez de rentrer') {
     fail(`regression passé récent: expected "venez de rentrer", got "${recentQuestion.correctAnswer}"`);
   }
-  const contrast = buildThematicExerciseQuestions(
+  const contrast = adaptThematicExerciseQuestions(
     [recentQuestion],
     'contrast',
     'constr-passe-recent',
@@ -170,8 +168,11 @@ if (!recentQuestion) {
     if (!contrast.context?.includes('___')) {
       fail(`regression passé récent: no blank in context: ${contrast.context}`);
     }
-    if ((contrast.options ?? []).length < 2) {
-      fail(`regression passé récent: single-option question returned: ${JSON.stringify(contrast.options)}`);
+    if ((contrast.options ?? []).length !== 2) {
+      fail(`regression passé récent: expected two options: ${JSON.stringify(contrast.options)}`);
+    }
+    if (contrast.context?.includes('venez de rentrer')) {
+      fail('regression passé récent: correct answer leaked into the context');
     }
   }
 }
