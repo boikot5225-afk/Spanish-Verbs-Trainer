@@ -20,34 +20,21 @@ function dumpMatches(path, patterns, radius = 5) {
 }
 
 dumpMatches('context/QuizContext.tsx', [
-  'buildQuestions',
-  'lessonId',
-  'buildThematicQuestions',
-  'correctAnswer',
-  'buildExerciseQuestion',
+  'buildQuestions', 'lessonId', 'buildThematicQuestions', 'correctAnswer', 'buildExerciseQuestion',
 ], 4);
 
 dumpMatches('data/thematic-quiz.ts', [
-  'export',
-  'lessonId',
-  'constr-',
-  'correctAnswer',
-  'prompt',
-  'options',
-  'speechText',
-  'futur-proche',
-  'passe-recent',
-  'en-train',
-  'venir de',
-  'aller',
+  'export', 'lessonId', 'constr-', 'correctAnswer', 'prompt', 'options', 'speechText',
+  'futur-proche', 'passe-recent', 'en-train', 'venir de', 'aller',
 ], 8);
 
+dumpMatches('app/quiz-session.tsx', [
+  'question.prompt', 'question.speechText', 'questionHeader', 'renderMultipleChoice',
+  'renderInput', 'speechText(', 'ContextExercise',
+], 6);
+
 dumpMatches('data/types.ts', [
-  'export type QuizMode',
-  'export interface QuizQuestion',
-  'prompt?:',
-  'speechText?:',
-  'context?:',
+  'export type QuizMode', 'export interface QuizQuestion', 'prompt?:', 'speechText?:', 'context?:',
 ], 3);
 
 throw new Error('INTENTIONAL_AUDIT_STOP');
