@@ -68,37 +68,38 @@ export function ContextExercise({
     };
   }, [mode]);
 
+  const displayInfinitive = question.displayInfinitive ?? verb.infinitive;
+  const displayTranslation = question.displayTranslation ?? verb.translation;
+  const displayTense = question.displayTense ?? TENSE_FULL_LABELS[question.tense];
+  const displayPerson = question.displayPerson ?? personLabels(question.tense)[question.person];
+  const multiwordAnswer = /\s/u.test(question.correctAnswer.trim());
+  const inputNoun = multiwordAnswer ? 'конструкцию' : 'форму';
+
   const tokens = question.tokens ?? [];
   const selectedSet = useMemo(() => new Set(selectedTokens), [selectedTokens]);
   const assembled = selectedTokens.map(index => tokens[index]).filter(Boolean).join(' ');
+  const contrastOptions = useMemo(
+    () => Array.from(new Set(question.options ?? [])),
+    [question.options],
+  );
   const expectedDisplay = mode === 'word-order'
     ? question.solutionText ?? question.correctAnswer
     : question.correctAnswer;
 
   const header = (
     <View style={[styles.headerCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
-      <Text style={[styles.verb, { color: colors.foreground }]}>{verb.infinitive}</Text>
-      <Text style={[styles.translation, { color: colors.mutedForeground }]}>{verb.translation}</Text>
-      {mode === 'contrast' || mode === 'word-order' ? (
+      <Text style={[styles.verb, { color: colors.foreground }]}>{displayInfinitive}</Text>
+      <Text style={[styles.translation, { color: colors.mutedForeground }]}>
+        {displayTranslation}
+      </Text>
+      <View style={styles.chipRow}>
         <View style={[styles.chip, { backgroundColor: colors.secondary }]}>
-          <Text style={[styles.chipText, { color: colors.primary }]}>
-            {mode === 'contrast' ? 'Контекст · выберите форму' : 'Порядок слов'}
-          </Text>
+          <Text style={[styles.chipText, { color: colors.primary }]}>{displayTense}</Text>
         </View>
-      ) : (
-        <View style={styles.chipRow}>
-          <View style={[styles.chip, { backgroundColor: colors.secondary }]}>
-            <Text style={[styles.chipText, { color: colors.primary }]}>
-              {TENSE_FULL_LABELS[question.tense]}
-            </Text>
-          </View>
-          <View style={[styles.chip, { backgroundColor: colors.muted }]}>
-            <Text style={[styles.chipText, { color: colors.mutedForeground }]}>
-              {personLabels(question.tense)[question.person]}
-            </Text>
-          </View>
+        <View style={[styles.chip, { backgroundColor: colors.muted }]}>
+          <Text style={[styles.chipText, { color: colors.mutedForeground }]}>{displayPerson}</Text>
         </View>
-      )}
+      </View>
     </View>
   );
 
@@ -156,12 +157,13 @@ export function ContextExercise({
     return (
       <ScrollView contentContainerStyle={[styles.content, { paddingBottom: bottomPad + 20 }]}>
         {header}
+        <Text style={[styles.modeLabel, { color: colors.primary }]}>ВЫБОР ПО КОНТЕКСТУ</Text>
         <Text style={[styles.prompt, { color: colors.mutedForeground }]}>
-          Какая форма подходит по смыслу предложения?
+          Выберите вариант, который подходит к предложению и указанному лицу.
         </Text>
         {context}
         <View style={styles.optionsRow}>
-          {(question.options ?? [question.correctAnswer]).map(option => {
+          {contrastOptions.map(option => {
             const selected = selectedOption === option;
             const right = isChecked && option === question.correctAnswer;
             const wrong = isChecked && selected && !right;
@@ -210,6 +212,7 @@ export function ContextExercise({
     return (
       <ScrollView contentContainerStyle={[styles.content, { paddingBottom: bottomPad + 20 }]}>
         {header}
+        <Text style={[styles.modeLabel, { color: colors.primary }]}>ПОРЯДОК СЛОВ</Text>
         <Text style={[styles.prompt, { color: colors.mutedForeground }]}>Соберите предложение:</Text>
         {question.contextTranslation ? (
           <Text style={[styles.orderTranslation, { color: colors.mutedForeground }]}>
@@ -219,7 +222,9 @@ export function ContextExercise({
 
         <View style={[styles.answerBox, { backgroundColor: colors.card, borderColor: colors.border }]}>
           {selectedTokens.length === 0 ? (
-            <Text style={[styles.answerPlaceholder, { color: colors.mutedForeground }]}>Нажимайте слова по порядку</Text>
+            <Text style={[styles.answerPlaceholder, { color: colors.mutedForeground }]}>
+              Нажимайте блоки по порядку
+            </Text>
           ) : (
             <View style={styles.tokenWrap}>
               {selectedTokens.map(index => (
@@ -303,8 +308,9 @@ export function ContextExercise({
   }
 
   const prompt = mode === 'fill-blank'
-    ? 'Заполните пропуск правильной формой:'
-    : 'Найдите ошибочную форму и исправьте её:';
+    ? `Заполните пропуск: введите правильную ${inputNoun}.`
+    : `В предложении есть ошибка. Введите правильную ${inputNoun}.`;
+  const modeTitle = mode === 'fill-blank' ? 'ЗАПОЛНИТЬ ПРОПУСК' : 'ИСПРАВИТЬ ОШИБКУ';
 
   return (
     <KeyboardAwareScrollViewCompat
@@ -313,6 +319,7 @@ export function ContextExercise({
       bottomOffset={20}
     >
       {header}
+      <Text style={[styles.modeLabel, { color: colors.primary }]}>{modeTitle}</Text>
       <Text style={[styles.prompt, { color: colors.mutedForeground }]}>{prompt}</Text>
       {context}
       <TextInput
@@ -324,7 +331,7 @@ export function ContextExercise({
         importantForAutofill="no"
         spellCheck={false}
         onChangeText={setInputValue}
-        placeholder="Введите форму..."
+        placeholder={multiwordAnswer ? 'Введите конструкцию…' : 'Введите форму…'}
         placeholderTextColor={colors.mutedForeground}
         autoCapitalize="none"
         autoCorrect={false}
@@ -385,12 +392,13 @@ export function ContextExercise({
 const styles = StyleSheet.create({
   content: { padding: 16, gap: 12 },
   headerCard: { borderWidth: 1, borderRadius: 14, padding: 18, alignItems: 'center', gap: 6 },
-  verb: { fontSize: 28, fontFamily: 'Inter_700Bold' },
-  translation: { fontSize: 14, fontFamily: 'Inter_400Regular' },
+  verb: { fontSize: 27, fontFamily: 'Inter_700Bold', textAlign: 'center' },
+  translation: { fontSize: 14, fontFamily: 'Inter_400Regular', textAlign: 'center' },
   chipRow: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 8, marginTop: 4 },
-  chip: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 8, marginTop: 4 },
-  chipText: { fontSize: 12, fontFamily: 'Inter_500Medium' },
-  prompt: { fontSize: 14, fontFamily: 'Inter_500Medium', textAlign: 'center' },
+  chip: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 8 },
+  chipText: { fontSize: 12, fontFamily: 'Inter_500Medium', textAlign: 'center' },
+  modeLabel: { fontSize: 12, letterSpacing: 0.5, fontFamily: 'Inter_700Bold', textAlign: 'center', marginTop: 2 },
+  prompt: { fontSize: 15, lineHeight: 21, fontFamily: 'Inter_500Medium', textAlign: 'center' },
   contextCard: { borderWidth: 1, borderRadius: 14, padding: 18, gap: 8 },
   contextText: { fontSize: 20, lineHeight: 29, fontFamily: 'Inter_600SemiBold', textAlign: 'center' },
   contextTranslation: { fontSize: 13, lineHeight: 19, fontFamily: 'Inter_400Regular', textAlign: 'center' },
@@ -406,8 +414,8 @@ const styles = StyleSheet.create({
   solution: { fontSize: 13, lineHeight: 19, fontFamily: 'Inter_400Regular', textAlign: 'center' },
   nextButton: { borderRadius: 12, paddingVertical: 16, alignItems: 'center' },
   nextButtonText: { fontSize: 17, fontFamily: 'Inter_700Bold' },
-  optionsRow: { flexDirection: 'row', gap: 10 },
-  option: { flex: 1, borderWidth: 1.5, borderRadius: 12, paddingVertical: 17, paddingHorizontal: 10, alignItems: 'center' },
+  optionsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  option: { flexGrow: 1, flexBasis: '45%', borderWidth: 1.5, borderRadius: 12, paddingVertical: 17, paddingHorizontal: 10, alignItems: 'center' },
   optionText: { fontSize: 17, fontFamily: 'Inter_600SemiBold', textAlign: 'center' },
   orderTranslation: { fontSize: 14, lineHeight: 20, fontFamily: 'Inter_400Regular', textAlign: 'center' },
   answerBox: { minHeight: 92, borderWidth: 1.5, borderRadius: 14, padding: 12, justifyContent: 'center' },
