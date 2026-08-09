@@ -22,19 +22,32 @@ function dumpMatches(path, patterns, radius = 5) {
 dumpMatches('context/QuizContext.tsx', [
   'buildQuestions',
   'lessonId',
-  'constr-',
-  'construction',
-  'transform',
-  'decorate',
+  'buildThematicQuestions',
   'correctAnswer',
   'buildExerciseQuestion',
 ], 4);
 
+dumpMatches('data/thematic-quiz.ts', [
+  'export',
+  'lessonId',
+  'constr-',
+  'correctAnswer',
+  'prompt',
+  'options',
+  'speechText',
+  'futur-proche',
+  'passe-recent',
+  'en-train',
+  'venir de',
+  'aller',
+], 8);
+
 dumpMatches('data/types.ts', [
   'export type QuizMode',
   'export interface QuizQuestion',
-  'construction',
-  'context',
+  'prompt?:',
+  'speechText?:',
+  'context?:',
 ], 3);
 
 throw new Error('INTENTIONAL_AUDIT_STOP');
