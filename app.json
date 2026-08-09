@@ -2,7 +2,7 @@
   "expo": {
     "name": "French Verbs Trainer 2",
     "slug": "french-verbs-trainer-v2",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "orientation": "portrait",
     "scheme": "frenchverbstrainer2",
     "userInterfaceStyle": "light",
@@ -13,7 +13,7 @@
     },
     "android": {
       "package": "com.bulat.frenchverbstrainer2",
-      "versionCode": 5,
+      "versionCode": 6,
       "blockedPermissions": [
         "android.permission.SYSTEM_ALERT_WINDOW",
         "android.permission.READ_EXTERNAL_STORAGE",
