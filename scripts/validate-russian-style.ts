@@ -25,6 +25,10 @@ const banned = [
   'Отработка по глаголам',
 ] as const;
 
+// Названия французских времён и наклонений оставляем по-французски: это нормальная
+// учебная терминология, а не непереведённый метатекст.
+const frenchGrammarTitle = /^(?:Imparfait|Passé|Futur|Conditionnel|Subjonctif|Impératif|Être|Savoir|Pouvoir|Y, en)/u;
+
 let sectionCount = 0;
 for (const lesson of LESSONS) {
   const parts = [
@@ -37,7 +41,10 @@ for (const lesson of LESSONS) {
     ]),
   ];
   const text = parts.join('\n');
-  assert.match(lesson.title, /[А-Яа-яЁё]|(?:Passé|Futur|Conditionnel|Subjonctif|Impératif|Être|Savoir|Y, en)/u, `${lesson.id}: странный заголовок`);
+  assert(
+    /[А-Яа-яЁё]/u.test(lesson.title) || frenchGrammarTitle.test(lesson.title),
+    `${lesson.id}: странный заголовок`,
+  );
   assert.match(lesson.summary, /[А-Яа-яЁё]/u, `${lesson.id}: описание темы должно быть по-русски`);
   assert(!/\b(?:causatif|verbe|invariable|antéposé|principale|hypothèse)\b/iu.test(text), `${lesson.id}: в объяснении остался французский метаязык`);
   for (const phrase of banned) {
