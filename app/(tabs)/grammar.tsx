@@ -5,14 +5,17 @@ import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useColors } from '@/hooks/useColors';
 import { useLessons } from '../../context/LessonsContext';
-import { lessonsByBlock } from '../../data/lessons';
+import { GRAMMAR_LESSON_IDS } from '../../data/grammar-drills';
+import { LESSONS } from '../../data/lessons';
 
 export default function GrammarTab() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const { passed } = useLessons();
 
-  const grammarLessons = lessonsByBlock('syntax');
+  const grammarLessons = GRAMMAR_LESSON_IDS
+    .map(id => LESSONS.find(lesson => lesson.id === id))
+    .filter((lesson): lesson is NonNullable<typeof lesson> => Boolean(lesson));
   const passedCount = grammarLessons.filter(lesson => passed.has(lesson.id)).length;
   const topPadding = Platform.OS === 'web' ? 67 : insets.top;
   const bottomPadding = Platform.OS === 'web' ? 84 : insets.bottom + 64;
@@ -39,12 +42,12 @@ export default function GrammarTab() {
             <Ionicons name="git-branch-outline" size={22} color={colors.primary} />
           </View>
           <View style={styles.introText}>
-            <Text style={[styles.introTitle, { color: colors.foreground }]}>Синтаксис и выбор конструкции</Text>
-            <Text style={[styles.introBody, { color: colors.mutedForeground }]}>Здесь тренируется не спряжение отдельного глагола, а выбор формы и конструкции в контексте: местоимения, предлоги, согласование, условия и выбор прошедшего времени.</Text>
+            <Text style={[styles.introTitle, { color: colors.foreground }]}>Конструкции в контексте</Text>
+            <Text style={[styles.introBody, { color: colors.mutedForeground }]}>Здесь не нужно зубрить ещё одну таблицу спряжения. Сначала разбираем смысл конструкции на понятных примерах, затем выбираем её в предложениях.</Text>
           </View>
         </View>
 
-        <Text style={[styles.sectionLabel, { color: colors.mutedForeground }]}>ТЕМЫ</Text>
+        <Text style={[styles.sectionLabel, { color: colors.mutedForeground }]}>ОТ ПРОСТОГО К СЛОЖНОМУ</Text>
         <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
           {grammarLessons.map((lesson, index) => {
             const isPassed = passed.has(lesson.id);
@@ -85,7 +88,7 @@ export default function GrammarTab() {
 
         <View style={[styles.note, { backgroundColor: colors.secondary }]}>
           <Ionicons name="information-circle-outline" size={18} color={colors.primary} />
-          <Text style={[styles.noteText, { color: colors.foreground }]}>Все шесть тем доступны сразу. Их зачёты отмечают прогресс только в грамматическом разделе и не влияют на порядок глагольного курса.</Text>
+          <Text style={[styles.noteText, { color: colors.foreground }]}>Темы доступны сразу, но расположены по зависимостям: сначала управление глаголов, затем y/en; условные конструкции и сложное согласование стоят в конце.</Text>
         </View>
       </ScrollView>
     </View>
