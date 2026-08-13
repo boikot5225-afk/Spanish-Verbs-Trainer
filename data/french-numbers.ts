@@ -88,6 +88,13 @@ function belowThousand(value: number): string {
   return rest === 0 ? hundredWord : `${hundredWord} ${belowHundred(rest)}`;
 }
 
+function beforeMille(value: number): string {
+  const rendered = belowThousand(value);
+  if (rendered.endsWith('quatre-vingts')) return rendered.slice(0, -1);
+  if (rendered.endsWith('cents')) return rendered.slice(0, -1);
+  return rendered;
+}
+
 export function frenchNumberToWords(value: number): string {
   if (!Number.isInteger(value) || value < 0 || value > 999_999) {
     throw new RangeError('French number trainer supports integers from 0 to 999999.');
@@ -97,7 +104,7 @@ export function frenchNumberToWords(value: number): string {
 
   const thousands = Math.floor(value / 1_000);
   const rest = value % 1_000;
-  const thousandWord = thousands === 1 ? 'mille' : `${belowThousand(thousands)} mille`;
+  const thousandWord = thousands === 1 ? 'mille' : `${beforeMille(thousands)} mille`;
 
   return rest === 0 ? thousandWord : `${thousandWord} ${belowThousand(rest)}`;
 }
