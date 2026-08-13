@@ -47,6 +47,33 @@ export default function GrammarTab() {
           </View>
         </View>
 
+        <Text style={[styles.sectionLabel, { color: colors.mutedForeground }]}>ОТДЕЛЬНЫЕ ТРЕНАЖЁРЫ</Text>
+        <Pressable
+          onPress={() => router.push('/numbers')}
+          style={({ pressed }) => [
+            styles.trainerCard,
+            { backgroundColor: colors.card, borderColor: colors.border },
+            pressed && { opacity: 0.65 },
+          ]}
+        >
+          <View style={[styles.trainerIcon, { backgroundColor: colors.secondary }]}>
+            <Ionicons name="calculator-outline" size={24} color={colors.primary} />
+          </View>
+          <View style={styles.trainerText}>
+            <Text style={[styles.trainerTitle, { color: colors.foreground }]}>Числительные</Text>
+            <Text style={[styles.trainerSummary, { color: colors.mutedForeground }]}>0–999 999 · цифры → слова, слова → цифры и на слух</Text>
+            <View style={styles.trainerBadges}>
+              <View style={[styles.trainerBadge, { backgroundColor: colors.secondary }]}>
+                <Text style={[styles.trainerBadgeText, { color: colors.primary }]}>70–99 отдельно</Text>
+              </View>
+              <View style={[styles.trainerBadge, { backgroundColor: colors.muted }]}>
+                <Text style={[styles.trainerBadgeText, { color: colors.mutedForeground }]}>с озвучкой</Text>
+              </View>
+            </View>
+          </View>
+          <Ionicons name="chevron-forward" size={19} color={colors.mutedForeground} />
+        </Pressable>
+
         <Text style={[styles.sectionLabel, { color: colors.mutedForeground }]}>ОТ ПРОСТОГО К СЛОЖНОМУ</Text>
         <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
           {grammarLessons.map((lesson, index) => {
@@ -107,6 +134,14 @@ const styles = StyleSheet.create({
   introTitle: { fontSize: 17, fontFamily: 'Inter_600SemiBold' },
   introBody: { fontSize: 13, lineHeight: 19, fontFamily: 'Inter_400Regular' },
   sectionLabel: { fontSize: 11, fontFamily: 'Inter_600SemiBold', letterSpacing: 0.8, marginLeft: 4 },
+  trainerCard: { borderWidth: 1, borderRadius: 14, padding: 13, flexDirection: 'row', alignItems: 'center', gap: 12 },
+  trainerIcon: { width: 46, height: 46, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  trainerText: { flex: 1, gap: 3 },
+  trainerTitle: { fontSize: 16, fontFamily: 'Inter_600SemiBold' },
+  trainerSummary: { fontSize: 12, lineHeight: 17, fontFamily: 'Inter_400Regular' },
+  trainerBadges: { marginTop: 4, flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  trainerBadge: { borderRadius: 999, paddingHorizontal: 8, paddingVertical: 4 },
+  trainerBadgeText: { fontSize: 10, fontFamily: 'Inter_500Medium' },
   card: { borderWidth: 1, borderRadius: 12, overflow: 'hidden' },
   row: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 14, paddingVertical: 13 },
   number: { width: 28, height: 28, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
