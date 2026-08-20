@@ -15,6 +15,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
 
     steps:
       - name: Checkout branch
@@ -26,6 +27,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -39,12 +41,12 @@ jobs:
       - name: Read app version
         id: app
         shell: bash
-        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+        run: echo "version=$(node -p \"require('./package.json').version\")" >> "$GITHUB_OUTPUT"
 
       - name: Install dependencies
-        run: npm install --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
 
-      - name: Type check
+      - name: Type check and content audits
         run: npm run typecheck
 
       - name: Validate verb database
@@ -74,25 +76,20 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: gradle-build-log
+          name: gradle-build-log-${{ github.run_number }}
           path: gradle-build.log
           if-no-files-found: ignore
 
-      - name: Collect APK
+      - name: Collect universal APK
         shell: bash
         run: |
           mkdir -p dist
           cp android/app/build/outputs/apk/release/*.apk \
             "dist/French-Verbs-Trainer-v${{ steps.app.outputs.version }}.apk"
 
-      # Universal APK везёт все четыре архитектуры и весит ~62 МиБ.
-      # Отдельная сборка под arm64-v8a — ~28 МиБ, а на телефонах нужна только она.
       - name: Build arm64-only APK
         shell: bash
         run: |
-          # reactNativeArchitectures задаёт только то, что компилируется из
-          # исходников; готовые .so из зависимостей всё равно попадают в пакет.
-          # Отсечь их на упаковке умеет только abiFilters.
           python3 - <<'PATCH'
           from pathlib import Path
           path = Path('android/app/build.gradle')
@@ -109,16 +106,18 @@ jobs:
           cp android/app/build/outputs/apk/release/*.apk \
             "dist/French-Verbs-Trainer-v${{ steps.app.outputs.version }}-arm64.apk"
 
-      - name: Upload APK
+      - name: Upload APKs
         uses: actions/upload-artifact@v4
         with:
           name: French-Verbs-Trainer-v${{ steps.app.outputs.version }}
-          path: dist/French-Verbs-Trainer-v${{ steps.app.outputs.version }}.apk
+          path: |
+            dist/French-Verbs-Trainer-v${{ steps.app.outputs.version }}.apk
+            dist/French-Verbs-Trainer-v${{ steps.app.outputs.version }}-arm64.apk
           if-no-files-found: error
+          retention-days: 7
 
-      # Артефакты Actions лежат в хранилище, закрытом для части клиентов,
-      # поэтому APK дублируется релизом — оттуда его можно скачать напрямую.
-      - name: Publish APK as release
+      - name: Publish APKs as release
+        if: github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -127,4 +126,4 @@ jobs:
             "dist/French-Verbs-Trainer-v${{ steps.app.outputs.version }}-arm64.apk" \
             --title "French Verbs Trainer v${{ steps.app.outputs.version }} (build ${{ github.run_number }})" \
             --target "${{ github.sha }}" \
-            --notes "Автосборка из ветки ${{ github.ref_name }}, коммит ${{ github.sha }}." 
+            --notes "Автосборка из ветки ${{ github.ref_name }}, коммит ${{ github.sha }}."
