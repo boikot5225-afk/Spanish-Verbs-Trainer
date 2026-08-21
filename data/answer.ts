@@ -1,0 +1,141 @@
+/**
+ * Проверка введённого ответа: строгость к диакритике и распознавание опечаток.
+ *
+ * Во французском диакритика — часть написания, а не украшение, и внутри самой
+ * этой базы есть минимальная пара: «il fut» (passé simple) и «il fût»
+ * (subjonctif imparfait) различаются только циркумфлексом. Туда же achète,
+ * reçois, êtes, mangeâmes. Но набирать диакритические знаки на телефонной
+ * клавиатуре неудобно, поэтому строгость выбирает сам пользователь.
+ */
+
+export type AccentMode = 'strict' | 'warn' | 'ignore';
+
+export const ACCENT_MODES: AccentMode[] = ['strict', 'warn', 'ignore'];
+
+export const ACCENT_MODE_LABELS: Record<AccentMode, string> = {
+  strict: 'Строго',
+  warn: 'С замечанием',
+  ignore: 'Не важна',
+};
+
+export const ACCENT_MODE_HINTS: Record<AccentMode, string> = {
+  strict: 'Ответ без нужного акцента, циркумфлекса или седили считается ошибкой',
+  warn: 'Ответ засчитывается, но приложение покажет верное написание',
+  ignore: 'Диакритика при проверке не учитывается совсем',
+};
+
+/**
+ * Приводит к нижнему регистру и схлопывает пробелы, диакритику сохраняет.
+ * Типографский апостроф приравнивается к обычному: на телефоне клавиатура
+ * подставляет то один, то другой, а «m’appelle» и «m'appelle» — одно и то же.
+ */
+export function normalizeShape(value: string): string {
+  return value.toLowerCase().trim().replace(/[’‘`]/gu, "'").replace(/\s+/gu, ' ');
+}
+
+/** То же, но со снятой диакритикой: «achète» → «achete», «reçois» → «recois». */
+export function stripAccents(value: string): string {
+  return normalizeShape(value)
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/gu, '');
+}
+
+/**
+ * В карточке лицо уже показано отдельно, поэтому основной эталон хранится без
+ * подлежащего. Для многословных форм принимаем оба естественных варианта:
+ * «va partir» и «il va partir», «ai parlé» и «j'ai parlé».
+ *
+ * Для одиночных форм правило не применяется: в обычном спряжении по-прежнему
+ * требуется только сама форма, а не «je vais» вместо «vais».
+ */
+function acceptedInputShapes(input: string, expected: string): string[] {
+  const normalizedInput = normalizeShape(input);
+  const normalizedExpected = normalizeShape(expected);
+  const candidates = [normalizedInput];
+
+  const acceptsOptionalSubject = /[ '\u2019]/u.test(normalizedExpected);
+  if (!acceptsOptionalSubject) return candidates;
+
+  const withoutSpacedSubject = normalizedInput.replace(
+    /^(?:je|tu|il|elle|on|nous|vous|ils|elles)\s+/u,
+    '',
+  );
+  if (withoutSpacedSubject !== normalizedInput) candidates.push(withoutSpacedSubject);
+
+  if (normalizedInput.startsWith("j'")) {
+    const withoutElidedSubject = normalizedInput.slice(2);
+    if (withoutElidedSubject) candidates.push(withoutElidedSubject);
+  }
+
+  return [...new Set(candidates)];
+}
+
+/** Расстояние Левенштейна, но считаем только до предела — дальше не интересно. */
+export function editDistance(left: string, right: string, limit = 2): number {
+  if (Math.abs(left.length - right.length) > limit) return limit + 1;
+
+  let previous = Array.from({ length: right.length + 1 }, (_, index) => index);
+  for (let i = 1; i <= left.length; i += 1) {
+    const current = [i];
+    let rowBest = i;
+    for (let j = 1; j <= right.length; j += 1) {
+      const cost = left[i - 1] === right[j - 1] ? 0 : 1;
+      const value = Math.min(
+        previous[j]! + 1,
+        current[j - 1]! + 1,
+        previous[j - 1]! + cost,
+      );
+      current.push(value);
+      if (value < rowBest) rowBest = value;
+    }
+    if (rowBest > limit) return limit + 1;
+    previous = current;
+  }
+  return previous[right.length]!;
+}
+
+export interface AnswerVerdict {
+  /** Засчитан ли ответ как верный. */
+  correct: boolean;
+  /** Верно по буквам, но диакритика не совпала. */
+  accentMismatch: boolean;
+  /**
+   * Ответ неверен, но отличается на один символ — похоже на промах по клавише.
+   * Такой ответ стоит предложить исправить, а не засчитывать ошибку сразу.
+   */
+  looksLikeTypo: boolean;
+}
+
+export function checkAnswer(
+  input: string,
+  expected: string,
+  mode: AccentMode,
+): AnswerVerdict {
+  const expectedShape = normalizeShape(expected);
+  const inputShapes = acceptedInputShapes(input, expected);
+  const exactMatch = inputShapes.some(candidate => candidate === expectedShape);
+  const plainExpected = stripAccents(expectedShape);
+  const plainInputs = inputShapes.map(stripAccents);
+  const plainMatch = plainInputs.some(candidate => candidate === plainExpected);
+
+  // Буквы совпали, а диакритика — нет.
+  const accentMismatch = plainMatch && !exactMatch;
+
+  if (exactMatch) return { correct: true, accentMismatch: false, looksLikeTypo: false };
+
+  if (accentMismatch) {
+    return {
+      correct: mode !== 'strict',
+      accentMismatch: mode !== 'ignore',
+      looksLikeTypo: false,
+    };
+  }
+
+  // Ни с диакритикой, ни без неё не совпало — но, возможно, это опечатка.
+  const distance = Math.min(...plainInputs.map(candidate => editDistance(candidate, plainExpected)));
+  return {
+    correct: false,
+    accentMismatch: false,
+    looksLikeTypo: plainInputs.some(candidate => candidate.length > 0) && distance === 1,
+  };
+}

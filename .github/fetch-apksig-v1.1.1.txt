@@ -1,0 +1,1 @@
+Fetch official Android APK signer for local release signing.
