@@ -21,7 +21,7 @@ practice = practice.replace(/tenses:\s*\[[^\]]*\],/u, "tenses: ['present'],");
 
 // Этот ранний урок объясняет только местоименную модель в présent.
 // Passé composé и impératif разбираются позже в собственных уроках.
-let cleaned = beforePractice
+const cleaned = beforePractice
   .replace(/\n      \{\n        heading: 'В составных временах — être',[\s\S]*?\n      \},/u, '')
   .replace(/\n      \{\n        heading: 'В императиве местоимение уходит вправо',[\s\S]*?\n      \},/u, '');
 
@@ -32,4 +32,21 @@ if (!/practice:\s*\{[\s\S]*?tenses:\s*\['present'\]/u.test(chunk)) {
 
 source = source.slice(0, start) + chunk + source.slice(end);
 fs.writeFileSync(path, source, 'utf8');
+
+// apply-build-fixes генерирует этот валидатор из старого шаблона, где урок
+// ещё содержал passé composé и impératif. После редакторского удаления этих
+// разделов эталон тоже должен ожидать только présent.
+const validatorPath = 'scripts/validate-lesson-alignment.ts';
+if (fs.existsSync(validatorPath)) {
+  let validator = fs.readFileSync(validatorPath, 'utf8');
+  const stale = "['present', 'passeCompose', 'imperatifPresent']";
+  if (validator.includes('pronominal lesson must train every form explained in the lesson')) {
+    if (!validator.includes(stale)) {
+      throw new Error('Pronominal prerequisite fix: stale validator tense list not found');
+    }
+    validator = validator.replace(stale, "['present']");
+    fs.writeFileSync(validatorPath, validator, 'utf8');
+  }
+}
+
 console.log('Kept pronominal lesson present-only until passé composé and impératif are taught.');
